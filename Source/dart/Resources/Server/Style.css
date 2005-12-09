@@ -1,0 +1,69 @@
+<style TYPE="text/css">
+  <!--
+
+  img { border: none; }
+  a:link img, a:visited img, a:hover img, a:active img { border: none; }
+
+  .title-background { background-color : #6699cc; } 
+  .title-foreground { color : #ffffff; }
+  .title { 
+    padding-left: 15px;
+    height: 100%;
+    background-color : #6699cc;
+    color : #ffffff;
+  }
+
+  .normal { background-color : #00aa00; }
+  .warning { background-color : #ffcc66; }
+  .error { background-color : #ff6666; }
+  .pass { background-color : #00aa00; }
+  .fail { background-color : #ffcc66; }
+  .nr { background-color : #ff6666; }
+  .na { background-color : #cccccc; }
+  .tr-even { background-color : #b0c4de; }
+  .tr-odd { background-color : #ffffff; }
+  .measurement { background-color : #b0c4de; }
+  .table-heading { background-color : #b0c4de; }
+  .sort-key { 
+    height: 100%;
+    background-color : #cccccc; 
+  }
+  .icon { vertical-align: text-bottom; border: none; }
+  .chart { border: 1px solid #0000aa;}
+
+  Body {
+  font-family : arial, helvetica, sans-serif;
+  color : black;
+  }
+
+  Table {
+  font-family : arial, helvetica, sans-serif;
+  color : black;
+  }
+
+  Table, TD {
+  font-family : arial, helvetica, sans-serif;
+  color : black; 
+  background-repeat : no-repeat;
+  }
+
+  Table, TH {
+  font-family : arial, helvetica, sans-serif;
+  color : black; 
+  background-repeat : no-repeat;
+  }
+
+  P {font-family : arial, helvetica, sans-serif; color: black; }
+
+  a {
+  Font-Family : arial, helvetica, sans-serif;
+  Font-Style : normal;
+  color : blue;
+  }
+
+  a:hover  {
+  color : black;
+  Font-Style : bold;
+  }
+  -->
+</style>

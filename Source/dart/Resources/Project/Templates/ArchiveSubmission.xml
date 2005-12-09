@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Note, we have a submission Jaxor object passed in -->
+<DartSubmission version="2.0" createdby="ArchiveTask">
+  <Site>${submission.site?xml}</Site>
+
+  <!-- BuildName will be the concationation of OS and Compiler -->
+  <BuildName>${submission.buildName?xml}</BuildName>
+  <Track>${submission.getTrackEntity().getName()?xml}</Track>
+
+  <!-- DateTimeStamp is a non-locale specific date/timestamp following ISO -->
+  <DateTimeStamp>${submission.timeStamp?string("yyyy-MM-dd'T'HH:mm:ss.SZ")?xml}</DateTimeStamp>
+  
+  <#list submission.getTestList().toList() as test>
+    <#if test.getStatusAsString() != "meta">
+      <Test>
+        <Name>${test.getQualifiedName()?xml}</Name>
+        <Status>${test.getStatusAsString()?xml}</Status>
+        <#list test.getResultList().toList() as result>
+          <Measurement name="${result.getName()?xml}" type="${result.getType()?xml}"><#switch result.getType()>
+              <#case "text/text">${fetchdata(result.getValue())?xml}<#break>
+              <#case "text/html">${fetchdata(result.getValue())?xml}<#break>
+              <#case "text/xml">${fetchdata(result.getValue())?xml}<#break>
+              <#case "archive/zip">${base64encode(fetchdata(result.getValue()))?xml}<#break>
+              <#case "image/png">${base64encode(fetchdata(result.getValue()))?xml}<#break>
+              <#case "image/jpeg">${base64encode(fetchdata(result.getValue()))?xml}<#break>
+              <#default>${result.getValue()?xml}<#break/>
+            </#switch></Measurement>
+        </#list>
+      </Test>
+    </#if>
+  </#list>
+</DartSubmission>
