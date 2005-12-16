@@ -16,27 +16,15 @@
 % \usepackage{float}
 \usepackage{amsmath}
 \usepackage[tight]{units}
+\usepackage{url}
+\usepackage[bookmarksnumbered]{hyperref}
 
-%check if running PDFLaTeX
-\newif\ifpdf%
-\ifx\pdfoutput\undefined%
-  \pdffalse% we are not running PDFLaTeX
-  \DeclareGraphicsExtensions{.eps}%
-\else%
-  % \pdfoutput=1% we are running PDFLaTeX
-  \DeclareGraphicsExtensions{.pdf}%
-  \pdftrue%
-\fi%
-
-\ifpdf%
-% yes we have PDFLaTeX, so use .pdf images
-\else%
-% sorry no PDFLaTeX, use .eps images
-\fi%
 
 \newcommand{\answermark}{$\triangleright$ }
-\newcommand\<{$<$}
-\renewcommand\>{$>$}
+\newcommand{\xmltag}[1]{\texttt{<#1>}}
+
+% Use to markup file and directory names
+\newcommand{\filename}[1]{\texttt{#1}}
 
 \begin{document}
 \title{Dart: Testing, Reports and Dashboards}
@@ -128,7 +116,7 @@ java -jar DartServer.jar  --create TestProject
 
     \item Configure the Project
     By default, a reasonable settings file is found in
-    \texttt{TestProject/Dart.xml}.  If desired, this file may be
+    \texttt{TestProject/Project.xml}.  If desired, this file may be
     edited to change the projects settings (see
     Section~\ref{Section:Settings}).  Now is a good time to do this.
 
@@ -223,20 +211,20 @@ is the best way to archive a Project all at once.
 
 The \texttt{--projecttemplate} flag is used in conjunction with the
 \texttt{--create} argument at project creation time.  If not
-specified, the file \texttt{dart/Resources/Server/DartDefault.xml} is
+specified, the file \filename{dart/Resources/Server/DartDefault.xml} is
 used as the Project template.  To extract this file, use the command:
 \begin{verbatim}
 jar fxv DartServer.jar dart/Resources/Server/DartDefault.xml
 \end{verbatim}
 
-The \texttt{DartDefault.xml} file may be edited to suit the site
+The \filename{DartDefault.xml} file may be edited to suit the site
 specific needs.  Take care to preserve the FreeMarker tags in the
 original file, as they are specific to some parts of the Project creation process.
 
 \section{Server Configuration}
 \label{Section:Settings}
 In the \texttt{TestServer} directory, there is a file named
-\texttt{Server.xml}.  This contains the default settings for a dart
+\filename{Server.xml}.  This contains the default settings for a dart
 server.  The sections of the Server configuration are as follows.
 
 \subsection{Server Info}
@@ -318,7 +306,7 @@ starting with /Dart/*.
 \section{Project Configuration}
 After following the directions in Section~\ref{Section:QuickStart}, in
 the \texttt{TestProject} directory, there is a file named
-\texttt{Project.xml}.  This is a preconfigured Project configuration
+\filename{Project.xml}.  This is a preconfigured Project configuration
 file containing all the settings required to run a basic Dart
 Project.  The contents of the file are not presented in their
 entirety, but will be discussed section by section.
@@ -331,11 +319,11 @@ entirety, but will be discussed section by section.
   <BaseDirectory>/projects/Dart/TestProject</BaseDirectory>
 \end{verbatim}
 The first line is the \texttt{xml} preamble, and is required for all
-\texttt{xml} files.  The \texttt{<Project>} tag indicates the start of
-the Project configuration.  \texttt{<Title>} is the project title, and
-\texttt{<BaseDirectory>} is the absolute path name to the Project
+\texttt{xml} files.  The \xmltag{Project} tag indicates the start of
+the Project configuration.  \xmltag{Title} is the project title, and
+\xmltag{BaseDirectory} is the absolute path name to the Project
 directory.  If the Project is moved to a new location on the file
-system, \texttt{<BaseDirectory>} must be changed to reflect the new
+system, \xmltag{BaseDirectory} must be changed to reflect the new
 location.
 
 \subsection{Project Properties}
@@ -385,7 +373,7 @@ assigned to the project.
 \item[RepositoryURL]{URL for accessing a project's software repository via the web.}
 \item[RepositoryURL.Type]{Identifies the type of the web portal for the repository (viewcvs, cvsweb, websvn).}
 \item[RepositoryURL.Repository]{Identifies the repository to reference at the specified \texttt{RepositoryURL}}.
-\item[Menu]{Definition of a menu to display on web pages.  This menu can include links to navigate within Dart or to navigate to external sites such as documentation, bug trackers, etc.  \texttt{Menu} is defined as an HTML list (encapsulated in a \texttt{CData} section), with submenus being sublists.  Each menu item is modelled with an \texttt{HREF} within an \texttt{LI}. If a menu item is the title of a submenu, then the \texttt{HREF} should link to ''\#'' and the item label should indicate a drop down menu is available (for instance, suffixing the name with a $>$ sign.  }
+\item[Menu]{Definition of a menu to display on web pages.  This menu can include links to navigate within Dart or to navigate to external sites such as documentation, bug trackers, etc.  \texttt{Menu} is defined as an HTML list (encapsulated in a \texttt{CData} section), with submenus being sublists.  Each menu item is modelled with an \texttt{HREF} within an \texttt{LI}. If a menu item is the title of a submenu, then the \texttt{HREF} should link to ''\#'' and the item label should indicate a drop down menu is available (for instance, suffixing the name with a \texttt{>} sign.  }
 \end{description}
 
 \subsection{Database Configuration}
@@ -401,24 +389,24 @@ assigned to the project.
     </Database>
 \end{verbatim}
 This section configures the Database connection that the Project will
-use.  The \texttt{<Driver>} tag indicates the JDBC Java class for the
+use.  The \xmltag{Driver} tag indicates the JDBC Java class for the
 particular type of relational database management system (RDBMS).  In
 the example, \texttt{org.apache.derby.jdbc.EmbeddedDriver} is the
 driver for the Derby Open Source embedded RDBMS system.  Note: the
-\texttt{<ShutdownURL>} was broken across two lines for display
+\xmltag{ShutdownURL} was broken across two lines for display
 purposes, and should not be broken in an actual configuration file.
 
-The \texttt{<URL>} tag specifies the connection URL for the RDBMS.
+The \xmltag{URL} tag specifies the connection URL for the RDBMS.
 This is a RDBMS specific string.  In the above example, the
 \texttt{create=true} property indicates that the driver should create
 the database if it does not exist.  Please consult your RDBMS
-documentation for the proper setting for the \texttt{<URL>} tag.
+documentation for the proper setting for the \xmltag{URL} tag.
 Because Derby is an embedded RDBMS, it must be properly shutdown to
 leave the database in a consistent state.  This is specified in the
-\texttt{<ShutdownURL>} tag.  If the RDBMS does not require special
+\xmltag{ShutdownURL} tag.  If the RDBMS does not require special
 shutdown processing, leave this tag empty and it will be ignored.
 
-\texttt{<Username/>} and \texttt{<Password>} tags specify the
+\xmltag{Username/} and \xmltag{Password} tags specify the
 authentication settings for the RDBMS.  In the case of Derby, no
 Username/Password is required.
 
@@ -441,15 +429,15 @@ Section~\ref{Sec:ServletManager} below).  For the CommandManager to
 operate, a dart.server.servlet.CommandServlet object must be added to
 the ServletManager.  In addition, the \texttt{CommandServer} can
 be configured to respond to any query using specialized
-\texttt{Command}s.  The \texttt{<CommandServer>} section specifies
+\texttt{Command}s.  The \xmltag{CommandServer} section specifies
 the settings for the Project specific settings.
 
-In the instance above, the \texttt{<Command>} tag specifies an object
+In the instance above, the \xmltag{Command} tag specifies an object
 that the Project will use to respond to XML-RPC calls.  Commands must
-implement the dart.server.command.Command interface.  \texttt{<Name>}
-is the object name, \texttt{<Class>} is the name of the class that the
+implement the dart.server.command.Command interface.  \xmltag{Name}
+is the object name, \xmltag{Class} is the name of the class that the
 CommandManager instantiates and any Properties for the object are
-specified using the \texttt{<Properties>} tags.  Any public methods of
+specified using the \xmltag{Properties} tags.  Any public methods of
 the object are exposed to XML-RPC calls.
 
 \subsection{ServletManager Configuration}
@@ -479,12 +467,12 @@ To generate Dashboard pages, the Server uses the Jetty Servlet
 engine in conjunction with the FreeMarker template engine.  Stock
 Project Servlets are automatically configured at project creation
 time.  User defined Servlets may be added if desired.  The
-\texttt{<Class>} tag indicates the class of the Servlet,
-\texttt{<Context>} tag indicates how the Servlet is found by Jetty.
+\xmltag{Class} tag indicates the class of the Servlet,
+\xmltag{Context} tag indicates how the Servlet is found by Jetty.
 By default, the Project title is stored in the Servlet's initial
-parameters as \texttt{``project''} and may be accessed as
-\texttt{getInitParameter ( ``project'' ) } within the Servlet.
-Parameters in the \texttt{<Properties>} section are also put in the
+parameters as \texttt{"project"} and may be accessed as
+\texttt{getInitParameter ( "project" ) } within the Servlet.
+Parameters in the \xmltag{Properties} section are also put in the
 initial parameters map.
 
 The second Servlet in the stock configuration is
@@ -505,7 +493,7 @@ http://localhost:8081/TestProject/Command/ and the method is \texttt{Submit.put}
 
 If you are building Dart from source, you can add additional servlets 
 to the DartServer.jar by adding the servlet's source code to 
-\texttt{Dart/Source/dart/server/servlet} directory and rebuilding.  The
+\filename{Dart/Source/dart/server/servlet} directory and rebuilding.  The
 servlet can be activated for a project as in the above example.
 
 If you are running from a pre-built DartServer.jar, you can still add
@@ -522,7 +510,7 @@ property to the servlet definition in the Project.xml file.
     </Servlet>
 \end{verbatim}
 
-This example adds the class \texttt{user.servlet.MyDashboard} from the \texttt{foo.jar} 
+This example adds the class \texttt{user.servlet.MyDashboard} from the \filename{foo.jar} 
 archive to the project and assigns it the url space of \texttt{/MyDashboard/*}.
 
 \subsection{Task Configuration}
@@ -537,7 +525,7 @@ archive to the project and assigns it the url space of \texttt{/MyDashboard/*}.
   </Task>
 \end{verbatim}
 
-Tasks configured in the \texttt{Dart.xml} file are periodically
+Tasks configured in the \filename{Dart.xml} file are periodically
 scheduled.  Tasks must implement the \texttt{dart.server.task.Task}
 interface.  In the above example, the
 \texttt{dart.server.task.QueueManager} is scheduled to run every 10
@@ -546,69 +534,69 @@ placed in the TaskQueue.  The \texttt{Properties} tag specifies
 settings that are passed into the Task when it executes.  For
 \texttt{QueueManager}, the ``MaxTasks'' property indicates how many
 queued tasks will be processed at during each execution, providing a
-``throttling'' mechanism.  The format of the \texttt{<Schedule>} tag
+``throttling'' mechanism.  The format of the \xmltag{Schedule} tag
 is detailed at
 \texttt{http://quartz.sourceforge.net/javadoc/org/quartz/CronTrigger.html}
 and is reproduced here for clarity.
 
 \subsubsection{Cron Expressions}
- For those unfamiliar with "cron", this means being able to create a firing schedule such as: "At 8:00am every Monday through Friday" or "At 1:30am every last Friday of the month".
+ For those unfamiliar with ``cron'', this means being able to create a firing schedule such as: ``At 8:00am every Monday through Friday'' or ``At 1:30am every last Friday of the month''.
 
-A "Cron-Expression" is a string comprised of 6 or 7 fields separated
+A ``Cron-Expression'' is a string comprised of 6 or 7 fields separated
 by white space. The 6 mandatory and 1 optional fields are as follows:
 
 \begin{tabular}{lll}
-Field Name & 	  	Allowed Values & 	  	Allowed Special Characters \\
+Field Name &            Allowed Values &                Allowed Special Characters \\
 \hline
-Seconds & 	  	0-59 &	  	, - * /   \\ 
-Minutes& 	  	0-59& 	  	, - * / \\
-Hours& 	  	0-23& 	  	, - * / \\
-Day-of-month& 	  	1-31& 	  	, - * ? / L W C \\
-Month& 	  	1-12 or JAN-DEC& 	  	, - * / \\
-Day-of-Week& 	  	1-7 or SUN-SAT& 	  	, - * ? / L C \# \\
-Year (Optional)& 	  	empty, 1970-2099& 	  	, - * / \\
+Seconds &               0-59 &          , - * /   \\ 
+Minutes&                0-59&           , - * / \\
+Hours&          0-23&           , - * / \\
+Day-of-month&           1-31&           , - * ? / L W C \\
+Month&          1-12 or JAN-DEC&                , - * / \\
+Day-of-Week&            1-7 or SUN-SAT&                 , - * ? / L C \# \\
+Year (Optional)&                empty, 1970-2099&               , - * / \\
 \end{tabular}
 
-The '*' character is used to specify all values. For example, "*" in
-the minute field means "every minute".
+The '*' character is used to specify all values. For example, ``*'' in
+the minute field means ``every minute''.
 
 The '?' character is allowed for the day-of-month and day-of-week
 fields. It is used to specify 'no specific value'. This is useful when
 you need to specify something in one of the two fields, but not the
 other. See the examples below for clarification.
 
-The '-' character is used to specify ranges For example "10-12" in the
-hour field means "the hours 10, 11 and 12".
+The '-' character is used to specify ranges For example ``10-12'' in the
+hour field means ``the hours 10, 11 and 12''.
 
 The ',' character is used to specify additional values. For example
-"MON,WED,FRI" in the day-of-week field means "the days Monday,
+``MON,WED,FRI'' in the day-of-week field means "the days Monday,
 Wednesday, and Friday".
 
-The '/' character is used to specify increments. For example "0/15" in
-the seconds field means "the seconds 0, 15, 30, and 45". And "5/15" in
-the seconds field means "the seconds 5, 20, 35, and 50". You can also
+The '/' character is used to specify increments. For example ``0/15'' in
+the seconds field means ``the seconds 0, 15, 30, and 45''. And ``5/15'' in
+the seconds field means ``the seconds 5, 20, 35, and 50''. You can also
 specify '/' after the '*' character - in this case '*' is equivalent
 to having '0' before the '/'.
 
 The 'L' character is allowed for the day-of-month and day-of-week
-fields. This character is short-hand for "last", but it has different
-meaning in each of the two fields. For example, the value "L" in the
-day-of-month field means "the last day of the month" - day 31 for
+fields. This character is short-hand for ``last'', but it has different
+meaning in each of the two fields. For example, the value ``L'' in the
+day-of-month field means ``the last day of the month'' - day 31 for
 January, day 28 for February on non-leap years. If used in the
-day-of-week field by itself, it simply means "7" or "SAT". But if used
-in the day-of-week field after another value, it means "the last xxx
-day of the month" - for example "6L" means "the last friday of the
+day-of-week field by itself, it simply means ``7'' or ``SAT''. But if used
+in the day-of-week field after another value, it means ``the last xxx
+day of the month'' - for example ``6L'' means "the last friday of the
 month". When using the 'L' option, it is important not to specify
 lists, or ranges of values, as you'll get confusing results.
 
 The 'W' character is allowed for the day-of-month field. This
 character is used to specify the weekday (Monday-Friday) nearest the
-given day. As an example, if you were to specify "15W" as the value
+given day. As an example, if you were to specify ``15W'' as the value
 for the day-of-month field, the meaning is: "the nearest weekday to
 the 15th of the month". So if the 15th is a Saturday, the trigger will
 fire on Friday the 14th. If the 15th is a Sunday, the trigger will
 fire on Monday the 16th. If the 15th is a Tuesday, then it will fire
-on Tuesday the 15th. However if you specify "1W" as the value for
+on Tuesday the 15th. However if you specify ``1W'' as the value for
 day-of-month, and the 1st is a Saturday, the trigger will fire on
 Monday the 3rd, as it will not 'jump' over the boundary of a month's
 days. The 'W' character can only be specified when the day-of-month is
@@ -619,20 +607,20 @@ expression to yield 'LW', which translates to "last weekday of the
 month".
 
 The '\#' character is allowed for the day-of-week field. This character
-is used to specify "the nth" XXX day of the month. For example, the
-value of "6\#3" in the day-of-week field means the third Friday of the
-month (day 6 = Friday and "\#3" = the 3rd one in the month). Other
-examples: "2\#1" = the first Monday of the month and "4\#5" = the fifth
-Wednesday of the month. Note that if you specify "\#5" and there is not
+is used to specify ``the nth'' XXX day of the month. For example, the
+value of ``6\#3'' in the day-of-week field means the third Friday of the
+month (day 6 = Friday and ``\#3'' = the 3rd one in the month). Other
+examples: ``2\#1'' = the first Monday of the month and ``4\#5'' = the fifth
+Wednesday of the month. Note that if you specify ``\#5'' and there is not
 5 of the given day-of-week in the month, then no firing will occur
 that month.
 
 The 'C' character is allowed for the day-of-month and day-of-week
-fields. This character is short-hand for "calendar". This means values
+fields. This character is short-hand for ``calendar''. This means values
 are calculated against the associated calendar, if any. If no calendar
 is associated, then it is equivalent to having an all-inclusive
-calendar. A value of "5C" in the day-of-month field means "the first
-day included by the calendar on or after the 5th". A value of "1C" in
+calendar. A value of ``5C'' in the day-of-month field means ``the first
+day included by the calendar on or after the 5th''. A value of ``1C'' in
 the day-of-week field means "the first day included by the calendar on
 or after sunday".
 
@@ -642,38 +630,38 @@ not case sensitive.
 Here are some full examples:
 
 \begin{tabular}{lp{12cm}}
-Expression& 	  	Meaning\\
+Expression&             Meaning\\
 \hline
-"0 0 12 * * ?" 	  	&Fire at 12pm (noon) every day \\
-"0 15 10 ? * *" 	  	&Fire at 10:15am every day \\
-"0 15 10 * * ?" 	  	&Fire at 10:15am every day \\
-"0 15 10 * * ? *" 	  	&Fire at 10:15am every day \\
-"0 15 10 * * ? 2005" 	  	&Fire at 10:15am every day during the
+``0 0 12 * * ?''          &Fire at 12pm (noon) every day \\
+``0 15 10 ? * *''                 &Fire at 10:15am every day \\
+``0 15 10 * * ?''                 &Fire at 10:15am every day \\
+``0 15 10 * * ? *''               &Fire at 10:15am every day \\
+``0 15 10 * * ? 2005''            &Fire at 10:15am every day during the
 year 2005 \\
-"0 * 14 * * ?" 	  	&Fire every minute starting at 2pm and ending
+``0 * 14 * * ?''          &Fire every minute starting at 2pm and ending
 at 2:59pm, every day \\
-"0 0/5 14 * * ?" 	  	&Fire every 5 minutes starting at 2pm
+``0 0/5 14 * * ?''                &Fire every 5 minutes starting at 2pm
 and ending at 2:55pm, every day \\
-"0 0/5 14,18 * * ?" 	  	&Fire every 5 minutes starting at 2pm
+``0 0/5 14,18 * * ?''             &Fire every 5 minutes starting at 2pm
 and ending at 2:55pm, AND fire every 5 minutes starting at 6pm and
 ending at 6:55pm, every day \\
-"0 0-5 14 * * ?" 	  	&Fire every minute starting at 2pm and
+``0 0-5 14 * * ?''                &Fire every minute starting at 2pm and
 ending at 2:05pm, every day \\
-"0 10,44 14 ? 3 WED" 	  	&Fire at 2:10pm and at 2:44pm every
+``0 10,44 14 ? 3 WED''            &Fire at 2:10pm and at 2:44pm every
 Wednesday in the month of March. \\
-"0 15 10 ? * MON-FRI" 	  	&Fire at 10:15am every Monday,
+``0 15 10 ? * MON-FRI''           &Fire at 10:15am every Monday,
 Tuesday, Wednesday, Thursday and Friday \\
-"0 15 10 15 * ?" 	  	&Fire at 10:15am on the 15th day of
+``0 15 10 15 * ?''                &Fire at 10:15am on the 15th day of
 every month \\
-"0 15 10 L * ?" 	  	&Fire at 10:15am on the last day of
+``0 15 10 L * ?''                 &Fire at 10:15am on the last day of
 every month \\
-"0 15 10 ? * 6L" 	  	&Fire at 10:15am on the last Friday of
+``0 15 10 ? * 6L''                &Fire at 10:15am on the last Friday of
 every month \\
-"0 15 10 ? * 6L" 	  	&Fire at 10:15am on the last Friday of
+``0 15 10 ? * 6L''                &Fire at 10:15am on the last Friday of
 every month \\
-"0 15 10 ? * 6L 2002-2005" 	  	&Fire at 10:15am on every last
+``0 15 10 ? * 6L 2002-2005''              &Fire at 10:15am on every last
 friday of every month during the years 2002, 2003, 2004 and 2005 \\
-"0 15 10 ? * 6\#3" 	  	&Fire at 10:15am on the third Friday
+``0 15 10 ? * 6\#3''              &Fire at 10:15am on the third Friday
 of every month \\
 \end{tabular}
 
@@ -684,7 +672,7 @@ NOTES:
     \item Support for the features described for the 'C' character is not complete.
     \item Support for specifying both a day-of-week and a day-of-month value is not complete (you'll need to use the '?' character in on of these fields).
     \item Be careful when setting fire times between mid-night and
-1:00 AM - "daylight savings" can cause a skip or a repeat depending on
+1:00 AM - ``daylight savings'' can cause a skip or a repeat depending on
 whether the time moves back or jumps forward.
 \end{itemize}
 
@@ -718,7 +706,7 @@ and, optionally, delete the data from the database.
 
 
 
-A project can have 0 or more "Archivers".  Each Archiver selects a set
+A project can have 0 or more ``Archivers''.  Each Archiver selects a set
 of Submissions that matches some criteria.  The current selection criteria are:
 
 \begin{itemize}
@@ -768,14 +756,14 @@ This is an example of an ArchiveTask definition:
   </Task>
 \end{verbatim}
 This tag defines the list of Archivers (comma separated).  So we only
-have one called "Nightly"
+have one called ``Nightly''
 \begin{verbatim}
       <Property name="ArchiverList">Nightly</Property>
 \end{verbatim}
 Each Archiver is run in the order of the ArchiverList Property.
 
 
-All properties for this Archiver are indicated by "Archiver.Foo.PropertyName" where Foo is the name of the property.  For example: "Archiver.Nightly.AgeInDays".  Below, when I refer to a Property, it is assumed there is a "Archiver.Nightly." prefix to it.  So ArchiveLevel really refers to "Archiver.Nightly.ArchiveLevel".
+All properties for this Archiver are indicated by ``Archiver.Foo.PropertyName'' where Foo is the name of the property.  For example: ``Archiver.Nightly.AgeInDays''.  Below, when I refer to a Property, it is assumed there is a ``Archiver.Nightly.'' prefix to it.  So ArchiveLevel really refers to ``Archiver.Nightly.ArchiveLevel''.
 
 The first check is to see match Submissions by AgeInDays.  In this
 case, 0.010 is about 10 minutes.  The Database column to match is the
@@ -798,7 +786,7 @@ first test is by Site and BuildStamp:
       <Property name="Archiver.Nightly.MatchBuildName">.*</Property>
 \end{verbatim}
 
-MatchSite is a comma separated list of regular expressions.  ".*"
+MatchSite is a comma separated list of regular expressions.  ``.*''
 matches all sites.  If the Submission does not match any of the
 expressions, it is ignored.  The same matching is applied for
 MatchBuildName.
@@ -819,12 +807,12 @@ FreeMarker template by this Property.
       <Property name="Archiver.Nightly.Template">ArchiveSubmission.xml</Property>
 \end{verbatim}
 
-ArchiveSubmission.xml is the default.  This file is suitable for re-submitting to the Dart Server.  However, if the WriteArchive property is false, the data will not be written to disk.  This is useful for Experimental and continuous builds that you may not care about.  "true" is the default.
+ArchiveSubmission.xml is the default.  This file is suitable for re-submitting to the Dart Server.  However, if the WriteArchive property is false, the data will not be written to disk.  This is useful for Experimental and continuous builds that you may not care about.  ``true'' is the default.
 \begin{verbatim}
       <Property name="Archiver.Nightly.WriteArchive">true</Property>
 \end{verbatim}
 
-Once the file has been generated, it is written to disk.  Each Archiver has a location to write to.  The default is the "ProjectDirectory/Archive" directory that is created when the project starts up.  In our case we write to /tmp/DartArchive:
+Once the file has been generated, it is written to disk.  Each Archiver has a location to write to.  The default is the ``ProjectDirectory/Archive'' directory that is created when the project starts up.  In our case we write to /tmp/DartArchive:
 \begin{verbatim}
       <Property name="Archiver.Nightly.ArchiveDirectory">/tmp/DartArchive</Property>
 \end{verbatim}
@@ -950,7 +938,7 @@ data.  The basic steps are:
 
 \begin{enumerate}
 \item Download the 0.4 and 0.5 releases of Dart from
-\texttt{http://na-mic.org/Wiki/index.php/Dart2Summary}.
+\url{http://na-mic.org/Wiki/index.php/Dart2Summary}.
 \item Stop your Dart server
 \begin{verbatim}
 java -jar DartClient.jar --shutdown TestProject
@@ -1082,13 +1070,13 @@ configuration should look something like this:
 This Project will perform a build at 10:00pm local time each night,
 capturing the code changes from the previous 24 hours.
 
-For the Continuous Project, the \texttt{config.xml} file should contain
+For the Continuous Project, the \filename{config.xml} file should contain
 tags similar to this:
 \begin{verbatim}
   <project name="Continuous" buildafterfailed="false">
     <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
 \end{verbatim}
-The \texttt{<dateformat>} tag specifies that Cruise Control format
+The \xmltag{dateformat} tag specifies that Cruise Control format
 dates according to UTC, a uniform time format.  This allows Dart to
 easily parse dates.  The ``buildafterfailed'' attribute instructs the
 Continuous project to build only if files have been updated.
@@ -1096,7 +1084,7 @@ Continuous project to build only if files have been updated.
 \subsubsection{Describe the Submission}
 Dart requires three items of information to properly categorize a
 Submission, the BuildName, Site and Track.  Edit a file called
-\texttt{BuildInfoNightly.xml}.  This file should look like this:
+\filename{BuildInfoNightly.xml}.  This file should look like this:
 \begin{verbatim}
 <?xml version="1.0" encoding="utf-8"?>
 <BuildInfo>
@@ -1106,10 +1094,10 @@ Submission, the BuildName, Site and Track.  Edit a file called
 </BuildInfo>
 \end{verbatim}
 
-The tags in \texttt{BuildInfoNightly.xml} instruct the Dart Server that this
+The tags in \filename{BuildInfoNightly.xml} instruct the Dart Server that this
 Submission is for the Nightly track, from a Site called
 \texttt{MyClient} and is a Linux build using JDK 1.5.  For the
-continuous build, create a file called \texttt{BuildInfoContinuous.xml} which
+continuous build, create a file called \filename{BuildInfoContinuous.xml} which
 contains almost the same information:
 \begin{verbatim}
 <?xml version="1.0" encoding="utf-8"?>
@@ -1122,7 +1110,7 @@ contains almost the same information:
 
 In this case, the Submission will go in the Continuous Track.  It is
 also possible to have Ant configure this file automatically.  Create a
-template XML file called \texttt{BuildInfoTemplate.xml} with these
+template XML file called \filename{BuildInfoTemplate.xml} with these
 contents:
 \begin{verbatim}
 <?xml version="1.0" encoding="utf-8"?>
@@ -1166,7 +1154,7 @@ following Task definition and Properties:
 
   In this manner, each Client submitting to the Dart Dashboard will be
 self-configuring.  The Ant task should produce the
-\texttt{BuildNameNightly.xml} and \texttt{BuildNameContinuous.xml}
+\filename{BuildNameNightly.xml} and \filename{BuildNameContinuous.xml}
 exactly as above.  These two files will be merged into the Cruise
 Control log automatically.
 
@@ -1174,7 +1162,7 @@ Control log automatically.
 The Cruise Control getting started directions show how to merge JUnit
 logs into the Cruise Control log.  The same mechanism is used to merge
 the Build Name information from the previous section into the final
-log.  In your Cruise Control \texttt{config.xml} file, add or modify
+log.  In your Cruise Control \filename{config.xml} file, add or modify
 this section:
 \begin{verbatim}
   <!-- directory to write build logs to -->
@@ -1184,15 +1172,15 @@ this section:
   </log>
 \end{verbatim}
 
-This will merge the \texttt{BuildNameContinuous.xml} file into the
+This will merge the \filename{BuildNameContinuous.xml} file into the
 resultant log.  If this build loop is for a Nightly build, substitute
-\texttt{BuildNameNightly.xml} instead.
+\filename{BuildNameNightly.xml} instead.
 
 \subsubsection{Submit the log}
 To submit the Cruise Control log, we use AntPublisher.  The getting
 started page recommends that you write a short Ant script to drive the
 build process.  To submit the log after a build, edit this script
-(assume it's named \texttt{build-MyProject.xml}) adding a new target:
+(assume it's named \filename{build-MyProject.xml}) adding a new target:
 \begin{verbatim}
   <target name="publish">
     <!-- Optional call to set the HTTP proxy if behind a firewall -->
@@ -1210,9 +1198,9 @@ build process.  To submit the log after a build, edit this script
   </target>
 \end{verbatim}
 
-\texttt{DartClient.jar} is distributed as part of Dart, and contains a
+\filename{DartClient.jar} is distributed as part of Dart, and contains a
 minimal Client suitable for submitting Cruise Control logs.  Once this
-Ant target is established, edit \texttt{config.xml} to instruct Cruise
+Ant target is established, edit \filename{config.xml} to instruct Cruise
 Control to publish the log via the publish target:
 \begin{verbatim}
     <publishers> 
@@ -1277,7 +1265,7 @@ The settings needed in the project's CMake file are:
   ADD_TEST(name executable arg1 arg2 ...)  # see CMake documentation
 \end{verbatim}
 
-In \texttt{DartConfiguration.tcl}, this translates to:
+In \filename{DartConfiguration.tcl}, this translates to:
 \begin{verbatim}
 DropSite: http://myserver.org:8081/
 DropLocation: TestProject
@@ -1300,7 +1288,7 @@ needed.
 \item JUnit (\url{http://www.junit.org/}). Java unit testing
   framework. This is used to define and run regression tests on the
   Dart source.  The JUnit jar file is included in the checkout.  Drop
-the \texttt{junit.jar} file in \texttt{ant/lib} directory to enable
+the \filename{junit.jar} file in \filename{ant/lib} directory to enable
 JUnit to run as an ant task.
 \item The Dart source (see below).
 \end{itemize}
@@ -1316,13 +1304,13 @@ Obtain a copy of the source code by checking it out of the repository:
   cd MySrc
   svn co http://svn.na-mic.org:8000/svn/Dart
 \end{verbatim}
-This will create a directory \texttt{MySrc/Dart} containing the
+This will create a directory \filename{MySrc/Dart} containing the
 current Dart source.
 
 If you have a HTTP proxy server, you will need to specify the
 variables \texttt{http-proxy-exceptions}, \texttt{http-proxy-host} and
-\texttt{http-proxt-port} in your \texttt{~/.subversion/servers} (Unix)
-or \texttt{c:/Documents and Settings/User/Application
+\texttt{http-proxt-port} in your \filename{~/.subversion/servers} (Unix)
+or \filename{c:/Documents and Settings/User/Application
 Data/Subversion/servers} (Windows)
 file. Refer to the Subversion documentation for more details.
 
@@ -1351,17 +1339,17 @@ targets, similar to Makefile targets. The full list is:
   wrapping process can be time consuming, and so is not run
   automatically for every compile.  Wrap must be run when any of the
   Jaxor sources changes.
-\item[compile] Compile the \texttt{.java} files to \texttt{.class}
+\item[compile] Compile the \filename{.java} files to \filename{.class}
   files. This is the default target.
-\item[jar] Generate \texttt{DartServer.jar} containing the compiled
+\item[jar] Generate \filename{DartServer.jar} containing the compiled
   Dart code.
 \item[test] Run regression tests, with summary output.
 \item[testverbose] Run regression tests with verbose output.
-\item[clean] Clean the \texttt{.class} files.
-\item[fullclean] Clean the \texttt{.class} files and the
-  \texttt{.java} files generated by ``wrap'' above.
+\item[clean] Clean the \filename{.class} files.
+\item[fullclean] Clean the \filename{.class} files and the
+  \filename{.java} files generated by ``wrap'' above.
 \item[doc] Runs JavaDoc to generate the API documentation into
-  \texttt{Documentation/api}.
+  \filename{Documentation/api}.
 \item[all] Does a clean compile of Dart, runs the tests and builds the
 jar file.
 \end{description}
@@ -1465,7 +1453,7 @@ Test}
 ``notrun''}
 \end{description}
 
-The Measurements recorded by the test are contained in \<Measurement\>
+The Measurements recorded by the test are contained in \xmltag{Measurement}
 tags, and may be of several different types.
 
 \begin{description}
@@ -1481,11 +1469,11 @@ filesystem.}
   \item[text/html]{A complete HTML document.  text/html Measurements
 are stored in the filesystem and present as links by the Dashboard.
 It is often advisable to enclose text/html Measurements in
-\<![CDATA[]]\> containers.}
+\xmltag{![CDATA[]]} containers.}
   \item[text/xml]{A complete XML document.  text/xml Measurements
 are stored in the filesystem and present as links by the Dashboard. 
 It is often advisable to enclose text/xml Measurements in
-\<![CDATA[]]\> containers.}
+\xmltag{![CDATA[]]} containers.}
   \item[image/png]{A uuencoded PNG image.  The contents of this tag
 should be a valid uuencoding of the binary file.  The PNG image is
 decoded and stored in the filesystem and presented as an image on the dashboard.}
@@ -1536,7 +1524,7 @@ detailed below to aid the developer in cohercing data into the proper
 convention to be recognized and presented by Dart.
 
 In the following sections, the term ``Test'' is used both to indicate
-the contents of the \<Test\> tag as described above and to indicate
+the contents of the \xmltag{Test} tag as described above and to indicate
 the ``Test'' class of results.  Hopefully, the context will
 disambiguate the particular use.
 
@@ -2287,8 +2275,8 @@ SUCH DAMAGE.
                 
 \section{GNU Lesser General Public License}
 \begin{verbatim}
-		  GNU LESSER GENERAL PUBLIC LICENSE
-		       Version 2.1, February 1999
+                  GNU LESSER GENERAL PUBLIC LICENSE
+                       Version 2.1, February 1999
 
  Copyright (C) 1991, 1999 Free Software Foundation, Inc.
      59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -2299,7 +2287,7 @@ SUCH DAMAGE.
  as the successor of the GNU Library Public License, version 2, hence
  the version number 2.1.]
 
-			    Preamble
+                            Preamble
 
   The licenses for most software are designed to take away your
 freedom to share and change it.  By contrast, the GNU General Public
@@ -2401,7 +2389,7 @@ modification follow.  Pay close attention to the difference between a
 former contains code derived from the library, whereas the latter must
 be combined with the library in order to run.
 
-		  GNU LESSER GENERAL PUBLIC LICENSE
+                  GNU LESSER GENERAL PUBLIC LICENSE
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
   0. This License Agreement applies to any software library or other
@@ -2721,7 +2709,7 @@ decision will be guided by the two goals of preserving the free status
 of all derivatives of our free software and of promoting the sharing
 and reuse of software generally.
 
-			    NO WARRANTY
+                            NO WARRANTY
 
   15. BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO
 WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
@@ -2744,7 +2732,7 @@ FAILURE OF THE LIBRARY TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGES.
 
-		     END OF TERMS AND CONDITIONS
+                     END OF TERMS AND CONDITIONS
 
            How to Apply These Terms to Your New Libraries
 
