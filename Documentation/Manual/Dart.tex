@@ -1,10 +1,4 @@
-% \documentclass[journal]{IEEEtran}
-%\documentclass[twocolumn]{IEEEtran}
 \documentclass{InsightBook}
-
-% If the IEEEtran.Cl's has not been installed into the LaTeX system files,
-% manually specify the path to it:
-% \documentclass[journal]{../sty/IEEEtran}
 
 % \usepackage{graphicx}
 \usepackage{cite}
@@ -264,7 +258,8 @@ The Scheduler has a default ThreadPoolSize of 10, indicating that 10
     <!-- Derby database -->
     <Driver>org.apache.derby.jdbc.EmbeddedDriver</Driver>
     <URL>jdbc:derby:f:\Source\Dart\TestServer/Database/TestServer;create=true</URL>
-    <ShutdownURL>jdbc:derby:f:\Source\Dart\TestServer/Database/TestServer;shutdown=true</ShutdownURL>
+    <ShutdownURL>jdbc:derby:f:\Source\Dart\TestServer/Database/TestServer;shutdown=true
+    </ShutdownURL>
     <Username/>
     <Password/>
     <!-- Maximum active / idle connections, -1 is infinite -->
@@ -514,6 +509,7 @@ This example adds the class \texttt{user.servlet.MyDashboard} from the \filename
 archive to the project and assigns it the url space of \texttt{/MyDashboard/*}.
 
 \subsection{Task Configuration}
+\label{Section:TaskConfiguration}
 \begin{verbatim}
   <!-- Scheduled tasks.  The Schedule tag is in cron format. -->
   <Task>
@@ -676,8 +672,6 @@ NOTES:
 whether the time moves back or jumps forward.
 \end{itemize}
 
-
-
 Another example Task is the \texttt{SaveStatistics} Task which writes
 the Project statistics to the file system on a regular bases.  The Task
 does not have any parameters, and saves the statistics in a file named
@@ -695,6 +689,125 @@ does not have any parameters, and saves the statistics in a file named
 An extremely important Task is the ArchiveTask.  This Task is detailed
 in Section~\ref{Section:ArchiveTask}.
 
+\subsection{Task List}
+These are the currently available Tasks:
+\begin{description}
+  \item[ArchiveTask] The ArchiveTask is responsible for finding old
+  data in removing it from the Project, potentially archiving the data
+  to the filesystem.
+  \item[DeleteDataTask] The DeleteDataTask is used internally by the
+  ArchiveTask.  It is responsible for deteting files from the Project,
+  if they are no longer referenced in the database.
+  \item[GarbageCollectionTask] The GarbageCollectionTask simply runs
+  the Java garbage collector.
+  \item[PlaceSubmissionInTrackTask] The PlaceSubmissionInTrackTask
+  determines which Track a Submission belongs to and places it there.
+  This Task should only be used interally and is queued by the
+  XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
+  \item[QueueManager] This is the most important Task.  The
+  QueueManagerTask pulls queued Tasks from the TaskQueue table and
+  executes them.  The QueueManager is scheduled to run every 10
+  minutes by default~(see Section~\ref{Section:TaskConfiguration}).
+  \item[SaveStatistics] The SaveStatistics Task writes out the
+  Project's statistics to disk~(see Section~\ref{Section:TaskConfiguration}).
+  \item[SummarizeBuildTask] The SummarizeBuildTask
+  collects and rolls up summary information for a build.
+  This Task should only be used interally and is queued by the
+  XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
+  \item[SummarizeCoverage] The SummarizeBuildTask
+  collects and rolls up summary information for a build.
+  This Task should only be used interally and is queued by the
+  XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
+  \item[SummarizeDynamicAnalysis] The SummarizeDynamicAnalysis
+  collects and rolls up Dynamic Analysis summary information for a Submission
+  This Task should only be used interally and is queued by the
+  XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
+  \item[SummarizeTests] The SummarizeTests
+  collects and rolls up Test summary information for a build.
+  This Task should only be used interally and is queued by the
+  XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
+  \item[Task] Task is the interface that each Task in this list implements.
+  \item[XMLResultProcessor] The XMLResultProcessor is queued when a
+  Submission is pushed to the server.  This Task parses the XML file
+  and puts the Submission data into the database.  The
+  XMLResultProcessor uses the RollupManager configuration as set in
+  Section~\ref{Section:RollupManager} to queue furthur Tasks.
+\end{description}
+
+\section{RollupManager}
+\label{Section:RollupManager}
+After a Submission is process and the raw data placed in the database,
+the configuration in the RollupManager section of the Project.xml file
+controls which Tasks the XMLResultProcessor queues to summarize and
+further process the Submission's data.  When queued, the Task is given
+a the SubmissionId through the \texttt{SubmissionId} Property.  The
+default RollupManager configuration is below, each Task may be given a
+set of Properties, and is queued with the \texttt{Priority} given by
+the tag.
+
+\begin{verbatim}
+  <RollupManager>
+    <Rollup>
+      <Type>dart.server.task.SummarizeTests</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.SummarizeBuildTask</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.SummarizeCoverage</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.SummarizeDynamicAnalysis</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.PlaceSubmissionInTrackTask</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <!-- Note, the SubmissionEvent must be the last Task -->
+      <Type>dart.server.event.SubmissionEvent</Type>
+      <Priority>5</Priority>
+      <Properties/>
+    </Rollup>
+  </RollupManager>
+\end{verbatim}
+
+\section{Events}
+\label{Section:Events}
+
+While the Dart server is running, various interesting events may
+occur, \emph{e.g.} Nightly Submissions present/absent, low disk space,
+build failures, \emph{etc}\ldots  To monitor and respond to Events,
+the Dart Server may be configured with different Listeners that
+receive Events and have the oportunity to respond in a variety of
+ways.  The Event subsystem has two components, Event sources and
+Listeners.  Events are generated automatically (and programatically)
+by the Dart Server and are queued as Tasks.  When the Event is
+executed, it passes itself to each Listener defined in the Project.
+The Listener is free to take any action based on the contents of the
+Event, but is not allowed to modify the Event in any way.
+
+Currently defined Events:
+\begin{description}
+\item[SubmissionEvent] This Event is triggered by the RollupManager
+after all the other Rollups have been done.  This Event signifies that
+a Submission has been completely processed.
+\end{description}
+
+
+Currently defined Listeners:
+\begin{description}
+\item[BrokenBuildListener]  This Listener determines if a Submission is of a particular type and sends the appropriate email to a pre-defined mailing list.
+\end{description}
 \section{Archiving a Dart Server}
 \label{Section:ArchiveTask}
 
