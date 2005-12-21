@@ -535,10 +535,8 @@
   </target>
 
   <target name="publish">
-    <!--
     <antcall target="setproxy1"/>
     <antcall target="setproxy2"/>
-    -->
     <java classname="dart.DartClient">
       <classpath>
         <pathelement location="${DartClassPath}"/>
