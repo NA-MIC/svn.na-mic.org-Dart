@@ -12,6 +12,7 @@
 \usepackage[tight]{units}
 \usepackage{url}
 \usepackage[bookmarksnumbered]{hyperref}
+\usepackage{xspace}
 
 
 \newcommand{\answermark}{$\triangleright$ }
@@ -19,6 +20,35 @@
 
 % Use to markup file and directory names
 \newcommand{\filename}[1]{\texttt{#1}}
+
+% This declares a set of common abbreviations (e.g., i.e.,
+% etc.). These commands should be used instead of explicitly doing it
+% yourself to get better typeset results. For example, ``\emph{e.g.}
+% something'' would yield a sentence ending space between the ``.''
+% and ``s'', which is not correct. The correct way is ``\emph{e.g.}\
+% something''; this inserts a normal interword space. The macro
+% ``\eg'' will take care of this automatically. The macros below will
+% also make sure that at the end of a sentence, there won't be two
+% periods. \Ie, ``apples, bananas, \etc.'' will not have two periods
+% at the end, but ``(apples, bananas, \etc)'' will have a period
+% before the closing paranthesis.
+%
+% (The code below taken from cvpr.sty, by Paolo.Ienne@di.epfl.ch 
+% and awf@acm.org.)
+%
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\xspace\fi}
+\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
+\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\etc{\emph{etc}\onedot}
+\def\vs{\emph{vs}\onedot}
+\def\wrt{w.r.t\onedot}
+\def\dof{d.o.f\onedot}
+\def\etal{\emph{et al}\onedot}
+\makeatother
+
 
 \begin{document}
 \title{Dart: Testing, Reports and Dashboards}
@@ -368,7 +398,7 @@ assigned to the project.
 \item[RepositoryURL]{URL for accessing a project's software repository via the web.}
 \item[RepositoryURL.Type]{Identifies the type of the web portal for the repository (viewcvs, cvsweb, websvn).}
 \item[RepositoryURL.Repository]{Identifies the repository to reference at the specified \texttt{RepositoryURL}}.
-\item[Menu]{Definition of a menu to display on web pages.  This menu can include links to navigate within Dart or to navigate to external sites such as documentation, bug trackers, etc.  \texttt{Menu} is defined as an HTML list (encapsulated in a \texttt{CData} section), with submenus being sublists.  Each menu item is modelled with an \texttt{HREF} within an \texttt{LI}. If a menu item is the title of a submenu, then the \texttt{HREF} should link to ''\#'' and the item label should indicate a drop down menu is available (for instance, suffixing the name with a \texttt{>} sign.  }
+\item[Menu]{Definition of a menu to display on web pages.  This menu can include links to navigate within Dart or to navigate to external sites such as documentation, bug trackers, \etc.  \texttt{Menu} is defined as an HTML list (encapsulated in a \texttt{CData} section), with submenus being sublists.  Each menu item is modelled with an \texttt{HREF} within an \texttt{LI}. If a menu item is the title of a submenu, then the \texttt{HREF} should link to ''\#'' and the item label should indicate a drop down menu is available (for instance, suffixing the name with a \texttt{>} sign.  }
 \end{description}
 
 \subsection{Database Configuration}
@@ -477,11 +507,11 @@ configured in the CommandManager.  The last Servlet is the
 ChartServlet used to generate charts for the dashboard.
 
 To call an XML-RPC method, the URL needed is determined by the root
-project URL, \emph{i.e.}
-http://localhost:8081/\emph{ProjectName}/Command/\emph{Command}.\emph{Method}.
+project URL, \ie
+\texttt{http://localhost:8081/\emph{ProjectName}/Command/\emph{Command}.\emph{Method}}.
  For example, the URL to submit some results to the Dart project
 TestProject running on the local system is:
-http://localhost:8081/TestProject/Command/ and the method is \texttt{Submit.put}.
+\url{http://localhost:8081/TestProject/Command/} and the method is \texttt{Submit.put}.
 
 \subsubsection{Adding a new servlet to Dart}
 \label{Sec:UserServlet}
@@ -553,28 +583,28 @@ Day-of-Week&            1-7 or SUN-SAT&                 , - * ? / L C \# \\
 Year (Optional)&                empty, 1970-2099&               , - * / \\
 \end{tabular}
 
-The '*' character is used to specify all values. For example, ``*'' in
+The ``*'' character is used to specify all values. For example, ``*'' in
 the minute field means ``every minute''.
 
-The '?' character is allowed for the day-of-month and day-of-week
+The ``?'' character is allowed for the day-of-month and day-of-week
 fields. It is used to specify 'no specific value'. This is useful when
 you need to specify something in one of the two fields, but not the
 other. See the examples below for clarification.
 
-The '-' character is used to specify ranges For example ``10-12'' in the
+The ``-'' character is used to specify ranges For example ``10-12'' in the
 hour field means ``the hours 10, 11 and 12''.
 
-The ',' character is used to specify additional values. For example
+The ``,'' character is used to specify additional values. For example
 ``MON,WED,FRI'' in the day-of-week field means "the days Monday,
 Wednesday, and Friday".
 
-The '/' character is used to specify increments. For example ``0/15'' in
+The ``/'' character is used to specify increments. For example ``0/15'' in
 the seconds field means ``the seconds 0, 15, 30, and 45''. And ``5/15'' in
 the seconds field means ``the seconds 5, 20, 35, and 50''. You can also
-specify '/' after the '*' character - in this case '*' is equivalent
-to having '0' before the '/'.
+specify ``/'' after the ``*'' character - in this case ``*'' is equivalent
+to having ``0'' before the ``/''.
 
-The 'L' character is allowed for the day-of-month and day-of-week
+The ``L'' character is allowed for the day-of-month and day-of-week
 fields. This character is short-hand for ``last'', but it has different
 meaning in each of the two fields. For example, the value ``L'' in the
 day-of-month field means ``the last day of the month'' - day 31 for
@@ -582,10 +612,10 @@ January, day 28 for February on non-leap years. If used in the
 day-of-week field by itself, it simply means ``7'' or ``SAT''. But if used
 in the day-of-week field after another value, it means ``the last xxx
 day of the month'' - for example ``6L'' means "the last friday of the
-month". When using the 'L' option, it is important not to specify
+month". When using the ``L'' option, it is important not to specify
 lists, or ranges of values, as you'll get confusing results.
 
-The 'W' character is allowed for the day-of-month field. This
+The ``W'' character is allowed for the day-of-month field. This
 character is used to specify the weekday (Monday-Friday) nearest the
 given day. As an example, if you were to specify ``15W'' as the value
 for the day-of-month field, the meaning is: "the nearest weekday to
@@ -595,14 +625,14 @@ fire on Monday the 16th. If the 15th is a Tuesday, then it will fire
 on Tuesday the 15th. However if you specify ``1W'' as the value for
 day-of-month, and the 1st is a Saturday, the trigger will fire on
 Monday the 3rd, as it will not 'jump' over the boundary of a month's
-days. The 'W' character can only be specified when the day-of-month is
+days. The ``W'' character can only be specified when the day-of-month is
 a single day, not a range or list of days.
 
-The 'L' and 'W' characters can also be combined for the day-of-month
-expression to yield 'LW', which translates to "last weekday of the
+The ``L'' and ``W'' characters can also be combined for the day-of-month
+expression to yield ``LW'', which translates to "last weekday of the
 month".
 
-The '\#' character is allowed for the day-of-week field. This character
+The ``\#'' character is allowed for the day-of-week field. This character
 is used to specify ``the nth'' XXX day of the month. For example, the
 value of ``6\#3'' in the day-of-week field means the third Friday of the
 month (day 6 = Friday and ``\#3'' = the 3rd one in the month). Other
@@ -611,7 +641,7 @@ Wednesday of the month. Note that if you specify ``\#5'' and there is not
 5 of the given day-of-week in the month, then no firing will occur
 that month.
 
-The 'C' character is allowed for the day-of-month and day-of-week
+The ``C'' character is allowed for the day-of-month and day-of-week
 fields. This character is short-hand for ``calendar''. This means values
 are calculated against the associated calendar, if any. If no calendar
 is associated, then it is equivalent to having an all-inclusive
@@ -661,12 +691,12 @@ friday of every month during the years 2002, 2003, 2004 and 2005 \\
 of every month \\
 \end{tabular}
 
-Pay attention to the effects of '?' and '*' in the day-of-week and day-of-month fields!
+Pay attention to the effects of ``?'' and ``*'' in the day-of-week and day-of-month fields!
 
 NOTES:
 \begin{itemize}
-    \item Support for the features described for the 'C' character is not complete.
-    \item Support for specifying both a day-of-week and a day-of-month value is not complete (you'll need to use the '?' character in on of these fields).
+    \item Support for the features described for the ``C'' character is not complete.
+    \item Support for specifying both a day-of-week and a day-of-month value is not complete (you'll need to use the ``?'' character in on of these fields).
     \item Be careful when setting fire times between mid-night and
 1:00 AM - ``daylight savings'' can cause a skip or a repeat depending on
 whether the time moves back or jumps forward.
@@ -785,8 +815,8 @@ the tag.
 \label{Section:Events}
 
 While the Dart server is running, various interesting events may
-occur, \emph{e.g.} Nightly Submissions present/absent, low disk space,
-build failures, \emph{etc}\ldots  To monitor and respond to Events,
+occur; \eg Nightly Submissions present/absent, low disk space,
+build failures, \etc.  To monitor and respond to Events,
 the Dart Server may be configured with different Listeners that
 receive Events and have the oportunity to respond in a variety of
 ways.  The Event subsystem has two components, Event sources and
@@ -838,7 +868,7 @@ Each Archiver has specified levels of archive, specified by the ArchiveLevel:
 
 \begin{itemize}
 \item 0 default, all data is still in the Database
-\item 1 remove least amount of data.  All bulk data (images, logs, etc...) are to be removed
+\item 1 remove least amount of data.  All bulk data (images, logs, \etc) are to be removed
 \item 2 remove all leaf tests and data, leaving only intermediate levels in the Test hierarchy
 \item 3 remove all non-root Tests, leaving rollup info at the root level of the Test hierarchy
 \item 4 remove all data and the Submission itself.  This is as if the submission had never existed
@@ -960,7 +990,7 @@ Finally, the Archiver decides which data from the Submission to remove (since it
 
  ArchiveLevel indicates how much data to remove
 \begin{itemize}
-             \item 1 remove least amount of data.  All bulk data (images, logs, etc...) are to be removed
+             \item 1 remove least amount of data.  All bulk data (images, logs, \etc) are to be removed
              \item 2 remove all leaf tests and data, leaving only intermediate levels in the Test hierarchy
              \item 3 remove all non-root Tests, leaving rollup info at the root level of the Test hierarchy
              \item 4 remove all data and the Submission itself
@@ -1603,7 +1633,7 @@ find an index.html file in the root level of the zip file.  If that
 file is found, it is served as an HTML document.  Relative links are
 correctly resolved from inside the archive/zip Measurement.  This type
 of Measurement is useful for Submitting results of various Java tools
-that follow the Javadoc output format, \emph{e.g.} Cobertura
+that follow the Javadoc output format, \eg Cobertura
 (http://cobertura.sourceforge.net/) for code coverage, JCSC
 (http://jcsc.sourceforge.net/) for Java code style checking.  The
 output of such tools can be zipped by the client and submitted.
@@ -1624,13 +1654,13 @@ copy of the data will be stored in the Server file system.
 \section{Classes of Results}
 The Test tag specifies Test data.  In Dart, there is no
 distinction between a Test used for unit testing and a Test that
-reports \emph{e.g.} Coverage results.  To distinguish Tests for the
-purposes of Coverage, DynamicAnalysis, Builds, \emph{etc}\ldots, the
+reports, \eg, Coverage results.  To distinguish Tests for the
+purposes of Coverage, DynamicAnalysis, Builds, \etc, the
 first portion of the qualified Test Name is used.  The proper name
 formatting convention and required Measurements are listed below.
 
 Dart has conventions for handling different types of Tests, resulting
-in different entries on the Dashboard, \emph{e.g.} Coverage, Style,
+in different entries on the Dashboard, \eg Coverage, Style,
 DynamicAnalysis.  The current classes of results that are handled by
 Dart include Test, Coverage, Style, and DynamicAnalysis.  They are
 detailed below to aid the developer in cohercing data into the proper
@@ -1738,7 +1768,7 @@ require any external packages, nor operating system applications.
 The server shall run as a daemon and shall include these components:
         \begin{enumerate}
         \item Scheduler: Dart shall include an internal scheduling
-system for routine systems tasks, \emph{etc}\ldots
+system for routine systems tasks, \etc.
         \item RDBMS: Dart shall include an embedded database to
 handle small Projects.
         \item Web Server: Dart shall include an embedded web server
@@ -1752,12 +1782,12 @@ including:
         \begin{enumerate}
         \item RDBMS: Dart shall use JDBC compliant drivers for all DB
 access allowing different database systems such as MySQL, Postgres,
-Oracle, \emph{etc.}
+Oracle, \etc.
         \item Web Server: Apache and other web servers shall be
 capable of serving Dart generated pages.
         \item Web Services: Dart shall allow the ability to
 communicate using external web servers such as Apache, Tomcat,
-\emph{etc.}
+\etc.
         \item Portal Server: If desired, a Portal server such as
 Jetspeed may be used to interface with Dart results database.  This
 capability is currently unspecified.
@@ -1779,7 +1809,8 @@ than 10K of disk space by retaining only summary information.
 Presentation.
 \item The Storage engine shall accept submissions from clients parse
 the input and store results in a generic format with large data items
-stored in the file system, \emph{i.e.} images, with numeric and
+(\eg images)
+stored in the file system, and with numeric and
 shorter text information stored in a database system.
 \item The Processing engine shall process and summarize the results
 organized by the Storage engine at regular intervals and upon
@@ -1928,7 +1959,7 @@ This section captures some implementation ideas.
 \paragraph{Language}
 Of all cross-platform languages, Java provides the most robust set of libraries suitable for
 Dart.  Java also allows simple distribution of compiled libraries,
-\emph{i.e.} jar files, as plug-ins.  Potentially, a client could query
+\ie jar files, as plug-ins.  Potentially, a client could query
 the server for a list of available plug-ins downloading and installing
 as needed.
 
