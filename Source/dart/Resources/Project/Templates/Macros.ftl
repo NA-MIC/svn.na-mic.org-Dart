@@ -25,3 +25,13 @@ ${projectProperties["Menu"]}
 </div>
 </#if>
 </#macro>
+
+<#-- for each test in the list, set the default result value -->
+<#macro displaySingleResult value unavail="(unavailable)">
+<#local vallist = value.toList()>
+<#if vallist?size == 1>
+${vallist[0].getValue()?html}
+<#else>
+${unavail}
+</#if>
+</#macro>

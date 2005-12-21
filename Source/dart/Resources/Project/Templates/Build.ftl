@@ -18,6 +18,7 @@
   </head>
 <body>
 
+<a name="pagetop"></a>
 <table border="0" cellpadding="0" cellspacing="2" width="100%">
 <tr>
 <td align="center" valign="middle" height="100%"><a href="/${projectName}/Dashboard/?trackid=${submission.trackId?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>
@@ -47,37 +48,68 @@
     </#if>
 
     <#assign build = submission.selectTestList ( ".Build" ).toList()/>
-    <#if build?size == 1>
-      <#assign build = build[0]>
+    <#if build?size != 1>
+      <br><h3>No build information available</h3></br>
+    <#else>
+      <#assign build = build[0] />
       <#assign errorcount = build.selectResult ( "ErrorCount" ).toList()[0] />
       <#assign warningcount = build.selectResult ( "WarningCount" ).toList()[0] />
-      <#assign log = build.selectResult ( "Log" ).toList() />
 
-      <br><h3>${errorcount.getValue()?html} Errors, ${warningcount.getValue()?html} Warnings</h3>
+      <br><h3>${errorcount.getValue()?html} Errors, ${warningcount.getValue()?html} Warnings total</h3>
+
+      <#assign stages = build.selectChildren().toArray()/>
+
+      <table cellspacing=3 cellpadding=1>
+         <#list stages as stage >
+           <#assign stagename = stage.selectResult ( "StageName" ).toList()[0].getValue() />
+           <#assign errorcount = stage.selectResult ( "ErrorCount" ) />
+           <#assign warningcount = stage.selectResult ( "WarningCount" ) />
+           <tr><td valign=top><#if stage_index==0>Stages:</#if></td>
+           <td valign=top>
+             <a href="#stage${stage_index}">${stagename}</a></td><td>
+ (<@displaySingleResult value=errorcount/> errors, <@displaySingleResult value=warningcount/> warnings)</td></tr>
+           </#list>
+      </table>
+
+      <#list stages as stage >
+        <#assign stagename = stage.selectResult ( "StageName" ).toList()[0].getValue() />
+        <#assign errorcount = stage.selectResult ( "ErrorCount" ).toList()[0] />
+        <#assign warningcount = stage.selectResult ( "WarningCount" ).toList()[0] />
+        <#assign log = stage.selectResult ( "Log" ).toList() />
+
+        <hr/>
+        <h2>
+          <a name="stage${stage_index}">
+           Stage: ${stagename?html} (${errorcount.getValue()?html} Errors, ${warningcount.getValue()?html} Warnings)
+          </a>
+        </h2>
+        <font size=-1><a href="#pagetop">[top]</a></font>
+
+        <br><b>Start time:</b> <@displaySingleResult value=stage.selectResult("StartDateTime")/>
+        <br><b>End time:</b> <@displaySingleResult value=stage.selectResult("EndDateTime")/>
+        <br><b>Command:</b> <tt><@displaySingleResult value=stage.selectResult("BuildCommand")/></tt>
+        <br><b>Return status:</b> <@displaySingleResult value=stage.selectResult("BuildStatus")/>
     
-      <#if log?size == 1>
-        <hr/>
-        <h3>Log</h3>
-        <hr/>
-        ${fetchdata(log[0].getValue())}
-      <#else>
-         
-
-      <#assign children = build.selectChildren().toArray()?sort/>
-      <#list children as child >
-        <hr/>
-        <h3><#if child.name?matches ( ".*Error.*" )> Error <#else> Warning </#if>Build Log Line ${child.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
-        <br/>
+        <#if log?size == 1>
+          <h3>Log</h3>
+<pre>
+${log[0].getValue()?html}
+</pre>
+        <#else>
+          <#assign children = stage.selectChildren().toArray()?sort/>
+          <#list children as child >
+            <hr/>
+            <h3><#if child.name?matches ( ".*Error.*" )> Error <#else> Warning </#if>Build Log Line ${child.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
+            <br/>
         File: <b> ${child.getResultValue ( "SourceFile", "Unknown"  )?html}</b>
         Line: <b> ${child.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>
         <pre>${child.getResultValue ( "PreContext", "" )}
 <b>${child.getResultValue ( "Text", "" )}</b>
 ${child.getResultValue ( "PostContext", "" )}</pre>
-     </#list>
-     </#if>
-     <#else>
-      <br><h3>No build information available</h3></br>
-     </#if>
+          </#list>
+        </#if>
+      </#list>
+    </#if>
 </div>
 </body>
 </html>

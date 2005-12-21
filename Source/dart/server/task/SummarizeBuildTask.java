@@ -39,49 +39,43 @@ public class SummarizeBuildTask implements Task {
         logger.debug ( project.getTitle() + ": No Build info found" );
         return;
       }
+
+      logger.debug ( project.getTitle() + ": processing " + build.getQualifiedName() );
       
-      int Errors = 0;
-      int Warnings = 0;
+      int TotalErrors = 0;
+      int TotalWarnings = 0;
+
+      ResultFinderBase resultFinder = new ResultFinderBase ( session );
       
       // Walk the all the sub-tests
-      TestIterator children = build.selectChildren().iterator();
-      while ( children.hasNext() ) {
-        TestEntity child = children.next();
-        if ( child.getQualifiedName().matches ( ".*Error.*" ) ) {
-          logger.info ( project.getTitle() + ": Found error: " + child.getQualifiedName() );
-          Errors++;
+      // Build tests are of the form Build.StageX.Error, etc.
+      TestIterator stages = build.selectChildren().iterator();
+      while ( stages.hasNext() ) {
+        TestEntity stage = stages.next();
+        logger.debug ( "processing stage " + stage.getQualifiedName() );
+        TestIterator children = stage.selectChildren().iterator();
+        int Errors = 0;
+        int Warnings = 0;
+        while ( children.hasNext() ) {
+          TestEntity child = children.next();
+          logger.debug ( "processing test " + child.getQualifiedName() );
+          if ( child.getQualifiedName().matches ( ".*Error.*" ) ) {
+            logger.info ( project.getTitle() + ": Found error: " + child.getQualifiedName() );
+            Errors++;
+          }
+          if ( child.getQualifiedName().matches ( ".*Warning.*" ) ) {
+            logger.info ( project.getTitle() + ": Found warning: " + child.getQualifiedName() );
+            Warnings++;
+          }
         }
-        if ( child.getQualifiedName().matches ( ".*Warning.*" ) ) {
-          logger.info ( project.getTitle() + ": Found warning: " + child.getQualifiedName() );
-          Warnings++;
-        }
+        set_result( resultFinder, stage, "ErrorCount", Errors );
+        set_result( resultFinder, stage, "WarningCount", Warnings );
+        TotalErrors += Errors;
+        TotalWarnings += Warnings;
       }
-      
-      ResultFinderBase resultFinder = new ResultFinderBase ( session );
-      ResultEntity result;
-      // See if we have already done this and update
-      ResultList results;
-      results = build.selectResult ( "ErrorCount" );
-      if ( results.toArray().length > 0 ) {
-        result = results.toArray()[0];
-      } else {
-        result = resultFinder.newInstance();
-        result.setTestId ( build.getTestId() );
-        result.setType ( "numeric/integer" );
-        result.setName ( "ErrorCount" );
-        result.setValue ( Integer.toString ( Errors ) );
-      }
-      
-      results = build.selectResult ( "WarningCount" );
-      if ( results.toArray().length > 0 ) {
-        result = results.toArray()[0];
-      } else {
-        result = resultFinder.newInstance();
-        result.setTestId ( build.getTestId() );
-        result.setType ( "numeric/integer" );
-        result.setName ( "WarningCount" );
-        result.setValue ( Integer.toString ( Warnings ) );
-      }
+
+      set_result( resultFinder, build, "ErrorCount", TotalErrors );
+      set_result( resultFinder, build, "WarningCount", TotalWarnings );
       
       session.commit();
       session.flush();
@@ -92,5 +86,32 @@ public class SummarizeBuildTask implements Task {
       connection.close();
     }
 
-  }      
+  }
+
+  /**
+     Set a summary value on a test, if it isn't there already.
+   */
+  private void set_result ( ResultFinderBase resultFinder, TestEntity test, String name, int value ) {
+    ResultList results = test.selectResult ( name );
+    if ( results.toArray().length == 0 ) {
+      logger.debug ( "Setting " + test.getQualifiedName() + "." + name + " to " + value );
+      ResultEntity result = resultFinder.newInstance();
+      result.setTestId ( test.getTestId() );
+      result.setType ( "numeric/integer" );
+      result.setName ( name );
+      result.setValue ( Integer.toString ( value ) );
+    } else if ( results.toArray().length == 1 ) {
+      ResultEntity result = results.toArray()[0];
+      String valueStr = Integer.toString(value);
+      if( ! result.getValue().equals( valueStr ) ) {
+        logger.debug ( "Updating " + test.getQualifiedName() + "." + name + " to " + valueStr );
+        result.setValue ( valueStr );
+      } else {
+        logger.debug ( test.getQualifiedName() + "." + name + " is already " + valueStr );
+      }
+    } else {
+      logger.error ( "Already multiple " + test.getQualifiedName() + "." + name );
+    }
+  }
+
 }
