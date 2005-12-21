@@ -24,6 +24,7 @@ public class Container {
 
   protected String title = "Default";
   protected Database database = null;
+  protected ListenerManager listenerManager = null;
   protected ServletManager servletManager = null;
   protected File baseDirectory = null;
   protected File temporaryDirectory = null;
@@ -116,6 +117,13 @@ public class Container {
    */
   public void setDatabase ( Database d ) { database = d; }
   public Database getDatabase () { return database; }
+
+  /**
+   * Get/Set the ListenerManager for this Container
+   * @param l ListenerManager to set
+   */
+  public void setListenerManager ( ListenerManager l ) { listenerManager = l; }
+  public ListenerManager getListenerManager () { return listenerManager; }
 
   /**
    * Get/Set the CommandManager for this container

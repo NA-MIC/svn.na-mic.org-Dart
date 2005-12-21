@@ -538,6 +538,32 @@ property to the servlet definition in the Project.xml file.
 This example adds the class \texttt{user.servlet.MyDashboard} from the \filename{foo.jar} 
 archive to the project and assigns it the url space of \texttt{/MyDashboard/*}.
 
+\subsection{ListenerManager Configuration}
+\label{Section:ListenerManager}
+\begin{verbatim}
+  <!-- Listener manager.  Do specific things when events happen in the Project -->
+  <ListenerManager>
+    <Listener>
+      <Type>dart.server.listener.SubmissionErrorsListener</Type>
+      <ListenTo>
+        <Type>dart.server.event.SubmissionEvent</Type>
+      </ListenTo>
+      <Properties/>
+    </Listener>
+  </ListenerManager>
+\end{verbatim}
+
+During the running of a Dart Project different Events of note may
+occur.  The ListenerManager receives Events from the Project and
+queries each defined Listener's \xmltag{ListenTo} list to see of the
+Listener is interested in this particular type of Event.  If so, the
+Listener's trigger method is called with the Event as an argument.
+Note: more than one Listener of a given type may exist in the
+ListenerManager, \emph{e.g.} when the Listeners are given different
+parameters.  Further Note: the \xmltag{ListenTo} and
+\xmltag{Properties} tags are mandatory!  More information is in
+Section~\ref{Section:ListenerManager}. 
+
 \subsection{Task Configuration}
 \label{Section:TaskConfiguration}
 \begin{verbatim}
@@ -804,7 +830,7 @@ the tag.
     </Rollup>
     <Rollup>
       <!-- Note, the SubmissionEvent must be the last Task -->
-      <Type>dart.server.event.SubmissionEvent</Type>
+      <Type>dart.server.event.SubmissionEventTask</Type>
       <Priority>5</Priority>
       <Properties/>
     </Rollup>
@@ -815,16 +841,18 @@ the tag.
 \label{Section:Events}
 
 While the Dart server is running, various interesting events may
-occur; \eg Nightly Submissions present/absent, low disk space,
-build failures, \etc.  To monitor and respond to Events,
-the Dart Server may be configured with different Listeners that
-receive Events and have the oportunity to respond in a variety of
-ways.  The Event subsystem has two components, Event sources and
-Listeners.  Events are generated automatically (and programatically)
-by the Dart Server and are queued as Tasks.  When the Event is
-executed, it passes itself to each Listener defined in the Project.
-The Listener is free to take any action based on the contents of the
-Event, but is not allowed to modify the Event in any way.
+occur; \eg Nightly Submissions present/absent, low disk space, build
+failures, \etc.  To monitor and respond to Events, the Dart Server may
+be configured with different Listeners that receive Events and have
+the oportunity to respond in a variety of ways.  The Event subsystem
+has two components, Event sources and Listeners.  Events are generated
+automatically (and programatically) by the Dart Server and are handled
+immediately by the ListenerManager.  The ListenerManager checks each
+Listener defined by the Project, if the Listener is registered to
+ListenTo the particular type of Event, the Listener's trigger method
+is called.  The Listener is free to take any action based on the
+contents of the Event, but is not allowed to modify the Event in any
+way.
 
 Currently defined Events:
 \begin{description}
@@ -836,7 +864,9 @@ a Submission has been completely processed.
 
 Currently defined Listeners:
 \begin{description}
-\item[BrokenBuildListener]  This Listener determines if a Submission is of a particular type and sends the appropriate email to a pre-defined mailing list.
+\item[SubmissionErrorsListener]  This Listener determines if a
+Submission is of a particular type and sends the appropriate email to
+the list of registered Users.
 \end{description}
 \section{Archiving a Dart Server}
 \label{Section:ArchiveTask}
@@ -2927,7 +2957,8 @@ That's all there is to it!
 \end{verbatim}
 
 \end{document}
-% LocalWords:  FreeMarker CommandServlet MaxTasks commandline TestServer
+% LocalWords:  FreeMarker CommandServlet MaxTasks commandline TestServer cron
 % LocalWords:  DartServer refreshServer TestProject getstatus logconfiguration
 % LocalWords:  createqed getInitParameter CommandManager ChartServlet TaskQueue
-% LocalWords:  CronTrigger
+% LocalWords:  CronTrigger ListenerManager QueueManager MyDashboard classpath
+% LocalWords:  servlet ListenTo xml

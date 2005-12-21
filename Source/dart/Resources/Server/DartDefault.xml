@@ -127,14 +127,25 @@
          -->
   </ServletManager>
 
+  <!-- Listener manager.  Do specific things when events happen in the Project -->
+  <ListenerManager>
+    <Listener>
+      <Type>dart.server.listener.SubmissionErrorsListener</Type>
+      <ListenTo>
+        <Type>dart.server.event.SubmissionEvent</Type>
+      </ListenTo>
+      <Properties/>
+    </Listener>
+  </ListenerManager>
+
   <!-- Scheduled tasks.  The Schedule tag is in cron format. -->
   <TaskManager>
     <Task>
-      <!-- Process 100 queued tasks every 10 minutes -->
+      <!-- Process queued tasks every 10 minutes -->
       <Type>dart.server.task.QueueManager</Type>
       <Schedule>0 */10 * * * ?</Schedule>
       <Properties>
-        <Property name="MaxTasks">100</Property>
+        <Property name="MaxTasks">1000</Property>
         <Property name="Description">QueueManager thread</Property>
       </Properties>
     </Task>
@@ -306,6 +317,12 @@
     <Rollup>
       <Type>dart.server.task.PlaceSubmissionInTrackTask</Type>
       <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <!-- Trigger a SubmissionEvent -->
+      <Type>dart.server.task.SubmissionEventTask</Type>
+      <Priority>5</Priority>
       <Properties/>
     </Rollup>
   </RollupManager>
