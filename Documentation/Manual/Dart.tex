@@ -752,13 +752,13 @@ These are the currently available Tasks:
   data in removing it from the Project, potentially archiving the data
   to the filesystem.
   \item[DeleteDataTask] The DeleteDataTask is used internally by the
-  ArchiveTask.  It is responsible for deteting files from the Project,
+  ArchiveTask.  It is responsible for deleting files from the Project,
   if they are no longer referenced in the database.
   \item[GarbageCollectionTask] The GarbageCollectionTask simply runs
   the Java garbage collector.
   \item[PlaceSubmissionInTrackTask] The PlaceSubmissionInTrackTask
   determines which Track a Submission belongs to and places it there.
-  This Task should only be used interally and is queued by the
+  This Task should only be used internally and is queued by the
   XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
   \item[QueueManager] This is the most important Task.  The
   QueueManagerTask pulls queued Tasks from the TaskQueue table and
@@ -768,26 +768,26 @@ These are the currently available Tasks:
   Project's statistics to disk~(see Section~\ref{Section:TaskConfiguration}).
   \item[SummarizeBuildTask] The SummarizeBuildTask
   collects and rolls up summary information for a build.
-  This Task should only be used interally and is queued by the
+  This Task should only be used internally and is queued by the
   XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
   \item[SummarizeCoverage] The SummarizeBuildTask
   collects and rolls up summary information for a build.
-  This Task should only be used interally and is queued by the
+  This Task should only be used internally and is queued by the
   XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
   \item[SummarizeDynamicAnalysis] The SummarizeDynamicAnalysis
   collects and rolls up Dynamic Analysis summary information for a Submission
-  This Task should only be used interally and is queued by the
+  This Task should only be used internally and is queued by the
   XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
   \item[SummarizeTests] The SummarizeTests
   collects and rolls up Test summary information for a build.
-  This Task should only be used interally and is queued by the
+  This Task should only be used internally and is queued by the
   XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
   \item[Task] Task is the interface that each Task in this list implements.
   \item[XMLResultProcessor] The XMLResultProcessor is queued when a
   Submission is pushed to the server.  This Task parses the XML file
   and puts the Submission data into the database.  The
   XMLResultProcessor uses the RollupManager configuration as set in
-  Section~\ref{Section:RollupManager} to queue furthur Tasks.
+  Section~\ref{Section:RollupManager} to queue further Tasks.
 \end{description}
 
 \section{RollupManager}
@@ -844,7 +844,7 @@ While the Dart server is running, various interesting events may
 occur; \eg Nightly Submissions present/absent, low disk space, build
 failures, \etc.  To monitor and respond to Events, the Dart Server may
 be configured with different Listeners that receive Events and have
-the oportunity to respond in a variety of ways.  The Event subsystem
+the opportunity to respond in a variety of ways.  The Event subsystem
 has two components, Event sources and Listeners.  Events are generated
 automatically (and programatically) by the Dart Server and are handled
 immediately by the ListenerManager.  The ListenerManager checks each
@@ -2961,4 +2961,5 @@ That's all there is to it!
 % LocalWords:  DartServer refreshServer TestProject getstatus logconfiguration
 % LocalWords:  createqed getInitParameter CommandManager ChartServlet TaskQueue
 % LocalWords:  CronTrigger ListenerManager QueueManager MyDashboard classpath
-% LocalWords:  servlet ListenTo xml
+% LocalWords:  servlet ListenTo xml SaveStatistics ArchiveTask QueueManagerTask
+% LocalWords:  GarbageCollectionTask datetime

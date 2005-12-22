@@ -10,7 +10,7 @@
         <Name>.Coverage</Name>
         <Status>passed</Status>
         <Measurement name="ClassesChecked" type="numeric/integer"><xsl:number level="any" value="count(descendant::class)"/></Measurement>
-        <Measurement name="PercentCoverage" type="numeric/float"><xsl:value-of select="/coverage/@line-rate"/></Measurement>
+        <Measurement name="PercentCoverage" type="numeric/float"><xsl:value-of select="100 * /coverage/@line-rate"/></Measurement>
       </Test>
     </Coverage>
   </xsl:template>

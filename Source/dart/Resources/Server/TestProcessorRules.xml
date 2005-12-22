@@ -120,6 +120,7 @@
 
     <pattern value="testsuite">
       <object-create-rule classname="dart.server.TestProxy"/>
+
       <set-next-rule methodname="addChild"/>
       <call-method-rule methodname="setStatus" paramcount="1"/>
       <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
@@ -129,10 +130,8 @@
       
       <pattern value="testcase">
         <object-create-rule classname="dart.server.TestProxy"/>
-        <set-next-rule methodname="addChild"/>
         
-        <call-method-rule methodname="setStatus" paramcount="1"/>
-        <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+        <set-next-rule methodname="addChild"/>
         
         <pattern value="error">
           <call-method-rule methodname="setStatus" paramcount="1"/>
@@ -162,6 +161,7 @@
         <object-param-rule type="java.lang.String" value="Execution Time" paramnumber="0"/>
         <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
         <call-param-rule paramnumber="2" attrname="time"/>
+
       </pattern>
 
       <pattern value="system-out">

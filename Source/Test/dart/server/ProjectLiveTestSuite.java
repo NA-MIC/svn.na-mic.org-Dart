@@ -9,6 +9,7 @@ import java.net.URL;
 import dart.*;
 import dart.server.*;
 import dart.server.task.*;
+import java.net.*;
 
 public class ProjectLiveTestSuite extends TestCase {
 
@@ -58,6 +59,12 @@ public class ProjectLiveTestSuite extends TestCase {
     
   }
 
+  public void testHTTP () throws Exception {
+    URL url = new URL ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Dashboard" );
+    URLConnection conn = url.openConnection();
+    conn.connect();
+    assertTrue ( conn.getContent() != null );
+  }
 
   public static Test suite() {
     TestSuite tests = new TestSuite();
@@ -66,7 +73,9 @@ public class ProjectLiveTestSuite extends TestCase {
     tests.addTest ( new ProjectLiveTestSuite ( "testMD5" ) );
     tests.addTest ( new ProjectLiveTestSuite ( "testStatistics" ) );
     tests.addTest ( new ProjectLiveTestSuite ( "testParseBuildStamp" ) );
+    tests.addTest ( new ProjectLiveTestSuite ( "testHTTP" ) );
     tests.addTest ( TaskLiveTestSuite.suite() );
+    tests.addTest ( HttpTests.suite() );
     return tests;
   }
 }

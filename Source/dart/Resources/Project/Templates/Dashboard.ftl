@@ -337,7 +337,8 @@
               <td><a href="Submission?submissionid=${submissionid}">${submission.buildName?replace(".", ".&shy;")}</a></td>
               <td align="center" class="${statusStyle}">
                 <#if test.getResultValue ( "PercentCoverage", "" ) != "" && test.PercentCoverage?string?has_content><b>
-                  <a href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?number?string("#0.00")}</a></b>
+                  <a
+href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?string("#0.00")}</a></b>
                 </#if></td>
               <td align="center"><#if test.getResultValue ( "LOCTested", "" ) != ""><b><a href="CoverageCatalog?submissionid=${submissionid}">${test.LOCTested}</a></b></#if></td>
               <td align="center"><#if test.getResultValue ( "LOCUnTested", "" ) != ""><b><a href="CoverageCatalog?submissionid=${submissionid}">${test.LOCUnTested}</a></b></#if></td>

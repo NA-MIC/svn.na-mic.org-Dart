@@ -37,7 +37,7 @@ public class QueueManager implements Task {
         logger.debug ( project.getTitle() + ": TaskQueue is empty" );
         break;
       }
-      if ( tasks >= maxTasks ) {
+      if ( tasks >= maxTasks && maxTasks != -1 ) {
         logger.debug ( project.getTitle() + ": Reached maximum tasks" ); 
         break;
       }

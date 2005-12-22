@@ -50,7 +50,8 @@ public class DartClient
     if ( cmd.hasOption ( "h" ) 
          || printHelp 
          || files.length < 1 ) {
-      new HelpFormatter().printHelp ( "DartClient [options] Project <foo1.xml> <foo2.xml> ... <fooN.xml>", options );
+      new HelpFormatter().printHelp ( "DartClient [options] Project <foo1.xml> <foo2.xml> ... <fooN.xml>\n"
+                                      + "\tTo use a proxy, specify -DproxyHost=host -DproxyPort=8080 on the commandline", options );
       System.exit ( 0 );
     }
 

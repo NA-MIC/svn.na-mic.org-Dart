@@ -37,6 +37,7 @@ import freemarker.template.Template;
 
 public class DartServerTest extends TestCase {
 
+  public static int PortNumber = 40001;
   public DartServerTest ( String s ) {
     super ( s );
   }
@@ -46,8 +47,8 @@ public class DartServerTest extends TestCase {
   static Logger logger = Logger.getLogger ( DartServerTest.class );   
 
   static String path = System.getProperties().getProperty( "java.io.tmpdir" ) + File.separator + System.getProperties().getProperty ( "user.name" );
-  static String projectName = "TestProject";
-  static String serverName = "DartServer";
+  public static String projectName = "TestProject";
+  public static String serverName = "DartServer";
   static public String getPath() { return path; }
   static public String getProjectName() { return projectName; }
   static public Project getProject() { return project; }
@@ -64,7 +65,7 @@ public class DartServerTest extends TestCase {
   public void testLoad() {
     server = Server.loadServer ( path + File.separator + serverName );
     // Set high port numbers
-    server.setHttpPort ( "40001" );
+    server.setHttpPort ( String.valueOf ( PortNumber ) );
     assertNotNull ( server );
   }
 

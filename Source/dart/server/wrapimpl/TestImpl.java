@@ -3,8 +3,11 @@ package dart.server.wrapimpl;
 import dart.server.wrap.*;
 import net.sourceforge.jaxor.*;
 import net.sourceforge.jaxor.mappers.*;
+import org.apache.log4j.Logger;
 
 public class TestImpl extends TestBase {
+  static Logger logger = Logger.getLogger ( TestImpl.class );
+  
   Object defaultResult = null;
   
   /** Select all children of this Test, return a TestList
@@ -103,6 +106,7 @@ public class TestImpl extends TestBase {
    *  ResultList.
    */
   public ResultList selectResult ( final String result ) {
+    logger.debug ( "selectResult " + result );
     ResultFinderBase finder = new ResultFinderBase ( getJaxorContext() );
     QueryParams params = new QueryParams();
     params.add(new net.sourceforge.jaxor.mappers.StringMapper(), result);
@@ -119,6 +123,7 @@ public class TestImpl extends TestBase {
    * This method makes a Test appear to include itself and all its results.
    */
   public Object get( String name ) {
+    logger.debug ( "get " + name );
     return getResultValueAsObject(name, defaultResult);
   }
 
@@ -126,6 +131,7 @@ public class TestImpl extends TestBase {
   /** Select the value of a result with a default
    */
   public String getResultValue ( String name, String def ) {
+    logger.debug ( "getResultValue " + name + " default: " + def );
     ResultFinderBase finder = new ResultFinderBase ( getJaxorContext() );
     QueryParams params = new QueryParams();
     params.add(new net.sourceforge.jaxor.mappers.StringMapper(), name);
@@ -144,6 +150,7 @@ public class TestImpl extends TestBase {
    * type for that result.
    */
   public Object getResultValueAsObject ( String name, Object def ) {
+    logger.debug ( "getResultValueAsObject " + name + " default " + def );
     ResultFinderBase finder = new ResultFinderBase ( getJaxorContext() );
     QueryParams params = new QueryParams();
     params.add(new net.sourceforge.jaxor.mappers.StringMapper(),
@@ -159,10 +166,13 @@ public class TestImpl extends TestBase {
    ResultEntity result = list.get(0);
    String resultType = result.getType();
    if (resultType.equals("numeric/float")) {
+     logger.debug ( "returning numeric/float " + result.getValue() );
      return new Float(result.getValue());
    } else if (resultType.equals("numeric/integer")) {
+     logger.debug ( "returning numeric/integer " + result.getValue() );
      return new Integer(result.getValue());
-   } else if (resultType.equals("numeric/string")) {
+   } else if (resultType.equals("text/string")) {
+     logger.debug ( "returning text/string " + result.getValue() );
      return new String( result.getValue() );
    }
    

@@ -215,10 +215,10 @@
         <td>&nbsp;<img class="icon" src="/${projectName}/Resources/Icons/Closed.gif">&nbsp;<a href="CoverageCatalog?trackid=${submission.trackId?url}&submissionid=${submission.submissionId?url}&showall=${showall?url}&sortBy=${sortKey}&order=${order}&roottest=${rootTest.qualifiedName}">.</a></td>
         <td align="right">
             <#if rootTest.getResultValue ( "PercentCoverage", "" ) != "">
-              <#if rootTest.getResultValue ( "CoverageLog", "" ) != "" >
-                  <a href="/${projectName}/Zip/${rootTest.getResultValue( "CoverageLog", "" )?replace('\\','/')}"/>${rootTest.PercentCoverage?number?string("#0.00")}</a>
+              <#if rootTest.getResultValue ( "Log", "" ) != "" >
+                  <a href="/${projectName}/Zip/${rootTest.getResultValue( "Log", "" )?replace('\\','/')}"/>${rootTest.PercentCoverage?string("#0.00")}</a>
               <#else>
-                 ${rootTest.PercentCoverage?number?string("#0.00")}
+                 ${rootTest.PercentCoverage?string("#0.00")}
               </#if>
             </#if>
         </td>

@@ -6,7 +6,7 @@ import org.apache.log4j.*;
 public class TestProxy {
   static Logger logger = Logger.getLogger ( TestProxy.class );   
   
-  String status = null;
+  String status = "passed";
   String name = null;
   String qualifiedname = null;
   String path = null;
