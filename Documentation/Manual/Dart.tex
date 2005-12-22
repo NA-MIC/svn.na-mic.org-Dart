@@ -55,6 +55,9 @@
 \author{Daniel J. Blezek \\
 James V. Miller}
 \maketitle
+
+
+%----------------------------------------------------------------------
 \chapter*{Acknowledgments}
 This product includes software developed by the Apache Software Foundation (\url{http://www.apache.org/}).
 
@@ -68,6 +71,7 @@ through the NIH Roadmap for Medical Research, Grant U54 EB005149.
 Information on the National Centers for Biomedical Computing
 can be obtained from \url{http://nihroadmap.nih.gov/bioinformatics}.
 
+%----------------------------------------------------------------------
 \chapter*{License}
 \begin{verbatim}
 Copyright (c) 2004-2005, The Insight Consortium
@@ -100,6 +104,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \end{verbatim}
 
 
+%----------------------------------------------------------------------
 \chapter{Introduction}
 
 \section{Dart Statement of Purpose}
@@ -109,6 +114,8 @@ build and test hosts, summarizing the software quality aspects of the project
 in a concise and informative fashion cross-sectionally and longitudinally.}
 \end{quote}
 
+
+%----------------------------------------------------------------------
 \chapter{Tutorial}
 
 \section{Quick Start}
@@ -770,8 +777,8 @@ These are the currently available Tasks:
   collects and rolls up summary information for a build.
   This Task should only be used internally and is queued by the
   XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
-  \item[SummarizeCoverage] The SummarizeBuildTask
-  collects and rolls up summary information for a build.
+  \item[SummarizeCoverage] The SummarizeCoverageTask
+  collects and rolls up coverage summary information.
   This Task should only be used internally and is queued by the
   XMLResultProcessor as configured in Section~\ref{Section:RollupManager}.
   \item[SummarizeDynamicAnalysis] The SummarizeDynamicAnalysis
@@ -1200,6 +1207,8 @@ If the Dart server is hosted on a different machine than the Apache
 web server, then you'll need to replace the use of \texttt{localhost} with
 the url to your Dart server.
 
+
+%----------------------------------------------------------------------
 \chapter{Tool Integration}
 \section{Cruise Control}
 Cruise Control (\url{http://cruisecontrol.sourceforge.net/}) is a
@@ -1445,6 +1454,9 @@ DropLocation: TestProject
 DropMethod: xmlrpc
 \end{verbatim}
 
+
+
+%----------------------------------------------------------------------
 \chapter{Development}
 \section{Requirements}
 \label{Section:Development}
@@ -1545,6 +1557,10 @@ jar file.
 
 \end{itemize}
 
+
+
+
+%----------------------------------------------------------------------
 \chapter{Custom Test Results}
 This chapter is intended to introduce the Dart XML format for
 submitting testing results to a Server.  Though Dart, through
@@ -1726,9 +1742,9 @@ Coverage results are displayed in a separate place at the bottom of
 the Dashboard.  To be considered Coverage results, a Test's Name must
 be ``.Coverage''.  In the .Coverage Test, Dart looks for the
 PercentCoverage Measurement.  If this Measurement exists, a row is
-added to the Coverage section.  Other Measurements, if present, and
+added to the Coverage section.  Other Measurements, if present, are
 summarized: LOCTested, LOCUntested.  The passed and failed sub-tests
-of the .Coverage Test are presented as covered and not-covored files.
+of the .Coverage Test are presented as covered and not-covered files.
 The Coverage information links to the CoverageCatalog page.  If there
 are sub Tests to the .Coverage Test, the user can navigate to any
 subtests.  If the .Coverage Test contains a Log measurement of type
@@ -1758,6 +1774,9 @@ The DynamicAnalysisCatalog page is quite flexible and finds all
 numeric Measurements in the .DynamicAnalysis Test and presents them in
 a summary page.
 
+
+
+%----------------------------------------------------------------------
 \chapter{Dart Requirements and Design}
 This chapter describes the requirements and design criteria for the
 next version of Dart.
@@ -1938,6 +1957,9 @@ temporal fashion.
   \subsubsection{Dashboard presentation}
 \subsection{Extensibility}
 
+
+
+%----------------------------------------------------------------------
 \chapter{Design}
 
 \section{Server}
@@ -1982,6 +2004,10 @@ The ServletManager is responsible for creating the Project specific
 Servlets and adding them to the Server's HTTP Server.  User Servlets
 may be added to the Project's Plugins directory.
 
+
+
+
+%----------------------------------------------------------------------
 \chapter{Implementation Ideas}
 This section captures some implementation ideas.
 \section{Server}
