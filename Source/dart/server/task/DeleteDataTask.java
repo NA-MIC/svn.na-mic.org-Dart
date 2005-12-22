@@ -24,6 +24,9 @@ public class DeleteDataTask implements Task {
   static Logger logger = Logger.getLogger ( DeleteDataTask.class );   
 
   public void execute ( Project project, Properties properties ) throws Exception {
+    if ( properties == null ) {
+      logger.warn ( "Null properties" );
+    }
 
     String ResultValue = properties.getProperty ( "ResultValue", null );
     if ( ResultValue == null ) {

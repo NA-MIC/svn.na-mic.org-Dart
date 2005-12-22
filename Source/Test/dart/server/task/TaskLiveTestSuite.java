@@ -55,6 +55,20 @@ public class TaskLiveTestSuite extends TestCase {
     task.execute ( project, new Properties() );
   }
     
+  public void testArchiveTask() throws Exception {
+    // Get the live project
+    Task task = (Task)Class.forName ( "dart.server.task.ArchiveTask" ).newInstance();
+
+    File f = new File ( DartServerTest.getProjectDirectory(), "Archive" );
+    
+    
+    Properties properties = new Properties();
+    properties.setProperty ( "ArchiverList", "Test" );
+    properties.setProperty ( "ArchiverList.Test.ArchiveDirectory", f.getPath() + File.separator + "Foo" );
+    task.execute ( project, properties );
+    assertTrue ( "Archive created", new File ( f, "Working" ).exists() );
+  }
+  
 
   public static Test suite() {
     TestSuite tests = new TestSuite();
@@ -62,6 +76,8 @@ public class TaskLiveTestSuite extends TestCase {
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLLongCorrect" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLWithZip" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testArchiveTask" ) );
+
     return tests;
   }
 }

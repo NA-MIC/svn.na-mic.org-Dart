@@ -155,6 +155,9 @@ public class ArchiveTask implements Task {
   }
 
   private void syncronizedExecute ( Project p, Properties properties ) throws Exception {
+    if ( properties == null ) {
+      logger.warn ( "Null properties" );
+    }
     project = p;
     logger.info ( project.getTitle() + ": Starting Archive" );
     
