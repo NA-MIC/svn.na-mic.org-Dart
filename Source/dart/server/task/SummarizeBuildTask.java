@@ -42,40 +42,9 @@ public class SummarizeBuildTask implements Task {
 
       logger.debug ( project.getTitle() + ": processing " + build.getQualifiedName() );
       
-      int TotalErrors = 0;
-      int TotalWarnings = 0;
-
       ResultFinderBase resultFinder = new ResultFinderBase ( session );
-      
-      // Walk the all the sub-tests
-      // Build tests are of the form Build.StageX.Error, etc.
-      TestIterator stages = build.selectChildren().iterator();
-      while ( stages.hasNext() ) {
-        TestEntity stage = stages.next();
-        logger.debug ( "processing stage " + stage.getQualifiedName() );
-        TestIterator children = stage.selectChildren().iterator();
-        int Errors = 0;
-        int Warnings = 0;
-        while ( children.hasNext() ) {
-          TestEntity child = children.next();
-          logger.debug ( "processing test " + child.getQualifiedName() );
-          if ( child.getQualifiedName().matches ( ".*Error.*" ) ) {
-            logger.info ( project.getTitle() + ": Found error: " + child.getQualifiedName() );
-            Errors++;
-          }
-          if ( child.getQualifiedName().matches ( ".*Warning.*" ) ) {
-            logger.info ( project.getTitle() + ": Found warning: " + child.getQualifiedName() );
-            Warnings++;
-          }
-        }
-        set_result( resultFinder, stage, "ErrorCount", Errors );
-        set_result( resultFinder, stage, "WarningCount", Warnings );
-        TotalErrors += Errors;
-        TotalWarnings += Warnings;
-      }
 
-      set_result( resultFinder, build, "ErrorCount", TotalErrors );
-      set_result( resultFinder, build, "WarningCount", TotalWarnings );
+      summarize_build( resultFinder, build );
       
       session.commit();
       session.flush();
@@ -87,6 +56,64 @@ public class SummarizeBuildTask implements Task {
     }
 
   }
+
+  /** Count up the errors in this build.
+   *
+   * Every subtest with a name ending in "*Error*" counts as a direct
+   * error for this build. It follows that tests with names that
+   * actually end in "Error*" are not counted as "builds"; they are
+   * just convenience tests to record specific errors in a
+   * build. However, subtests that have other names are treated as a
+   * subtree, and are processed recursively.
+   *
+   * The total number of direct errors for this build are summarized
+   * in a result called "SelfErrorCount". That added to the counts of
+   * the subtests gives a total error count for the tree, and is
+   * stored in a result called "ErrorCount".
+   *
+   * Similarly for warnings.
+   *
+   * The return value of this function is a two-element array
+   * containing the total error and warning counts for the tree rooted
+   * at build.
+   */
+  private int[] summarize_build( ResultFinderBase resultFinder, TestEntity build ) {
+    int TotalCounts[] = { 0, 0 };
+    int SelfErrors = 0;
+    int SelfWarnings = 0;
+
+    logger.debug ( "processing build " + build.getQualifiedName() );
+    
+    // Walk the all the sub-tests.
+    TestIterator children = build.selectChildren().iterator();
+    while ( children.hasNext() ) {
+      TestEntity child = children.next();
+
+      // If the name is "*.ErrorX" or "*.WarningX", then this test
+      // represents an error or warning. Otherwise, it represents
+      // another grouping that we should recurse into.
+      if( child.getQualifiedName().matches( ".*Error[^.]*" ) ) {
+        ++SelfErrors;
+      } else if( child.getQualifiedName().matches( ".*Warning[^.]*" ) ) {
+        ++SelfWarnings;
+      } else {
+        int[] counts = summarize_build( resultFinder, child );
+        TotalCounts[0] += counts[0];
+        TotalCounts[1] += counts[1];
+      }
+    }
+
+    TotalCounts[0] += SelfErrors;
+    TotalCounts[1] += SelfWarnings;
+
+    set_result( resultFinder, build, "ErrorCount", TotalCounts[0] );
+    set_result( resultFinder, build, "WarningCount", TotalCounts[1] );
+    set_result( resultFinder, build, "SelfErrorCount", SelfErrors );
+    set_result( resultFinder, build, "SelfWarningCount", SelfWarnings );
+
+    return TotalCounts;
+  }
+
 
   /**
      Set a summary value on a test, if it isn't there already.

@@ -63,6 +63,14 @@ public class TestImpl extends TestBase {
     return all;
   }
 
+  /** Get a tree node representing this test.
+   * This allows the subtests to be accessed via the tree processing
+   * code in FreeMarker.
+   */
+  public TestTreeNode getTree( String nodeType ) {
+    return new TestTreeNode( this, nodeType );
+  }
+
   /** Split the QualifiedName */
   public String[] splitQualifiedName () {
     return getQualifiedName().split ( "\\." );

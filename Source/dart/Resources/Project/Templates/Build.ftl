@@ -55,60 +55,64 @@
       <#assign errorcount = build.selectResult ( "ErrorCount" ).toList()[0] />
       <#assign warningcount = build.selectResult ( "WarningCount" ).toList()[0] />
 
-      <br><h3>${errorcount.getValue()?html} Errors, ${warningcount.getValue()?html} Warnings total</h3>
 
-      <#assign stages = build.selectChildren().toArray()/>
+      <!-- Generate the navigation menu -->
+      <p>
+      <ul>
+      <#visit build.getTree("DisplayMenu")>
+      </ul>
+      </p>
 
-      <table cellspacing=3 cellpadding=1>
-         <#list stages as stage >
-           <#assign stagename = stage.selectResult ( "StageName" ).toList()[0].getValue() />
-           <#assign errorcount = stage.selectResult ( "ErrorCount" ) />
-           <#assign warningcount = stage.selectResult ( "WarningCount" ) />
-           <tr><td valign=top><#if stage_index==0>Stages:</#if></td>
-           <td valign=top>
-             <a href="#stage${stage_index}">${stagename}</a></td><td>
- (<@displaySingleResult value=errorcount/> errors, <@displaySingleResult value=warningcount/> warnings)</td></tr>
-           </#list>
-      </table>
-
-      <#list stages as stage >
-        <#assign stagename = stage.selectResult ( "StageName" ).toList()[0].getValue() />
-        <#assign errorcount = stage.selectResult ( "ErrorCount" ).toList()[0] />
-        <#assign warningcount = stage.selectResult ( "WarningCount" ).toList()[0] />
-        <#assign log = stage.selectResult ( "Log" ).toList() />
-
-        <hr/>
-        <h2>
-          <a name="stage${stage_index}">
-           Stage: ${stagename?html} (${errorcount.getValue()?html} Errors, ${warningcount.getValue()?html} Warnings)
-          </a>
-        </h2>
-        <font size=-1><a href="#pagetop">[top]</a></font>
-
-        <br><b>Start time:</b> <@displaySingleResult value=stage.selectResult("StartDateTime")/>
-        <br><b>End time:</b> <@displaySingleResult value=stage.selectResult("EndDateTime")/>
-        <br><b>Command:</b> <tt><@displaySingleResult value=stage.selectResult("BuildCommand")/></tt>
-        <br><b>Return status:</b> <@displaySingleResult value=stage.selectResult("BuildStatus")/>
-    
-        <#if log?size == 1>
-          <h3>Log</h3>
-<pre>
-${log[0].getValue()?html}
-</pre>
+      <#macro @DisplayMenu>
+        <#local stagename = .node.getResultValue("StageName","NotAStage")>
+        <#if stagename != "NotAStage" >
+          <li>
+           <a href="#stage${.node.name}">${stagename?html}</a> (${.node.getResultValue("ErrorCount","Unknown")?html} errors, ${.node.getResultValue("WarningCount","Unknown")?html} warnings)
+           <ul><#recurse/></ul>
+          </li>
         <#else>
-          <#assign children = stage.selectChildren().toArray()?sort/>
-          <#list children as child >
-            <hr/>
-            <h3><#if child.name?matches ( ".*Error.*" )> Error <#else> Warning </#if>Build Log Line ${child.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
-            <br/>
-        File: <b> ${child.getResultValue ( "SourceFile", "Unknown"  )?html}</b>
-        Line: <b> ${child.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>
-        <pre>${child.getResultValue ( "PreContext", "" )}
+          <#recurse/>
+        </#if>
+      </#macro>
+
+
+      <!-- Generate the actual build error entries -->
+      <#visit build.getTree("DisplayDetails")>
+
+      <#macro @DisplayDetails>
+        <#local iserror = .node.name?matches(".*Error[^.]*")>
+        <#local iswarning = .node.name?matches(".*Warning[^.]*")>
+
+        <#if iserror || iswarning>
+          <#local child = .node>
+          <hr/>
+           <h3><#if iserror> Error <#else> Warning </#if>Build Log Line ${child.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
+           File: <b> ${child.getResultValue ( "SourceFile", "Unknown"  )?html}</b>
+           Line: <b> ${child.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>
+           <pre>${child.getResultValue ( "PreContext", "" )}
 <b>${child.getResultValue ( "Text", "" )}</b>
 ${child.getResultValue ( "PostContext", "" )}</pre>
-          </#list>
+        <#else>
+          <#local stagename = .node.getResultValue("StageName","NotAStage")>
+          <#if stagename != "NotAStage" >
+            <hr/>
+            <h2>
+              <a name="stage${.node.name}">
+              Stage: ${stagename?html} (${.node.getResultValue("ErrorCount","Unknown")?html} Errors, ${.node.getResultValue("WarningCount","Unknown")?html} Warnings)
+              </a>
+            </h2>
+            <br><b>Build command: </b><tt>${.node.getResultValue("BuildCommand","(Unknown)")?html}</tt>
+            <br><b>Build return status: </b>${.node.getResultValue("BuildStatus","(Unknown)")?html}
+            <br><b>Start Time: </b>${.node.getResultValue("StartDateTime","(Unknown)")?html}
+            <br><b>End Time: </b>${.node.getResultValue("EndDateTime","(Unknown)")?html}
+            <#local log = .node.getResultValue("Log","NotAvailable")>
+            <#if log != "NotAvailable">
+            <br><b>Log: </b><pre>${log?html}</pre>
+            </#if>
+          </#if>
         </#if>
-      </#list>
+        <#recurse/>
+      </#macro>
     </#if>
 </div>
 </body>

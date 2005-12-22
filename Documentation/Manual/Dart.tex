@@ -1737,6 +1737,64 @@ and contain the count of sub-Tests that have passed, failed or were
 not run.  If a Mesurement called ``Output'' is present, it will be
 displayed on the Test page as the standard output of the Test.
 
+\subsection{Builds}
+Like Test results, Build results are also presented as a line on the
+Dashboard by the origin Submission. To be recognized as the Build
+class, a submitted Test's name must begin with ``.Build''. Build ``tests''
+fall into three types: lines, stages, and placeholders.
+
+\paragraph{Lines} A build line represents a specific error or warning in a
+build. It has the following (optional) measurements:
+\begin{description}
+\item[SourceFile] The name of the source file containing the error or warning.
+\item[SourceLineNumber] The line in the source file.
+\item[BuildLogLine] The line number in the build log from which this
+  error or warning was detected.
+\item[Text] The text of the error or warning, typically from the build log.
+\item[PreContext] A few lines of the log before the error or warning.
+\item[PostContext] A few lines of the log after the error or warning.
+\item[RepeatCount] The number of times this error or warning is
+  repeated elsewhere in the build log.
+\end{description}
+A build line test must be named \texttt{.Build*.Error\emph{N}} or
+\texttt{.Build*.Warning\emph{N}}, where \emph{N} is an optional
+sequence of digits. Examples of valid names are
+\texttt{Build.Error032} and \texttt{Build.Stage5.Error}.
+
+
+\paragraph{Stages} Esstentially, a stage represents a single build
+log. For example, a project could have three stages, such as
+``configure'', ``make bootstrap'', and ``make''. These stages are
+typically launched sequentially, and their results are typically
+processed separately. Each stage contains the following measurements:
+\begin{description}
+\item[StageName] A human readable name for the stage.
+\item[StartDateTime] The start time of the stage.
+\item[EndDateTime] The end time of the stage.
+\item[BuildCommand] The command used to launch this stage.
+\item[BuildStatus] The return status of the build command.
+\item[Log] The build log. This is often omitted if the log has been
+  parsed into specified error and warning lines.
+\end{description}
+
+\paragraph{Placeholder} A placeholder is simply a placeholder test
+used to define a node in the test subtree. A placeholder is \emph{not}
+named \texttt{*Error\emph{N}} or \texttt{*Warning\emph{N}}, and
+\emph{does not} have a measurement named ``StageName''.
+
+As a example, the three stage build example could be represented by a
+placeholder test called \texttt{.Build}, a stage called
+\texttt{.Build.StageA} with a StageName of ``Configure'', a stage
+called \texttt{.Build.StageB} with a StageName of ``Bootstrap'', and a
+stage called \texttt{.Build.StageC} with a StageName of ``Build''.
+Each of the stages may have build lines (\eg
+\texttt{.Build.StageA.Warning8}) to represent errors detected during
+that stage.
+
+Of course, a project that only has one build stage does not need a
+elaborate tree of build stages. It will simply have a single stage
+called \texttt{.Build}.
+
 \subsection{Coverage}
 Coverage results are displayed in a separate place at the bottom of
 the Dashboard.  To be considered Coverage results, a Test's Name must
