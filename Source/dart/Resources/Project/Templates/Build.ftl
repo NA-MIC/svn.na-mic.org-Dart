@@ -107,7 +107,7 @@ ${child.getResultValue ( "PostContext", "" )}</pre>
             <br><b>End Time: </b>${.node.getResultValue("EndDateTime","(Unknown)")?html}
             <#local log = .node.getResultValue("Log","NotAvailable")>
             <#if log != "NotAvailable">
-            <br><b>Log: </b><pre>${log?html}</pre>
+            <br><b>Log: </b>${fetchdata(log)}
             </#if>
           </#if>
         </#if>
