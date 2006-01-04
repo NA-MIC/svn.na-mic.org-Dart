@@ -281,8 +281,8 @@
   </target>
   
   <target name="createpostgres" depends="compile">
-    <delete dir="TestServer" failonerror="false"/>
-    <java classname="dart.DartServer" fork="true">
+    <delete dir="${user.dir}/TestServer" failonerror="false"/>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
       <classpath refid="classpath"/>
       <arg value="-c"/>
       <arg value="TestProject"/>
@@ -291,7 +291,7 @@
       <arg value="-d"/>
       <arg value="postgres"/>
     </java>
-    <java classname="dart.DartServer">
+    <java classname="dart.DartServer" dir="${user.dir}">
       <classpath refid="classpath"/>
       <arg value="-i"/>
       <arg value="-r"/>
