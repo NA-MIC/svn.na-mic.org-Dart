@@ -245,6 +245,7 @@ public class Project extends Container {
     commandManager.start ( this );
     database.start ( this );
     trackManager.start ( this );
+    listenerManager.start ( this );
 
     // Start up a background job to process the queue
     for ( int i = 0; i < Tasks.size(); i++ ) {

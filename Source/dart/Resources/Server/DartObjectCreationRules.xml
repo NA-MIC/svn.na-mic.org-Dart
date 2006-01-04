@@ -50,7 +50,7 @@
 
       <pattern value="Listener">
 
-        <call-method-rule methodname="addListener" paramcount="3" paramtypes="java.lang.String,java.util.Properties,java.util.ArrayList"/>
+        <call-method-rule methodname="addListener" paramcount="2" paramtypes="java.lang.String,java.util.Properties"/>
 
         <call-param-rule paramnumber='0' pattern="Type"/>
 
@@ -64,14 +64,6 @@
           <call-param-rule paramnumber='1' from-stack='true'/>
         </pattern>
 
-        <pattern value="ListenTo">
-          <object-create-rule classname="java.util.ArrayList"/>
-          <pattern value="Type">
-            <call-method-rule methodname="add" paramtypes="java.lang.Object" paramcount="1"/>
-            <call-param-rule paramnumber="0"/>
-          </pattern>
-          <call-param-rule paramnumber='2' from-stack='true'/>
-        </pattern>
       </pattern>
 
       <set-next-rule methodname="setListenerManager"/>

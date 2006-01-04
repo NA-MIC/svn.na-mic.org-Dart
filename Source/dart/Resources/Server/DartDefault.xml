@@ -131,9 +131,6 @@
   <ListenerManager>
     <Listener>
       <Type>dart.server.listener.SubmissionErrorsListener</Type>
-      <ListenTo>
-        <Type>dart.server.event.SubmissionEvent</Type>
-      </ListenTo>
       <Properties/>
     </Listener>
   </ListenerManager>

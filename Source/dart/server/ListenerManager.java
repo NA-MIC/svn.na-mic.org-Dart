@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.*;
 import javax.servlet.*;
 import org.apache.log4j.*;
-
+import java.lang.reflect.*;
 import dart.DartServer;
 import dart.server.Container;
 import dart.server.Project;
@@ -18,23 +18,24 @@ import dart.server.listener.*;
 public class ListenerManager {
   static Logger logger = Logger.getLogger ( ListenerManager.class );   
 
+  Project project = null;
   ArrayList listeners = new ArrayList ();
 
-  public void addListener ( String cl, Properties properties, ArrayList listenTo ) {
+  public void addListener ( String cl, Properties properties ) {
     Listener listener = null;
     logger.debug ( "Adding listener: " + cl );
     try {
       // Create an instance
       listener = (Listener) Class.forName ( cl ).newInstance();
       listener.setProperties ( properties );
-      listener.setListenTo ( listenTo );
       listeners.add ( listener );
     } catch ( Exception e ) {
       logger.error ( "Failed to create a listener of type: " + cl, e );
     }
   }
 
-  public void start ( Container p ) throws Exception {
+  public void start ( Project p ) throws Exception {
+    project = p;
     logger.debug ( "Starting ListenerManager" );
   }
 
@@ -46,12 +47,21 @@ public class ListenerManager {
     String name = e.getClass().getName();
     while ( it.hasNext() ) {
       Listener l = (Listener) it.next();
-      if ( l.canListenTo ( name ) ) {
+      try {
+        
+        // Try to find the method
+        Method method = null;
         try {
-          l.trigger ( e );
-        } catch ( Exception ex ) {
-          logger.error ( "Error triggering event " + e + " to Listener " + l, ex );
+          // See if the Listener can handle the event, silently fail.
+          method = l.getClass().getDeclaredMethod ( "trigger", new Class[] { project.getClass(), Class.forName ( name ) } );
+        } catch ( NoSuchMethodException methodException ) {
+          logger.debug ( "No trigger method on " + l.getClass().getName() + " for " + name );
         }
+        if ( method != null ) {
+          method.invoke ( l, new Object[] { project, e } );
+        }
+      } catch ( Exception ex ) {
+        logger.error ( "Error triggering event " + e + " to Listener " + l, ex );
       }
     }
   }

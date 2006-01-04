@@ -11,25 +11,11 @@ import dart.server.listener.*;
 abstract public class Listener {
   static Logger logger = Logger.getLogger ( Listener.class );   
   Properties properties;
-  ArrayList listenTo;
   public void setProperties ( Properties p ) { properties = p; }
-  public void setListenTo ( ArrayList l ) { listenTo = l; };
-  public boolean canListenTo ( Class c ) {
-    return canListenTo ( c.getName() );
-  }
-  abstract public void trigger ( Event e ) throws Exception;
-  public boolean canListenTo ( String name ) {
-    Iterator it = listenTo.iterator();
-    try {
-      while ( it.hasNext() ) {
-        if ( name.equalsIgnoreCase ( (String)it.next() ) ) {
-          return true;
-        }
-      }
-    } catch ( Exception e ) {
-      logger.error ( "Error in canListenTo", e );
-    }
-    return false;
+
+  public void trigger ( Project project, Event e ) throws Exception
+  {
+    throw new Exception ( "unhandled event: " + e );
   }
 }
 

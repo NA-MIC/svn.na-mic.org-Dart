@@ -138,6 +138,7 @@
   <target name="coverage" depends="pretest,setproxy1,setproxy2">
     <mkdir dir="TestLog"/>
     <mkdir dir="TestLog/Coverage"/>
+    
     <cobertura-instrument>
       <fileset dir="${classes.dir}">
         <include name="**/*.class"/>

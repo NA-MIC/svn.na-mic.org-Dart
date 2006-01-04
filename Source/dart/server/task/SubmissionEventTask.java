@@ -16,6 +16,7 @@ import dart.server.event.*;
 
 public class SubmissionEventTask implements Task {
   static Logger logger = Logger.getLogger ( SubmissionEventTask.class );   
+
   public void execute ( Project project, Properties properties ) throws Exception {
     // Summarize the tests for a given submission
     String SubmissionId = properties.getProperty ( "SubmissionId" );

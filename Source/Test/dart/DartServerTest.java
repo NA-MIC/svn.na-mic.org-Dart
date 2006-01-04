@@ -91,10 +91,6 @@ public class DartServerTest extends TestCase {
     server.doShutdown();
   }
 
-  public void testKnownFailure () throws Exception {
-    fail ( "known failure" );
-  }
-
   public static Test suite() {
     TestSuite tests = new TestSuite();
     tests.addTest ( new DartServerTest ( "testCreate" ) );
@@ -103,7 +99,6 @@ public class DartServerTest extends TestCase {
     tests.addTest ( new DartServerTest ( "testCreateSchema" ) );
     tests.addTest ( ProjectLiveTestSuite.suite() );
     tests.addTest ( new DartServerTest ( "testShutdown" ) );
-    tests.addTest ( new DartServerTest ( "testKnownFailure" ) );
     
     TestSetup setup = new TestSetup(tests) {
         protected void setUp( ) throws Exception {

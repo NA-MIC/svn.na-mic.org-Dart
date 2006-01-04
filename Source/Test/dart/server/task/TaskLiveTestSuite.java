@@ -61,7 +61,6 @@ public class TaskLiveTestSuite extends TestCase {
 
     File f = new File ( DartServerTest.getProjectDirectory(), "Archive" );
     
-    
     Properties properties = new Properties();
     properties.setProperty ( "ArchiverList", "Test" );
     properties.setProperty ( "ArchiverList.Test.ArchiveDirectory", f.getPath() + File.separator + "Foo" );
