@@ -249,21 +249,21 @@
   </target>
 
   <target name="createderbyserver" depends="compile">
-    <delete dir="DartServer" failonerror="false"/>
-    <java classname="dart.DartServer" fork="true">
+    <delete dir="${user.dir}/DartServer" failonerror="false"/>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
       <classpath refid="classpath"/>
       <arg value="--createserver"/>
       <arg value="DartServer"/>
       <arg value="-d"/>
       <arg value="derby"/>
     </java>
-    <java classname="dart.DartServer" fork="true">
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
       <classpath refid="classpath"/>
       <arg value="--initializeserver"/>
       <arg value="DartServer"/>
     </java>
-    <delete dir="TestProject" failonerror="false"/>
-    <java classname="dart.DartServer" fork="true">
+    <delete dir="${user.dir}/TestProject" failonerror="false"/>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
       <classpath refid="classpath"/>
       <arg value="-c"/>
       <arg value="TestProject"/>
@@ -271,7 +271,7 @@
       <arg value="derby"/>
       <arg value="DartServer"/>
     </java>
-    <java classname="dart.DartServer" fork="true">
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
       <classpath refid="classpath"/>
       <arg value="-r"/>
       <arg value="-i"/>
