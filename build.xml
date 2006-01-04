@@ -276,6 +276,7 @@
       <classpath refid="classpath"/>
       <arg value="-r"/>
       <arg value="-i"/>
+      <arg value="-R"/>
       <arg value="DartServer"/>
       <arg value="TestProject"/>
     </java>
@@ -296,6 +297,7 @@
       <classpath refid="classpath"/>
       <arg value="-i"/>
       <arg value="-r"/>
+      <arg value="-R"/>
       <arg value="TestServer"/>
       <arg value="TestProject"/>
     </java>
