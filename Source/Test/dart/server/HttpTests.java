@@ -24,9 +24,9 @@ public class HttpTests extends TestCase {
 
   boolean hasContent ( String u ) throws Exception {
     URL url = new URL ( u );
-    URLConnection conn = url.openConnection();
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.connect();
-    return ( conn.getContent() != null );
+    return ( conn.getResponseCode() == HttpURLConnection.HTTP_OK );
   }
 
   public void testPingServer () throws Exception {
@@ -45,12 +45,17 @@ public class HttpTests extends TestCase {
     assertTrue ( hasContent ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Chart?type=time&history=30&title=zion.kitware-Linux-g%2B%2B-3.3-Nightly&xlabel=Date&ylabel=Time&legend=test&width=400&height=300&submissionid=1&testname=.Test.Testing.Code.Common.PrintSelf-Common" ) );
   }
 
+  public void testNonexistentSubmissionOverview () throws Exception {
+    assertFalse ( hasContent ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Dashboard/Submission?submissionid=165443" ) );
+  }
+
   public static Test suite() {
     TestSuite tests = new TestSuite();
     tests.addTest ( new HttpTests ( "testPingServer" ) );
     tests.addTest ( new HttpTests ( "testSubmissionOverview" ) );
     tests.addTest ( new HttpTests ( "testTestDetailPage" ) );
     tests.addTest ( new HttpTests ( "testChart" ) );
+    tests.addTest ( new HttpTests ( "testNonexistentSubmissionOverview" ) );
     tests.addTest ( TaskLiveTestSuite.suite() );
     return tests;
   }
