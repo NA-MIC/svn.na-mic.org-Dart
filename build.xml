@@ -142,6 +142,7 @@
     <cobertura-instrument>
       <fileset dir="${classes.dir}">
         <include name="**/*.class"/>
+        <exclude name="qed/**"/>
       </fileset>
     </cobertura-instrument>
 

@@ -30,6 +30,12 @@ public class TaskLiveTestSuite extends TestCase {
     assertTrue ( "Statistics saved", new File ( DartServerTest.getProjectDirectory(), "Statistics.txt" ).exists() );
   }
   
+  public void testGarbageCollection() throws Exception {
+    // Get the live project
+    Task task = (Task)Class.forName ( "dart.server.task.GarbageCollectionTask" ).newInstance();
+    task.execute ( project, null );
+  }
+  
   public void testProcessXMLLongCorrect() throws Exception {
     // Find the file
     URL url = DartServer.class.getClassLoader().getResource ( "dart/Resources/Test/TestLongCorrect.xml.gz" );
@@ -72,6 +78,7 @@ public class TaskLiveTestSuite extends TestCase {
   public static Test suite() {
     TestSuite tests = new TestSuite();
     tests.addTest ( new TaskLiveTestSuite ( "testSaveStatistics" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testGarbageCollection" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLLongCorrect" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLWithZip" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );

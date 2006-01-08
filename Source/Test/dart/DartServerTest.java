@@ -98,6 +98,7 @@ public class DartServerTest extends TestCase {
     tests.addTest ( new DartServerTest ( "testStart" ) );
     tests.addTest ( new DartServerTest ( "testCreateSchema" ) );
     tests.addTest ( ProjectLiveTestSuite.suite() );
+    tests.addTest ( XMLRPCTestSuite.suite() );
     tests.addTest ( new DartServerTest ( "testShutdown" ) );
     
     TestSetup setup = new TestSetup(tests) {
