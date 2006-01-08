@@ -36,6 +36,14 @@ public class TaskLiveTestSuite extends TestCase {
     task.execute ( project, null );
   }
   
+  public void testDeleteDataTask() throws Exception {
+    // Get the live project
+    Task task = (Task)Class.forName ( "dart.server.task.DeleteDataTask" ).newInstance();
+    Properties props = new Properties();
+    props.put ( "ResultValue", "1" );
+    task.execute ( project, props );
+  }
+  
   public void testProcessXMLLongCorrect() throws Exception {
     // Find the file
     URL url = DartServer.class.getClassLoader().getResource ( "dart/Resources/Test/TestLongCorrect.xml.gz" );
@@ -79,6 +87,7 @@ public class TaskLiveTestSuite extends TestCase {
     TestSuite tests = new TestSuite();
     tests.addTest ( new TaskLiveTestSuite ( "testSaveStatistics" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testGarbageCollection" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testDeleteDataTask" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLLongCorrect" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLWithZip" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );
