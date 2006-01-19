@@ -1190,7 +1190,7 @@ ProxyPass /Dart/ http://localhost:8081/
 ProxyPassReverse /Dart/ http://localhost:8081/
 \end{verbatim}
 
-Finally, we need to rewrite some urls.  Each Dart project has a set of
+Finally, we need to rewrite some urls.  The Dart server and each Dart project have their own set of
 resources (icons, images, and style sheets) that are referenced by the
 dynamically generated web pages.  The urls to these resources need to
 be redirected to the Dart server.  This requires the activation of the rewrite engine
@@ -1198,8 +1198,9 @@ be redirected to the Dart server.  This requires the activation of the rewrite e
 RewriteEngine on
 \end{verbatim}
 
-and the establishing a rewrite rule for \emph{each} Dart project.  If your Dart project is named \texttt{TestProject}, then the rewrite rule will be
+and the establishing a rewrite rule for the Dart server and for \emph{each} Dart project.  If your Dart server is called \texttt{DartServer} and your project is named \texttt{TestProject}, then the rewrite rules will be
 \begin{verbatim}
+RewriteRule ^/DartServer/(.*)$ http://localhost:8081/DartServer/$1 [P]
 RewriteRule ^/TestProject/(.*)$ http://localhost:8081/TestProject/$1 [P]
 \end{verbatim}
 
