@@ -45,12 +45,12 @@ public class HttpTests extends TestCase {
   void assertPageContains( String url, String[] regexps ) throws Exception {
     WebResponse resp = webConv.getResponse( url );
     String webtext = resp.getText();
-    java.lang.System.out.println( "Text: "+webtext );
+    // java.lang.System.out.println( "Text: "+webtext );
     for( int i = 0; i < regexps.length; ++i ) {
       Pattern p = Pattern.compile( regexps[i] );
       Matcher m = p.matcher( webtext );
       boolean r = m.find();
-      java.lang.System.out.println( "Find: "+regexps[i]+": "+r );
+      // java.lang.System.out.println( "Find: "+regexps[i]+": "+r );
       assertTrue( r );
     }
   }
@@ -86,6 +86,42 @@ public class HttpTests extends TestCase {
     assertFalse ( hasContent ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Dashboard/Submission?submissionid=165443" ) );
   }
 
+  public void testZipIndex () throws Exception {
+    assertTrue ( hasContent ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Zip/0a/5c/98/0a5c98d515ea86d3598e00ad05428b0a.zip/index.html" ) );
+  }
+
+  public void testZipContent () throws Exception {
+    String [] matches = {
+      "Coverage Report - All Packages"
+    };
+    assertPageContains ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Zip/0a/5c/98/0a5c98d515ea86d3598e00ad05428b0a.zip/frame-summary.html", matches );
+  }
+    
+  public void testTestPage () throws Exception {
+    String [] matches = {
+      "practical",
+      "testDirectories"
+    };
+    assertPageContains ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Dashboard/TestCatalog?trackid=2&submissionid=2&roottest=.Test.dart.server.ProjectLiveTestSuite", matches );
+  }
+
+  public void testTestPageAllSubtests () throws Exception {
+    String [] matches = {
+      "caleb.crd",
+      "AutomaticMeshTest"
+    };
+    assertPageContains ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Dashboard/TestCatalog?trackid=1&submissionid=1&roottest=&order=ascending&showall=1", matches );
+  }
+    
+  public void testTestDetail () throws Exception {
+    String [] matches = {
+      "caleb.crd",
+      "Mesh",
+      "Observers:",
+      "0.817079"
+    };
+    assertPageContains ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.projectName + "/Dashboard/Test?testname=.Test.Examples.DataRepresentation.Mesh.AutomaticMeshTest&submissionid=1", matches );
+  }
     
 
   public static Test suite() {
@@ -95,7 +131,11 @@ public class HttpTests extends TestCase {
     tests.addTest ( new HttpTests ( "testTestDetailPage" ) );
     tests.addTest ( new HttpTests ( "testChart" ) );
     tests.addTest ( new HttpTests ( "testNonexistentSubmissionOverview" ) );
-    tests.addTest ( TaskLiveTestSuite.suite() );
+    tests.addTest ( new HttpTests ( "testZipIndex" ) );
+    tests.addTest ( new HttpTests ( "testZipContent" ) );
+    tests.addTest ( new HttpTests ( "testTestPage" ) );
+    tests.addTest ( new HttpTests ( "testTestPageAllSubtests" ) );
+    tests.addTest ( new HttpTests ( "testTestDetail" ) );
     return tests;
   }
 }
