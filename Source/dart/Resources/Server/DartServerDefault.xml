@@ -37,6 +37,11 @@
       <Context>/Command/</Context>
       <Properties/>
     </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.User</Class>
+      <Context>/User/*</Context>
+      <Properties/>
+    </Servlet>
   </ServletManager>
 
   <!-- XML-RPC Commands to respond to -->

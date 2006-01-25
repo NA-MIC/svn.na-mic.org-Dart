@@ -126,7 +126,11 @@ public class Project extends Container {
     double v = Double.parseDouble ( (String) stats.get ( key ) ) + i;
     stats.put ( key, Double.toString ( v ) );
   }
-    
+
+  public Server getServer() {
+    return dartServer;
+  }
+  
   public void setBaseDirectory ( String d ) {
     super.setBaseDirectory( d );
     dataDirectory = new File ( d, "Data" );
@@ -245,8 +249,9 @@ public class Project extends Container {
     commandManager.start ( this );
     database.start ( this );
     trackManager.start ( this );
+    messengerManager.start ( this );
     listenerManager.start ( this );
-
+    
     // Start up a background job to process the queue
     for ( int i = 0; i < Tasks.size(); i++ ) {
       Object[] o = (Object[]) Tasks.get ( i );
@@ -274,7 +279,7 @@ public class Project extends Container {
             trigger.setDescription ( title + ": " + Type );
           }
           scheduler.scheduleJob ( detail, trigger );
-          logger.debug ( title + ": Started " + title );
+          logger.debug ( title + ": Scheduled task " + Type );
         } else {
           logger.error ( title + ": Class: " + Type + " is not a " + Task.class );
         }
@@ -351,6 +356,20 @@ public class Project extends Container {
       logger.error( "Failed to create HTTP context", e );
     }
 
+//     try {
+//       NotificationTask mail = new NotificationTask();
+//       Properties prop = new Properties();
+//       prop.setProperty("to", "millerjv@research.ge.com");
+//       prop.setProperty("from", "millerjv@research.ge.com");
+//       prop.setProperty("smtpHost", "crdns.research.ge.com");
+//       prop.setProperty("smtpPort", "25");
+//       prop.setProperty("subject", "Dart notificaton: ");
+//       prop.setProperty("content", "Hey jim");
+//       mail.execute(this, prop );
+//     }
+//     catch (Exception e) {
+//       logger.info("Failed to mail notification, " + e);
+//     }
   }
 
   public void setTrackManager ( TrackManager t ) { trackManager = t; }

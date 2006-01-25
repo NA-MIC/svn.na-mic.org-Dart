@@ -31,6 +31,31 @@
   .icon { vertical-align: text-bottom; border: none; }
   .chart { border: 1px solid #0000aa;}
 
+  #login { 
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 85%;
+  text-align: right;
+  margin: 0 0 0 0.2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  background: #ffffff;
+  }
+  #login a:link, #login a:visited { 
+   text-decoration: none;
+  }
+  .loginicon { vertical-align: text-bottom; border: none; }
+
+  input[type="submit"] {
+    margin-top: 1px;
+    padding: 0 0.3em 0.1em 0.3em !important;
+    font-size: 95%;
+    height: 1.5em !important;
+    cursor: pointer;
+    background-color: White;
+    border: 2px solid #2f6fab;
+  }
+
   .left-content { 
   float: left;
   width: 55%;
@@ -111,6 +136,10 @@
 
   .content {  /* This is used for content that will appear below the menu */
     clear: left;
+  }
+
+  .clear { 
+  clear: both;
   }
 
 

@@ -26,6 +26,23 @@ ${projectProperties["Menu"]}
 </#if>
 </#macro>
 
+<#-- method to display the user -->
+<#macro displayLogin>
+<#if session?exists && session.user?exists>
+<div id="login">
+<#if session.DisplayName?exists>
+<img class="loginicon" src="/${projectName}/Resources/Icons/User.png"><a href="/${projectName}/User/User">${session.DisplayName?html}</a> | <a href="/${projectName}/User/User?Logout=true">logout</a>
+<#else>
+<img class="loginicon" src="/${projectName}/Resources/Icons/User.png"><a href="/${projectName}/User/User">${session.user?html}</a> | <a href="/${projectName}/User/User?Logout=true">logout</a>
+</#if>
+</div>
+<#else>
+<div id="login">
+<img class="loginicon" src="/${projectName}/Resources/Icons/User.png"><a href="/${projectName}/User/UserLogin">login or create account</a>
+</div>
+</#if>
+</#macro>
+
 <#-- for each test in the list, set the default result value -->
 <#macro displaySingleResult value unavail="(unavailable)">
 <#local vallist = value.toList()>

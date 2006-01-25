@@ -85,6 +85,11 @@
       <Properties/>
     </Servlet>
     <Servlet>
+      <Class>dart.server.servlet.User</Class>
+      <Context>/User/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
       <Class>dart.server.servlet.ZipServlet</Class>
       <Context>/Zip/*</Context>
       <Properties>
@@ -127,11 +132,30 @@
          -->
   </ServletManager>
 
+  <!-- MessengerManager. Manage different transport mechanisms for notifications (typically used by an event listener) -->
+  <MessengerManager>
+    <Messenger>
+      <Name>SMTP</Name>
+      <Type>dart.server.messenger.SMTPMessenger</Type>
+      <!-- The properties specified on the SMTPMessenger are passed directly 
+           to JavaMail to configure the mail host, port, protocols, 
+           authentication, encryption, etc. -->
+      <Properties>
+        <Property name="mail.host">localhost</Property>
+        <Property name="mail.port">25</Property>
+        <Property name="mail.from">dart@localhost</Property>
+        <Property name="mail.transport.protocol">smtp</Property>
+      </Properties>
+    </Messenger>
+  </MessengerManager>
+
   <!-- Listener manager.  Do specific things when events happen in the Project -->
   <ListenerManager>
     <Listener>
       <Type>dart.server.listener.SubmissionErrorsListener</Type>
-      <Properties/>
+      <Properties>
+        <Property name="Messenger">SMTP</Property>
+      </Properties>
     </Listener>
   </ListenerManager>
 

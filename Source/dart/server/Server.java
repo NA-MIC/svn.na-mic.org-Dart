@@ -25,16 +25,17 @@ import org.apache.commons.vfs.VFS;
 import org.apache.log4j.Logger;
 import org.mortbay.http.HttpContext;
 import org.mortbay.http.HttpServer;
-import org.mortbay.http.SecurityConstraint;
 import org.mortbay.http.SocketListener;
+import org.mortbay.http.JDBCUserRealm;
 import org.mortbay.http.handler.ResourceHandler;
+import org.mortbay.http.handler.SecurityHandler;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.impl.DirectSchedulerFactory;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-  import qed.server.*;
+import qed.server.*;
 
 /**
    Manager for multiple Projects
@@ -98,6 +99,11 @@ public class Server extends Container
   public void setHttpPort ( String p ) { httpPort = Integer.parseInt ( p ); }
 
   /**
+     Get the Http Port
+  */
+  public int getHttpPort() { return httpPort; }
+
+  /**
      Lookup the project by name
      @param name Name of the project to find
   */
@@ -147,6 +153,9 @@ public class Server extends Container
       }
     }
 
+    // Shutdown the realm???
+
+    
     // Shutdown jetty
     try {
       logger.warn( "Waiting for HTTP server shutdown" );
@@ -245,25 +254,15 @@ public class Server extends Container
       defaultNotFoundHandler.setDartServer( this );
       defaultContext.addHandler( defaultNotFoundHandler );
 
-      
-//       logger.info( "Establishing JDBC user realm" );
-//       JDBCUserRealm realm = new JDBCUserRealm("Dart");
-//       URL realmConfigurationFile = DartServer.class.getClassLoader().getResource( "dart/Resources/Server/realm.properties" );
-//       realm.loadConfig( realmConfigurationFile.getPath() );
-//       realm.connectDatabase();
-//       httpServer.addRealm(realm);
-      
-      logger.info( "Creating security constraint" );
-      SecurityConstraint security = new SecurityConstraint();
-      security.setAuthenticate( false);
-      //security.addRole( "Dart.Administrator" );
-      security.setName( "Dart.Administrator" );
+      // add realm to authenticate users
+      logger.info( "Establishing JDBC user realm" );
+      JDBCUserRealm realm = new JDBCUserRealm("Dart");
+      String realmConfigurationFile = baseDirectory + "/realm.properties";
+      logger.info("Realm configuration file: " + realmConfigurationFile );
+      realm.loadConfig( realmConfigurationFile );
+      realm.connectDatabase();
+      httpServer.addRealm(realm);
 
-      // HttpContext context = httpServer.getContext( "/TestServer/*" );
-      // context.addSecurityConstraint( "/", security );
-//       context.addSecurityConstraint( "/TestServer/*", security );
-//       context.setRealmName(realm.getName());
-        
     } catch ( Exception e ) {
       logger.error( "Failed to initialize HTTP server", e );
       System.exit ( 1 );
@@ -275,6 +274,8 @@ public class Server extends Container
       httpContext.setResourceBase( htmlDirectory.getAbsolutePath() );
       // add all the servlets that were specified in Server.xml
       servletManager.start ( this, httpContext );
+      // add a security handler
+      httpContext.addHandler( new SecurityHandler() );
       // add a resource manager for static content
       ResourceHandler handler;
       handler = new ResourceHandler();
@@ -294,12 +295,13 @@ public class Server extends Container
       System.exit ( 1 );
     }
 
-    // In turn, load each project, do any house keeping it may need and start it
+    // In turn, load each project, do any housekeeping it may need and start it
     Iterator i = projectNames.keySet().iterator();
     while ( i.hasNext() ) {
       String name = (String) i.next();
       boolean isOK = false;
       try {
+        logger.info( "Trying to load Dart project " + name);
         Project p = Project.loadProject ( name );
         if ( p != null ) {
           projects.put ( p.getTitle(), p );
@@ -321,7 +323,7 @@ public class Server extends Container
       if ( isOK == false ) {
         try {
           // Try for a QED
-          logger.info ( "Trying to load a QED" );
+          logger.info( "Trying to load H0 project " + name);
           QED qed = QED.loadQED ( name );
           if ( qed != null ) {
             qeds.put ( qed.getTitle(), qed );
@@ -435,18 +437,29 @@ public class Server extends Container
       // Get a FreeMarker configuration engine
       Configuration cfg = new Configuration();
       cfg.setClassForTemplateLoading ( Server.class, "/" );
-      Template template = cfg.getTemplate ( "dart/Resources/Server/DartServerDefault.xml" );
-      outTemplate = new BufferedWriter ( new FileWriter ( new File ( dir, "Server.xml" ) ) );
+      
       Map root = new HashMap();
       root.put ( "ServerName", name );
       root.put ( "ServerDirectory", dir.toString() );
+      root.put ( "ServerDirectoryURL", dir.toURI() );
       if ( db != null ) {
         root.put ( "Type", db.toLowerCase() );
       } else {
         root.put ( "Type", "derby" );
       }
+
+      // Generate Server.xml
+      Template template = cfg.getTemplate ( "dart/Resources/Server/DartServerDefault.xml" );
+      outTemplate = new BufferedWriter ( new FileWriter ( new File ( dir, "Server.xml" ) ) );
       template.process ( root, outTemplate );
       outTemplate.flush();
+
+      // Generate realm.properties
+      template = cfg.getTemplate ( "dart/Resources/Server/realm.properties" );
+      outTemplate = new BufferedWriter ( new FileWriter ( new File ( dir, "realm.properties" ) ) );
+      template.process ( root, outTemplate );
+      outTemplate.flush();
+      
 
       if ( db != null ) {
         Writer out = new BufferedWriter ( new FileWriter ( new File ( dir, "ServerSchema.sql" ) ) );

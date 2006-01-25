@@ -25,6 +25,7 @@
   </head>
 <body>
 
+<@displayLogin />
 <table border="0" cellpadding="0" cellspacing="2" width="100%">
 <tr>
 <td align="center" valign="middle" height="100%">
@@ -310,6 +311,20 @@
   <img class="chart" src="/${projectName}/Chart?type=time&measurement=${measurement?url}&history=30&title=${submission.site?url}-${submission.buildName?url}-${submission.type?url}&xlabel=Date&ylabel=${measurement?url}&width=400&height=300&submissionid=${submission.submissionId?url}&testname=${testname}"><br><br>
 </#if>    
 </div>
+
+<#else>
+<#-- No submission specified -->
+<p>Either a valid submission id must be specified or a submission must be specified with a valid tuple (site, buildname, track, timestamp). Submission results are not immediately available after transfering data to the Dart server. This page may be available in a few minutes.</p>
+<hr>
+<br>
+<b>submissionid</b> = <#if parameters.submissionid?exists>${parameters.submissionid[0]}<#else>&lt;Unknown&gt;</#if><br><br>
+<hr>
+<br>
+<b>site</b> = <#if parameters.site?exists>${parameters.site[0]}<#else>&lt;Unknown&gt;</#if>
+<br>
+<b>buildname</b> = <#if parameters.buildname?exists>${parameters.buildname[0]}<#else>&lt;Unknown&gt;</#if><br>
+<b>track</b> = <#if parameters.track?exists>${parameters.track[0]}<#else>&lt;Unknown&gt;</#if><br>
+<b>timestamp</b> = <#if parameters.timestamp?exists>${parameters.timestamp[0]}<#else>&lt;Unknown&gt;</#if><br>
 
 </#if>
 </div>

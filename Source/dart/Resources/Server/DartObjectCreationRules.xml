@@ -45,6 +45,31 @@
       <set-next-rule methodname="setCommandManager"/>
     </pattern>
 
+    <pattern value="MessengerManager">
+      <object-create-rule classname="dart.server.MessengerManager"/>
+
+      <pattern value="Messenger">
+
+        <call-method-rule methodname="addMessenger" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+
+        <call-param-rule paramnumber='0' pattern="Name"/>
+        <call-param-rule paramnumber='1' pattern="Type"/>
+
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+
+      </pattern>
+
+      <set-next-rule methodname="setMessengerManager"/>
+    </pattern>
+
     <pattern value="ListenerManager">
       <object-create-rule classname="dart.server.ListenerManager"/>
 
@@ -63,7 +88,6 @@
           </pattern>
           <call-param-rule paramnumber='1' from-stack='true'/>
         </pattern>
-
       </pattern>
 
       <set-next-rule methodname="setListenerManager"/>

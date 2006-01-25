@@ -25,6 +25,7 @@ public class Container {
   protected String title = "Default";
   protected Database database = null;
   protected ListenerManager listenerManager = null;
+  protected MessengerManager messengerManager = null;
   protected ServletManager servletManager = null;
   protected File baseDirectory = null;
   protected File temporaryDirectory = null;
@@ -124,6 +125,13 @@ public class Container {
    */
   public void setListenerManager ( ListenerManager l ) { listenerManager = l; }
   public ListenerManager getListenerManager () { return listenerManager; }
+
+  /**
+   * Get/Set the MessengerManager for this Container
+   * @param l MessengerManager to set
+   */
+  public void setMessengerManager ( MessengerManager m ) { messengerManager=m; }
+  public MessengerManager getMessengerManager () { return messengerManager; }
 
   /**
    * Get/Set the CommandManager for this container

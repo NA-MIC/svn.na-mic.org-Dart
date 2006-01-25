@@ -17,6 +17,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.*;
 import freemarker.ext.beans.*;
+import freemarker.ext.servlet.HttpSessionHashModel;
 
 import org.apache.log4j.Logger;
 
@@ -144,9 +145,12 @@ public class Dashboard extends HttpServlet {
     // template engine
     //
     HashMap root = new HashMap();
+    root.put ( "serverName", project.getServer().getTitle() );
     root.put ( "projectName", projectName );
     root.put ( "fetchdata", new FetchData ( project ) );
     root.put ( "projectProperties", project.getProperties() );
+    root.put ( "request", req );
+    root.put ( "submissionFinder", submissionFinder );
 
     // Put in the request parameters
     Map parameters = req.getParameterMap();
@@ -160,6 +164,19 @@ public class Dashboard extends HttpServlet {
       logger.error ( project.getTitle() + ": Could not wrap map", e );
       error ( out, "Dart Dashboard", "Dart: Failed to wrap parameters", map );
       return;
+    }
+      
+    // put the http session in the data model for the template
+    // engine. the session is wrapped so that it appears as a
+    // hash. attributes of the session can be accessed as
+    // ${session.foo} in the template.
+    HttpSession httpSession = req.getSession(false);
+    if (httpSession != null) {
+      HttpSessionHashModel httpSessionModel
+        = new HttpSessionHashModel(httpSession, ObjectWrapper.DEFAULT_WRAPPER);
+      root.put("session", httpSessionModel);
+    } else {
+      // logger.info("Dashboard: no session");
     }
       
     // Put the intersecting tracks on the submission
@@ -207,7 +224,7 @@ public class Dashboard extends HttpServlet {
       SubmissionEntity submission
         = submissionFinder.selectBySubmissionId ( new Long ( ids[0] ) );
       root.put ( "submission", submission );
-    } if ( parameters.containsKey( "site" )
+    } else if ( parameters.containsKey( "site" )
                 && parameters.containsKey( "buildname" )
                 && parameters.containsKey( "track" ) ) {
       // Search for submission id by client name, track and date
@@ -249,6 +266,7 @@ public class Dashboard extends HttpServlet {
     } catch ( Exception e ) {
       logger.error ( "Failed to find template", e );
       error ( out, "Dart Dashboard", "Dart: Failed to find or parse template: \"" + (String) map.get ( "templateName" ) + "\"", map );
+      try { connection.close(); } catch ( Exception e2 ) { }
       out.close();
       return;
     }

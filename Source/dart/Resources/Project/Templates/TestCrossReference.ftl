@@ -16,6 +16,7 @@
   </head>
   <body bgcolor="#ffffff">
 
+<@displayLogin />
 <table border="0" cellpadding="0" cellspacing="2" width="100%">
 <tr>
 <td align="center" valign="middle"><a href="/${projectName}/Dashboard/?trackid=${parameters.trackid[0]?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>

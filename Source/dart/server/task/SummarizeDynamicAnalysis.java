@@ -105,7 +105,33 @@ public class SummarizeDynamicAnalysis implements Task {
           }
         }
         test.getJaxorContext().commit();
-      }
+//       } else {
+//         logger.info("********************Leaf node: " + test.getQualifiedName());
+//         // not a meta test, just total up the number of defects
+//         int defectCount = 0;
+//         ResultList results = test.getResultList();
+//         ResultIterator resultIt = results.iterator();
+//         while (resultIt.hasNext()) {
+//           ResultEntity result = resultIt.next();
+
+//           String resultType = result.getType();
+//           String resultName = result.getName();
+
+//           if (resultType.startsWith("numeric/")) {
+//             if (resultType.equals("numeric/integer")) {
+//               // get the value of the result
+//               Integer value = (Integer) test.getResultValueAsObject(resultName,
+//                                                               new Integer(0));
+
+//               defectCount = defectCount + ((Integer) value).intValue();
+//             }
+//           }
+//         }
+//         logger.info("*******************Setting defectcount: " + defectCount);
+//         test.setResult( "DefectCount", "numeric/integer",
+//                         new Integer(defectCount).toString() );
+//         test.getJaxorContext().commit();
+       }
     } catch ( Exception e ) {
       logger.error( "Caught exception updating results.", e);
     }

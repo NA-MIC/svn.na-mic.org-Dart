@@ -17,6 +17,7 @@
   </head>
 <body>
 
+<@displayLogin />
 <table border="0" cellpadding="0" cellspacing="2" width="100%">
 <tr>
 <td align="center"><a href="/${projectName}/Dashboard/?trackid=${submission.trackId?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>

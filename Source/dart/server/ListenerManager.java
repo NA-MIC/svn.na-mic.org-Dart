@@ -13,7 +13,7 @@ import dart.server.event.*;
 import dart.server.listener.*;
 
 /**
-   Class to manage Servlets for a Container
+   Class to manage event listeners for a Container
 */
 public class ListenerManager {
   static Logger logger = Logger.getLogger ( ListenerManager.class );   

@@ -1,0 +1,8 @@
+<jaxor package="dart.server.wrap">
+    <entity name="role" alias="Role">
+        <primary-key autoassign="true">
+            <column name="roleid" type="Long" alias="RoleId"/>
+        </primary-key>
+        <column name="name" type="String" nullable="true" alias="Name"/>
+    </entity>
+</jaxor>
