@@ -441,7 +441,22 @@ public class Server extends Container
       Map root = new HashMap();
       root.put ( "ServerName", name );
       root.put ( "ServerDirectory", dir.toString() );
-      root.put ( "ServerDirectoryURL", dir.toURI() );
+
+      // Construct the directory string for the server database
+      String serverDatabaseDirectory = dir.toString() + File.separator
+        + "Database" + File.separator + name;
+
+      // Escape the directory string for the server database because
+      // this is put in a properties file
+      if (File.separatorChar == '\\' ) {
+        logger.info("Hello");
+        serverDatabaseDirectory = 
+          serverDatabaseDirectory.replaceAll("\\\\", "\\\\\\\\");
+        logger.info(serverDatabaseDirectory);
+      } 
+      root.put ( "ServerDatabaseDirectory", serverDatabaseDirectory );
+
+      // Stash the type of database for freemarker
       if ( db != null ) {
         root.put ( "Type", db.toLowerCase() );
       } else {
