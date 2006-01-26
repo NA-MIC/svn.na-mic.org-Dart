@@ -11,8 +11,8 @@
 \usepackage{amsmath}
 \usepackage[tight]{units}
 \usepackage{url}
-\usepackage[bookmarksnumbered]{hyperref}
 \usepackage{xspace}
+\usepackage[pdftex,bookmarksopen=true,bookmarksopenlevel=10,pdfstartview=FitH,bookmarks=true,colorlinks=true,linkcolor=blue,pdfauthor={Daniel J. Blezek and James V. Miller},pdftitle={Dart Manual}]{hyperref}
 
 
 \newcommand{\answermark}{$\triangleright$ }
@@ -114,6 +114,12 @@ build and test hosts, summarizing the software quality aspects of the project
 in a concise and informative fashion cross-sectionally and longitudinally.}
 \end{quote}
 
+\section{To Do}
+\begin{itemize}
+\item Task to reindex Submissions into Tasks
+\item Calendar for easy day navigation
+\item Notes
+\end{itemize}
 
 %----------------------------------------------------------------------
 \chapter{Tutorial}
@@ -1229,7 +1235,7 @@ are running a Dart Project named MyProject running on a server called
 MyServer.  This tutorial will cover Continuous builds and Nightly builds.
 
 There are only a few extra requirements when submitting a standard Cruise Control log
-to a Dart Server.
+to a Dart Server.  \textbf{Note}: Remember to set the dateformat to UTC in config.xml.  Otherwise, Dart will not correctly parse the BuildStamp of the Submission and will assume a BuildStamp of the date/time when the Submission is parsed.
 
 \subsection{Configure the Cruise Control Project}
 In this example, we will have two Cruise Control Projects: a Nightly
@@ -1261,7 +1267,7 @@ tags similar to this:
 \end{verbatim}
 The \xmltag{dateformat} tag specifies that Cruise Control format
 dates according to UTC, a uniform time format.  This allows Dart to
-easily parse dates.  The ``buildafterfailed'' attribute instructs the
+easily parse dates and is required for proper placement of the Submission in the Dart database.  The ``buildafterfailed'' attribute instructs the
 Continuous project to build only if files have been updated.
 
 \subsubsection{Describe the Submission}
@@ -1430,6 +1436,28 @@ HTTP proxy is required, that setting is taken from the
  \texttt{HTTP\_PROXY} and \texttt{HTTP\_PROXY\_PORT} on both Unix-based
 and Windows systems.  The properties file takes precedence over the
 environment variables.
+
+\subsection{Python Submissions}
+Python may be used to submit properly formed Dart XML.  Here is an
+example snippit:
+
+\begin{verbatim}
+   try:
+      import xmlrpclib
+     
+      server = xmlrpclib.ServerProxy(
+                   "http://www.na-mic.org:8081/%s/Command/" % project)
+      print server
+     
+      try:
+        fp = open(fullPathToDestinationXMLFile)
+        bin = xmlrpclib.Binary(fp.read())
+        print "Server responded: [%s]" % server.Submit.put(bin)
+      except Exception, v:
+        print "ERROR", v
+    except:
+      print "Problem submitting XML-RPC for the file: %s" % xmlfile
+\end{verbatim}
 
 \subsection{ctest Integration}
 The latest CVS version of ctest (\url{http://www.cmake.org/}) can be used to submit to a Dart
@@ -3048,7 +3076,7 @@ That's all there is to it!
 \section{HTTPUnit license}
 
 \begin{verbatim}
-Copyright Â© 2000-2004, Russell Gold
+Copyright © 2000-2004, Russell Gold
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

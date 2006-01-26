@@ -437,19 +437,13 @@ public class Project extends Container {
     // See if we are in UTC
     SimpleDateFormat parse;
     Date date = null;
-    try {
-      parse = new SimpleDateFormat( Container.UTCFormat );
-      date = parse.parse ( stamp );
-      if ( date != null ) {
-        return date;
-      }
-    } catch ( ParseException pe ) {
-      // Do nothing
-    }
-      
+
+
     try {      
       // logger.debug ( title + ": Parsing build stamp " + stamp );
       String s;
+      // Add GMT time zone to stamp.  In Dart1, this was implicit, for proper
+      // parsing, make it explicit.
       s = stamp.substring ( 0, 13 ) + " -0000";
       // logger.debug ( title + ": Parsing build stamp " + s );
       parse = new SimpleDateFormat( "yyyyMMdd-HHmm Z" );
@@ -458,6 +452,31 @@ public class Project extends Container {
     } catch ( ParseException pe ) {
       // Do nothing
     }
+
+    if ( date == null ) {
+      String[] formats = { Container.UTCFormat, // UTC format
+                           "MM/dd/yyyy HH:mm:ss", // Cruise control format, not TZ
+      };
+      for ( int idx = 0; idx < formats.length; idx++ ) {
+        try {
+          parse = new SimpleDateFormat( formats[idx] );
+          date = parse.parse ( stamp );
+          if ( date != null ) {
+            return date;
+          }
+        } catch ( ParseException pe ) {
+          // Do nothing
+          logger.debug ( "failed to parese " + stamp + "\n" + pe );
+        }
+      }
+    }
+      
+    // Couldn't parse the stamp, put error in log, and return the current time.
+    if ( date == null ) {
+      date = Calendar.getInstance().getTime();
+      logger.error ( this.getTitle() + ": failed to parse BuildStamp " + stamp + " returning 'now' ( " + date + " )" );
+    }
+
     return date;
   }
 

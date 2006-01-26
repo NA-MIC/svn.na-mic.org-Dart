@@ -39,6 +39,7 @@ public class DartClient
     options.addOption ( "r", "refresh", false, "Refresh Project resources" );
     options.addOption ( "R", "refreshServer", false, "Refresh Server resources" );
     options.addOption ( "g", "getstatus", false, "Get Server status" );
+    options.addOption ( "d", "date", false, "Print the current date and exit" );
     try {
       cmd = parser.parse ( options, args );
     } catch ( Exception e ) {
