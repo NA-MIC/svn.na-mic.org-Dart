@@ -257,6 +257,12 @@ public class Dashboard extends HttpServlet {
           root.put ( "submission", (SubmissionEntity)slist.toList().get(0) );
         }
       }
+    } else if ( parameters.containsKey( "clientid" )) {
+      // Search for the client id specified on the url
+      String[] ids = (String[])parameters.get ( "clientid" );
+      ClientEntity client
+        = clientFinder.selectByClientId ( new Long ( ids[0] ) );
+      root.put ( "client", client );
     }
       
     // find the template specified on the URL
