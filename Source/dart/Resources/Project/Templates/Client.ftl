@@ -81,3 +81,7 @@
     <td>Configuration</td><td>${client.configuration?default("")?html}</td>
   </tr>
 </table>
+
+</div>
+</body>
+</html>
