@@ -75,6 +75,7 @@ public class DartServerTest extends TestCase {
     server.initializeDatabase();
     server.setInitializeProjectDB ( true );
     server.setRefreshProjectResources ( true );
+    server.setUpgradeProjectDB ( true );
     server.clearProjects ();
     server.addProject ( path + File.separator + projectName );
     server.start ( false );
