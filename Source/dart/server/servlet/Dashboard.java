@@ -245,7 +245,7 @@ public class Dashboard extends HttpServlet {
         // find the submission
         QueryParams qs = new QueryParams();
         qs.add( new net.sourceforge.jaxor.mappers.StringMapper(), timeStamp);
-        qs.add( new net.sourceforge.jaxor.mappers.IntegerMapper(),
+        qs.add( new net.sourceforge.jaxor.mappers.LongMapper(),
                 c.getClientId());
         qs.add( new net.sourceforge.jaxor.mappers.StringMapper(),
                 ((String[])parameters.get("track"))[0]);

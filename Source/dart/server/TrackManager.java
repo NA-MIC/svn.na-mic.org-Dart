@@ -31,13 +31,13 @@ public class TrackManager {
     }
   }
 
-  public int getTrackId ( java.sql.Timestamp ts, String trackName ) {
+  public long getTrackId ( java.sql.Timestamp ts, String trackName ) {
     return ((Track)(map.get ( trackName ))).getTrackId ( ts );
   } 
 
-  public int[] getTrackIds ( java.sql.Timestamp ts ) {
+  public long[] getTrackIds ( java.sql.Timestamp ts ) {
     // create or find the track intersectiong this timestamp
-    int[] r = new int[map.size()];
+    long[] r = new long[map.size()];
     Iterator i = map.values().iterator();
     int idx = 0;
     while ( i.hasNext() ) {
@@ -51,7 +51,7 @@ public class TrackManager {
      Updates the linked list of submissions to have easy access to
      next and last submissions from this Client of this type.
   */
-  public void linkSubmission ( int SubmissionId ) throws Exception {
+  public void linkSubmission ( long SubmissionId ) throws Exception {
     Connection connection = project.getConnection();
     JaxorContextImpl session = new JaxorContextImpl ( connection );
     try {
@@ -79,8 +79,51 @@ public class TrackManager {
       try { connection.close(); } catch ( Exception ex ) {}
     }
   }
-  
-  public void placeSubmission ( int SubmissionId , String trackName ) throws Exception {
+
+  public void reindexTracks () {
+    Connection connection = project.getConnection();
+    JaxorContextImpl session = new JaxorContextImpl ( connection );
+    TrackFinderBase trackFinder = new TrackFinderBase ( session );
+    try {
+      // Validate the tracks, queue a task if the track is invalid
+      TrackList list = trackFinder.findAll();
+      TrackIterator i = list.iterator();
+      while ( i.hasNext() ) {
+        TrackEntity trackEntity = i.next();
+        Track track = (Track) map.get ( trackEntity.getName() );
+
+        boolean deleteTrack = false;
+        // First case, a track was deleted
+        if ( track == null ) {
+          deleteTrack = true;
+        } else {
+
+          // If it doesn't contain any submissions
+          SubmissionList submissionList = trackEntity.getSubmissionList();
+          if ( submissionList.size() == 0 ) {
+            deleteTrack = true;
+          } else if ( !track.isValidTrack ( trackEntity ) ) {
+            deleteTrack = true;
+          }
+        }
+
+        if ( deleteTrack ) {
+          logger.debug ( "Track is invalid: " + trackEntity.getTrackId() );
+          // Queue this for deletion
+          Properties prop = new Properties();
+          prop.setProperty ( "TrackId", trackEntity.getTrackId().toString() );
+          project.queueTask ( "dart.server.task.DeleteTrackTask", prop, 10 );
+        }
+      }
+      session.commit();
+    } catch ( Exception e ) {
+      logger.error ( "Failed to link valid Tracks ", e );
+    } finally { 
+      try { connection.close(); } catch ( Exception ex ) {}
+    }
+  }
+
+  public void placeSubmission ( long SubmissionId , String trackName ) throws Exception {
     linkSubmission ( SubmissionId );
     // Find the Track with the Type name
     Track track;

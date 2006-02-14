@@ -138,6 +138,9 @@ public class DartServer extends Container
     if ( cmd.hasOption( "R" ) ) {
       server.setRefreshServerResources( true );
     }
+    if ( cmd.hasOption( "u" ) ) {
+      server.setUpgradeProjectDB( true );
+    }
     server.start();
   }
 
@@ -161,6 +164,7 @@ public class DartServer extends Container
     options.addOption ( "j", "initializeserver", false, "Initialize the database from the ServerSchema.sql file in the dart server directory" );
     options.addOption ( "q", "createqed", true, "Create a new QED in the directory specified" );
     options.addOption ( "t", "projecttemplate", true, "Create a new Project using the specified default template: dart/Resources/Server/DartDefault.xml in the jar file is the default" );
+    options.addOption ( "u", "upgradeprojectdb", false, "Update all Project's databases to the lastest version" );
     // options.addOption ( "n", "name", true, "New project name" );
     // options.addOption ( "p", "port", true, "Port to run the XML-RPC server on, 8080 is default" );
     // options.addOption ( "q", "httpPort", true, "Port to run the http server on, 8081 is default" );

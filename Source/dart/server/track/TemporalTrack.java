@@ -62,42 +62,49 @@ public class TemporalTrack implements Track {
     project = p;
   }
 
-  public int getTrackId ( java.sql.Timestamp ts ) {
-    int trackId = 0;
+  void calculateStartEndTimes ( java.sql.Timestamp ts, Calendar beginning, Calendar end ) {
+    Calendar trackStart = Calendar.getInstance();
+    trackStart.setTime ( start );
+    Calendar submissionTime = Calendar.getInstance();
+    submissionTime.setTime ( ts );
+    
+    // Figure out what the starting point should be
+    // duration is in hours
+    long d = (long) ( duration * 3600000 ); // 60 minutes * 60 seconds * 1000 millis
+    logger.debug ( "Duration is: " + d + " seconds" );
+    // Compute the offset from 0
+    long first = trackStart.getTimeInMillis() % d;
+
+    long t = first + d * ( ( submissionTime.getTimeInMillis() - first ) / d );
+
+    beginning.setTimeInMillis ( t );
+    end.setTimeInMillis ( t + d );
+    logger.debug ( "Time stamp is: " + ts );
+    logger.debug ( "Beginning is: " + beginning.getTime() );
+    logger.debug ( "End is: " + end.getTime() );
+
+    logger.debug ( project.getTitle() + ": Duration in millis: " + d
+                   + " first: " + first
+                   + " submission: " + beginning.getTimeInMillis() );
+  }
+
+
+  public long getTrackId ( java.sql.Timestamp ts ) {
+    long trackId = 0;
     Connection connection = project.getConnection();
     JaxorContextImpl session = new JaxorContextImpl ( connection );
     try {
       SubmissionFinderBase submissionFinder = new SubmissionFinderBase ( session );
       TrackFinderBase trackFinder = new TrackFinderBase ( session );
-      Calendar trackStart = Calendar.getInstance();
-      trackStart.setTime ( start );
-      Calendar submissionTime = Calendar.getInstance();
-      submissionTime.setTime ( ts );
-    
-      // Figure out what the starting point should be
-      // duration is in hours
-      long d = (long) ( duration * 3600000 ); // 60 minutes * 60 seconds * 1000 millis
-      // Compute the offset from 0
-      long first = trackStart.getTimeInMillis() % d;
-      long t = first + d * ( ( submissionTime.getTimeInMillis() - first ) / d );
+
       Calendar submissionTrackStart = Calendar.getInstance();
       Calendar submissionTrackEnd = Calendar.getInstance();
-      submissionTrackStart.setTimeInMillis ( t );
-      submissionTrackEnd.setTimeInMillis ( t + d );
-
+      calculateStartEndTimes ( ts, submissionTrackStart, submissionTrackEnd );
       Calendar zero = Calendar.getInstance();
       zero.setTimeInMillis ( 0 );
 
-      logger.debug ( project.getTitle() + ": Duration in millis: " + d
-                     + " first: " + first
-                     + " submission: " + submissionTrackStart.getTimeInMillis() );
       logger.debug ( project.getTitle() 
                      + ": zero [" + format.format ( zero.getTime() ) + "]" );
-      logger.debug ( project.getTitle() 
-                     + ": TrackStart [" + format.format ( trackStart.getTime() ) 
-                     + "] SubmissionTime [" + format.format ( submissionTime.getTime() )
-                     + "] TrackStart [" + format.format ( submissionTrackStart.getTime() )
-                     + "] TrackEnd [" + format.format ( submissionTrackEnd.getTime() ) + "]" );
     
       // Find the proper track
       TrackResultSet rs = trackFinder.selectIntersectingResultSet ( name, ts, ts );
@@ -148,7 +155,7 @@ public class TemporalTrack implements Track {
           session.commit();
         }
       }
-      trackId = trackEntity.getTrackId().intValue();
+      trackId = trackEntity.getTrackId().longValue();
     } catch ( Exception e ) {
       logger.error ( project.getTitle() + ": Failed to find track", e );
     }
@@ -159,8 +166,28 @@ public class TemporalTrack implements Track {
   }
 
     
+  public boolean isValidTrack ( TrackEntity track ) {
+    Calendar submissionTrackStart = Calendar.getInstance();
+    Calendar submissionTrackEnd = Calendar.getInstance();
+    
+    
+    // Figure out if the start time is in the track
+    java.sql.Timestamp ts = track.getStartTime();
+    calculateStartEndTimes ( ts, submissionTrackStart, submissionTrackEnd );
 
-  public boolean placeSubmission ( int submissionId ) {
+    logger.debug ( "Checking to see if expected start time [ " + submissionTrackStart.getTime() + " ] equals [ " + ts + " ]" );
+    if ( 0 != submissionTrackStart.getTime().compareTo ( track.getStartTime() ) ) {
+      return false;
+    }
+    ts = track.getEndTime();
+    if ( 0 != submissionTrackEnd.getTime().compareTo ( track.getEndTime() ) ) {
+      return false;
+    }
+    return true;
+  }
+
+
+  public boolean placeSubmission ( long submissionId ) {
     /* Find or create the proper place for this submission, updating
        it's TrackId accordingly */
     logger.info ( project.getTitle() + ": placeSubmission" );
@@ -171,7 +198,7 @@ public class TemporalTrack implements Track {
     try {
       SubmissionFinderBase submissionFinder = new SubmissionFinderBase ( session );
       SubmissionEntity submission = submissionFinder.selectBySubmissionId ( new Long ( submissionId ) );
-      int trackId = getTrackId ( submission.getTimeStamp() );
+      long trackId = getTrackId ( submission.getTimeStamp() );
       logger.debug ( project.getTitle() + ": Setting submission TrackId " + trackId );
       submission.setTrackId ( new Long ( trackId ) );
       session.commit();

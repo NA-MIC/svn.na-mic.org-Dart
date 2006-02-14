@@ -60,6 +60,7 @@ public class Server extends Container
   boolean refreshProjectResources = false;
   boolean refreshServerResources = false;
   boolean dumpProject = false;
+  boolean upgradeProjectDB = false;
   
   /**
    * Do we initialize the projects when starting
@@ -73,6 +74,7 @@ public class Server extends Container
    */
   public void setRefreshProjectResources ( boolean b ) { refreshProjectResources = b; }
   public void setDumpProject ( boolean d ) { dumpProject = d; };
+  public void setUpgradeProjectDB ( boolean d ) { upgradeProjectDB = d; };
 
   /**
    * Do we refresh the server resources when starting
@@ -315,6 +317,15 @@ public class Server extends Container
           if ( dumpProject ) {
             p.dumpProject();
           }
+          if ( upgradeProjectDB ) {
+            logger.info ( "Upgrading project: " + p.getTitle() );
+            p.upgradeDatabase();
+          }
+          if ( !p.verifyDatabaseVersion() ) {
+            logger.fatal ( "Project: " + name + " DB Version does not match expected version, please archive and upgrade ( --upgradeprojectdb )" );
+            System.exit ( 1 );
+          }
+
           isOK = true;
         }
       } catch ( Exception e ) {

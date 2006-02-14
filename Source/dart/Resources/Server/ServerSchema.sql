@@ -22,7 +22,7 @@ create table Users (
 -- User properties
 create table UserProperty (
   UserPropertyId ${auto} primary key,
-  UserId int,
+  UserId bigint,
   Name varchar(100),
   Value varchar(100)
 );
@@ -37,8 +37,8 @@ create table Role (
 
 -- User+Role information.
 create table UserRole (
-  UserId integer not null,
-  RoleId integer not null
+  UserId bigint not null,
+  RoleId bigint not null
 );
 
 create index UserRoleIdx1 on UserRole (UserId);
@@ -46,7 +46,7 @@ create index UserRoleIdx1 on UserRole (UserId);
 -- Query information
 create table Query (
   QueryId ${auto} not null primary key,
-  UserId int not null,
+  UserId bigint not null,
   Name varchar(40) not null,
   Query varchar(2000) not null default ''  
 );

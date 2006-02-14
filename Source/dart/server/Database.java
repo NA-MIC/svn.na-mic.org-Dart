@@ -116,13 +116,6 @@ public class Database {
 
     // Try to create a connection
     try {
-      /*
-        dataSource = new BasicDataSource();
-        dataSource.setDriverClassName ( driver );
-        dataSource.setUsername ( username );
-        dataSource.setPassword ( password );
-        dataSource.setUrl ( url );
-      */
       Class.forName ( driver );
       connectionPool = new GenericObjectPool(null);
       connectionPool.setMaxActive ( maxActive );

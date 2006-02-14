@@ -2,7 +2,7 @@ package dart.server;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
@@ -159,6 +159,17 @@ public class Container {
   public void setServletManager ( ServletManager m ) { servletManager = m; }
 
   /**
+   * Open and execute this file
+   */
+  public void executeSQL ( File schema ) {
+    try {
+      executeSQL ( new BufferedReader ( new FileReader ( schema ) ) );
+    } catch ( Exception e ) {
+      logger.error ( getTitle() + ": Failed to execute schema from file " + schema, e );
+      return;
+    }
+  }
+  /**
    * Read and execute the SQL contained in a file.
    * Read the input file line by line, until a ";" is found.  At this
    * point, execute the SQL statement.  In SQL, "--" indicates a
@@ -166,12 +177,12 @@ public class Container {
    * are reported, but ignored.
    * @param schema File containing the SQL to be executed.
    */
-  public void executeSQL ( File schema ) {
+  public void executeSQL ( Reader r ) {
     // Read and execute
     StringWriter writer = new StringWriter();
     PrintWriter w = new PrintWriter ( writer );
     try {
-      BufferedReader reader = new BufferedReader ( new FileReader ( schema ) );
+      BufferedReader reader = new BufferedReader ( r );
       String b = null;
       while ( true ) {
         b = reader.readLine();

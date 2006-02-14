@@ -119,6 +119,10 @@ in a concise and informative fashion cross-sectionally and longitudinally.}
 \item Task to reindex Submissions into Tasks
 \item Calendar for easy day navigation
 \item Notes
+\item Fix display of gcov results, not currently indented correctly
+\item Use Javascript column sorting, rather than server side sorting
+\item Document notification, for user and developer
+\item Document upgrade path (is there one?)
 \end{itemize}
 
 %----------------------------------------------------------------------
@@ -240,6 +244,8 @@ usage: DartServer [options] Server.xml <Project0.xml> <Project1.xml> ...
  -t,--projecttemplate     Create a new Project using the specified default
                           template: dart/Resources/Server/DartDefault.xml in the jar file is the
                           default
+ -u,--upgradeprojectdb    Update all Project's databases to the lastest
+                          version
 \end{verbatim}
 
 The \texttt{--archive} flag dumps all the Submissions in each project
@@ -599,7 +605,25 @@ placed in the TaskQueue.  The \texttt{Properties} tag specifies
 settings that are passed into the Task when it executes.  For
 \texttt{QueueManager}, the ``MaxTasks'' property indicates how many
 queued tasks will be processed at during each execution, providing a
-``throttling'' mechanism.  The format of the \xmltag{Schedule} tag
+``throttling'' mechanism.  
+
+\begin{verbatim}
+    <Task>
+      <!-- Reindex Tracks if the definition has changed every night at 2am -->
+      <Type>dart.server.task.ReindexTrackTask</Type>
+      <Schedule>0 0 2 * * ?</Schedule>
+      <Properties/>
+    </Task>
+\end{verbatim}
+
+The ReindexTrackTask visits all existing Tracks in the database.  A
+Track is deleted and the Submissions contained in it are reindexed if
+(1) the Track definition has been removed from \filename{Project.xml},
+(2) if the Track does not contain any Submissions, (3) if the Track
+has changed duration.  This is scheduled to occur at 2am each day.
+
+
+The format of the \xmltag{Schedule} tag
 is detailed at
 \texttt{http://quartz.sourceforge.net/javadoc/org/quartz/CronTrigger.html}
 and is reproduced here for clarity.
@@ -1114,8 +1138,19 @@ The definition of the default Archivers are:
 
 \end{verbatim}
 
-\section{Upgrade from pre-0.4}
+\section{Upgrade from 0.5}
 \label{Section:Upgrade}
+When the Server starts a Project, it performs in intern check to
+ensure the version of the database (held in the Version table) matches
+the expected version in the code.  If the Project does not match the
+expected version, the Server logs an error and exits.  To upgrade the
+Project from a prior revision, restart the Server with the
+--upgradeprojectdb (-u) flag.  Each Project will run the correct
+upgrade SQL commands to bring the database to the proper revision.
+This will only work for Projects using version 0.5 or later.
+
+\section{Upgrade from pre-0.5}
+\label{Section:UpgradePre0.4}
 If you have been building Dart from source and would like to migrate
 to the first stable release (0.5), you must archive your Projects and
 re-create them.  The basic structure of the Dart database has changed

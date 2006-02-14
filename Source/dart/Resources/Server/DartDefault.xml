@@ -172,6 +172,13 @@
     </Task>
 
     <Task>
+      <!-- Reindex Tracks if the definition has changed every night at 2am -->
+      <Type>dart.server.task.ReindexTrackTask</Type>
+      <Schedule>0 0 2 * * ?</Schedule>
+      <Properties/>
+    </Task>
+
+    <Task>
       <!-- Archive task, runs at 3am each morning -->
       <Type>dart.server.task.ArchiveTask</Type>
       <Schedule>0 0 3 * * ?</Schedule>

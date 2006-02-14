@@ -55,6 +55,11 @@ import freemarker.template.Template;
 import org.apache.log4j.Logger;
 
 public class Project extends Container {
+
+  static final int DBMajorVersion = 1;
+  static final int DBMinorVersion = 0;
+  static final String DBVersionString = "" + DBMinorVersion + "." + DBMinorVersion;
+
   static Logger logger = Logger.getLogger ( Project.class );
   static Properties statsDefaults = new Properties();
   static {
@@ -219,6 +224,111 @@ public class Project extends Container {
     Rollups.add ( new Object[] { Type, Priority, properties } );
   }    
 
+  /** Return the Major, Minor and Patch number in the database in order
+   */
+  public int[] getDBVersion ( ) throws Exception {
+    Connection connection = database.getConnection();
+    Statement statement = connection.createStatement();
+    int Major, Minor, Patch;
+    try {
+      ResultSet rs = statement.executeQuery ( "select * from version" );
+      if ( !rs.next() ) {
+        throw new Exception ( "Version table did not contain any rows!" );
+      }
+      Major = rs.getInt ( "Major" );
+      Minor = rs.getInt ( "Minor" );
+      Patch = rs.getInt ( "Patch" );
+      logger.debug ( "getDBVersion found Major: " + Major + " Minor: " + Minor + " Patch: " + Patch );
+    } finally {
+      connection.close();
+    }
+    return new int[] { Major, Minor, Patch };
+  }
+    
+
+  /** Verify database exists and is correct version.
+   * Throws an exception if the there is no database.
+   * Returns false if the DB is out of date.
+   * Returns true if the DB has the correct schema.
+   */
+  public boolean verifyDatabaseVersion () throws Exception {
+    // Verify and warn if DB is out of date
+    
+    Connection connection = database.getConnection();
+    Statement statement = connection.createStatement();
+
+    try {
+      // Check if Version table exists
+      ResultSet tables = connection.getMetaData().getTables ( null, null, "%", null );
+      boolean FoundVersion = false;
+      while ( tables.next() ) {
+        if ( tables.getString ( "TABLE_NAME" ).equalsIgnoreCase ( "version" ) ) {
+          FoundVersion = true;
+        }
+      }
+
+      if ( !FoundVersion ) {
+        throw new Exception ( "Version table does not exist in Database MetaData" );
+      }
+
+      // Check the version number
+      int Major = -1, Minor = -1, Patch = -1;
+      int[] version = getDBVersion ();
+      Major = version[0]; Minor = version[1]; Patch = version[2];
+      if ( Major != DBMajorVersion || Minor != DBMinorVersion ) {
+        logger.error ( "Database version is " + Major + "." + Minor 
+                       + " expected version is " + DBVersionString );
+        return false;
+      }
+      
+    } finally {
+      connection.close();
+    }
+    return true;
+  }
+    
+
+  /** Helper to do the grunt work of moving from FromMajor.FromMinor to ToMajor.ToMinor
+   * Assumes that the database is at FromMajor.FromMinor.  The schema files are of the form
+   * dart/Resources/Server/DBUpgrade-"FromMajor"."FromMinor"to"ToMajor"."ToMinor".sql
+   * i.e. dart/Resources/Server/DBUpgrade-0.5to0.6.sql
+   */  
+  void upgradeDatabase ( int FromMajor, int FromMinor, int ToMajor, int ToMinor ) throws Exception {
+    int Major = -1, Minor = -1, Patch = -1;
+    logger.info ( "Upgrade from " + FromMajor + "." + FromMinor + " to " + ToMajor + "." + ToMinor );
+    executeSQL ( new BufferedReader ( new InputStreamReader ( Server.class.getClassLoader().getResourceAsStream( "dart/Resources/Server/DBUpgrade-" + FromMajor + "." + FromMinor + "to" + ToMajor + "." + ToMinor + ".sql" ) ) ) );
+    // Make sure it worked...
+    int[] version = getDBVersion ();
+    Major = version[0]; Minor = version[1]; Patch = version[2];
+    if ( Major != ToMajor || Minor != ToMinor ) {
+      throw new Exception ( "Failed to update from " + FromMajor + "." + FromMinor + " to " + ToMajor + "." + ToMinor + " Found version " + Major + "." + Minor + " instead" );
+    }
+    logger.info ( "DB Upgrade complete" );
+  }
+
+
+  /** Update the database for this project
+   * For each major and minor number we know about, do the right thing.
+   * Verify that the script did what it was supposed to do.
+   */
+  public void upgradeDatabase () throws Exception {
+    // The if statements below must go in order!
+    int Major = -1, Minor = -1, Patch = -1;
+    int[] version = getDBVersion ();
+    Major = version[0]; Minor = version[1]; Patch = version[2];
+    logger.debug ( "upgradeDatabase found Major: " + Major + " Minor: " + Minor + " Patch: " + Patch );
+    if ( Major == 0 && Minor == 5 ) {
+      upgradeDatabase ( 0, 5, 0, 6 );
+    }
+    /* 0.6 to 1.0 */
+    version = getDBVersion ();
+    Major = version[0]; Minor = version[1]; Patch = version[2];
+    if ( Major == 0 && Minor == 6 ) {
+      // Get us to 1.0
+      upgradeDatabase ( 0, 6, 1, 0 );
+    }
+  }
+
   public void start ( Server server ) throws Exception {
     // start the project
     dartServer = server;
@@ -240,12 +350,7 @@ public class Project extends Container {
     if ( database == null ) {
       throw new Exception ( "Database has not been defined" );
     }
-    /*
-    if ( resultserver == null ) {
-      throw new Exception ( "ResultServer has not been defined" );
-    }
-    // resultserver.start ( this );
-    */
+
     commandManager.start ( this );
     database.start ( this );
     trackManager.start ( this );

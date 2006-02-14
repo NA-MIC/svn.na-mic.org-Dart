@@ -19,16 +19,13 @@ import freemarker.template.Template;
 import java.util.*;
 import java.text.*;
 
-public class PlaceSubmissionInTrackTask implements Task {
+public class ReindexTrackTask implements Task {
   static Logger logger = Logger.getLogger ( PlaceSubmissionInTrackTask.class );   
 
   public void execute ( Project project, Properties properties ) throws Exception {
-    // Assign the submission to a track
-    long SubmissionId = Long.parseLong ( properties.getProperty ( "SubmissionId" ) );
-    String track = properties.getProperty ( "TrackName" );
-
+    
     try {
-      project.getTrackManager().placeSubmission ( SubmissionId, track );
+      project.getTrackManager().reindexTracks();
     } catch ( Exception e ) {
       logger.error ( project.getTitle() + ": Failed to place submission" );
       throw e;

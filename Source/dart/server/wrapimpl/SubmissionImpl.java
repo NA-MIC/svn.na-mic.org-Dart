@@ -46,7 +46,7 @@ public class SubmissionImpl extends SubmissionBase {
     try {
       QueryParams q = new QueryParams();
       q.add(new net.sourceforge.jaxor.mappers.StringMapper(), test);
-      q.add(new net.sourceforge.jaxor.mappers.IntegerMapper(), getSubmissionId());
+      q.add(new net.sourceforge.jaxor.mappers.LongMapper(), getSubmissionId());
       return finder.find("where qualifiedname like ? and submissionid = ?", q);
     } catch ( Exception e ) {
       return null;
