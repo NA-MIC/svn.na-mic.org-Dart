@@ -47,6 +47,7 @@
 <br>
 
 <div class="content">
+<#if client?exists>
 <table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
   <tr class="table-heading">
     <td colspan="2" valign="middle">
@@ -54,33 +55,82 @@
     </td>
   </tr>
   <tr class="tr-odd">
-    <td>Client id</td><td>${client.clientId?html}</td>
+    <td>Client id</td><td align="right">${client.clientId?html}</td>
   </tr>
   <tr class="tr-even">
-    <td>Site</td><td>${client.site?html}</td>
+    <td>Site</td><td align="right">${client.site?html}</td>
   </tr>
   <tr class="tr-odd">
-    <td>BuildName</td><td>${client.buildName?html}</td>
+    <td>BuildName</td><td align="right">${client.buildName?html}</td>
   </tr>
   <tr class="tr-even">
-    <td>DisplayName</td><td>${client.displayName?default("")?html}</td>
+    <td>DisplayName</td><td align="right">${client.displayName?default("")?html}</td>
   </tr>
   <tr class="tr-odd">
-    <td>OS</td><td>${client.oS?default("")?html}</td>
+    <td>OS</td><td align="right">${client.oS?default("")?html}</td>
   </tr>
   <tr class="tr-even">
-    <td>OS Version</td><td>${client.oSVersion?default("")?html}</td>
+    <td>OS Version</td><td align="right">${client.oSVersion?default("")?html}</td>
   </tr>
   <tr class="tr-odd">
-    <td>Branch</td><td>${client.branch?default("")?html}</td>
+    <td>Branch</td><td align="right">${client.branch?default("")?html}</td>
   </tr>
   <tr class="tr-even">
-    <td>Comment</td><td>${client.comment?default("")?html}</td>
+    <td>Comment</td><td align="right">${client.comment?default("")?html}</td>
   </tr>
   <tr class="tr-odd">
-    <td>Configuration</td><td>${client.configuration?default("")?html}</td>
+    <td>Configuration</td><td align="right">${client.configuration?default("")?html}</td>
+  </tr>
+  <#if client.clientPropertyList?exists && (client.clientPropertyList.toList()?size > 0)>
+    <tr class="tr-even">
+      <td align="center" colspan="2"><b>Properties</b></td>
+    </tr>
+    <#list client.clientPropertyList.toList() as property>
+    <#if property_index % 2 == 0>
+    <tr class="tr-odd">
+    <#else>
+    <tr class="tr-even">
+    </#if>
+      <td>${property.name?html}</td>
+      <td align="right">${property.value?html}</td>
+    </tr>
+    </#list>
+  </#if>
+</table>
+
+
+
+<#-- Number of submissions from this client on each track? -->
+
+<#-- if the user has suitable permissions, then allow them to modify the designation -->
+<#if session?exists && session.user?exists>
+  <#-- user logged in, check roles -->
+  <#if realm.isUserInRole( session.user, "Dart.Administrator") || realm.isUserInRole( session.user, projectName + ".Administrator")>
+  <form name="ClientProperty" id="ClientProperty" method="post">
+  Property name: <input tabindex='1' type="text" name="PropertyName" value="" size='25'/>
+Property value: <input tabindex='2' type="text" name="PropertyValue" value="" size='25'/>
+  <input tabindex='3' type='submit' name="AddClientProperty" value="Add property"/>
+  <input tabindex='4' type='submit' name="RemoveClientProperty" value="Remove property"/>   
+  </form>
+  </#if>
+</#if>
+
+
+<#else>
+<#-- No client specified -->
+<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+  <tr class="table-heading">
+    <td colspan="2" valign="middle">
+     <h3>Client</h3>
+    </td>
+  </tr>
+  <tr class="tr-odd">
+    <td colspan="2" valign="middle">
+    No client specified
+    </td>
   </tr>
 </table>
+</#if>
 
 </div>
 </body>

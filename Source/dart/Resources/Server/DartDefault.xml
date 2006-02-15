@@ -85,6 +85,11 @@
       <Properties/>
     </Servlet>
     <Servlet>
+      <Class>dart.server.servlet.Admin</Class>
+      <Context>/Admin/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
       <Class>dart.server.servlet.User</Class>
       <Context>/User/*</Context>
       <Properties/>

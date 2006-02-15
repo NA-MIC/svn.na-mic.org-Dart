@@ -12,5 +12,10 @@
         <column name="branch" type="String" nullable="true" alias="Branch"/>
         <column name="contact" type="String" nullable="true" alias="Contact"/>
         <column name="configuration" type="String" nullable="true" alias="Configuration"/>
+
+        <!-- List of properties for a given client -->
+        <list-ref table="ClientProperty">
+          <key source="ClientId"/>
+        </list-ref>
     </entity>
 </jaxor>

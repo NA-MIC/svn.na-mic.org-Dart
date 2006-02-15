@@ -28,9 +28,12 @@ create table Client (
 -- How we select a Client during Submission processing
 create index ClientIdx1 on Client ( Site, BuildName );
 
-create table Designation (
-  ClientId bigint not null primary key,
-  Approval varchar(32)
+-- Client properties
+create table ClientProperty (
+  ClientPropertyId ${auto} primary key,
+  ClientId bigint,
+  Name varchar(1024),
+  Value varchar(1024)
 );
 
 create table Submission (

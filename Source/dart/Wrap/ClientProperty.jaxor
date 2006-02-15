@@ -1,0 +1,17 @@
+<jaxor package="dart.server.wrap">
+    <entity name="clientproperty" alias="ClientProperty">
+        <primary-key auto-assign="true">
+          <column name="clientpropertyid" type="Long" alias="ClientPropertyId"/>
+        </primary-key>
+        <column name="clientid" type="Long" alias="ClientId"/>
+        <column name="name" type="String" nullable="true" alias="Name"/>
+        <column name="value" type="String" nullable="true" alias="Value"/>
+
+        <!-- Query by name and value -->
+        <query name="selectByNameValue" query="select * from clientproperty where  name = ? and value = ?">
+            <param name="name" type="String"/>
+            <param name="value" type="String"/>
+        </query>
+        
+    </entity>
+</jaxor>

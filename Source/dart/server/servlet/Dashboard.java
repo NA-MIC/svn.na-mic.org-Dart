@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
+import java.security.Principal;
+
 import javax.servlet.http.*;
 import javax.servlet.*;
 
@@ -20,6 +22,9 @@ import freemarker.ext.beans.*;
 import freemarker.ext.servlet.HttpSessionHashModel;
 
 import org.apache.log4j.Logger;
+
+import org.mortbay.http.UserRealm;
+import org.mortbay.http.HashUserRealm;
 
 import dart.server.Server;
 import dart.server.Project;
@@ -128,7 +133,7 @@ public class Dashboard extends HttpServlet {
     }
     map.put ( "project", project );
 
-    // connect to the database
+    // connect to the project database
     //
     Connection connection = project.getConnection();
     try {
@@ -152,6 +157,12 @@ public class Dashboard extends HttpServlet {
     root.put ( "request", req );
     root.put ( "submissionFinder", submissionFinder );
 
+    BeansWrapper realmWrapper = new BeansWrapper();
+    realmWrapper.setExposureLevel( BeansWrapper.EXPOSE_ALL );
+    try {
+      root.put ( "realm", realmWrapper.wrap(project.getHttpServer().getRealm("Dart")));
+    } catch (Exception e) {}
+    
     // Put in the request parameters
     Map parameters = req.getParameterMap();
     root.put ( "parameters", parameters );
@@ -257,12 +268,18 @@ public class Dashboard extends HttpServlet {
           root.put ( "submission", (SubmissionEntity)slist.toList().get(0) );
         }
       }
-    } else if ( parameters.containsKey( "clientid" )) {
+    }
+
+    // find the client the matches the query
+    //
+    if ( parameters.containsKey( "clientid" )) {
       // Search for the client id specified on the url
       String[] ids = (String[])parameters.get ( "clientid" );
-      ClientEntity client
-        = clientFinder.selectByClientId ( new Long ( ids[0] ) );
-      root.put ( "client", client );
+      ClientEntity client = null;
+      try {
+        client = clientFinder.selectByClientId ( new Long ( ids[0] ) );
+        root.put ( "client", client );
+      } catch (Exception e) {logger.error("Client not found. id = " + ids[0]);}
     }
       
     // find the template specified on the URL
