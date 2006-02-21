@@ -4,6 +4,7 @@
 \usepackage{cite}
 \usepackage{subfigure}
 \usepackage{graphicx}
+\usepackage[font=sf]{caption}
 \usepackage{enumerate}
 \usepackage{fancyhdr}
 % \usepackage{fncychap}
@@ -12,7 +13,7 @@
 \usepackage[tight]{units}
 \usepackage{url}
 \usepackage{xspace}
-\usepackage[pdftex,bookmarksopen=true,bookmarksopenlevel=10,pdfstartview=FitH,bookmarks=true,colorlinks=true,linkcolor=blue,pdfauthor={Daniel J. Blezek and James V. Miller},pdftitle={Dart Manual}]{hyperref}
+\usepackage[pdftex,bookmarksopen=true,bookmarksopenlevel=10,pdfstartview=Fit,bookmarks=true,colorlinks=true,linkcolor=blue,pdfauthor={Daniel J. Blezek and James V. Miller},pdftitle={Dart Manual}]{hyperref}
 
 
 \newcommand{\answermark}{$\triangleright$ }
@@ -178,9 +179,42 @@ java -jar DartServer.jar \
           view the (empty) Dashboard.
 \end{enumerate}
 The project \texttt{TestProject} is now up and running accepting
-XML-RPC submissions on port \texttt{8080} and serving HTML pages on
+XML-RPC submissions and serving HTML pages on
 port \texttt{8081}.  The ports and other configurations are covered in
 Section~\ref{Section:ServerSetup}.
+
+\section{Web configuration}
+\label{Section:WebConfiguration}
+Once the Project is configured and the server is running, you should log into 
+the Dart web application and configure the \texttt{admin} User.  Point a browser at 
+\url{http://localhost:8081/TestProject/Dashboard/} (Figure \ref{fig:FirstDartPage}) and click on the \texttt{login or create account} link at the top of the page. Log in as the default Dart administrator (Figure \ref{fig:DartAdminLogin}) using 
+\begin{description}
+\item[Email:] admin
+\item[Password:] password
+\end{description}
+Once you are logged into the Dart web application, you can modify the default password for the \texttt{admin} user (Figure \ref{fig:AdminUserPage}).
+
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=4in]{FirstDartPage}
+	\caption{Dart Dashboard}
+	\label{fig:FirstDartPage}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=4in]{DartAdminLogin}
+	\caption{Logging in as the administrator}
+	\label{fig:DartAdminLogin}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+		\includegraphics[width=4in]{AdminUserPage}
+	\caption{Administrators User page}
+	\label{fig:AdminUserPage}
+\end{figure}
+
 
 \section{Submission}
 Dart ships with a utility called DartClient to submit results to the
@@ -200,7 +234,7 @@ DartClient also provides other options:
 usage: DartClient [options] Project <foox.xml> <foo2.xml> ... <fooN.xml>
  -g,--getstatus   Get Server status
  -h,--help        Print help message
- -p,--port        XML-RPC Port to connect to, 8080 is default
+ -p,--port        XML-RPC Port to connect to, 8081 is default
  -q,--shutdown    Shutdown the Server
  -r,--refresh     Refresh Project resources
  -s,--server      Server to connect to, localhost is default
@@ -216,6 +250,80 @@ your proxy port and server.
 
 \section{Software Installation}
 To be completed.
+
+\chapter{User Guide}
+\label{Section:Users}
+\section{Dart Users}
+
+The Dart web application supports users and roles.  At the top of each Dart page is a link that allows one to \emph{login or create account} (Figure \ref{fig:FirstDartPage}).  Dart User accounts are shared amongst all projects on the Dart server. Currently, Dart User accounts are used by the Dart system to notify users of events. Future versions of Dart will allow Users more customization options: setting plot durations, storing queries, etc.
+
+One event in the Dart system that may notify Users is a submission to the server that contains build errors.  The authors of the new code in that submission can be notified via email that their contribution or modification of the source code produces errors on a particular platform. The Dart server uses Dart User accounts to map from source code repository userids to email addresses for notifications.
+
+\begin{figure}
+	\centering
+		\includegraphics[width=4in]{DartUserPage}
+	\caption{User page}
+	\label{fig:DartUserPage}
+\end{figure}
+
+
+\begin{figure}
+	\centering
+		\includegraphics[width=4in]{DartPageWithUserLoggedIn}
+	\caption{You can return to your Dart User page by clicking on your name at the top a Dart page.}
+	\label{fig:DartPageWithUserLoggedIn}
+\end{figure}
+
+
+When you log into the Dart web application, you are taken to a page with your User properties (Figure \ref{fig:DartUserPage}). If you have already browsed off this page, you can return to this page at anytime by clicking on your name shown at the top of each Dart page (Figure \ref{fig:DartPageWithUserLoggedIn}.  The User property page has a table called \texttt{Repository Userids}.  The text entry controls at the bottom of this table allow the user to specify their source code repository userids for each Project hosted on the Dart server.  Figure \ref{fig:DartUserEnteringRepositoryId} shows how to associate the source code repository userid of \texttt{someone} to this User on the Project \texttt{TestProject}.  Figure \ref{fig:DartUserWithRepositoryId} shows the results of this association.  Multiple source code repository userids can be associated with a Dart User for one Project or for multiple Projects.
+
+
+\begin{figure}
+	\centering
+		\includegraphics[width=4in]{DartUserEnteringRepositoryId}
+	\caption{Enter source code repository userid associations for each Dart Project.}
+	\label{fig:DartUserEnteringRepositoryId}
+\end{figure}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=4in]{DartUserWithRepositoryId}
+	\caption{Dart User with a source code repository userid association.}
+	\label{fig:DartUserWithRepositoryId}
+\end{figure}
+
+\section{Dart Navigation}
+
+
+\section{RSS Feeds}
+
+
+\chapter{Dart Server and Project Administration Guide}
+
+\section{Client Configuration}
+\label{Section:ClientConfiguration}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=4in]{ClientEnteringExpected}
+	\caption{Designating a client as an expected submission requires a client property of \texttt{Expected.<TrackName>} with a value of \texttt{true}.}
+	\label{fig:ClientEnteringExpected}
+\end{figure}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=4in]{ClientEnteringNotifyUserId}
+	\caption{To assign an owner to a client, assign a client property called \texttt{Expected.<TrackName>.Notify.UserId} a value of a Dart Username (email address).}
+	\label{fig:ClientEnteringNotifyUserId}
+\end{figure}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=4in]{ClientWithNotifyUserId}
+	\caption{Client configured with a Dart User to notify if a submission on the Nightly track is not available.}
+	\label{fig:ClientWithNotifyUserId}
+\end{figure}
+
 
 \chapter{Server Setup}
 \label{Section:ServerSetup}
@@ -283,10 +391,8 @@ BaseDirectory.
 \subsection{Ports}
 \begin{verbatim}
   <HTTPPort>8081</HTTPPort>
-  <XMLRPCPort>8080</XMLRPCPort>
 \end{verbatim}
-These are the HTTP and XML-RPC port specifications.  They are required
-to be different.
+The HTTPPort is used for both serving content and accepting XML-RPC connections.
 
 \subsection{Scheduler}
 \begin{verbatim}
@@ -495,6 +601,37 @@ the object are exposed to XML-RPC calls.
       </Properties>
     </Servlet>
     <Servlet>
+      <Class>dart.server.servlet.Admin</Class>
+      <Context>/Admin/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.User</Class>
+      <Context>/User/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.ZipServlet</Class>
+      <Context>/Zip/*</Context>
+      <Properties>
+        <!-- Properties for the ZipServlet are encodings for the files
+             in the zip archive.  The name of the property is used to match the
+             suffix of the file (lowercased...).
+             .html == text/html, .png == image/png
+             -->
+        <Property name=".html">text/html</Property>
+        <Property name=".htm">text/html</Property>
+        <Property name=".xml">text/xml</Property>
+        <Property name=".xsl">text/xml</Property>
+        <Property name=".png">image/png</Property>
+        <Property name=".jpg">image/jpg</Property>
+        <Property name=".jpeg">image/jpg</Property>
+        <Property name=".css">text/css</Property>
+        <Property name=".js">application/x-javascript</Property>
+        <Property name=".txt">text/plain</Property>
+      </Properties>
+    </Servlet>
+    <Servlet>
       <Class>dart.server.servlet.CommandServlet</Class>
       <Context>/Command/</Context>
       <Properties/>
@@ -518,7 +655,21 @@ parameters as \texttt{"project"} and may be accessed as
 Parameters in the \xmltag{Properties} section are also put in the
 initial parameters map.
 
-The second Servlet in the stock configuration is
+The second servlet in the stock configuration web access to administer
+a project. Users in the roles of \texttt{Dart.Administrator}
+and \emph{ProjectName}.\texttt{Administrator} will have access to the 
+administration tools from their \emph{User} page.  
+
+The third servlet in the stock configuration provides \emph{User}
+logins and \emph{User} configuration.
+
+The forth servlet in the stock configuration provides cabilities to serve
+content from within zip archives.  Some third party software analysis tools 
+output web-based reports.  These web-based reports can be place in a zip
+archive and placed on the Dart server.  The Dart server can serve pages 
+from the web-based report as if the pages were unarchived on the Dart server.
+
+The fifth Servlet in the stock configuration is
 dart.server.servlet.CommandServlet.  CommandServlet accepts XML-RPC
 calls and delegates them to the appropriate handler object as
 configured in the CommandManager.  The last Servlet is the
@@ -530,6 +681,11 @@ project URL, \ie
  For example, the URL to submit some results to the Dart project
 TestProject running on the local system is:
 \url{http://localhost:8081/TestProject/Command/} and the method is \texttt{Submit.put}.
+
+The sixth servlet in the stock configuration provides Dart with charting and plotting 
+capabilities.  The \emph{ChartServlet} uses JFreeChart to generate plots of test timings and status.
+
+
 
 \subsubsection{Adding a new servlet to Dart}
 \label{Sec:UserServlet}
@@ -556,6 +712,33 @@ property to the servlet definition in the Project.xml file.
 This example adds the class \texttt{user.servlet.MyDashboard} from the \filename{foo.jar} 
 archive to the project and assigns it the url space of \texttt{/MyDashboard/*}.
 
+\subsection{MessengerManager Configuration}
+\label{Section:MessengerManager}
+\begin{verbatim}
+  <MessengerManager>
+    <Messenger>
+      <Name>SMTP</Name>
+      <Type>dart.server.messenger.SMTPMessenger</Type>
+      <!-- The properties specified on the SMTPMessenger are passed directly 
+           to JavaMail to configure the mail host, port, protocols, 
+           authentication, encryption, etc. -->
+      <Properties>
+        <Property name="mail.host">localhost</Property>
+        <Property name="mail.port">25</Property>
+        <Property name="mail.from">dart@localhost</Property>
+        <Property name="mail.transport.protocol">smtp</Property>
+      </Properties>
+    </Messenger>
+  </MessengerManager>
+\end{verbatim}
+
+The MessengerManager allows for different messaging systems to be employed by Dart. Currently, only an SMTPMessenger is provided. In the future, a variety of messaging services may be available, for instance, instance messaging and pager messaging.
+
+The SMTPMessenger uses the same property names as JavaMail and these properties are passed directly to a JavaMail provider. Authenticated and secure connections to the 
+SMTP provider will be available in future versions of Dart.
+
+Multiple Messengers of the same type can be configured.  For instance, a Project may use different SMTPMessenger's to report on different Events.  One SMTPMessenger may be configured to be used when a submission contains information on build errors while another SMTPMessenger with a different \emph{from} address could be used to report on server level issues.
+
 \subsection{ListenerManager Configuration}
 \label{Section:ListenerManager}
 \begin{verbatim}
@@ -563,24 +746,36 @@ archive to the project and assigns it the url space of \texttt{/MyDashboard/*}.
   <ListenerManager>
     <Listener>
       <Type>dart.server.listener.SubmissionErrorsListener</Type>
-      <ListenTo>
-        <Type>dart.server.event.SubmissionEvent</Type>
-      </ListenTo>
-      <Properties/>
+      <Properties>
+        <Property name="Messenger">SMTP</Property>
+      </Properties>
+    </Listener>
+    <Listener>
+      <Type>dart.server.listener.MissingSubmissionListener</Type>
+      <Properties>
+        <Property name="Messenger">SMTP</Property>
+      </Properties>
     </Listener>
   </ListenerManager>
 \end{verbatim}
 
-During the running of a Dart Project different Events of note may
+While a Dart Project is running, different Events of note may
 occur.  The ListenerManager receives Events from the Project and
-queries each defined Listener's \xmltag{ListenTo} list to see of the
-Listener is interested in this particular type of Event.  If so, the
-Listener's trigger method is called with the Event as an argument.
-Note: more than one Listener of a given type may exist in the
-ListenerManager, \emph{e.g.} when the Listeners are given different
-parameters.  Further Note: the \xmltag{ListenTo} and
-\xmltag{Properties} tags are mandatory!  More information is in
-Section~\ref{Section:ListenerManager}. 
+triggers each Listener that can handle the event. 
+queries each Listener to see if the Listener can handle the event.
+Some Listeners may specify a Messenger  for transmitting information 
+about the event to registered Users.
+
+The first Listener in the stock configuration determines whether a
+submission contains information about build errors and notifies the 
+authors of the code tested in the submission.  The authors of the code in the submission are determined from the \texttt{Update} information sent to the Dart server. Each
+author that can be linked to a Dart User is notified via email with a link
+to a web page summarizing the submission. More information on Dart Users can be found in Section~\ref{Section:Users}.
+
+The second Listener in the stock configuration determines whether any
+clients that are expected to submit on a particular track have yet to submit to the dashboard within the allotted timeframe.  More details on configuring \emph{when} a submission is noted as being missing is in Section~\ref{Section:TaskConfiguration}.
+More information of configuring a client as being \emph{expected} can be found in Section~\ref{Section:ClientConfiguration}.
+ 
 
 \subsection{Task Configuration}
 \label{Section:TaskConfiguration}
@@ -595,7 +790,7 @@ Section~\ref{Section:ListenerManager}.
   </Task>
 \end{verbatim}
 
-Tasks configured in the \filename{Dart.xml} file are periodically
+Tasks configured in the \filename{Project.xml} file are periodically
 scheduled.  Tasks must implement the \texttt{dart.server.task.Task}
 interface.  In the above example, the
 \texttt{dart.server.task.QueueManager} is scheduled to run every 10
@@ -621,6 +816,27 @@ Track is deleted and the Submissions contained in it are reindexed if
 (2) if the Track does not contain any Submissions, (3) if the Track
 has changed duration.  This is scheduled to occur at 2am each day.
 
+\begin{verbatim}
+    <Task>
+      <Type>dart.server.task.MissingSubmissionTask</Type>
+      <!-- Check for missing submissions from 5am to 9pm (exclusive) 
+           every 15 minutes.  Since the Nightly track starts at 9pm, 
+           this gives 8 hours for submissions to roll in before they are 
+           marked as late -->
+      <Schedule>0 */15 5-20 * * ?</Schedule>
+      <Properties>
+        <!-- What track to monitor -->
+        <Property name="Track">Nightly</Property>
+      </Properties>
+    </Task>
+\end{verbatim}
+
+The MissingSubmissionTask checks whether clients that have been marked
+as \emph{expected} have submitted to the Dashboard.  If any \emph{expected}
+clients have not submitted, a \texttt{MissingSubmissionEvent} is triggered.
+The MissingSubmissionListener will process this event and notify the 
+Dart Users associated with a particular client.  The task above is configured to start running 8 hours after the \texttt{Nightly} track starts and checks every 15 minutes for missing submissions. More information on configuring
+\emph{expected} submissions can be found in Section~\ref{Section:ClientConfiguration}.
 
 The format of the \xmltag{Schedule} tag
 is detailed at
@@ -792,6 +1008,7 @@ These are the currently available Tasks:
   if they are no longer referenced in the database.
   \item[GarbageCollectionTask] The GarbageCollectionTask simply runs
   the Java garbage collector.
+  \item[MissingSubmissionTask] The MissingSubmissionTask determines whether any clients have been marked as expected and checks whether these clients have submitted to the Dashboard within the allotted time period.  Users registered as maintainers of the clients which have not submitted will be notified via email.
   \item[PlaceSubmissionInTrackTask] The PlaceSubmissionInTrackTask
   determines which Track a Submission belongs to and places it there.
   This Task should only be used internally and is queued by the
@@ -884,8 +1101,7 @@ the opportunity to respond in a variety of ways.  The Event subsystem
 has two components, Event sources and Listeners.  Events are generated
 automatically (and programatically) by the Dart Server and are handled
 immediately by the ListenerManager.  The ListenerManager checks each
-Listener defined by the Project, if the Listener is registered to
-ListenTo the particular type of Event, the Listener's trigger method
+Listener defined by the Project, if a Listener is registered for the particular type of Event, the Listener's trigger method
 is called.  The Listener is free to take any action based on the
 contents of the Event, but is not allowed to modify the Event in any
 way.
@@ -895,6 +1111,7 @@ Currently defined Events:
 \item[SubmissionEvent] This Event is triggered by the RollupManager
 after all the other Rollups have been done.  This Event signifies that
 a Submission has been completely processed.
+\item[MissingSubmissionEvent] This Event is triggered by the MissingSubmissionTask. This events signifies that certain clients were expected to submit to the Dashboard on a particular track but these clients have yet to perform a submission.  This event may indicate a problem withe client or the network between the client and the Dart server.
 \end{description}
 
 
@@ -903,7 +1120,9 @@ Currently defined Listeners:
 \item[SubmissionErrorsListener]  This Listener determines if a
 Submission is of a particular type and sends the appropriate email to
 the list of registered Users.
+\item[MissingSubmissionListener] This Listener notifies Users registered with a client that said client has yet to submit to the Dashboard.
 \end{description}
+
 \section{Archiving a Dart Server}
 \label{Section:ArchiveTask}
 
@@ -1137,9 +1356,31 @@ The definition of the default Archivers are:
 
 \end{verbatim}
 
-\section{Upgrade from 0.5}
-\label{Section:Upgrade}
-When the Server starts a Project, it performs in intern check to
+\section{Upgrade Dart Server from 0.5 or 0.6}
+\label{Section:UpgradeServer}
+
+Prior to release 1.0, the server database was essentially unused (only the Project databases were employed).  In version 1.0, the server database supports Dart Users.
+To upgrade a Dart Server from a pre-1.0 release
+
+\begin{enumerate}
+\item Copy the Dart Server's Server.xml file to a safe location.
+\item Delete the Dart Server directory.
+\item Create a new Dart Server
+\begin{verbatim}
+java -jar DartServer.jar --createserver TestServer
+\end{verbatim}
+\item Move relevant information from the old Server.xml file into the new Server.xml file
+\item Initialize the Dart Server
+\begin{verbatim}
+java -jar DartServer.jar --initializeserver TestServer
+\end{verbatim} 
+\end{enumerate}
+
+\section{Upgrade Dart Project from 0.5}
+
+First, make sure the Dart server has been upgraded as discussed in Section~\ref{Section:UpgradeServer}. Then, individual projects can be upgraded using an automated upgrade process.
+
+When the Server starts a Project, it performs an internal check to
 ensure the version of the database (held in the Version table) matches
 the expected version in the code.  If the Project does not match the
 expected version, the Server logs an error and exits.  To upgrade the
