@@ -276,6 +276,11 @@ public class Admin extends HttpServlet {
         JaxorContextImpl dbSession = new JaxorContextImpl( connection );
         ClientPropertyFinderBase clientPropertyFinder = new ClientPropertyFinderBase ( dbSession );
 
+        // connect to the server database
+        Connection serverConnection = project.getServer().getConnection();
+        JaxorContextImpl serverJaxorContext = new JaxorContextImpl( serverConnection );
+        UserFinderBase userFinder = new UserFinderBase(serverJaxorContext);
+
         String propertyName = ((String[])parameters.get("PropertyName"))[0];
         String propertyValue = ((String[])parameters.get("PropertyValue"))[0];
         String[] ids = (String[])parameters.get("clientid");
@@ -285,6 +290,52 @@ public class Admin extends HttpServlet {
           // The client property table is a multimap.  A given
           // property can appear multiple times with different
           // values.
+
+          // ClientProperties are used to track expected submissions
+          // and whom to notify when an expected submission is
+          // missing.
+          //
+          // If a client is expected, it will have client property called
+          //
+          //       Expected.<TrackName>
+          //
+          // whose value is "true".
+          //
+          // If a user has been identified as a person to notify if a
+          // submission is missing, the client will have a client property
+          // called
+          //
+          //       Expected.<TrackName>.Notify.UserId
+          //
+          // which will have a value of a long.
+          //
+          // To simply adding users to the notification list, we map
+          // userids to email addresses and vice versa.  So the admin
+          // uses email addresses to specify users but we store
+          // userids internally.
+          if (propertyName.startsWith("Expected.")
+              && propertyName.endsWith(".Notify.UserId")) {
+            // need to map the property value from an email address to
+            // a Dart UserId
+            try {
+              UserEntity user = userFinder.selectByEmail( propertyValue );
+              propertyValue = new String(user.getUserId().toString());
+            } catch (net.sourceforge.jaxor.EntityNotFoundException exc) {
+              // cannot locate user by email
+              logger.error("User to notify cannot be located.");
+
+              // close the connection to the database
+              try { connection.close(); } catch (Exception e) {}
+              try { serverConnection.close(); } catch (Exception e) {}
+
+              // redirect
+              res.sendRedirect( req.getContextPath()
+                                + req.getServletPath()
+                                + req.getPathInfo()
+                                + "?" + req.getQueryString() );
+              return;
+            }
+          }
           
           // Check whether this property already exists, if so
           // redirect
@@ -303,8 +354,9 @@ public class Admin extends HttpServlet {
             logger.info("Client property already exists.");
             // close the connection to the database
             try { connection.close(); } catch (Exception e) {}
+            try { serverConnection.close(); } catch (Exception e) {}
             
-            // redirect to the User page.
+            // redirect to the Client page.
             res.sendRedirect( req.getContextPath()
                               + req.getServletPath()
                               + req.getPathInfo()
@@ -333,6 +385,7 @@ public class Admin extends HttpServlet {
         
         // close the connection to the database
         try { connection.close(); } catch (Exception e) {}
+        try { serverConnection.close(); } catch (Exception e) {}
       
         // redirect to the User page.
         res.sendRedirect( req.getContextPath()
@@ -362,12 +415,62 @@ public class Admin extends HttpServlet {
         JaxorContextImpl dbSession = new JaxorContextImpl( connection );
         ClientPropertyFinderBase clientPropertyFinder = new ClientPropertyFinderBase ( dbSession );
 
+        // connect to the server database
+        Connection serverConnection = project.getServer().getConnection();
+        JaxorContextImpl serverJaxorContext = new JaxorContextImpl( serverConnection );
+        UserFinderBase userFinder = new UserFinderBase(serverJaxorContext);
         String propertyName = ((String[])parameters.get("PropertyName"))[0];
         String propertyValue = ((String[])parameters.get("PropertyValue"))[0];
         String[] ids = (String[])parameters.get("clientid");
         ClientPropertyEntity cp = null;
 
         if (propertyName != null) {
+          // ClientProperties are used to track expected submissions
+          // and whom to notify when an expected submission is
+          // missing.
+          //
+          // If a client is expected, it will have client property called
+          //
+          //       Expected.<TrackName>
+          //
+          // whose value is "true".
+          //
+          // If a user has been identified as a person to notify if a
+          // submission is missing, the client will have a client property
+          // called
+          //
+          //       Expected.<TrackName>.Notify.UserId
+          //
+          // which will have a value of a long.
+          //
+          // To simply adding users to the notification list, we map
+          // userids to email addresses and vice versa.  So the admin
+          // uses email addresses to specify users but we store
+          // userids internally.
+          if (propertyName.startsWith("Expected.")
+              && propertyName.endsWith(".Notify.UserId")) {
+            // need to map the property value from an email address to
+            // a Dart UserId
+            try {
+              UserEntity user = userFinder.selectByEmail( propertyValue );
+              propertyValue = new String(user.getUserId().toString());
+            } catch (net.sourceforge.jaxor.EntityNotFoundException exc) {
+              // cannot locate user by email
+              logger.error("User to notify cannot be located.");
+
+              // close the connection to the database
+              try { connection.close(); } catch (Exception e) {}
+              try { serverConnection.close(); } catch (Exception e) {}
+
+              // redirect
+              res.sendRedirect( req.getContextPath()
+                                + req.getServletPath()
+                                + req.getPathInfo()
+                                + "?" + req.getQueryString() );
+              return;
+            }
+          }
+
           QueryParams qc = new QueryParams();
           qc.add(new net.sourceforge.jaxor.mappers.LongMapper(),
                  new Long(ids[0]) );
@@ -397,6 +500,7 @@ public class Admin extends HttpServlet {
         
         // close the connection to the database
         try { connection.close(); } catch (Exception e) {}
+        try { serverConnection.close(); } catch (Exception e) {}
       
         // redirect to the User page.
         res.sendRedirect( req.getContextPath()

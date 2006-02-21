@@ -12,7 +12,7 @@
 
 <table border="0" cellpadding="0" cellspacing="2" width="100%">
 <tr>
-<td align="center"><a href="/"><img alt="Logo/Homepage link" src="/DartServer/Resources/Icons/Logo.png" border="0"></a>
+<td align="center"><a href="/${projectName}/Dashboard"><img alt="Logo/Homepage link" src="/DartServer/Resources/Icons/Logo.png" border="0"></a>
 </td>
 <td align="left" width="100%" class="title">
 <h2>Dart User</h2>
@@ -226,6 +226,19 @@ ${role.name}
 </table>
 <br/>
 -->
+
+<#-- Tools -->
+<#if session?exists && session.user?exists>
+  <#-- user logged in, check roles -->
+  <#if realm.isUserInRole( session.user, "Dart.Administrator") || realm.isUserInRole( session.user, projectName + ".Administrator")>
+  Administration tools:
+  <ul>
+    <li> <a href="/${projectName}/Admin/Admin">Administration Tools</a>
+  </ul>
+  <br/>
+  </#if>
+</#if>
+
 
 <#--
 <#if referer?exists && referer?has_content>

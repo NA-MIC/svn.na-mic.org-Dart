@@ -3,10 +3,13 @@ package dart.server.messenger;
 import java.security.Security;
 import java.util.*;
 
+import javax.mail.Address;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
+import javax.mail.AuthenticationFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -140,6 +143,70 @@ public class SMTPMessenger extends Messenger {
     // Send the message
     try {
       Transport.send(msg);
+    } catch (AuthenticationFailedException ae) {
+      logger.error("Authentication exception. Unable to send notification. " + ae);
+    } catch (SendFailedException se) {
+      String errorMsg = new String();
+      
+      errorMsg += "Send failed exception. Unable to completely send notification.\n\n";
+
+      Address[] addresses = se.getValidSentAddresses();
+      errorMsg += "\tValid sent addresses: ";
+      if (addresses != null) {
+        for (int i=0; i < addresses.length; ++i) {
+          if (i > 0) {
+            errorMsg += ", ";
+          }
+          errorMsg += addresses[i];
+        }
+        errorMsg += "\n";
+      } else {
+        errorMsg += "(none).\n";
+      }
+      
+      addresses = se.getInvalidAddresses();
+      errorMsg += "\tInvalid addresses: ";
+      if (addresses != null) {
+        for (int i=0; i < addresses.length; ++i) {
+          if (i > 0) {
+            errorMsg += ", ";
+          }
+          errorMsg += addresses[i];
+        }
+        errorMsg += "\n";
+      } else {
+        errorMsg += "(none).\n";
+      }
+
+      addresses = se.getValidUnsentAddresses();
+      errorMsg += "\tValid unsent addresses: ";
+      if (addresses != null) {
+        for (int i=0; i < addresses.length; ++i) {
+          if (i > 0) {
+            errorMsg += ", ";
+          }
+          errorMsg += addresses[i];
+        }
+        errorMsg += "\n";
+      } else {
+        errorMsg += "(none).\n";
+      }
+
+      logger.error(errorMsg);
+
+      // try to resend to the valid remaining recipients.
+      // This may need to be in a loop if the ValidUnsentAddresses
+      // still contains invalid addresses.
+      try {
+        Address[] validUnsent = se.getValidUnsentAddresses();
+        if (validUnsent != null &&  validUnsent.length != 0) {
+          msg.setRecipients(Message.RecipientType.TO, validUnsent);
+          Transport.send(msg);
+        }
+      } catch (SendFailedException se2) {
+        logger.error("Second chance failure to send notification. " + se2);
+      }
+      
     } catch (MessagingException me) {
       logger.error("Messaging exception. Unable to send notification. " + me);
     } catch (Exception e) {

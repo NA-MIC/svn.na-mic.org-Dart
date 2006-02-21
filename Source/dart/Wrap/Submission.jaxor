@@ -40,5 +40,10 @@
       <key source="SubmissionId"/>
     </list-ref>
     
+    <!-- Query by clientid and trackid -->
+    <query name="selectByClientIdAndTrackId" query="select * from submission where clientid = ? and trackid = ?">
+        <param name="clientid" type="Long"/>
+        <param name="trackid" type="Long"/>
+    </query>
   </entity>
 </jaxor>

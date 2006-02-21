@@ -162,6 +162,12 @@
         <Property name="Messenger">SMTP</Property>
       </Properties>
     </Listener>
+    <Listener>
+      <Type>dart.server.listener.MissingSubmissionListener</Type>
+      <Properties>
+        <Property name="Messenger">SMTP</Property>
+      </Properties>
+    </Listener>
   </ListenerManager>
 
   <!-- Scheduled tasks.  The Schedule tag is in cron format. -->
@@ -282,6 +288,19 @@
       <Type>dart.server.task.SaveStatistics</Type>
       <Schedule>10 4 * * * ?</Schedule>
       <Properties>
+      </Properties>
+    </Task>
+
+    <Task>
+      <Type>dart.server.task.MissingSubmissionTask</Type>
+      <!-- Check for missing submissions from 5am to 9pm (exclusive) 
+           every 15 minutes.  Since the Nightly track starts at 9pm, 
+           this gives 8 hours for submissions to roll in before they are 
+           marked as late -->
+      <Schedule>0 */15 5-20 * * ?</Schedule>
+      <Properties>
+        <!-- What track to monitor -->
+        <Property name="Track">Nightly</Property>
       </Properties>
     </Task>
   

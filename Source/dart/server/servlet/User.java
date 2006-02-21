@@ -86,7 +86,7 @@ public class User extends HttpServlet {
     //
     HashMap root = new HashMap();
     root.put( "referer", req.getHeader("Referer"));
-    
+
     // get any parameters on the request 
     Map parameters = req.getParameterMap();
     // cache the parameters for the template engine
@@ -113,21 +113,20 @@ public class User extends HttpServlet {
     Template template;
     String templateName = null;
     String serverName = null;
+    String projectName = null;
 
     try {
-      serverName = getInitParameter("server");
+      projectName = getInitParameter("project");
 
-      if (serverName == null) {
-        // Check to see if we are user the servlet from a project
-        String projectName = getInitParameter("project");
+      if (projectName != null) {
+        // find the server that contains this project
+        Project project = Server.getProject(projectName);
+        serverName = project.getServer().getTitle();
 
-        if (projectName != null) {
-          // find the server that contains this project
-          Project project = Server.getProject(projectName);
-          serverName = project.getServer().getTitle();
-        }
+        root.put( "projectName", projectName);
       }
-      
+
+      // User templates are kept in the server resource area
       Configuration cfg = new Configuration();
       File resourcesDirectory
         = new File(Server.getServer(serverName).getBaseDirectory(),
@@ -205,6 +204,15 @@ public class User extends HttpServlet {
       out.close();
       return;
     }
+
+    // Pass the realm to the template engine
+    UserRealm realm = server.getHttpServer().getRealm("Dart");
+    BeansWrapper realmWrapper = new BeansWrapper();
+    realmWrapper.setExposureLevel( BeansWrapper.EXPOSE_ALL );
+    try {
+      root.put ( "realm", realmWrapper.wrap(realm));
+    } catch (Exception e) {}
+
 
     // finally run the template to generate the webpage
     //

@@ -17,5 +17,16 @@
         <list-ref table="ClientProperty">
           <key source="ClientId"/>
         </list-ref>
+        
+        <!-- Query by client property name/value -->
+        <query name="selectByClientProperty" query="select c.* from client c, clientproperty cp where c.clientid=cp.clientid and cp.name=? and cp.value= ?">
+            <param name="name" type="String"/>
+            <param name="value" type="String"/>
+        </query>
+
+        <query name="selectByClientProperty" query="select c.* from client c, clientproperty cp where c.clientid=cp.clientid and cp.name=>">
+            <param name="name" type="String"/>
+        </query>
+
     </entity>
 </jaxor>

@@ -13,5 +13,9 @@
             <param name="value" type="String"/>
         </query>
         
+        <query name="selectByClientIdName" query="select * from clientproperty where clientid=? and name = ?">
+            <param name="clientid" type="Long"/>
+            <param name="name" type="String"/>
+        </query>
     </entity>
 </jaxor>

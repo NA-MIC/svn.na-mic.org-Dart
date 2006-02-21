@@ -92,7 +92,18 @@
     <tr class="tr-even">
     </#if>
       <td>${property.name?html}</td>
-      <td align="right">${property.value?html}</td>
+      <#-- may need to map values from userids to usernames -->
+      <#if property.name?starts_with("Expected.") 
+        && property.name?ends_with(".Notify.UserId")>
+         <#assign userList=userFinder.selectByUserIdList(property.value?number)>
+         <#if (userList?size > 0)>
+           <td align="right">${userList.toList()[0].email?html}</td>
+         <#else>
+           <td align="right">${property.value?html}</td>
+         </#if>
+      <#else>
+         <td align="right">${property.value?html}</td>
+      </#if>
     </tr>
     </#list>
   </#if>
@@ -106,6 +117,14 @@
 <#if session?exists && session.user?exists>
   <#-- user logged in, check roles -->
   <#if realm.isUserInRole( session.user, "Dart.Administrator") || realm.isUserInRole( session.user, projectName + ".Administrator")>
+<br/>
+  Client properties and client property values:
+  <ul>
+    <li> Expected.&lt;TrackName&gt; - indicates the client is expected to submit on a particular track. Value should be set to "true".
+    <li> Expected.&lt;TrackName&gt;.Notify.UserId - user to contact if the client has not submitted within the alloted time period. Value is specified as a username (email address) of a Dart user.
+  </ul>
+  <br/>
+
   <form name="ClientProperty" id="ClientProperty" method="post">
   Property name: <input tabindex='1' type="text" name="PropertyName" value="" size='25'/>
 Property value: <input tabindex='2' type="text" name="PropertyValue" value="" size='25'/>
@@ -117,7 +136,7 @@ Property value: <input tabindex='2' type="text" name="PropertyValue" value="" si
 
 
 <#else>
-<#-- No client specified -->
+#-- No client specified -->
 <table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
   <tr class="table-heading">
     <td colspan="2" valign="middle">
