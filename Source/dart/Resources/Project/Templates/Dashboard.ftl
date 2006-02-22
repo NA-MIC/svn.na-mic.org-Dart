@@ -32,6 +32,8 @@
 <h2>${projectName?html} Dashboard - ${date?datetime?html}</h2>
 <h3>${date?date?html}</h3>
 <@displayMenu />
+<div align="right"><a href="SubmissionRSS.xml"><img class="icon" src="/${projectName?url}/Resources/Icons/feed-icon16x16.png"></a></div>
+
 </td>
 </tr>
 
