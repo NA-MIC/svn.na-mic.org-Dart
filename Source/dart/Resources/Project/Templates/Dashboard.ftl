@@ -10,6 +10,7 @@
     <title>Dashboard - ${date?datetime?html}</title>
     <link rel="stylesheet" href="/${projectName}/Resources/Style.css" type="text/css">
     <link rel="shortcut icon" href="/${projectName}/Resources/Icons/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/rss+xml" title="Dart(${projectName?url} Submission RSS Feed" href="SubmissionRSS.xml">
 <!--[if IE]>
     <script language="javascript" src="/${projectName}/Resources/cssMenuHelper.js" type="text/javascript"></script>
 <![endif]-->
