@@ -30,7 +30,7 @@ public class DartClient
     CommandLineParser parser = new PosixParser();
     Options options = new Options();
     CommandLine cmd = null;
-    int port = 8080;
+    int port = 8081;
     boolean printHelp = false;
     options.addOption ( "p", "port", true, "XML-RPC Port to connect to, 8081 is default" );
     options.addOption ( "s", "server", true, "Server to connect to, localhost is default" );
