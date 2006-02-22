@@ -269,32 +269,31 @@
     </#if>
     </#list>
 
+
+<#-- check to determine if we have Coverage, Style, or DynamicAnalysis -->
+<#assign hasCoverage=false>
+<#assign hasStyle=false>
+<#assign hasDynamicAnalysis=false>
+<#list tracks?values as track>
+  <#assign submissions = track.getSubmissionList()>
+  <#list submissions.toList() as submission>
+     <#assign submissionid = submission.submissionId/>
+     <#if !hasCoverage && submission.selectTest( ".Coverage" )?exists>
+        <#assign hasCoverage=true>
+     </#if>
+     <#if !hasStyle && submission.selectTest( ".Style" )?exists>
+        <#assign hasStyle=true>
+     </#if>
+     <#if !hasDynamicAnalysis && submission.selectTest( ".DynamicAnalysis" )?exists>
+        <#assign hasDynamicAnalysis=true>
+     </#if>
+  </#list>
+</#list>
+
+
 <!-- Make a track for coverage -->
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("Coverage") )>
 <#-- Check to see if any coverage submissions are available, if not skip this section -->
-<#assign hasCoverage=false>
-<#assign hasStyle=false>
-<#list tracks?values as track>
-  <#if !hasCoverage>
-    <#assign submissions = track.getSubmissionList()>
-    <#list submissions.toList() as submission>
-       <#assign submissionid = submission.submissionId/>
-       <#if submission.selectTest( ".Coverage" )?exists>
-          <#assign hasCoverage=true>
-          <#if hasStyle>
-            <#break/>       
-          </#if>
-       </#if>
-       <#if submission.selectTest( ".Style" )?exists>
-          <#assign hasStyle=true>
-          <#if hasCoverage>
-            <#break/>       
-          </#if>
-       </#if>
-    </#list>
-  </#if>
-</#list>
-
 <#if hasCoverage>
     <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
         <!-- Table heading for track -->
@@ -360,7 +359,8 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
 </#if>
 </#if>
 
-
+<!-- Make a track for style -->
+<#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("Style") )>
 <#if hasStyle>
     <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
         <!-- Table heading for track -->
@@ -415,27 +415,13 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
       </#list>
     </table><br>
 </#if>
-
+</#if>
 
 
 
 <!-- Make a track for dynamic analysis -->
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("DynamicAnalysis") )>
 <#-- Check to see if any dynamic analysis submissions are available, if not skip this section -->
-<#assign hasDynamicAnalysis=false>
-<#list tracks?values as track>
-  <#if !hasDynamicAnalysis>
-    <#assign submissions = track.getSubmissionList()>
-    <#list submissions.toList() as submission>
-       <#assign submissionid = submission.submissionId/>
-       <#if submission.selectTest( ".DynamicAnalysis" )?exists>
-          <#assign hasDynamicAnalysis=true>
-          <#break>
-       </#if>
-    </#list>
-  </#if>
-</#list>
-
 <#if hasDynamicAnalysis>
     <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
         <!-- Table heading for track -->
