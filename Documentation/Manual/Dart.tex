@@ -122,7 +122,17 @@ in a concise and informative fashion cross-sectionally and longitudinally.}
 \item Notes
 \item Fix display of gcov results, not currently indented correctly
 \item Use Javascript column sorting, rather than server side sorting
-\item Document notification, for user and developer
+\item HTAccess support 
+\begin{verbatim}
+ <Directory "/">
+      <limit GET POST>
+      Order deny,allow
+      deny from all
+      allow from 127.0.0.1
+      </Limit>
+ </Directory>
+\end{verbatim}
+\item SSL support
 \end{itemize}
 
 %----------------------------------------------------------------------
