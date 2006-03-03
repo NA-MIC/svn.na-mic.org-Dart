@@ -54,7 +54,8 @@
  <#else>
   <tr class="tr-even">
  </#if>
-   <td align="right"><a href="User?userid=${user.userId?url}">${user.userId?html}</a></td>
+<#--   <td align="right"><a href="User?userid=${user.userId?url}">${user.userId?html}</a></td> -->
+   <td align="right">${user.userId?html}</td>
    <td>${user.email?html}</td>
    <td>${user.lastName?html}</td>
    <td>${user.firstName?html}</td>
