@@ -58,7 +58,7 @@ public class Project extends Container {
 
   static final int DBMajorVersion = 1;
   static final int DBMinorVersion = 0;
-  static final String DBVersionString = "" + DBMinorVersion + "." + DBMinorVersion;
+  static final String DBVersionString = "" + DBMajorVersion + "." + DBMinorVersion;
 
   static Logger logger = Logger.getLogger ( Project.class );
   static Properties statsDefaults = new Properties();
