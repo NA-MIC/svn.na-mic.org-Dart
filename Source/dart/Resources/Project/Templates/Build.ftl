@@ -106,10 +106,17 @@ ${child.getResultValue ( "PostContext", "" )}</pre>
             <br><b>Build return status: </b>${.node.getResultValue("BuildStatus","(Unknown)")?html}
             <br><b>Start Time: </b>${.node.getResultValue("StartDateTime","(Unknown)")?html}
             <br><b>End Time: </b>${.node.getResultValue("EndDateTime","(Unknown)")?html}
-            <#local log = .node.getResultValue("Log","NotAvailable")>
-            <#if log != "NotAvailable">
-            <br><b>Log: </b>${fetchdata(log)}
-            </#if>
+            <#local logs = .node.selectResult("Log").toList()>
+            <#list logs as log>
+            <br><b>Log: </b>
+            <#switch log.getType()>
+            <#case "text/text"><pre>${fetchdata(log.getValue())?html}</pre><#break>
+            <#case "text/html">${fetchdata(log.getValue())}<#break>
+            <#case "text/xml"><pre>${fetchdata(log.getValue())?html}</pre><#break>
+            <#case "archive/zip"><a href="/${projectName}/Zip/${log.getValue()?replace('\\','/')}"/>link</a><#break>
+            <#default><pre>${log.getValue()?html}</pre><#break/>
+            </#switch>
+            </#list>
           </#if>
         </#if>
         <#recurse/>
