@@ -15,7 +15,7 @@ import org.apache.commons.vfs.*;
 import dart.server.Container;
 import dart.server.Server;
 import dart.server.Project;
-import qed.server.*;
+//import qed.server.*;
 /**
    Manager for multiple Projects
    The DartServer is responsible for setting up the XML-RPC
@@ -70,17 +70,17 @@ public class DartServer extends Container
       }
     }
         
-    // Create a project
-    if ( cmd.hasOption ( "q" ) ) {
-      try {
-        // Create a project
-        QED.createQED ( cmd.getOptionValue ( "q" ), cmd.getOptionValue ( "d", "derby" ) );
-        System.exit(0);
-      } catch ( Exception e ) {
-        logger.error( "Failed to create QED: ", e);
-        System.exit(1);
-      }
-    }
+    // Create a QED project
+//     if ( cmd.hasOption ( "q" ) ) {
+//       try {
+//         // Create a project
+//         QED.createQED ( cmd.getOptionValue ( "q" ), cmd.getOptionValue ( "d", "derby" ) );
+//         System.exit(0);
+//       } catch ( Exception e ) {
+//         logger.error( "Failed to create QED: ", e);
+//         System.exit(1);
+//       }
+//     }
 
     // Create user database that is shared among all projects on server
     if ( cmd.hasOption( "k" ) ) {
@@ -162,7 +162,7 @@ public class DartServer extends Container
     options.addOption ( "i", "initialize", false, "Initialize the database from the Schema.sql file in the project directory" );
     options.addOption ( "k", "createserver", true, "Create a new server in the directory specified" );
     options.addOption ( "j", "initializeserver", false, "Initialize the database from the ServerSchema.sql file in the dart server directory" );
-    options.addOption ( "q", "createqed", true, "Create a new QED in the directory specified" );
+    //    options.addOption ( "q", "createqed", true, "Create a new QED in the directory specified" );
     options.addOption ( "t", "projecttemplate", true, "Create a new Project using the specified default template: dart/Resources/Server/DartDefault.xml in the jar file is the default" );
     options.addOption ( "u", "upgradeprojectdb", false, "Update all Project's databases to the lastest version" );
     // options.addOption ( "n", "name", true, "New project name" );
