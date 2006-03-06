@@ -249,7 +249,7 @@ Once you are logged into the Dart web application, you can modify the default pa
 Dart ships with a utility called DartClient to submit results to the
 server.  The basic use is:
 \begin{verbatim}
-# java -jar DartClient.jar TestProject Results.xml
+java -jar DartClient.jar TestProject Results.xml
 \end{verbatim}
 
 This submits Results.xml to the \texttt{TestProject} Project on the
@@ -1532,8 +1532,83 @@ the url to your Dart server.
 
 
 %----------------------------------------------------------------------
-\chapter{Tool Integration}
+\chapter{Dart Clients and Tool Integration}
+
+To perform a build/test sequence and submit the results to a Dart server, you will need a Dart client.  A Dart client runs on a machine performing builds/tests, collects the output the build/test sequence, packages the results into a set of xmlrpc messages, and transmits these messages to the Dart server. Choosing a Dart client is a matter of your software environment.
+\begin{description}
+\item[CTest] CTest is a cross platform Dart client. CTest is the Dart client of choice for C/C++ software projects. CTest is distributed with the cross platform build tool CMake (\url{http://www.cmake.org/}). CTest can use CMake as its build tool or CTest can be configured to run without CMake. For cross platform C/C++ projects, we recommend using CMake as your cross platform build tool. Section~\ref{Section:CTest} describes how to use CTest to communicate with a Dart server.
+\item[Cruise Control] Many Java projects use Cruise Control (\url{http://cruisecontrol.sourceforge.net/}) to perform a build/test sequence. Cruise Control is layered on top of the Java build tool Ant. To support Java software projects which use Cruise Control, Section~\ref{Section:CruiseControl} discusses how to configure Cruise Control to submit build/test results to a Dart server.
+\end{description}
+
+
+
+\section{CTest}
+The latest version of CTest (\url{http://www.cmake.org/}) can be used to submit to a Dart
+server.  A short tutorial on using CTest to a Dart client can be found at \url{http://www.cmake.org/Wiki/CMake_Testing_With_CTest} (refer to content referencing \emph{Dart 2}).
+
+If you are using CMake as your cross platform build tool, you can configure your project to use CTest to communicate with a Dart server by putting these lines in your CMakeLists.txt file
+\begin{verbatim}
+  ENABLE_TESTING()
+  INCLUDE(Dart)
+
+  SET (DROP_METHOD "xmlrpc")
+  SET (DROP_SITE "http://myserver.org:8081")
+  SET (DROP_LOCATION "TestProject")
+  SET (COMPRESS_SUBMISSION ON)
+\end{verbatim}
+Tests are described to CMake using using the \texttt{ADD\_TEST} command in a CMakeLists.txt file
+\begin{verbatim}
+  ADD_TEST(name executable arg1 arg2 ...)  # see CMake documentation
+\end{verbatim}
+Additional information on scripting CTest to perform an automated update. configure, build, test sequence can be found at \url{http://www.cmake.org/Wiki/CMake_Scripting_Of_CTest}.
+
+\subsection{Running CTest}
+CTest provides a variety of command line options to control the build/test process. The configuration to test (Release, Debug) can be specified, the track to perform (Nightly, Continuous, Experimental), and the subset of tests to run can all be specified via the command line to CTest.
+
+\begin{verbatim}
+$ ctest --help
+Usage
+
+  ctest [options]
+
+Command-Line Options
+  -C <config>                 = Choose configuration to test.
+  -V,--verbose                = Enable verbose output from tests.
+  -N,--show-only              = Disable actual execution of tests.
+  -R <regex>                  = Run tests matching regular expression.
+  -E <regex>                  = Exclude tests matching regular expression.
+  -D <DashboardTest>          = Execute dashboard test
+  -S <ConfigScript>           = Execute a dashboard for a configuration
+  -A <Notes file>             = Add a notes file with submission
+  -I [Start,End,Stride,test#,test#|Test file]= Run a specific number of tests by number.
+  --interactive-debug-mode [0|1]= Set the interactive mode to 0 or 1.
+  --build-and-test            = Build and run a test.
+  --build-target              = Specify a specific target to build.
+  --build-nocmake             = Run the build without running cmake first.
+  --build-run-dir             = Specify directory to run programs from.
+  --build-two-config          = Run CMake twice
+  --build-exe-dir             = Specify the directory for the executable.
+  --build-generator           = Specify the generator to use.
+  --build-project             = Specify the name of the project to build.
+  --build-makeprogram         = Specify the make program to use.
+  --build-noclean             = Skip the make clean step.
+  --build-options             = Add extra options to the build step.
+  --tomorrow-tag              = Nightly or experimental starts with next day
+                                tag.
+  --copyright [file]          = Print the CMake copyright and exit.
+  --help                      = Print usage information and exit.
+  --help-full [file]          = Print full help and exit.
+  --help-html [file]          = Print full help in HTML format.
+  --help-man [file]           = Print a UNIX man page and exit.
+  --version [file]            = Show program name/version banner and exit.
+\end{verbatim}
+
+\subsection{Scripting CTest}
+To be completed.
+
+
 \section{Cruise Control}
+\label{Section:CruiseControl}
 Cruise Control (\url{http://cruisecontrol.sourceforge.net/}) is a
 build/test control project aimed to integrate with Java projects using
 Ant.  Built into Dart are the capabilities to parse Cruse Control XML
@@ -1753,7 +1828,7 @@ HTTP proxy is required, that setting is taken from the
 and Windows systems.  The properties file takes precedence over the
 environment variables.
 
-\subsection{Python Submissions}
+\section{Python Submissions}
 Python may be used to submit properly formed Dart XML.  Here is an
 example snippit:
 
@@ -1775,29 +1850,33 @@ example snippit:
       print "Problem submitting XML-RPC for the file: %s" % xmlfile
 \end{verbatim}
 
-\subsection{ctest Integration}
-The latest CVS version of ctest (\url{http://www.cmake.org/}) can be used to submit to a Dart
-Server.  Instructions may be found at
-\url{http://na-mic.org/Wiki/index.php/User:Andy}.
-The settings needed in the project's CMake file are:
+\section{DartClient.jar}
+DartClient.jar can used to submit proper  Dart XML files to a Dart server.  DartClient.jar will package the specified XML file into an xmlrpc message and transmit the message to the Dart server.
+To submit an XML file called Results.xml to the project TestProject
 \begin{verbatim}
-  ENABLE_TESTING()
-  INCLUDE(Dart)
-
-  SET (DROP_METHOD "xmlrpc")
-  SET (DROP_SITE "http://myserver.org:8081")
-  SET (DROP_LOCATION "TestProject")
-  SET (COMPRESS_SUBMISSION ON)
-
-  ADD_TEST(name executable arg1 arg2 ...)  # see CMake documentation
+java -jar DartClient.jar TestProject Results.xml
 \end{verbatim}
 
-In \filename{DartConfiguration.tcl}, this translates to:
+DartClient.jar  also provides other options:
 \begin{verbatim}
-DropSite: http://myserver.org:8081/
-DropLocation: TestProject
-DropMethod: xmlrpc
+$ java -jar DartClient.jar --help
+0 [main] INFO dart.DartClient  - Starting DartClient
+usage: DartClient [options] Project <foox.xml> <foo2.xml> ... <fooN.xml>
+ -g,--getstatus   Get Server status
+ -h,--help        Print help message
+ -p,--port        XML-RPC Port to connect to, 8081 is default
+ -q,--shutdown    Shutdown the Server
+ -r,--refresh     Refresh Project resources
+ -s,--server      Server to connect to, localhost is default
 \end{verbatim}
+
+To connect through a proxy or firewall use:
+\begin{verbatim}
+java -Dhttp.proxyPort=8080 -Dhttp.proxyHost=proxyhost.mydomain.org \
+     -jar DartClient.jar --help
+\end{verbatim}
+with \texttt{http.proxyPort} and \texttt{http.proxyHost} replaced by
+your proxy port and server.
 
 
 
