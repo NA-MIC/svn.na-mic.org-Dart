@@ -49,13 +49,13 @@ public class CommandServlet extends HttpServlet {
         container = Server.getServer ( title );
       }
     } 
-    if ( container == null ) {
-      title = getInitParameter ( "qed" );
-      if ( title != null ) {
-        logger.debug ( "Looking for: " + title );
-        container = Server.getQED ( title );
-      }
-    } 
+//     if ( container == null ) {
+//       title = getInitParameter ( "qed" );
+//       if ( title != null ) {
+//         logger.debug ( "Looking for: " + title );
+//         container = Server.getQED ( title );
+//       }
+//     } 
     if ( container == null ) {
       logger.error ( "Failed to find the associated container: " + title );
       return;

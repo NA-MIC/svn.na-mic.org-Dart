@@ -11,7 +11,7 @@ import org.mortbay.http.HttpContext;
 import dart.DartServer;
 import dart.server.Container;
 import dart.server.Project;
-import qed.server.QED;
+//import qed.server.QED;
 
 /**
    Class to manage Servlets for a Container
@@ -58,8 +58,8 @@ public class ServletManager {
       // a server
       if ( p instanceof Project ) {
         l[i].setInitParameter ( "project", p.getTitle() );
-      } else if ( p instanceof QED ) {
-        l[i].setInitParameter ( "qed", p.getTitle() );
+//       } else if ( p instanceof QED ) {
+//         l[i].setInitParameter ( "qed", p.getTitle() );
       } else if ( p instanceof Server ) {
         l[i].setInitParameter ( "server", p.getTitle() );
       }

@@ -35,7 +35,7 @@ import org.quartz.impl.DirectSchedulerFactory;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import qed.server.*;
+//import qed.server.*;
 
 /**
    Manager for multiple Projects
@@ -50,7 +50,7 @@ public class Server extends Container
   HttpServer httpServer = null;
   Scheduler scheduler = null;
   static HashMap projects = new HashMap();
-  static HashMap qeds = new HashMap();
+  //  static HashMap qeds = new HashMap();
   static HashMap servers = new HashMap();
   HashMap projectNames = new HashMap();
   int httpPort = 8081;
@@ -112,13 +112,13 @@ public class Server extends Container
   static public Project getProject( String name ) {
     return (Project) projects.get(name);
   }
-  /**
-     Lookup the qed by name
-     @param name Name of the project to find
-  */
-  static public QED getQED( String name ) {
-    return (QED) qeds.get(name);
-  }
+//   /**
+//      Lookup the qed by name
+//      @param name Name of the project to find
+//   */
+//   static public QED getQED( String name ) {
+//     return (QED) qeds.get(name);
+//   }
   /**
      Lookup the Server by name
      @param name Name of the Server to find
@@ -331,26 +331,26 @@ public class Server extends Container
       } catch ( Exception e ) {
         logger.error ( "Error starting project " + name, e );
       }
-      if ( isOK == false ) {
-        try {
-          // Try for a QED
-          logger.info( "Trying to load H0 project " + name);
-          QED qed = QED.loadQED ( name );
-          if ( qed != null ) {
-            qeds.put ( qed.getTitle(), qed );
-            qed.start ( this );
-            if ( initializeProjectDB ) {
-              qed.initializeDatabase ( );
-            }
-            if ( refreshProjectResources ) {
-              qed.refreshResources ();
-            }
-            isOK = true;
-          }
-        } catch ( Exception e ) {
-          logger.error ( "Error starting qed " + name, e );
-        }
-      }
+//       if ( isOK == false ) {
+//         try {
+//           // Try for a QED
+//           logger.info( "Trying to load H0 project " + name);
+//           QED qed = QED.loadQED ( name );
+//           if ( qed != null ) {
+//             qeds.put ( qed.getTitle(), qed );
+//             qed.start ( this );
+//             if ( initializeProjectDB ) {
+//               qed.initializeDatabase ( );
+//             }
+//             if ( refreshProjectResources ) {
+//               qed.refreshResources ();
+//             }
+//             isOK = true;
+//           }
+//         } catch ( Exception e ) {
+//           logger.error ( "Error starting qed " + name, e );
+//         }
+//       }
     }
 
     
