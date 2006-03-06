@@ -171,7 +171,7 @@ java -jar DartServer.jar  --create TestProject
     edited to change the projects settings (see
     Section~\ref{Section:Settings}).  Now is a good time to do this.
 
-    \item Start the project\\
+    \item \label{quickstart:startprojectfirsttime} Start the project for the first time\\
     \begin{verbatim}
 java -jar DartServer.jar \
               --initialize --refresh --refreshServer TestServer TestProject
@@ -187,7 +187,17 @@ java -jar DartServer.jar \
     specific files in the correct locations in the Server directory.
     \item View the dashboard.  Point your browser to
           \texttt{http://localhost:8081/TestProject/Dashboard/} to
-          view the (empty) Dashboard.
+          view the (empty) Dashboard.         
+    \item Stop the server
+    \begin{verbatim}
+java -jar DartClient.jar -q TestProject
+    \end{verbatim}
+    To shutdown down the server, you need to send a message to the running server.  The DartClient.jar file is a small Dart client that can be used to shutdown the server (or query its status or refresh its resources).
+    \item Start the project  
+    \begin{verbatim}
+java -jar DartServer.jar TestServer TestProject
+    \end{verbatim}
+    Once the project has been initialized in step \ref{quickstart:startprojectfirsttime}, the \texttt{--initialize} option is no longer needed when starting the project. The \texttt{--refresh} and \texttt{--refreshServer} could still be used if project or server resources (icons, template, styles) needed to be updated from the DartServer.jar.
 \end{enumerate}
 The project \texttt{TestProject} is now up and running accepting
 XML-RPC submissions and serving HTML pages on
