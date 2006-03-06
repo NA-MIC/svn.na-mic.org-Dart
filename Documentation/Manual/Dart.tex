@@ -61,6 +61,7 @@ James V. Miller}
 
 %----------------------------------------------------------------------
 \chapter*{Acknowledgments}
+\thispagestyle{empty}
 This product includes software developed by the Apache Software Foundation (\url{http://www.apache.org/}).
 
 This product includes software developed by the Visigoth Software Society (\url{http://www.visigoths.org/}).
@@ -75,6 +76,7 @@ can be obtained from \url{http://nihroadmap.nih.gov/bioinformatics}.
 
 %----------------------------------------------------------------------
 \chapter*{License}
+\thispagestyle{empty}
 \begin{verbatim}
 Copyright (c) 2004-2005, The Insight Consortium
 All rights reserved.
@@ -105,6 +107,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \end{verbatim}
 
+% Put the table on contents after the license
+%
+%
+%
+\tableofcontents
+
 
 %----------------------------------------------------------------------
 \chapter{Introduction}
@@ -115,6 +123,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 build and test hosts, summarizing the software quality aspects of the project
 in a concise and informative fashion cross-sectionally and longitudinally.}
 \end{quote}
+
+\section{History of Dart}
+In 1997, General Electric added a new quality initiative, called \emph{Six Sigma}.  As part of Six Sigma training, each employee had to complete a number of quality projects.  At GE Research, we focused a collection of our quality projects on the development of one of our software toolkits, the Visualization Toolkit or VTK (\url{http://www.vtk.org/}).  At the end of the first round of training, we had 14 different quality assurance processes applied to dynamic memory analysis, test code coverage, coding style, etc. In a second round of training, we integrated these original 14 projects into an automated system that collected their outputs and integrated them into an online dashboard. This system was a collection of \texttt{tcsh}, \texttt{awk}, \texttt{sed} and \texttt{cron} scripts, cobbled together into a quality assurance system.
+
+In 1999, the National Library of Medicine commissioned the development of an open source, cross platform project called the Insight Segmentation and Registration Toolkit, ITK (\url{http://www.itk.org/}).  As part of GE Research's contribution to the ITK effort, GE Research developed the first version of Dart.  Dart's goals were
+\begin{enumerate}
+\item Remove the dependence on \texttt{tcsh}, \texttt{awk}, \texttt{sed} and \texttt{cron} scripts to perform a build and test sequence
+\item Allow testing machines from around the world to submit test results to a Dart server
+\item Separate the data from its presentation
+\item Apply the Dart testing system to a variety of project (ITK, VTK, VXL)
+\item Make the testing system itself open source
+\end{enumerate}
+The original Dart used \texttt{TCL} to orchestrate a build/test sequence on a client machine and construct an XML representation of the build/test results.  The XML files were sent to a staging area on a Dart server using \texttt{ftp} and a \texttt{cgi-bin} script moved the XML data to the Dart server web page. A \texttt{cron} job periodically rolled up a Dashboard, using XSLT to convert the XML files to static HTML.  Later, Kitware Inc. developed a second Dart client called CTest.  CTest simplified the build/test process for the client machines and removed the client's dependency on \texttt{TCL}.
+
+Dart met its original design goals and was successfully applied to many software projects. Dart clients were easy to use and allowed for testing machines to be distributed around the world.  The Dart server allowed anyone to view the results of a test sequence and monitor the software development process.  Dart allowed a cross-platform system to be tested in multiple configurations.
+
+The server side of Dart, however, was still difficult to maintain.  The Dart server needed a web server, cgi-bin, \texttt{Perl}, an \texttt{ftp} server, \texttt{TCL}, \texttt{cron}, and \texttt{java} (for XSLT). Dart required considerable storage and computational resources.  The XML files needed considerable storage and it could take 20 minutes to convert XML files into static web pages. 
+
+In 2004, NIH sponsored the National Alliance of Medical Image Computing, NA-MIC (\url{http://www.na-mic.org/}) as part of NIH Roadmap for Medical Research, Grant U54 EB005149.  GE Research is developing the next generation of Dart as part of NA-MIC.  The goals remain broadly the same, however, two new goals have been identified
+\begin{enumerate}
+\item Simplify the Dart server setup and maintenance
+\item Allow for longitudinal or temporal analysis of test results
+\end{enumerate}
+
+To this end, we introduce the new version of Dart.  We affectionately refer to the previous version of Dart as \emph{Dart Classic}.   The new Dart still accepts build/test results in the \emph{Dart Classic} format.  Dart has been completely rewritten in Java.  It uses an embedded web server and servlet engine (Jetty) and an embedded database (Derby).  XML-RPC is used to transmit build/test results to the Dart server.  Dart is distributed as two jar files.  The first jar file, DartServer.jar, contains everything to create and run a Dart server managing serveral Dart projects.  The second jar file, DartClient.jar, is a small utility to shutdown a server, refresh its resources, query its status, and can be used as an XML-RPC messenger.
+
 
 \section{To Do}
 \begin{itemize}
@@ -1537,14 +1571,14 @@ the url to your Dart server.
 To perform a build/test sequence and submit the results to a Dart server, you will need a Dart client.  A Dart client runs on a machine performing builds/tests, collects the output the build/test sequence, packages the results into a set of xmlrpc messages, and transmits these messages to the Dart server. Choosing a Dart client is a matter of your software environment.
 \begin{description}
 \item[CTest] CTest is a cross platform Dart client. CTest is the Dart client of choice for C/C++ software projects. CTest is distributed with the cross platform build tool CMake (\url{http://www.cmake.org/}). CTest can use CMake as its build tool or CTest can be configured to run without CMake. For cross platform C/C++ projects, we recommend using CMake as your cross platform build tool. Section~\ref{Section:CTest} describes how to use CTest to communicate with a Dart server.
-\item[Cruise Control] Many Java projects use Cruise Control (\url{http://cruisecontrol.sourceforge.net/}) to perform a build/test sequence. Cruise Control is layered on top of the Java build tool Ant. To support Java software projects which use Cruise Control, Section~\ref{Section:CruiseControl} discusses how to configure Cruise Control to submit build/test results to a Dart server.
+\item[Cruise Control] Many Java projects use Cruise Control (\url{http://cruisecontrol.sourceforge.net/}) to perform a build/test sequence. Cruise Control is layered on top of the Java build tool Ant. Section~\ref{Section:CruiseControl} discusses how to configure Cruise Control to submit build/test results to a Dart server.
 \end{description}
 
 
 
 \section{CTest}
-The latest version of CTest (\url{http://www.cmake.org/}) can be used to submit to a Dart
-server.  A short tutorial on using CTest to a Dart client can be found at \url{http://www.cmake.org/Wiki/CMake_Testing_With_CTest} (refer to content referencing \emph{Dart 2}).
+\label{Section:CTest}
+CTest is a Dart client distributed as part of CMake (\url{http://www.cmake.org/}). A short tutorial on using CTest ass a Dart client can be found at \url{http://www.cmake.org/Wiki/CMake_Testing_With_CTest} (this tutorial covers both this version of \emph{Dart}, frequently called \emph{Dart 2}, and its predecessor, to be called \emph{Dart Classic}).
 
 If you are using CMake as your cross platform build tool, you can configure your project to use CTest to communicate with a Dart server by putting these lines in your CMakeLists.txt file
 \begin{verbatim}
@@ -1558,9 +1592,9 @@ If you are using CMake as your cross platform build tool, you can configure your
 \end{verbatim}
 Tests are described to CMake using using the \texttt{ADD\_TEST} command in a CMakeLists.txt file
 \begin{verbatim}
-  ADD_TEST(name executable arg1 arg2 ...)  # see CMake documentation
+  ADD_TEST(name executable arg1 arg2 ...)  
 \end{verbatim}
-Additional information on scripting CTest to perform an automated update. configure, build, test sequence can be found at \url{http://www.cmake.org/Wiki/CMake_Scripting_Of_CTest}.
+The arguments to the \texttt{ADD\_TEST} command are the name of the test (as it will be referred to by Dart) and the test executable to run complete with its arguments.  This is a very simple mechanism for specifying tests.  Each test can be configured to run a different executable or a set of tests could be configured to run the same executable but with different arguments.
 
 \subsection{Running CTest}
 CTest provides a variety of command line options to control the build/test process. The configuration to test (Release, Debug) can be specified, the track to perform (Nightly, Continuous, Experimental), and the subset of tests to run can all be specified via the command line to CTest.
@@ -1604,7 +1638,9 @@ Command-Line Options
 \end{verbatim}
 
 \subsection{Scripting CTest}
-To be completed.
+
+Additional information on scripting CTest to perform an automated update, configure, build, test sequence can be found at \url{http://www.cmake.org/Wiki/CMake_Scripting_Of_CTest}.
+
 
 
 \section{Cruise Control}
