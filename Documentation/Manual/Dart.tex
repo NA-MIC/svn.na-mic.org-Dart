@@ -142,10 +142,18 @@ in a concise and informative fashion cross-sectionally and longitudinally.}
 \label{Section:QuickStart}
 
 If you are building Dart from source, please refer to
-Section~\ref{Section:Development} to build DartServer.jar, then return
-to this Section.  If you've downloaded the jar file, you may begin
-here.  The distributions are build using JDK 1.4.  For users upgrading
-from a pre 0.4 release, please see Section~\ref{Section:Upgrade}.
+Section~\ref{Section:Development} to build the jar files, then return
+to this Section.  If you've downloaded the jar files, you may begin
+here.  The distributions are built using JDK 1.4.  For users upgrading
+from an earlier version of Dart, please see Sections~\ref{Section:UpgradeServer}-\ref{Section:UpgradePre0.4}.
+
+Dart contains two jar files:
+\begin{description}
+\item[DartServer.jar] Complete Dart server with http server, servlet engine, and backend database.
+\item[DartClient.jar] Small client to communicate with the Dart server.  DartClient.jar can be used to shutdown the server, instruct the server to refresh/restore its resources (icons, templates, styles) from the DartServer.jar file, query the status of the Dart server, and transmit XML files to the Dart server.
+\end{description}
+
+Here are the steps to create a new Dart server, create a project on the Dart server, and start and stop the Dart server:
 \begin{enumerate}
     \item Create the Server directory and configuration\\
     \begin{verbatim}
@@ -1410,6 +1418,7 @@ java -jar DartServer.jar --initializeserver TestServer
 \end{enumerate}
 
 \section{Upgrade Dart Project from 0.5}
+\label{Section:Upgrade0.5}
 
 First, make sure the Dart server has been upgraded as discussed in Section~\ref{Section:UpgradeServer}. Then, individual projects can be upgraded using an automated upgrade process.
 
