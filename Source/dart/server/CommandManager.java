@@ -6,14 +6,15 @@ import java.lang.*;
 import java.lang.reflect.*;
 import dart.server.*;
 import dart.server.command.*;
-import org.apache.xmlrpc.XmlRpcServer;
+import org.apache.xmlrpc.server.*;
+import org.apache.xmlrpc.webserver.*;
 
 public class CommandManager {
   static Logger logger = Logger.getLogger ( CommandManager.class );   
   Container project;
   HashMap map = new HashMap();
   String defaultTrack;
-  XmlRpcServer xmlrpcServer = null;
+  XmlRpcServletServer xmlrpcServer = null;
 
   public XmlRpcServer getXmlRpcServer () { return xmlrpcServer; }
 
@@ -22,8 +23,9 @@ public class CommandManager {
   }
 
   public void start ( Container p ) throws Exception {
+    HandlerMapping mapping = new HandlerMapping();
     project = p;
-    xmlrpcServer = new XmlRpcServer();
+    xmlrpcServer = new XmlRpcServletServer();
     logger.debug ( project.getTitle() + ": Starting CommandManager" );
     Iterator i = map.keySet().iterator();
     Class a[] = { Container.class, Properties.class };
@@ -38,11 +40,12 @@ public class CommandManager {
         Constructor constructor = Class.forName ( ClassName ).getConstructor ( a );
         command = (Command) constructor.newInstance ( args );
         logger.debug ( project.getTitle() + ": Starting Command: " + name );
-        xmlrpcServer.addHandler ( name, command );
+        mapping.addHandler ( name, command );
       } catch ( Exception e ) {
         logger.error ( "Error creating command: " + name + " of type: " + ClassName, e );
       }
     }
+    xmlrpcServer.setHandlerMapping ( mapping );
   }
 
   public void shutdown() throws Exception {

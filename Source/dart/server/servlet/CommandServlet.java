@@ -16,6 +16,8 @@ import dart.server.*;
 import dart.server.Project;
 
 import org.apache.xmlrpc.*;
+import org.apache.xmlrpc.server.*;
+import org.apache.xmlrpc.webserver.*;
 
 /**
    Servlet to accept submission data.
@@ -32,7 +34,6 @@ public class CommandServlet extends HttpServlet {
     throws ServletException, IOException
   {
     // setup the output
-    res.setContentType( "text/xml" );
 
     Container container = null;
 
@@ -61,11 +62,13 @@ public class CommandServlet extends HttpServlet {
       return;
     }
     // Do the xmlrpc thing
-    XmlRpcServer xmlrpc = container.getCommandManager().getXmlRpcServer();
-    byte[] result = xmlrpc.execute ( req.getInputStream() );
-    res.setContentLength ( result.length );
-    OutputStream out = res.getOutputStream();
-    out.write ( result );
-    out.flush();
+    // res.setContentType( "text/xml" );
+    XmlRpcServletServer xmlrpc = (XmlRpcServletServer) container.getCommandManager().getXmlRpcServer();
+    xmlrpc.execute ( req, res );
+    // byte[] result = xmlrpc.execute ( req.getInputStream() );
+    // res.setContentLength ( result.length );
+    // OutputStream out = res.getOutputStream();
+    // out.write ( result );
+    // out.flush();
   }
 }

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.*;
 import java.util.Properties;
 
-import org.apache.xmlrpc.XmlRpcServer;
+import org.apache.xmlrpc.server.*;
 import net.sourceforge.jaxor.JaxorContextImpl;
 import net.sourceforge.jaxor.QueryParams;
 

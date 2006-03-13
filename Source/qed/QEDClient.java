@@ -8,7 +8,7 @@ import java.io.*;
 import java.net.*;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.xmlrpc.XmlRpcClient;
+import org.apache.xmlrpc.client.*;
 import java.util.Vector;
 
 import org.apache.log4j.BasicConfigurator;
@@ -60,7 +60,10 @@ public class QEDClient
 
     XmlRpcClient client = null;
     try {
-      client = new XmlRpcClient ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/" + project + "/Command/" ) );
+      XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+      config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/" + project + "/Command/" ) );
+      client = new XmlRpcClient ();
+      client.setConfig ( config );
     } catch ( Exception e ) {
       logger.error ( "Failed to create XmlRpcClient", e );
       System.exit ( 1 );

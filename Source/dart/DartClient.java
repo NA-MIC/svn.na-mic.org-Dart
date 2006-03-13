@@ -9,8 +9,8 @@ import java.io.*;
 import java.net.*;
 import java.util.zip.GZIPOutputStream;
 
-// import marquee.xmlrpc.XmlRpcClient;
-import org.apache.xmlrpc.XmlRpcClient;
+import org.apache.xmlrpc.*;
+import org.apache.xmlrpc.client.*;
 import java.util.Vector;
 
 import org.apache.log4j.BasicConfigurator;
@@ -66,11 +66,12 @@ public class DartClient
     String project = files[0]; 
 
 
-    // XmlRpcClient client = new XmlRpcClient ( cmd.getOptionValue ( "s", "localhost" ), port, "" );
     XmlRpcClient client = null;
     try {
-      // client = new XmlRpcClient ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port ) );
-      client = new XmlRpcClient ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/" + project + "/Command/" ) );
+      XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+      config.setServerURL(new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/" + project + "/Command/" ) );
+      client = new XmlRpcClient ();
+      client.setConfig(config);
     } catch ( Exception e ) {
       logger.error ( "Failed to create XmlRpcClient", e );
       System.exit ( 1 );
@@ -78,7 +79,10 @@ public class DartClient
 
     if ( cmd.hasOption ( "q" ) ) {
       try {
-        XmlRpcClient admin = new XmlRpcClient ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
+        XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+        config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
+        XmlRpcClient admin = new XmlRpcClient ( );
+        admin.setConfig ( config );
         Vector aa = new Vector ();
         aa.addElement ( "Foo" );
         aa.addElement ( "bar" );
@@ -101,7 +105,10 @@ public class DartClient
 
     if ( cmd.hasOption ( "R" ) ) {
       try {
-        XmlRpcClient admin = new XmlRpcClient ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
+        XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+        config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
+        XmlRpcClient admin = new XmlRpcClient ( );
+        admin.setConfig ( config );
         admin.execute ( "Administration.refresh", new Vector() );
         System.exit ( 0 );
       } catch ( Exception e ) {
@@ -113,7 +120,10 @@ public class DartClient
     
     if ( cmd.hasOption ( "g" ) ) {
       try {
-        XmlRpcClient admin = new XmlRpcClient ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
+        XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+        config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
+        XmlRpcClient admin = new XmlRpcClient ( );
+        admin.setConfig ( config );
         String o = (String)admin.execute ( "Administration.getStatus", new Vector() );
         // Vector params = new Vector();
         // String result = (String) client.execute ( "

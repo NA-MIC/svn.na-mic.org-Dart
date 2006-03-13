@@ -22,7 +22,9 @@ import java.text.*;
 import java.util.Properties;
 
 // import marquee.xmlrpc.XmlRpcServer;
-import org.apache.xmlrpc.XmlRpcServer;
+import org.apache.xmlrpc.*;
+import org.apache.xmlrpc.server.*;
+import org.apache.xmlrpc.client.*;
 import net.sourceforge.jaxor.JaxorContextImpl;
 import net.sourceforge.jaxor.QueryParams;
 

@@ -17,7 +17,8 @@ import java.security.*;
 import java.io.*;
 
 import java.util.Vector;
-import org.apache.xmlrpc.XmlRpcClient;
+import org.apache.xmlrpc.*;
+import org.apache.xmlrpc.client.*;
 import java.util.Vector;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -46,18 +47,27 @@ public class XMLRPCTestSuite extends TestCase {
   }
 
   public void testGetStatus () throws Exception {
-    XmlRpcClient admin = new XmlRpcClient ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/DartServer/Command/" ) );
+    XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    config.setServerURL ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/DartServer/Command/" ) );
+    XmlRpcClient admin = new XmlRpcClient ( );
+    admin.setConfig ( config );
     String o = (String)admin.execute ( "Administration.getStatus", new Vector() );
     logger.info ( "Status: " + o );
   }
 
   public void testServerRefresh () throws Exception {
-    XmlRpcClient admin = new XmlRpcClient ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/DartServer/Command/" ) );
+    XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    config.setServerURL ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/DartServer/Command/" ) );
+    XmlRpcClient admin = new XmlRpcClient ( );
+    admin.setConfig ( config );
     admin.execute ( "Administration.refresh", new Vector() );
   }
 
   public void testProjectRefresh () throws Exception {
-    XmlRpcClient client = new XmlRpcClient ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.project.getTitle() + "/Command/" ) );
+    XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    config.setServerURL ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.project.getTitle() + "/Command/" ) );
+    XmlRpcClient client = new XmlRpcClient ();
+    client.setConfig(config);
     client.execute ( "Submit.refresh", new Vector() );
   }
 
@@ -65,7 +75,9 @@ public class XMLRPCTestSuite extends TestCase {
     byte[] Data = new byte[32000];
 
     // Open the connection to the server
-    XmlRpcClient client = new XmlRpcClient ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.project.getTitle() + "/Command/" ) );
+    XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    config.setServerURL ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.project.getTitle() + "/Command/" ) );
+    XmlRpcClient client = new XmlRpcClient ();
 
     // Read in the file
     URL url = DartServer.class.getClassLoader().getResource ( "dart/Resources/Test/TestLongCorrect.xml.gz" );
@@ -83,6 +95,8 @@ public class XMLRPCTestSuite extends TestCase {
     in.close();
     Vector params = new Vector();
     params.addElement ( bytes.toByteArray() );
+    logger.debug ( "Calling Submit.put on client: " + client );
+    logger.debug ( "Params: " + params );
     client.execute ( "Submit.put", params );
   }
 
