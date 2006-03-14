@@ -55,8 +55,6 @@
   <#assign sortByKey="buildName"/>
 <#elseif parameters.sortBy?exists && parameters.sortBy[0] == "update">
   <#assign sortByKey="updateCount"/>
-<#elseif parameters.sortBy?exists && parameters.sortBy[0] == "config">
-  <#assign sortByKey="configCount"/>
 <#elseif parameters.sortBy?exists && parameters.sortBy[0] == "error">
   <#assign sortByKey="errorCount"/>
 <#elseif parameters.sortBy?exists && parameters.sortBy[0] == "warning">
@@ -125,11 +123,6 @@
           <#else>
             <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=ascending}">Update</a></th>
           </#if>
-          <#if sortByKey=="configCount">
-            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=config&order=${reverseOrder}">Config</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
-          <#else>
-            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=config&order=ascending}">Config</a></th>
-          </#if>
           <th align="center" colspan="3">Build</th>
           <th align="center" colspan="5">Test</th>
           <#if sortByKey=="timeStamp">
@@ -169,7 +162,6 @@
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=descending">Passed</a></th>
           </#if>
-          <th align="center">NA</th>
           <#if sortByKey=="elapsedTestTime">
             <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=${reverseOrder}">Time</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
           <#else>
@@ -205,9 +197,6 @@
           
           <#assign updatecount=submission.updateCount/>
           <td align="center"><#if (updatecount >= 0)><b><a href="Update?submissionid=${submissionid}">${updatecount?html}</a></b></#if></td>
-
-          <#assign configcount=submission.configCount/>
-          <td align="center"><#if (configcount >= 0)><b><a href="Config?submission=${submissionid}">${configcount?html}</a></b></#if></td>
 
           <#assign errorcount=submission.errorCount/>
           <#if (errorcount > 0)>
@@ -256,7 +245,6 @@
           <#else>
              <td></td>
           </#if>
-          <td></td>
 
           <#assign elapsedtesttime=submission.elapsedTestTime/>
           <td align="right"><#if (elapsedtesttime >= 0)>${elapsedtesttime?html}</#if></td>
