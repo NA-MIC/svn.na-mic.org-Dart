@@ -20,7 +20,8 @@ public class TrackManager {
   }
 
   public void setDefaultTrack ( String s ) { defaultTrack = s; }
-
+  public String getDefaultTrack() { return defaultTrack; }
+  
   public void start ( Project p ) throws Exception {
     project = p;
     logger.debug ( project.getTitle() + ": Starting TrackManager" );

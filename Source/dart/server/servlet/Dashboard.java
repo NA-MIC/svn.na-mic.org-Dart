@@ -226,7 +226,8 @@ public class Dashboard extends HttpServlet {
     // Find intersecting tracks
     TrackList list = trackFinder.selectIntersectingList( timeStamp, timeStamp );
     root.put ( "tracks", getTrackMap ( list ) );
-
+    root.put ( "defaulttrack", project.getTrackManager().getDefaultTrack() );
+    
     // find submissions that matches the query
     //
     if ( parameters.containsKey ( "submissionid" ) ) {
