@@ -286,7 +286,7 @@
   
     <Task>
       <Type>dart.server.task.SaveStatistics</Type>
-      <Schedule>10 4 * * * ?</Schedule>
+      <Schedule>* */1 * * * ?</Schedule>
       <Properties>
       </Properties>
     </Task>

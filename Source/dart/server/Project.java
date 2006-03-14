@@ -69,6 +69,7 @@ public class Project extends Container {
     statsDefaults.put ( "Submissions", "0" );
     statsDefaults.put ( "TestsProcessed", "0" );
     statsDefaults.put ( "BinaryResults", "0" );
+    statsDefaults.put ( "LastActivity", "none" );
   }
 
   TrackManager trackManager = null;
@@ -116,6 +117,7 @@ public class Project extends Container {
   public Properties getStats() { return stats; }
   public Properties getProperties() { return properties; }
   public void setProperties ( Properties p ) { properties = p; }
+  public void setStatistic(String key, String value) { stats.put(key, value); }
   public void incrementStatistic ( String key ) { incrementStatistic ( key, 1 ); }
   public void incrementStatistic ( String key, int i ) {
     if ( !stats.containsKey ( key ) ) {

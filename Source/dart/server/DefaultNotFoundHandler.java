@@ -63,66 +63,6 @@ public class DefaultNotFoundHandler extends NotFoundHandler
     root.put( "date", Calendar.getInstance().getTime() );
     root.put( "projects", dartServer.projects );
     root.put( "request", req );
-    
-    // for each project on the server, determine the last time results
-    // were added to the project's database.
-    HashMap activity = new HashMap();
-
-    Iterator it = dartServer.projects.entrySet().iterator();
-    while ( it.hasNext() ) {
-      // get the project
-      Map.Entry entry = (Map.Entry) it.next();
-      Project project = (Project) entry.getValue();
-
-      // find the last task in the completed task table for this
-      // project. restrict the query to just those tasks that are of
-      // type XMLResultProcessor, i.e. a task that entered results
-      // into the database. This ignores any other tasks that were run
-      // on the project such as archival, statistics, etc.
-      Connection connection = project.getConnection();
-      try {
-        connection.setReadOnly ( true );
-      } catch ( Exception e ) {
-        logger.error ( project.getTitle()
-           + ": Could not set connection to ReadOnly, possible security hole!",
-           e );
-      }
-      
-      JaxorContextImpl jaxorContext = new JaxorContextImpl ( connection );
-      CompletedTaskFinderBase taskFinder
-        = new CompletedTaskFinderBase( jaxorContext );
-
-      QueryParams params = new QueryParams();
-      params.add( "dart.server.task.XMLResultProcessor" );
-
-      CompletedTaskList taskList = taskFinder.query("select * from CompletedTask where Type=? order by ProcessedTime desc", params );
-
-      // logger.info("Completed task length: " + taskList.size() );
-
-      CompletedTaskIterator lit = taskList.iterator();
-      if (lit.hasNext()) {
-        java.sql.Timestamp timestamp
-          = (java.sql.Timestamp) lit.next().getProcessedTime();
-
-        // cache the last timestamp
-        activity.put( project.getTitle(), timestamp );
-      } else {
-        java.sql.Timestamp timestamp = new java.sql.Timestamp(0);
-
-        // cache the last timestamp
-        activity.put( project.getTitle(), timestamp );
-      }
-      
-      // close the connection to this project
-      try {
-        connection.close();
-      } catch (Exception e) {
-        logger.error("Unable to close connection to database.");
-      }
-    }
-    // pass the last activity times freemarker
-    root.put( "activity", activity );
-    
 
     // Run the template to generate the page
     Configuration cfg = new Configuration();

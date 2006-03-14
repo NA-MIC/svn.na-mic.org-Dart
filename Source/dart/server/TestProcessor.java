@@ -160,6 +160,9 @@ public class TestProcessor {
         logger.debug ( project.getTitle() + ": Queuing Rollup: " + type + " Priority: " + priority + " Properties: \n" + prop );
         project.queueTask ( type, prop, priority );
       }
+
+      // increment the activity statistic
+      project.setStatistic("LastActivity", new java.util.Date().toString());
     }
   }
 

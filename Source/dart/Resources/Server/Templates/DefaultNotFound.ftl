@@ -45,7 +45,7 @@
   <td><a href="/${project.getTitle()}/Dashboard/"><img alt="Small logo" src="/DartServer/Resources/Icons/DartLogoSmallSmooth.png" border="0"></a> &nbsp <a href="/${project.getTitle()}/Dashboard/">${project.getTitle()?html}</a></td>
   <td align="right">${project.getStats()["Submissions"]?default(0)}</td>
   <td align="right">${project.getStats()["TestsProcessed"]?default(0)}</td>
-  <td>${activity[project.getTitle()]?datetime?html}</td>
+  <td align="right">${project.getStats()["LastActivity"]?default("none")}</td>
   <tr>
 </#list>
 </table>  
