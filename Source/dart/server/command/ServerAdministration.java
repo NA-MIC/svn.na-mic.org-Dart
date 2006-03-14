@@ -33,10 +33,11 @@ public class ServerAdministration implements Command {
      @param username Used to validate shutdown rights
      @param password Used to validate shutdown rights
   */
-  public void shutdown ( String username, String password ) {
+  public int shutdown ( String username, String password ) {
     logger.info ( "Shutdown command received from " + username );
     server.doShutdown();
     System.exit ( 0 );
+    return 0;
   }
     
   /**
