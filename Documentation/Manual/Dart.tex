@@ -230,12 +230,12 @@ java -jar DartServer.jar \
     \item View the dashboard.  Point your browser to
           \texttt{http://localhost:8081/TestProject/Dashboard/} to
           view the (empty) Dashboard.         
-    \item Stop the server
+    \item Shutting down the server
     \begin{verbatim}
 java -jar DartClient.jar -q TestProject
     \end{verbatim}
     To shutdown down the server, you need to send a message to the running server.  The DartClient.jar file is a small Dart client that can be used to shutdown the server (or query its status or refresh its resources).
-    \item Start the project  
+    \item Restarting the server  
     \begin{verbatim}
 java -jar DartServer.jar TestServer TestProject
     \end{verbatim}
@@ -857,7 +857,7 @@ More information of configuring a client as being \emph{expected} can be found i
   <!-- Scheduled tasks.  The Schedule tag is in cron format. -->
   <Task>
     <Type>dart.server.task.QueueManager</Type>
-    <Schedule>0/10 * * * * ?</Schedule>
+    <Schedule>0 0/10 * * * ?</Schedule>
     <Properties>
       <Property name="MaxTasks">10</Property>
     </Properties>
@@ -868,12 +868,23 @@ Tasks configured in the \filename{Project.xml} file are periodically
 scheduled.  Tasks must implement the \texttt{dart.server.task.Task}
 interface.  In the above example, the
 \texttt{dart.server.task.QueueManager} is scheduled to run every 10
-seconds.  The \texttt{QueueManager} class processes other Tasks that have been
+minutes.  The \texttt{QueueManager} class processes other Tasks that have been
 placed in the TaskQueue.  The \texttt{Properties} tag specifies
 settings that are passed into the Task when it executes.  For
 \texttt{QueueManager}, the ``MaxTasks'' property indicates how many
 queued tasks will be processed at during each execution, providing a
 ``throttling'' mechanism.  
+
+One task that is scheduled after each submission is received by the server is the 
+XMLResultProcessor task.  This task performs the XML parsing of a submission
+and populates the Project database so the information can be displayed on the
+Dashboard. Since the XML processing is scheduled as a task after a submission 
+is received, there is an inherent delay between the submission being received
+and when the data in the submission is available for display on the Dashboard.
+To reduce this delay, you can change the schedule of the QueueManager task.
+By default, the QueueManager runs every 10 minutes.  You may want to reduce the schedule
+of the QueueManager task to run every few seconds.
+
 
 \begin{verbatim}
     <Task>
@@ -1116,6 +1127,59 @@ These are the currently available Tasks:
   XMLResultProcessor uses the RollupManager configuration as set in
   Section~\ref{Section:RollupManager} to queue further Tasks.
 \end{description}
+
+\section{TrackManager}
+\label{Section:TrackManager}
+Submissions are grouped and navigated by a collection of \emph{Tracks}. You define  
+tracks for a project by configuring the TrackManager. TemporalTracks group submissions
+that pertain to a common interval of time.  Multiple Tracks can be configured to serve
+different types of submissions and review processes.
+
+\begin{verbatim}
+  <TrackManager>
+    <DefaultTrack>Nightly</DefaultTrack>
+    <TemporalTrack>
+      <Name>Nightly</Name>
+      <Start>9:00 PM</Start>
+      <Duration>24</Duration>
+      <Priority>0</Priority>
+    </TemporalTrack>
+
+    <TemporalTrack>
+      <Name>Continuous</Name>
+      <Start>9:00 PM</Start>
+      <!-- Duration is in floating point hours -->
+      <Duration>24</Duration>
+    </TemporalTrack>
+
+    <TemporalTrack>
+      <Name>Experimental</Name>
+      <Start>9:00 PM</Start>
+      <!-- Duration is in floating point hours -->
+      <Duration>24</Duration>
+    </TemporalTrack>
+
+    <TemporalTrack>
+      <Name>Weekly</Name>
+      <Start>Jan 16, 2005 9:00 PM</Start>
+      <!-- Duration is in floating point hours -->
+      <Duration>168</Duration>
+    </TemporalTrack>
+  </TrackManager>
+\end{verbatim}
+
+In the above configuration, four tracks are defined: Nightly, Continuous, Experimental, and Weekly.
+The Nightly track is labeled by the configuration as the default track.  The default track will collect any submission that is not designated for a specific  track. The Nightly, Continuous, and
+Experimental tracks are configured to start a 9:00PM in the timezone of the server and collect submissions
+that fall within a 24 hour period. The Weekly track is configured to collect submissions over a 
+span of a week.  Note, that tracks do not have to span the duration of time.  For instance, you may want to
+configure the Continuous track to only span a 4 hour window, thereby limiting the number of submissions displayed on dashboard. 
+
+Tracks will appear on the Dashboard in the order they are specified in Project.xml.  The ordering 
+can be changed by specifying a <Priority>.
+
+CTest (see Section~\ref{Section:CTest}) uses a standard collection of Tracks: Nightly, Continuous, and Experimental. If you are using CTest for a Dart client, you should define your tracks to be Nightly, Continuous, and Experimental.
+
 
 \section{RollupManager}
 \label{Section:RollupManager}

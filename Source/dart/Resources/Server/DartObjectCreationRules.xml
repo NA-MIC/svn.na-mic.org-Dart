@@ -124,6 +124,7 @@
         <call-method-rule pattern="Name" methodname="setName" paramcount="0"/>
         <call-method-rule pattern="Duration" methodname="setDuration" paramcount="0"/>
         <call-method-rule pattern="Start" methodname="setStart" paramcount="0"/>
+        <call-method-rule pattern="Priority" methodname="setPriority" paramcount="0"/>
         <set-next-rule methodname="addTrack"/>
       </pattern>
       <set-next-rule methodname="setTrackManager"/>

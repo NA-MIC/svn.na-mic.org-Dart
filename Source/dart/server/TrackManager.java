@@ -14,9 +14,29 @@ public class TrackManager {
   HashMap map = new HashMap();
   String defaultTrack;
 
+  class CompareTrackPriority implements Comparator {
+    public int compare(Object o1, Object o2) {
+      long p1 = ((Track)o1).getPriority();
+      long p2 = ((Track)o2).getPriority();      
+
+      if (p1 < p2) return -1;
+      else if (p1 > p2) return 1;
+      else return 0;
+    }
+  };
+  
+  
   public void addTrack ( Track t ) {
     logger.debug ( "Adding Track: " + t );
     map.put ( t.getName(), t );
+
+    // Assign each track a priority used for display purposes. By
+    // default, tracks will be displayed in the order they were added
+    // to the TrackManager (by default the order they are specified in
+    // Project.xml).
+    if (t.getPriority() == Track.DEFAULT_PRIORITY) {
+      t.setPriority(map.size());
+    }
   }
 
   public void setDefaultTrack ( String s ) { defaultTrack = s; }
@@ -32,6 +52,33 @@ public class TrackManager {
     }
   }
 
+  public HashMap getTracks() { return map; }
+
+  /**
+   * Return a list of track names in the order they should be
+   * displayed
+   */
+  public String[] getTrackOrder() {
+
+    // copy the map to an array so we can sort
+    ArrayList trackObjectList = new ArrayList();
+    for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
+      trackObjectList.add( ((Map.Entry)it.next()).getValue() );
+    }
+
+    // sort the tracks on priority
+    Object[] trackObjectArray = trackObjectList.toArray();
+    Arrays.sort(trackObjectArray, new CompareTrackPriority());
+
+    // build a list of strings
+    String[] trackorder = new String[trackObjectArray.length];
+    for (int i=0; i < trackObjectArray.length; i++) {
+      trackorder[i] = ((Track)trackObjectArray[i]).getName();
+    }
+    
+    return trackorder;
+  }
+  
   public long getTrackId ( java.sql.Timestamp ts, String trackName ) {
     return ((Track)(map.get ( trackName ))).getTrackId ( ts );
   } 

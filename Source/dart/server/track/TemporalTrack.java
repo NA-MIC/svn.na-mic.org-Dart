@@ -15,6 +15,7 @@ public class TemporalTrack implements Track {
   double duration = 24.0;
   String name = "Track";
   Date start;
+  long priority = Track.DEFAULT_PRIORITY;
   Project project;
   DateFormat format = DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.MEDIUM );
 
@@ -24,6 +25,9 @@ public class TemporalTrack implements Track {
   public void setDuration ( String d ) { 
     duration = Double.parseDouble ( d );
   }
+  public void setPriority(String p) { priority = Long.parseLong(p); };
+  public void setPriority(long p) { priority = p; };
+  public long getPriority() { return priority; };
   public void setStart ( String s ) { 
     int[] styles = { DateFormat.SHORT, DateFormat.MEDIUM, DateFormat.LONG, DateFormat.FULL };
 

@@ -3,6 +3,7 @@ package dart.server.servlet;
 import java.io.*;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,7 @@ import org.mortbay.http.HashUserRealm;
 
 import dart.server.Server;
 import dart.server.Project;
+import dart.server.track.Track;
 import dart.server.wrap.*;
 
 
@@ -224,9 +226,10 @@ public class Dashboard extends HttpServlet {
     project.getTrackManager().getTrackIds ( timeStamp );
     
     // Find intersecting tracks
-    TrackList list = trackFinder.selectIntersectingList( timeStamp, timeStamp );
-    root.put ( "tracks", getTrackMap ( list ) );
+    TrackList trackEntityList = trackFinder.selectIntersectingList( timeStamp, timeStamp );
+    root.put ( "tracks", getTrackMap ( trackEntityList) );
     root.put ( "defaulttrack", project.getTrackManager().getDefaultTrack() );
+    root.put( "trackorder", project.getTrackManager().getTrackOrder() );
     
     // find submissions that matches the query
     //

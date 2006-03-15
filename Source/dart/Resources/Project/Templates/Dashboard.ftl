@@ -42,8 +42,6 @@
 
 <br>
 
-
-
 <!-- determine the sorting key -->
 <#assign sortByKey="buildName"/>
 <#assign order="ascending"/>
@@ -86,7 +84,8 @@
 
 <div class="content">
 <!-- For each track, display a table with the submissions in that track -->
-<#list tracks?values as track>
+<#list trackorder as trackname>
+<#assign track=tracks[trackname]>
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains(track.name) )>
 <#assign submissions = track.getSubmissionList()>
     <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
