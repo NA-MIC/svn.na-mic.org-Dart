@@ -14,7 +14,7 @@
 \usepackage[tight]{units}
 \usepackage{url}
 \usepackage{xspace}
-\usepackage[pdftex,bookmarksopen=true,bookmarksopenlevel=10,pdfstartview=Fit,bookmarks=true,colorlinks=true,linkcolor=blue,pdfauthor={Daniel J. Blezek and James V. Miller},pdftitle={Dart Manual}]{hyperref}
+\usepackage[pdftex,bookmarksopen=true,bookmarksopenlevel=10,pdfstartview=Fit,bookmarks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue,pdfauthor={Daniel J. Blezek and James V. Miller},pdftitle={Dart Manual}]{hyperref}
 
 
 \newcommand{\answermark}{$\triangleright$ }
@@ -112,6 +112,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %
 %
 \tableofcontents
+\setcounter{tocdepth}{10}
 
 
 %----------------------------------------------------------------------
@@ -1128,7 +1129,7 @@ These are the currently available Tasks:
   Section~\ref{Section:RollupManager} to queue further Tasks.
 \end{description}
 
-\section{TrackManager}
+\subsection{TrackManager}
 \label{Section:TrackManager}
 Submissions are grouped and navigated by a collection of \emph{Tracks}. You define  
 tracks for a project by configuring the TrackManager. TemporalTracks group submissions
@@ -1181,7 +1182,7 @@ can be changed by specifying a <Priority>.
 CTest (see Section~\ref{Section:CTest}) uses a standard collection of Tracks: Nightly, Continuous, and Experimental. If you are using CTest for a Dart client, you should define your tracks to be Nightly, Continuous, and Experimental.
 
 
-\section{RollupManager}
+\subsection{RollupManager}
 \label{Section:RollupManager}
 After a Submission is process and the raw data placed in the database,
 the configuration in the RollupManager section of the Project.xml file
