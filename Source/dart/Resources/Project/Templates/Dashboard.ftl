@@ -192,7 +192,11 @@
         <#assign submissionid = submission.submissionId/>
   
           <td><a href="Submission?submissionid=${submissionid}">${submission.site?replace(".", ".&shy;")}</a></td>
-          <td><a href="Submission?submissionid=${submissionid}">${submission.buildName?replace(".", ".&shy;")}</a></td>
+          <td><a href="Submission?submissionid=${submissionid}">${submission.buildName?replace(".", ".&shy;")}</a>
+          <#if submission.noteCount != 0>
+              <a href="Note?submissionid=${submissionid}"><img src="/${projectName}/Resources/Icons/Document.gif"></a>
+          </#if>
+          </td>
           
           <#assign updatecount=submission.updateCount/>
           <td align="center"><#if (updatecount >= 0)><b><a href="Update?submissionid=${submissionid}">${updatecount?html}</a></b></#if></td>

@@ -367,6 +367,41 @@
       <alias attr-name="Name" prop-name="site"/>
       <alias attr-name="Site" prop-name="site"/>
     </set-properties-rule>
+
+    <pattern value="Notes">
+       <pattern value="Note">
+         <object-create-rule classname="dart.server.TestProxy"/>
+         <set-next-rule methodname="addChild"/>
+         <call-method-rule methodname="setRepeated" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+         <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+         <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value=".Note.Note"/>
+         <call-method-rule methodname="setStatus" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+         <call-method-rule methodname="setNamedResult" paramcount="3"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="Name"/>
+         <object-param-rule paramnumber="1" type="java.lang.String" value="text/string"/>
+         <call-param-rule paramnumber="2" attrname="Name"/>
+
+
+         <pattern value="DateTime">
+           <call-method-rule methodname="setNamedResult" paramcount="3"/>
+           <object-param-rule paramnumber="0" type="java.lang.String" value="DateTime"/>
+           <object-param-rule paramnumber="1" type="java.lang.String" value="text/string"/>
+           <call-param-rule paramnumber="2"/>
+         </pattern>
+
+         <pattern value="Text">
+           <call-method-rule methodname="setNamedResult" paramcount="3"/>
+           <object-param-rule paramnumber="0" type="java.lang.String" value="Note"/>
+           <object-param-rule paramnumber="1" type="java.lang.String" value="text/text"/>
+           <call-param-rule paramnumber="2"/>
+         </pattern>
+       </pattern>
+    </pattern>
     
     <pattern value="Build">
       <object-create-rule classname="dart.server.TestProxy"/>

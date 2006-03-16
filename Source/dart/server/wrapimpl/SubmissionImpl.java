@@ -107,6 +107,24 @@ public class SubmissionImpl extends SubmissionBase {
     return getClientEntity().getBuildName();
   }
 
+  /** Get the number of notes in the submission. Returns -1 if
+   * there are no notes
+   */
+  public Integer getNoteCount() {
+    try {
+      TestList l = selectTestList( ".Note" );
+
+      if (l.size() != 0) {
+        return new Integer(l.get(0).selectChildren().size());
+      } else {
+        return new Integer(-1); // Zero or large value?
+      }
+    }
+    catch (Exception e) {
+      return new Integer(-1);
+    }
+  }
+  
   /** Get the number of updated files in the submission. Returns -1 if
    * there was update count available.
    */

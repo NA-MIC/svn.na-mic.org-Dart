@@ -67,6 +67,15 @@
 
 <div class="left-content">
 <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
+  <#-- Notes -->
+  <tr class="table-heading">
+     <td colspan="2" valign="middle">
+     <h3>Notes</h3>
+     </td>
+   <tr class="tr-odd">
+     <td><b>Notes</b></td>
+      <td align="right"><#if (submission.noteCount > 0)><b><a href="Note?submissionid=${submissionid}">${submission.noteCount}</a></b></#if></td>
+   </tr>
   <#-- Update -- >
   <!-- Table heading for track -->
   <tr class="table-heading">
