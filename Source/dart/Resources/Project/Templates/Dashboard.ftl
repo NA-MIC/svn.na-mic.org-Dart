@@ -91,7 +91,7 @@
     <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
         <!-- Table heading for track -->
         <tr class="table-heading">
-          <td colspan="13" valign="middle">
+          <td colspan="12" valign="middle">
             <h3>
             <#if track.getLastTrackId()?exists>
                <a href="Dashboard?trackid=${track.getLastTrackId()}"><img alt="Last" src="/${projectName}/Resources/Icons/LeftBlack.gif" align="absmiddle"/></a>
@@ -123,7 +123,7 @@
             <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=ascending}">Update</a></th>
           </#if>
           <th align="center" colspan="3">Build</th>
-          <th align="center" colspan="5">Test</th>
+          <th align="center" colspan="4">Test</th>
           <#if sortByKey=="timeStamp">
             <th align="center" class="sort-key" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=${reverseOrder}">TimeStamp</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
           <#else>
