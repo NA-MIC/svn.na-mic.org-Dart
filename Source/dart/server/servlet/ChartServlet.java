@@ -396,8 +396,8 @@ public class ChartServlet extends HttpServlet {
           XYItemRenderer r = chart.getXYPlot().getRenderer();
           if (r instanceof XYLineAndShapeRenderer) {
             XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-            renderer.setDefaultShapesVisible(true);
-            renderer.setDefaultShapesFilled(false);
+            renderer.setBaseShapesVisible(true);
+            renderer.setBaseShapesFilled(false);
             // renderer.setSeriesShape(0, somecircleshape);
           }
 
