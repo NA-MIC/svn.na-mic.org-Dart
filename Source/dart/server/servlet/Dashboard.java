@@ -108,8 +108,14 @@ public class Dashboard extends HttpServlet {
     map.put ( "request", req );
     map.put ( "response", res );
 
-    // setup the output
-    res.setContentType( "text/html" );
+    // setup the output.  if the templateName ends in .xml (so the
+    // full template name is *.xml.ftl), then configure the output to
+    // be xml.  Otherwise, configure the output for html.
+    if (templateName.endsWith(".xml")) {
+      res.setContentType( "text/xml");
+    } else {
+      res.setContentType( "text/html" );
+    }
     PrintWriter out = res.getWriter();
     map.put ( "out", out );
 

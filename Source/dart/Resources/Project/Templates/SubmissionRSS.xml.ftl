@@ -1,12 +1,13 @@
 <#include "Macros.ftl"/>
-<?xml version="1.0"?>
-<rss version="2.0">
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" >
   <channel>
   <title>Recent Dart submissions for ${projectName?xml}</title>
    <#assign baseURL = request.scheme + "://" + request.serverName + ":" + request.serverPort + "/" + projectName/>
   <link>${baseURL}/Dashboard/</link>
   <description>Dartboard for ${projectName?xml}</description>
   <generator>Dart</generator>
+  <language>en-us</language>
   <image>
     <title>Recent Dart submissions for ${projectName?xml}</title>
     <link>${baseURL}/Dashboard/</link>
@@ -60,6 +61,8 @@
        <description>A new ${submission.type} submission from ${submission.site?xml} - ${submission.buildName?xml} is available. This submission contains no data.</description>
        </#if>
        <pubDate>${submission.createdTimeStamp?datetime?xml}</pubDate>
+       <dc:creator>Dart</dc:creator>
+       <dc:date>${submission.createdTimeStamp?date?xml}</dc:date>
     </item>
     </#list>
   </#if>
