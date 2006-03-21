@@ -19,7 +19,7 @@
 <body>
 
 <@displayLogin />
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center" valign="middle" height="100%"><a href="/${projectName}/Dashboard/?trackid=${submission.trackId?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png" class="icon"></a>
 </td>
@@ -111,7 +111,7 @@
     <tr>
     <td>
     <!-- Print out the hierarchy -->
-    <table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+    <table class="dart">
     <tr height="5"><td class="na"></td></tr>
     <tr class="table-heading">
     <th>&nbsp;<img class="icon" src="/${projectName}/Resources/Icons/Closed.gif">
@@ -127,7 +127,7 @@
     </table>
     <!-- Do the Meta tests first -->
     <#assign metaTestList = rootTest.selectChildren().toList()/>
-    <table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+    <table class="dart">
       <tr height="5"><td colspan="${numberOfColumns}" class="na"></td></tr>
       <tr class="table-heading">
         <#if sortByKey=="name">
@@ -212,7 +212,7 @@
     <#else>
        <b><a href="DynamicAnalysisCatalog?trackid=${submission.trackId?url}&submissionid=${submission.submissionId?url}&sortBy=${sortByKey?url}&roottest=${qname}&order=${order?url}&showall=0">Show direct subtests</a></b>
     </#if>
-    <table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+    <table class="dart">
       <tr class="table-heading">
         <#if sortByKey=="name">
           <th class="sort-key">
@@ -258,12 +258,12 @@
       <#list sortedTestList as test>
         <#if test.status != "m">
 
+          <#assign row = row + 1/>
           <#if row % 2 == 1>
             <tr class="tr-odd">
           <#else>
             <tr class="tr-even">
           </#if>
-          <#assign row = row + 1/>
           <#assign numberOfTests = numberOfTests + 1/>
 
           <td><a href="TestCrossReference?trackid=${submission.trackId}&testname=${test.qualifiedName?url}">${test.name?html}</a></td>

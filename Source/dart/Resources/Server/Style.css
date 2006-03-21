@@ -4,14 +4,6 @@
   img { border: none; }
   a:link img, a:visited img, a:hover img, a:active img { border: none; }
 
-  .title-background { background-color : #6699cc; } 
-  .title-foreground { color : #ffffff; }
-  .title { 
-    padding-left: 15px;
-    height: 100%;
-    background-color : #6699cc;
-    color : #ffffff;
-  }
 
   .normal { background-color : #00aa00; }
   .warning { background-color : #ffcc66; }
@@ -30,6 +22,21 @@
   }
   .icon { vertical-align: text-bottom; border: none; }
   .chart { border: 1px solid #0000aa;}
+
+  table.dart { border-collapse: collapse; }
+  .dart td { border: 1px solid #0000aa; padding: 2px; }
+  .dart th { border: 1px solid #0000aa; padding: 2px; }
+
+  table.pagetitle { width: 100% border-collapse: collapse; }
+  .pagetitle td { border: none; padding: 2px;  }
+  .pagetitle h2 { padding-left: 15px; }
+  .pagetitle h3 { padding-left: 15px; }
+
+  .title { 
+    height: 100%;
+    background-color : #6699cc;
+    color : #ffffff;
+  }
  
   .errorBlock {
     margin-top: 1px;

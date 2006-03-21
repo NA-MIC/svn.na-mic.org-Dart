@@ -19,7 +19,7 @@
 
 
 <@displayLogin />
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center" valign="middle" height="100%">
 <#if parameters.trackid?exists>
@@ -34,10 +34,8 @@
 <h3>${date?date?html}</h3>
 <@displayMenu />
 <div align="right"><a href="SubmissionRSS.xml"><img class="icon" src="/${projectName?url}/Resources/Icons/feed-icon16x16.png"></a></div>
-
 </td>
 </tr>
-
 </table>
 
 <br>
@@ -88,7 +86,7 @@
 <#assign track=tracks[trackname]>
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains(track.name) )>
 <#assign submissions = track.getSubmissionList()>
-    <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
+    <table class="dart" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="12" valign="middle">
@@ -96,7 +94,7 @@
             <#if track.getLastTrackId()?exists>
                <a href="Dashboard?trackid=${track.getLastTrackId()}"><img alt="Last" src="/${projectName}/Resources/Icons/LeftBlack.gif" align="absmiddle"/></a>
             </#if>
-            ${track.getName()} -- ${track.getStartTime()?datetime?html} to ${track.getEndTime()?datetime?html}
+            ${track.getName()} - ${track.getStartTime()?datetime?html} to ${track.getEndTime()?datetime?html}
 
             <#if track.nextTrackId?exists>
                <a href="Dashboard?trackid=${track.nextTrackId}"><img alt="Last" src="/${projectName}/Resources/Icons/RightBlack.gif" align="absmiddle"/></a>
@@ -286,7 +284,7 @@
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("Coverage") )>
 <#-- Check to see if any coverage submissions are available, if not skip this section -->
 <#if hasCoverage>
-    <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
+    <table class="dart" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="8" valign="middle">
@@ -353,7 +351,7 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
 <!-- Make a track for style -->
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("Style") )>
 <#if hasStyle>
-    <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
+    <table class="dart" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="8" valign="middle">
@@ -414,7 +412,7 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("DynamicAnalysis") )>
 <#-- Check to see if any dynamic analysis submissions are available, if not skip this section -->
 <#if hasDynamicAnalysis>
-    <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
+    <table class="dart" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="5" valign="middle">

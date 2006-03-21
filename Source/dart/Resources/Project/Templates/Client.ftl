@@ -25,7 +25,7 @@
 <body>
 
 <@displayLogin />
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center" valign="middle" height="100%">
 <a href="/${projectName}/Dashboard/">
@@ -48,7 +48,7 @@
 
 <div class="content">
 <#if client?exists>
-<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+<table class="dart">
   <tr class="table-heading">
     <td colspan="2" valign="middle">
      <h3>Client</h3>
@@ -137,7 +137,7 @@ Property value: <input tabindex='2' type="text" name="PropertyValue" value="" si
 
 <#else>
 #-- No client specified -->
-<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+<table class="dart">
   <tr class="table-heading">
     <td colspan="2" valign="middle">
      <h3>Client</h3>

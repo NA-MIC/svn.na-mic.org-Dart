@@ -17,7 +17,7 @@
   <body bgcolor="#ffffff">
 
 <@displayLogin />
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center" valign="middle"><a href="/${projectName}/Dashboard/?trackid=${parameters.trackid[0]?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>
 </td>
@@ -81,7 +81,7 @@
     <input type="submit" value="Chart times" caption="Chart execution times of selected tests" action="TestCatalog">
 
     <!-- All submissions, single test -->
-    <table border="0" cellpadding="3" cellspacing="1" width="100%" bgcolor="#0000aa">
+    <table class="dart" width="100%">
         <#assign row = 0/>
 
         <#list tracks?values as track>
@@ -151,12 +151,12 @@
 
         <#list sortedSubmissions as submission>
         <#assign client = submission.getClientEntity()>
+        <#assign row = row + 1/>
         <#if row % 2 == 1>
         <tr class="tr-odd">
         <#else>
         <tr class="tr-even">
         </#if>
-        <#assign row = row + 1/>
         <td align="center"><input type="checkbox" name="submissionid" value="${submission.getSubmissionId()?url}"></td>          
         <td>${client.getSite()?html}</td>
         <td><a href="TestCatalog?submissionid=${submission.getSubmissionId()?url}">${client.getBuildName()?html}</a>

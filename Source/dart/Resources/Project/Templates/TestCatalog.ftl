@@ -19,7 +19,7 @@
 <body>
 
 <@displayLogin />
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center" valign="middle" height="100%"><a href="/${projectName}/Dashboard/?trackid=${submission.trackId?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>
 </td>
@@ -105,7 +105,7 @@
     <input type="hidden" name="showall" value=${showall}>
 
     <!-- Print out the hierarchy -->
-    <table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+    <table class="dart">
     <tr height="5"><td class="na"></td></tr>
     <tr class="table-heading">
     <th>&nbsp;<img class="icon" src="/${projectName}/Resources/Icons/Closed.gif">
@@ -123,7 +123,7 @@
     </table>
     <!-- Do the Meta tests first -->
     <#assign metaTestList = rootTest.selectChildren().toList()/>
-    <table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+    <table class="dart">
       <tr height="5"><td colspan="4" class="na"></td></tr>
       <tr class="table-heading"><th>Subtest</th><th>Not Run</th><th>Failed</th><th>Passed</th></tr>
     
@@ -181,7 +181,7 @@
     <#else>
        <b><a href="TestCatalog?trackid=${submission.trackId?url}&submissionid=${submission.submissionId?url}&sortBy=${sortKey?url}&roottest=${qname}&order=${order?url}&showall=0">Show direct subtests</a></b>
     </#if>
-    <br><table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+    <br><table class="dart">
       <tr class="table-heading">
         <th>Select</th>
         <#if sortByKey=="name">
@@ -242,12 +242,12 @@
       <#list sortedTestList as test>
         <#if test.status != "m">
 
+        <#assign row = row + 1/>
         <#if row % 2 == 1>
         <tr class="tr-odd">
         <#else>
         <tr class="tr-even">
         </#if>
-        <#assign row = row + 1/>
         <#assign numberOfTests = numberOfTests + 1/>
 
         <td align="center"><input type="checkbox" name="testname" value="${test.qualifiedName?url}"></td>

@@ -18,7 +18,7 @@
 <body>
 
 <@displayLogin />
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center"><a href="/${projectName}/Dashboard/?trackid=${submission.trackId?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>
 </td>
@@ -56,7 +56,7 @@
 
     <#if test.status == "m">
     <#assign metaTestList = test.selectChildren().toList()/>
-    <br><table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+    <br><table class="dart">
       <tr class="table-heading"><th>Subtest</th><th>Not Run</th><th>Failed</th><th>Passed</th></tr>
     
       <#assign row = 0/>

@@ -10,7 +10,7 @@
   </head>
   <body bgcolor="#ffffff">
 
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center"><a href="/"><img alt="Logo/Homepage link" src="/DartServer/Resources/Icons/Logo.png" border="0"></a>
 </td>
@@ -23,7 +23,7 @@
 </table>
 
 <br/>
-<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+<table class="dart">
   <tr class="table-heading">
   <th align="left" colspan="4"/>Available Dartboards</th>
   </tr>

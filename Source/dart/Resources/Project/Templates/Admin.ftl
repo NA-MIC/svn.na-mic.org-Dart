@@ -21,7 +21,7 @@
 <body>
 
 <@displayLogin />
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center" valign="middle" height="100%">
 <a href="/${projectName}/Dashboard/">

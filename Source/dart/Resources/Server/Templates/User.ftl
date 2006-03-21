@@ -10,7 +10,7 @@
   </head>
   <body bgcolor="#ffffff">
 
-<table border="0" cellpadding="0" cellspacing="2" width="100%">
+<table class="pagetitle">
 <tr>
 <td align="center"><a href="/${projectName}/Dashboard"><img alt="Logo/Homepage link" src="/DartServer/Resources/Icons/Logo.png" border="0"></a>
 </td>
@@ -129,7 +129,7 @@ ${user.email}
 
 <#-- show/edit the repository ids specified for the user -->
 <form name="RepositoryIds" id="RepositoryIds" method="post">
-<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+<table class="dart">
 <tr class="table-heading">
 <th colspan="2">Repository UserIds</th>
 </tr>
@@ -182,7 +182,7 @@ Look for *.PlotDuration or just PlotDuration in UserPropertyList
 
 <#-- Current set of roles for the user -->
 <#--
-<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+<table class="dart">
 <tr class="table-heading">
 <th>Roles</th>
 </tr>
@@ -207,7 +207,7 @@ ${role.name}
 
 <#-- Notifications -->
 <#-- 
-<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+<table class="dart">
 <tr class="table-heading">
 <th>Notifications</th>
 </tr>
@@ -218,7 +218,7 @@ ${role.name}
 
 <#-- Queries -->
 <#--
-<table border="0" cellpadding="3" cellspacing="1" bgcolor="#0000aa">
+<table class="dart">
 <tr class="table-heading">
 <th>Queries</th>
 </tr>
