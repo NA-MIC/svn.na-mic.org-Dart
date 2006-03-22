@@ -16,12 +16,14 @@ public class TestProxy {
   ArrayList children = null;
   boolean isrepeated = false;
   String testClass = ".Test";
-  boolean ignoreDuplicate = true;
+  boolean allowDuplicates = false;
+  // boolean ignoreDuplicate = true;
 
-  public boolean getIgnoreDuplicate () { return ignoreDuplicate; }
-  public void setIgnoreDuplicate ( boolean i ) { ignoreDuplicate = i; }
-  public void setIgnoreDuplicate ( String i ) {
-    ignoreDuplicate = Boolean.valueOf(i).booleanValue();
+  
+  public boolean allowDuplicates () { return allowDuplicates; }
+  public void setAllowDuplicates ( boolean i ) { allowDuplicates = i; }
+  public void setAllowDuplicates ( String i ) {
+    allowDuplicates = Boolean.valueOf(i).booleanValue();
     logger.debug(name + ", setting ignore duplicate: " + i);
   }
 

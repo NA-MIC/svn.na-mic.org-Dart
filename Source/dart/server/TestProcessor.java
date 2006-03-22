@@ -220,18 +220,6 @@ public class TestProcessor {
       }
     }
 
-    if ( proxy.isRepeated() ) {
-      // Find and increment the test proxy name
-      String Name = proxy.getQualifiedName();
-      if ( !repeated.containsKey ( Name ) ) {
-        repeated.put ( Name, new Integer ( 0 ) );
-      }
-      Integer i = (Integer)repeated.get ( Name );
-      proxy.setQualifiedNameNoReplace ( Name + i );
-      repeated.put ( Name, new Integer ( i.intValue() + 1 ) );
-    }
-    
-  
     Connection connection = project.getConnection();
     JaxorContextImpl session = new JaxorContextImpl ( connection );
     QueryParams q = null;
@@ -284,8 +272,30 @@ public class TestProcessor {
       q.add ( proxy.getQualifiedName() );
       logger.debug ( "Testname: "+ proxy.getQualifiedName() );
       try {
+        if ( proxy.isRepeated() ) {
+          int id = 0;
+          // Find and increment the test proxy name
+          String Name = proxy.getQualifiedName();
+          // See what's in the database
+          boolean done = false;
+          while ( !done ) {
+            q = new QueryParams();
+            q.add ( submission.getSubmissionId() );
+            q.add ( proxy.getQualifiedName() );
+            TestList l = testFinder.find ( "where SubmissionId = ? and QualifiedName = ?", q );
+            if ( l.size() == 0 ) {
+              done = true;
+            } else {
+              proxy.setQualifiedNameNoReplace ( Name + id );
+              id++;
+            }
+          }
+        } 
+        q = new QueryParams();
+        q.add ( submission.getSubmissionId() );
+        q.add ( proxy.getQualifiedName() );
         test = testFinder.findUnique ( "where SubmissionId = ? and QualifiedName = ?", q, false );
-        if ( proxy.getIgnoreDuplicate() ) {
+        if ( proxy.allowDuplicates() ) {
           logger.warn ( "Duplicate Test in DB, ignoring. " + proxy.getQualifiedName());
           return;
         }
@@ -385,7 +395,7 @@ public class TestProcessor {
             out.flush();
           }
         } else {
-          // Only take the first 1950 bytes
+          // Only take the first 2000 bytes
           if ( value.length() > 2000 ) {
             logger.warn ( project.getTitle() + ": Truncating Value > 2000 characters, " + test.getQualifiedName() + " / " + result.getName() );
             value = value.substring ( 0, 1999 );

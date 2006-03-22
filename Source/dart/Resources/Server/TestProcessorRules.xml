@@ -58,8 +58,8 @@
       <pattern value="Test">
         <object-create-rule classname="dart.server.TestProxy"/>
         <set-next-rule methodname="addChild"/>
-        <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
-        <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
         <call-method-rule pattern="Name" methodname="setQualifiedNameNoReplace" paramcount="0"/>
         <call-method-rule pattern="Status" methodname="setStatus" paramcount="0"/>
         <pattern value="Measurement">
@@ -75,8 +75,8 @@
       <pattern value="Test">
         <object-create-rule classname="dart.server.TestProxy"/>
         <set-next-rule methodname="addChild"/>
-        <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
-        <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
         <call-method-rule pattern="Name" methodname="setQualifiedNameNoReplace" paramcount="0"/>
         <call-method-rule pattern="Status" methodname="setStatus" paramcount="0"/>
         <pattern value="Measurement">
@@ -92,8 +92,8 @@
       <pattern value="Test">
         <object-create-rule classname="dart.server.TestProxy"/>
         <set-next-rule methodname="addChild"/>
-        <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
-        <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
         <call-method-rule pattern="Name" methodname="setQualifiedNameNoReplace" paramcount="0"/>
         <call-method-rule pattern="Status" methodname="setStatus" paramcount="0"/>
         <pattern value="Measurement">
@@ -374,8 +374,8 @@
          <set-next-rule methodname="addChild"/>
          <call-method-rule methodname="setRepeated" paramcount="1"/>
          <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
-         <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
-         <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+         <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
          <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
          <object-param-rule paramnumber="0" type="java.lang.String" value=".Note.Note"/>
          <call-method-rule methodname="setStatus" paramcount="1"/>
@@ -608,8 +608,8 @@
       <pattern value="ElapsedMinutes">
         <object-create-rule classname="dart.server.TestProxy"/>
         <set-next-rule methodname="addChild"/>
-        <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
-        <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
         <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
         <object-param-rule paramnumber="0" type="java.lang.String" value=".Test._Properties"/>
         <call-method-rule methodname="setStatus" paramcount="1"/>
@@ -629,8 +629,8 @@
         <object-create-rule classname="dart.server.TestProxy"/>
         <set-next-rule methodname="addChild"/>
 
-        <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
-        <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
 
         <call-method-rule methodname="replaceClass" paramcount="2"/>
         <object-param-rule paramnumber="0" type="java.lang.String" value=".Test"/>
@@ -676,8 +676,8 @@
         <object-create-rule classname="dart.server.TestProxy"/>
         <set-next-rule methodname="addChild"/>
 
-        <call-method-rule methodname="setIgnoreDuplicate" paramcount="1"/>
-        <object-param-rule paramnumber="0" type="java.lang.String" value="false"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
       
         <call-method-rule methodname="setStatus" paramcount="1"/>
         <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>

@@ -78,6 +78,7 @@ public class XMLRPCTestSuite extends TestCase {
     XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
     config.setServerURL ( new URL ( "http://localhost:" + DartServerTest.PortNumber + "/" + DartServerTest.project.getTitle() + "/Command/" ) );
     XmlRpcClient client = new XmlRpcClient ();
+    client.setConfig ( config );
 
     // Read in the file
     URL url = DartServer.class.getClassLoader().getResource ( "dart/Resources/Test/TestLongCorrect.xml.gz" );
