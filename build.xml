@@ -380,6 +380,7 @@
       </fileset>
       <zipgroupfileset dir="lib">
         <include name="xmlrpc-3.0a1.jar"/>
+        <include name="xml-apis.jar"/>
         <include name="wscommons.jar"/>
         <include name="log4j-1.2.8.jar"/>
         <include name="commons-cli-1.0.jar"/>
