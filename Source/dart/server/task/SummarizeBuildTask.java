@@ -81,6 +81,7 @@ public class SummarizeBuildTask implements Task {
     int TotalCounts[] = { 0, 0 };
     int SelfErrors = 0;
     int SelfWarnings = 0;
+    float ElapsedTime = 0.0f;
 
     logger.debug ( "processing build " + build.getQualifiedName() );
     
@@ -101,6 +102,12 @@ public class SummarizeBuildTask implements Task {
         TotalCounts[0] += counts[0];
         TotalCounts[1] += counts[1];
       }
+
+      if ( build.getQualifiedName().equals ( ".Build" ) ) {
+        String t = child.getResultValue ( "ElapsedTime", "0.0" );
+        ElapsedTime += Float.parseFloat ( t );
+      }
+
     }
 
     TotalCounts[0] += SelfErrors;
@@ -110,6 +117,7 @@ public class SummarizeBuildTask implements Task {
     set_result( resultFinder, build, "WarningCount", TotalCounts[1] );
     set_result( resultFinder, build, "SelfErrorCount", SelfErrors );
     set_result( resultFinder, build, "SelfWarningCount", SelfWarnings );
+    build.setResult ( "ElapsedTime", "numeric/float", "" + ElapsedTime );
 
     return TotalCounts;
   }

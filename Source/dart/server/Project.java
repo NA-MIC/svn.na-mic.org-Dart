@@ -336,7 +336,6 @@ public class Project extends Container {
   public void start ( Server server ) throws Exception {
     // start the project
     dartServer = server;
-    scheduler = dartServer.getScheduler();
 
     httpServer = dartServer.getHttpServer();
     logger.info ( title + ": Starting project" );
@@ -349,19 +348,41 @@ public class Project extends Container {
       }
     } catch ( Exception e ) {
       logger.error ( title + ": Error loading statistics!", e );
+      throw e;
     }
     incrementStatistic ( "Startups" );
-    if ( database == null ) {
-      throw new Exception ( "Database has not been defined" );
-    }
 
+
+    if ( commandManager == null ) {
+      throw new Exception ( title + ": CommandManager has not been defined, please edit Projects.xml and restart" );
+    }
     commandManager.start ( this );
+
+    if ( database == null ) {
+      throw new Exception ( title + ": Database has not been defined, please edit Projects.xml and restart" );
+    }
     database.start ( this );
+
+    if ( trackManager == null ) {
+      throw new Exception ( title + ": TrackManager has not been defined, please edit Projects.xml and restart" );
+    }
     trackManager.start ( this );
+
+    if ( messengerManager == null ) {
+      throw new Exception ( title + ": MessengerManager has not been defined, please edit Projects.xml and restart" );
+    }
     messengerManager.start ( this );
+
+    if ( listenerManager == null ) {
+      throw new Exception ( title + ": ListenerManager has not been defined, please edit Projects.xml and restart" );
+    }
     listenerManager.start ( this );
     
     // Start up a background job to process the queue
+    scheduler = dartServer.getScheduler();
+    if ( scheduler == null ) {
+      throw new Exception ( title + ": Scheduler has not been defined, please edit Projects.xml and restart" );
+    }
     for ( int i = 0; i < Tasks.size(); i++ ) {
       Object[] o = (Object[]) Tasks.get ( i );
       String Type = null;
@@ -376,7 +397,6 @@ public class Project extends Container {
         c = Class.forName ( Type );
 
         if ( Task.class.isAssignableFrom ( c ) ) {
-          
           JobDetail detail = new JobDetail ( title + ":" + Type + ":" + i, title, ScheduledTask.class );
           detail.getJobDataMap().put ( "Project", this );
           detail.getJobDataMap().put ( "Type", Type );
@@ -391,10 +411,11 @@ public class Project extends Container {
           logger.debug ( title + ": Scheduled task " + Type );
         } else {
           logger.error ( title + ": Class: " + Type + " is not a " + Task.class );
+          throw new Exception ( title + ": Class: " + Type + " is not a " + Task.class );
         }
       } catch ( Exception e ) {
-        logger.error ( title + ": could not find class: " + Type, e );
-        continue;
+        logger.error ( title + ": TaskManager startup, could not find class: " + Type + " please check class name in Project.xml and restart", e );
+        throw e;
       }
     }
 
@@ -433,6 +454,9 @@ public class Project extends Container {
       // add all the servlets that were specified in Project.xml
       // ResultServlet resultServlet = new ResultServlet();
       // resultServlet.start ( this );
+      if ( servletManager == null ) {
+        throw new Exception ( title + ": ServletManager has not been defined, please edit Projects.xml and restart" );
+      }
       servletManager.start ( this, httpContext );
 
       // set up the resource handler for static content
@@ -452,9 +476,9 @@ public class Project extends Container {
       httpContext.setAuthenticator( authenticator );
       
       // Add the Data directory context
-      logger.debug( title + ": Creating HTTP context with context path /" + title + "/Data/*" );
-      HttpContext dataContext = httpServer.getContext("/" + title + "/Data/*");
-      logger.debug (title + ": Setting resource base to "+dataDirectory.getAbsolutePath());
+      logger.debug ( title + ": Creating HTTP context with context path /" + title + "/Data/*" );
+      HttpContext dataContext = httpServer.getContext("/" + title + "/Data/*" );
+      logger.debug ( title + ": Setting resource base to "+dataDirectory.getAbsolutePath() );
       dataContext.setResourceBase( dataDirectory.getAbsolutePath() );
 
       handler = new ResourceHandler();
@@ -463,22 +487,8 @@ public class Project extends Container {
       dataContext.addHandler ( handler );
     } catch ( Exception e ) {
       logger.error( "Failed to create HTTP context", e );
+      throw e;
     }
-
-//     try {
-//       NotificationTask mail = new NotificationTask();
-//       Properties prop = new Properties();
-//       prop.setProperty("to", "millerjv@research.ge.com");
-//       prop.setProperty("from", "millerjv@research.ge.com");
-//       prop.setProperty("smtpHost", "crdns.research.ge.com");
-//       prop.setProperty("smtpPort", "25");
-//       prop.setProperty("subject", "Dart notificaton: ");
-//       prop.setProperty("content", "Hey jim");
-//       mail.execute(this, prop );
-//     }
-//     catch (Exception e) {
-//       logger.info("Failed to mail notification, " + e);
-//     }
   }
 
   public void setTrackManager ( TrackManager t ) { trackManager = t; }

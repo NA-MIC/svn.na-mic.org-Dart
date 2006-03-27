@@ -198,14 +198,14 @@ public class Server extends Container
   /**
      Start the Server
    */
-  public void start() { start ( true ); }
+  public void start() throws Exception { start ( true ); }
   /**
      Start the Server
      This method may or may not really start the server.  Primarly
      used for testing.
      @param reallyStart Start the server, used for testing
    */
-  public void start ( boolean reallyStart ) {
+  public void start ( boolean reallyStart ) throws Exception {
     // Make call to allow the Dart server to run in a headless
     // environment. This is needed for running JFreeCharts on a
     // headless linux machine. Since the DartServer does not need a
@@ -222,6 +222,7 @@ public class Server extends Container
       getDatabase().start ( this );
     } catch ( Exception e ) {
       logger.error ( "Failed to start database", e );
+      throw e;
     }
 
     // Initialize the scheduler
@@ -232,7 +233,7 @@ public class Server extends Container
       logger.info ( "Scheduler initialized" );
     } catch ( Exception e ) {
       logger.error ( "Failed to initialize scheduler: ", e );
-      return;
+      throw e;
     }
     
     // Create and HTTP and Servlet server, only one HTTP server for
@@ -267,7 +268,7 @@ public class Server extends Container
 
     } catch ( Exception e ) {
       logger.error( "Failed to initialize HTTP server", e );
-      System.exit ( 1 );
+      throw e;
     }
 
     try {
@@ -286,7 +287,7 @@ public class Server extends Container
       httpContext.addHandler( handler );
     } catch ( Exception e ) {
       logger.error( "Failed to initialize ServletManager", e );
-      System.exit ( 1 );
+      throw e;
     }
       
     // Start the CommandManager
@@ -294,7 +295,7 @@ public class Server extends Container
       commandManager.start ( this );
     } catch ( Exception e ) {
       logger.error( "Failed to start CommandManager", e );
-      System.exit ( 1 );
+      throw e;
     }
 
     // In turn, load each project, do any housekeeping it may need and start it
@@ -330,27 +331,8 @@ public class Server extends Container
         }
       } catch ( Exception e ) {
         logger.error ( "Error starting project " + name, e );
+        throw e;
       }
-//       if ( isOK == false ) {
-//         try {
-//           // Try for a QED
-//           logger.info( "Trying to load H0 project " + name);
-//           QED qed = QED.loadQED ( name );
-//           if ( qed != null ) {
-//             qeds.put ( qed.getTitle(), qed );
-//             qed.start ( this );
-//             if ( initializeProjectDB ) {
-//               qed.initializeDatabase ( );
-//             }
-//             if ( refreshProjectResources ) {
-//               qed.refreshResources ();
-//             }
-//             isOK = true;
-//           }
-//         } catch ( Exception e ) {
-//           logger.error ( "Error starting qed " + name, e );
-//         }
-//       }
     }
 
     
@@ -363,7 +345,7 @@ public class Server extends Container
       logger.info ( "Scheduler started" );
     } catch ( Exception e ) {
       logger.error ( "Failed to start scheduler", e );
-      System.exit ( 1 );
+      throw e;
     }
 
     // Start the HTTP server. All contexts need to be added prior to
@@ -374,7 +356,7 @@ public class Server extends Container
       logger.info( "HTTP server started" );
     } catch ( Exception e ) {
       logger.error ( "Failed to start HTTP server", e );
-      System.exit( 1 );
+      throw e;
     }
               
     // Setup and start the XMLRPC server

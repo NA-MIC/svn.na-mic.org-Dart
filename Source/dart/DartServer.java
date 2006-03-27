@@ -141,7 +141,12 @@ public class DartServer extends Container
     if ( cmd.hasOption( "u" ) ) {
       server.setUpgradeProjectDB( true );
     }
-    server.start();
+    try {
+      server.start();
+    } catch ( Exception e ) {
+      logger.fatal ( "Failed to start DartServer see previous messages" );
+      System.exit ( 0 );
+    }
   }
 
 

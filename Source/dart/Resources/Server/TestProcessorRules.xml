@@ -783,6 +783,13 @@
         <call-param-rule paramnumber="2"/>
       </pattern>
 
+      <pattern value="ElapsedMinutes">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="ElapsedTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+
       <!-- Store ConfigureStatus as BuildStatus -->
       <pattern value="ConfigureStatus">
         <call-method-rule methodname="setNamedResult" paramcount="3"/>
