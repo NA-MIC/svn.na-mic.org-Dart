@@ -14,7 +14,7 @@
 <!--[if IE]>
     <script language="javascript" src="/${projectName}/Resources/cssMenuHelper.js" type="text/javascript"></script>
 <![endif]-->
-  </head>
+  </head> 
 <body>
 
 
@@ -30,8 +30,8 @@
 <img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>
 </td>
 <td align="left" width="100%" class="title">
-<h2>${projectName?html} Dashboard - ${date?datetime?html}</h2>
-<h3>${date?date?html}</h3>
+<h2>${projectName?html} Dashboard</h2>
+<h3>${date?datetime?string("long")?html}</h3>
 <@displayMenu />
 <div align="right"><a href="SubmissionRSS.xml"><img class="icon" src="/${projectName?url}/Resources/Icons/feed-icon16x16.png"></a></div>
 </td>
@@ -45,6 +45,7 @@
 <#assign order="ascending"/>
 <#assign reverseOrder="descending"/>
 <#assign orderIcon="/${projectName}/Resources/Icons/UpBlack.gif"/>
+<#assign orderArrow="&uarr;">
 <#if parameters.sortBy?exists && parameters.sortBy[0] == "site">
   <#assign sortByKey="site"/>
 <#elseif parameters.sortBy?exists && parameters.sortBy[0] == "name">
@@ -73,20 +74,24 @@
   <#assign order="ascending"/>
   <#assign reverseOrder="descending"/>
   <#assign orderIcon="/${projectName}/Resources/Icons/UpBlack.gif"/>
+  <#assign orderArrow="&uarr;">
 <#elseif parameters.order?exists && parameters.order[0] == "descending">
   <#assign order="descending"/>
   <#assign reverseOrder="ascending"/>
   <#assign orderIcon="/${projectName}/Resources/Icons/DownBlack.gif"/>
+  <#assign orderArrow="&darr;">
 </#if>
 
 
 <div class="content">
+
 <!-- For each track, display a table with the submissions in that track -->
 <#list trackorder as trackname>
 <#assign track=tracks[trackname]>
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains(track.name) )>
 <#assign submissions = track.getSubmissionList()>
-    <table class="dart" width="100%">
+   <div class="dashboardsection">
+    <table class="dart" id="${trackname?url}" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="12" valign="middle">
@@ -104,63 +109,64 @@
         </tr>
 
         <!-- Columns to display for the track -->
-        <tr class="table-heading">
+        <tr class="table-columns">
           <#if sortByKey=="site">
-            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=site&order=${reverseOrder}">Site</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=site&order=${reverseOrder}">Site</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=site&order=ascending">Site</a></th>
           </#if>
+
           <#if sortByKey=="buildName">
-            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=name&order=${reverseOrder}">Build Name</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=name&order=${reverseOrder}">Build Name</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=name&order=ascending">Build Name</a></th>
           </#if>
           <#if sortByKey=="updateCount">
-            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=${reverseOrder}">Update</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=${reverseOrder}">Update</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=ascending}">Update</a></th>
           </#if>
           <th align="center" colspan="3">Build</th>
           <th align="center" colspan="4">Test</th>
           <#if sortByKey=="timeStamp">
-            <th align="center" class="sort-key" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=${reverseOrder}">TimeStamp</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th align="center" class="sort-key" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=${reverseOrder}">TimeStamp</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=ascending">TimeStamp</a></th>
           </#if>
         </tr>
-        <tr class="table-heading">
+        <tr class="table-columns">
           <#if sortByKey=="errorCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=error&order=${reverseOrder}">Error</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=error&order=${reverseOrder}">Error</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=error&order=descending">Error</a></th>
           </#if>
           <#if sortByKey=="warningCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=warning&order=${reverseOrder}">Warning</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=warning&order=${reverseOrder}">Warning</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=warning&order=descending">Warning</a></th>
           </#if>
           <#if sortByKey=="elapsedBuildTime">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedbuildtime&order=${reverseOrder}">Time</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedbuildtime&order=${reverseOrder}">Time</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedbuildtime&order=descending">Time</a></th>
           </#if>
           <#if sortByKey=="notRunCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=notrun&order=${reverseOrder}">NotRun</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=notrun&order=${reverseOrder}">NotRun</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=notrun&order=descending">NotRun</a></th>
           </#if>
           <#if sortByKey=="failedCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=failed&order=${reverseOrder}">Failed</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=failed&order=${reverseOrder}">Failed</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=failed&order=descending">Failed</a></th>
           </#if>
           <#if sortByKey=="passedCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=${reverseOrder}">Passed</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=${reverseOrder}">Passed</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=descending">Passed</a></th>
           </#if>
           <#if sortByKey=="elapsedTestTime">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=${reverseOrder}">Time</a> &nbsp;&nbsp;&nbsp;<img src="${orderIcon}"></th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=${reverseOrder}">Time</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
             <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=descending">Time</a></th>
           </#if>
@@ -249,15 +255,16 @@
 
           <#assign elapsedtesttime=submission.elapsedTestTime/>
           <td align="right"><#if (elapsedtesttime >= 0)>${elapsedtesttime?html}</#if></td>
-        
+
           <td>${submission.getTimeStamp()?html}</td>
 
         </tr>
         </#list>
-    </table><br>
+    </table>
+    <br>
+    </div>
     </#if>
     </#list>
-
 
 <#-- check to determine if we have Coverage, Style, or DynamicAnalysis -->
 <#assign hasCoverage=false>
@@ -284,14 +291,15 @@
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("Coverage") )>
 <#-- Check to see if any coverage submissions are available, if not skip this section -->
 <#if hasCoverage>
-    <table class="dart" width="100%">
+   <div class="dashboardsection">
+    <table class="dart" id="Coverage" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="8" valign="middle">
             <h3>Coverage</h3>
           </td>
         </tr>
-        <tr class="table-heading">
+        <tr class="table-columns">
         <th>Site</th>
         <th>Build Name</th>
         <th>Percentage</th>
@@ -342,23 +350,24 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
           </#if>
         </#list>
       </#list>
-
-
-    </table><br>
+    </table>
+    <br>
+    </div>
 </#if>
 </#if>
 
 <!-- Make a track for style -->
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("Style") )>
 <#if hasStyle>
-    <table class="dart" width="100%">
+   <div class="dashboardsection">
+    <table class="dart" id="Style" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="8" valign="middle">
             <h3>Style</h3>
           </td>
         </tr>
-        <tr class="table-heading">
+        <tr class="table-columns">
         <th>Site</th>
         <th>Build Name</th>
         <th>Files checked</th>
@@ -402,24 +411,25 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
           </#if>
         </#list>
       </#list>
-    </table><br>
+    </table>
+    <br>
+   </div>
 </#if>
 </#if>
-
-
 
 <!-- Make a track for dynamic analysis -->
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains("DynamicAnalysis") )>
 <#-- Check to see if any dynamic analysis submissions are available, if not skip this section -->
 <#if hasDynamicAnalysis>
-    <table class="dart" width="100%">
+   <div class="dashboardsection">
+    <table class="dart" id="DynamicAnalysis" width="100%">
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="5" valign="middle">
             <h3>Dynamic Analysis</h3>
           </td>
         </tr>
-        <tr class="table-heading">
+        <tr class="table-columns">
         <th>Site</th>
         <th>Build Name</th>
         <th>Checker</th>
@@ -465,7 +475,9 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
           </#if>
         </#list>
         </#list>
-    </table><br>
+    </table>
+    <br>
+    </div>
 </#if>
 </#if>
 </div>
