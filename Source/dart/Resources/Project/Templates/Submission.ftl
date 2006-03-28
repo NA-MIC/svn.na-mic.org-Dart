@@ -42,7 +42,7 @@
 <#else>
 <h2>${projectName?html} Submission - no submission specified</h2>
 </#if>
-<h3>${date?datetime?html}</h3>
+<h3>${date?datetime?string("long")?html}</h3>
 <@displayMenu />
 </td>
 

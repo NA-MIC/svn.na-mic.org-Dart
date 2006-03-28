@@ -25,7 +25,7 @@
 </td>
 <td align="left" width="100%" class="title">
 <h2>${projectName?html} Update - ${client.site?html} - ${client.buildName?html} - ${submission.type?html}</h2>
-<h3>${submission.timeStamp?datetime?html}</h3>
+<h3>${submission.timeStamp?datetime?string("long")?html}</h3>
 <@displayMenu />
 </td>
 

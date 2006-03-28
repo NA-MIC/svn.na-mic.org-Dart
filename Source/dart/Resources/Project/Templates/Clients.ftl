@@ -29,7 +29,7 @@
 </td>
 <td align="left" width="100%" class="title">
 <h2>${projectName?html} - Clients</h2>
-<h3>${date?datetime?html}</h3>
+<h3>${date?datetime?string("long")?html}</h3>
 <@displayMenu />
 </td>
 
@@ -40,7 +40,7 @@
 
 <div class="content">
 <#-- query for all clients, could show last submission and what tracks -->
-<table class="dart"">
+<table class="dart">
 <tr class="table-heading">
   <td colspan="3"><h3>Clients</h3></td>
 </tr>

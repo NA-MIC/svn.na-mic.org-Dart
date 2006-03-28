@@ -15,6 +15,7 @@
   .tr-odd { background-color : #ffffff; }
   .measurement { background-color : #b0c4de; }
   .table-heading { background-color : #b0c4de; }
+  .table-columns { background-color: #b0c4de; }
   .sort-key { 
     height: 100%;
     background-color : #cccccc; 
@@ -26,6 +27,11 @@
   table.dart { border-collapse: collapse; }
   .dart td { border: 1px solid #0000aa; padding: 2px; }
   .dart th { border: 1px solid #0000aa; padding: 2px; }
+  .dart a:link, .dart a:visited { text-decoration: none; }
+  .dart tr.ruled { background: #cccc00; }
+
+  .dart tr.tr-even:hover { background: #cccc00; }
+  .dart tr.tr-odd:hover { background: #cccc00; }
 
   table.pagetitle { width: 100% border-collapse: collapse; }
   .pagetitle td { border: none; padding: 2px;  }
@@ -203,5 +209,6 @@
   margin-top: 15px;
   margin-bottom: 15px;
   }
+  
   -->
 </style>
