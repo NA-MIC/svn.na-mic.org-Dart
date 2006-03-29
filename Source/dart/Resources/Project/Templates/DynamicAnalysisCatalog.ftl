@@ -39,7 +39,7 @@
     <p><b>Track: </b>${submission.type?html}</p>
 
     <!-- Determine if we need to all generations of tests -->
-    <#assign showall=0/>
+    <#assign showall=1/>
     <#if parameters.showall?exists>
       <#assign showall=parameters.showall[0]?number/>
     </#if>
