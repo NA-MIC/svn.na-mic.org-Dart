@@ -117,7 +117,9 @@ public class SummarizeBuildTask implements Task {
     set_result( resultFinder, build, "WarningCount", TotalCounts[1] );
     set_result( resultFinder, build, "SelfErrorCount", SelfErrors );
     set_result( resultFinder, build, "SelfWarningCount", SelfWarnings );
-    build.setResult ( "ElapsedTime", "numeric/float", "" + ElapsedTime );
+    if ( build.getQualifiedName().equals ( ".Build" ) ) {
+      build.setResult ( "ElapsedTime", "numeric/float", "" + ElapsedTime );
+    }
 
     return TotalCounts;
   }
