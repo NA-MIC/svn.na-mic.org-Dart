@@ -295,7 +295,7 @@ public class TestProcessor {
         q.add ( submission.getSubmissionId() );
         q.add ( proxy.getQualifiedName() );
         test = testFinder.findUnique ( "where SubmissionId = ? and QualifiedName = ?", q, false );
-        if ( proxy.allowDuplicates() ) {
+        if ( proxy.allowDuplicates() == false ) {
           logger.warn ( "Duplicate Test in DB, ignoring. " + proxy.getQualifiedName());
           return;
         }
