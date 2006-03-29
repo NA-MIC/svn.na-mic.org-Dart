@@ -254,7 +254,7 @@
           </#if>
 
           <#assign elapsedtesttime=submission.elapsedTestTime/>
-          <td align="right"><#if (elapsedtesttime >= 0)>${elapsedtesttime?html}</#if></td>
+          <td align="right"><#if (elapsedtesttime >= 0)>${elapsedtesttime?string("#0.0")}</#if></td>
 
           <td>${submission.getTimeStamp()?html}</td>
 
