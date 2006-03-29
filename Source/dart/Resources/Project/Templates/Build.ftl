@@ -25,7 +25,7 @@
 <td align="center" valign="middle" height="100%"><a href="/${projectName}/Dashboard/?trackid=${submission.trackId?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png"></a>
 </td>
 <td align="left" width="100%" class="title">
-<h2>${projectName?html} Build - ${client.site?html} - ${client.buildName?html} - ${submission.type?html}</h2><h3>${submission.timeStamp?datetime?html}</h3>
+<h2>${projectName?html} Build - ${client.site?html} - ${client.buildName?html} - ${submission.type?html}</h2><h3>${submission.timeStamp?datetime?string("long")?html}</h3>
 <@displayMenu />
 </td></tr>
 </table>

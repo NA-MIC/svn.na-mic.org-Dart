@@ -34,7 +34,7 @@
 </td>
 <td align="left" width="100%" class="title">
 <h2>${projectName?html} Note - ${site?html} - ${buildname?html} - ${trackname?html}</h2>
-<h3>${date?datetime?html}</h3>
+<h3>${date?datetime?string("long")?html}</h3>
 <@displayMenu />
 </td>
 

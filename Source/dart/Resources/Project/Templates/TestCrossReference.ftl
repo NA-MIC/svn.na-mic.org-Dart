@@ -23,7 +23,7 @@
 </td>
 <td align="left" width="100%" class="title">
 <h2>${projectName?html} TestCrossReference - ${testname?html}</h2>
-<h3>${date?date?html}</h3>
+<h3>${date?date?string("long")?html}</h3>
 <@displayMenu />
 </td>
 
@@ -82,9 +82,8 @@
 
     <!-- All submissions, single test -->
     <table class="dart" width="100%">
-        <#assign row = 0/>
-
         <#list tracks?values as track>
+        <#assign row = 0/>
         <#assign submissions = track.getSubmissionList()>
           <tr class="table-heading"><th colspan="7" align="left" valign="middle"><h4>
             <#if track.getLastTrackId()?exists>

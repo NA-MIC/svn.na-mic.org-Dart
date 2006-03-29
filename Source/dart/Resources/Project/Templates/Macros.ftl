@@ -1,5 +1,8 @@
 <#setting url_escaping_charset='ISO-8859-1'>
 <#setting number_format="0"/>
+<#setting datetime_format="short">
+<#setting date_format="short">
+<#setting time_format="short">
 <#function FormatParameters parameters>
 <#assign out = "?">
 <#list parameters?keys as key>

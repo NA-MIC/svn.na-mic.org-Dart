@@ -24,7 +24,7 @@
 <td align="center" valign="middle" height="100%"><a href="/${projectName}/Dashboard/?trackid=${submission.trackId?url}"><img alt="Logo/Homepage link" src="/${projectName}/Resources/Icons/Logo.png" class="icon"></a>
 </td>
 <td align="left" width="100%" class="title">
-<h2>${projectName?html} CoverageCatalog - ${client.site?html} - ${client.buildName?html} - ${submission.type?html}</h2><h3>${submission.timeStamp?datetime?html}</h3>
+<h2>${projectName?html} CoverageCatalog - ${client.site?html} - ${client.buildName?html} - ${submission.type?html}</h2><h3>${submission.timeStamp?datetime?string("long")?html}</h3>
 <@displayMenu />
 </td></tr>
 </table>
@@ -39,7 +39,7 @@
     <p><b>Track: </b>${submission.type?html}</p>
 
     <!-- Determine if we need to all generations of tests -->
-    <#assign showall=0/>
+    <#assign showall=1/>
     <#if parameters.showall?exists>
       <#assign showall=parameters.showall[0]?number/>
     </#if>
