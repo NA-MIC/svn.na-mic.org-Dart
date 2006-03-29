@@ -183,7 +183,7 @@
   <tr class="tr-odd">
      <td><b>Time</b></td>  
      <#assign elapsedtesttime=submission.elapsedTestTime/>
-     <td align="right"><#if (elapsedtesttime >= 0)>${elapsedtesttime?html}</#if></td>
+     <td align="right"><#if (elapsedtesttime >= 0)>${elapsedtesttime?string("#0.0")}</#if></td>
   </tr>
 
   <#-- Coverage -- >
