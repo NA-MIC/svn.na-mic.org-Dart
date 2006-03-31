@@ -119,64 +119,64 @@
         <!-- Columns to display for the track -->
         <tr class="table-columns">
           <#if sortByKey=="site">
-            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=site&order=${reverseOrder}">Site</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=site&order=${reverseOrder}#${trackname?url}">Site</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=site&order=ascending">Site</a></th>
+            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=site&order=ascending#${trackname?url}">Site</a></th>
           </#if>
 
           <#if sortByKey=="buildName">
-            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=name&order=${reverseOrder}">Build Name</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=name&order=${reverseOrder}#${trackname?url}">Build Name</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=name&order=ascending">Build Name</a></th>
+            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=name&order=ascending#${trackname?url}">Build Name</a></th>
           </#if>
           <#if sortByKey=="updateCount">
-            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=${reverseOrder}">Update</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=${reverseOrder}#${trackname?url}">Update</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=ascending}">Update</a></th>
+            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=update&order=ascending}#${trackname?url}">Update</a></th>
           </#if>
           <th align="center" colspan="3">Build</th>
           <th align="center" colspan="4">Test</th>
           <#if sortByKey=="timeStamp">
-            <th align="center" class="sort-key" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=${reverseOrder}">TimeStamp</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th align="center" class="sort-key" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=${reverseOrder}#${trackname?url}">TimeStamp</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=ascending">TimeStamp</a></th>
+            <th align="center" rowspan="2"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=timestamp&order=ascending#${trackname?url}">TimeStamp</a></th>
           </#if>
         </tr>
         <tr class="table-columns">
           <#if sortByKey=="errorCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=error&order=${reverseOrder}">Error</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=error&order=${reverseOrder}#${trackname?url}">Error</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=error&order=descending">Error</a></th>
+            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=error&order=descending#${trackname?url}">Error</a></th>
           </#if>
           <#if sortByKey=="warningCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=warning&order=${reverseOrder}">Warning</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=warning&order=${reverseOrder}#${trackname?url}">Warning</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=warning&order=descending">Warning</a></th>
+            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=warning&order=descending#${trackname?url}">Warning</a></th>
           </#if>
           <#if sortByKey=="elapsedBuildTime">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedbuildtime&order=${reverseOrder}">Time</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedbuildtime&order=${reverseOrder}#${trackname?url}">Time</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedbuildtime&order=descending">Time</a></th>
+            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedbuildtime&order=descending#${trackname?url}">Time</a></th>
           </#if>
           <#if sortByKey=="notRunCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=notrun&order=${reverseOrder}">NotRun</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=notrun&order=${reverseOrder}#${trackname?url}">NotRun</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=notrun&order=descending">NotRun</a></th>
+            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=notrun&order=descending#${trackname?url}">NotRun</a></th>
           </#if>
           <#if sortByKey=="failedCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=failed&order=${reverseOrder}">Failed</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=failed&order=${reverseOrder}#${trackname?url}">Failed</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=failed&order=descending">Failed</a></th>
+            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=failed&order=descending#${trackname?url}">Failed</a></th>
           </#if>
           <#if sortByKey=="passedCount">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=${reverseOrder}">Passed</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=${reverseOrder}#${trackname?url}">Passed</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=descending">Passed</a></th>
+            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=passed&order=descending#${trackname?url}">Passed</a></th>
           </#if>
           <#if sortByKey=="elapsedTestTime">
-            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=${reverseOrder}">Time</a> &nbsp;&nbsp;${orderArrow}</th>
+            <th class="sort-key" align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=${reverseOrder}#${trackname?url}">Time</a> &nbsp;&nbsp;${orderArrow}</th>
           <#else>
-            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=descending">Time</a></th>
+            <th align="center"><a href="Dashboard?trackid=${track.trackId?url}&sortBy=elapsedtesttime&order=descending#${trackname?url}">Time</a></th>
           </#if>
         </tr>
 
