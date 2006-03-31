@@ -33,6 +33,39 @@
 </table>
 
 <div class="content">
+<#if submission.project?exists>
+   <#assign project = submission.project/>
+<#else>
+   <#assign project = ""/>
+</#if>
+
+<#assign update = submission.selectTest ( ".Update.Update" )/>
+
+<#assign results = update.getResultList().toList()>
+<br>
+<table>
+ <#list results as result>
+ <tr>
+   <th class="measurement">
+     ${result.getName()?html}
+   </th>
+   <td>
+    <#switch result.getType()>
+      <#case "text/text"><pre>${fetchdata(result.getValue())?html}</pre><#break>
+      <#case "text/html">${fetchdata(result.getValue())}<#break>
+      <#case "text/xml"><pre>${fetchdata(result.getValue())?html}</pre><#break>
+      <#case "image/png"><img src="/${projectName}/Data/${result.getValue()?replace('\\','/')}"/><#break>
+      <#case "image/jpeg"><img src="/${projectName}/Data/${result.getValue()?replace('\\','/')}"/><#break>
+      <#case "archive/zip"><a href="/${projectName}/Zip/${result.getValue()?replace('\\','/')}"/>link</a><#break>
+      <#default>${result.getValue()?html}<#break/>
+    </#switch>
+   </td>
+ </tr>
+ </#list>
+</table>   
+<br>
+
+
 <h3>Changed files as of ${submission.timeStamp?date?html}</h3>
 <script type="text/javascript">
 var Icons = "/${projectName}/Resources/Icons/";
@@ -180,13 +213,6 @@ function tree_close() {
 <#return url/>
 </#function>
 
-<#if submission.project?exists>
-   <#assign project = submission.project/>
-<#else>
-   <#assign project = ""/>
-</#if>
-
-<#assign update = submission.selectTest ( ".Update.Update" )/>
 
 <script LANGUAGE="JavaScript">
 dbAdd (true, "Updated files  (${update.selectChildren().size()})", "", 0, "", "1", "", "", "")
