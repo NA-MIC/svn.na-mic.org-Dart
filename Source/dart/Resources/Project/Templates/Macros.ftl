@@ -3,6 +3,15 @@
 <#setting datetime_format="short">
 <#setting date_format="short">
 <#setting time_format="short">
+
+<#assign leftArrow="&laquo;"/>
+<#assign rightArrow="&raquo;"/>
+
+<#--
+<#assign leftArrow="&lArr;"/>
+<#assign rightArrow="&rArr;"/>
+-->
+
 <#function FormatParameters parameters>
 <#assign out = "?">
 <#list parameters?keys as key>

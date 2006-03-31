@@ -113,12 +113,12 @@
             <@displayTrackNav/>
             <h3>
             <#if track.getLastTrackId()?exists>
-               <a href="Dashboard?trackid=${track.getLastTrackId()}"><img alt="Last" src="/${projectName}/Resources/Icons/LeftBlack.gif" align="absmiddle"/></a>
+               <a href="Dashboard?trackid=${track.getLastTrackId()}" class="arrows">${leftArrow}</a>
             </#if>
             ${track.getName()} - ${track.getStartTime()?datetime?html} to ${track.getEndTime()?datetime?html}
 
             <#if track.nextTrackId?exists>
-               <a href="Dashboard?trackid=${track.nextTrackId}"><img alt="Last" src="/${projectName}/Resources/Icons/RightBlack.gif" align="absmiddle"/></a>
+               <a href="Dashboard?trackid=${track.nextTrackId}" class="arrows">${rightArrow}</a>
             </#if>
             </h3>
           </td>

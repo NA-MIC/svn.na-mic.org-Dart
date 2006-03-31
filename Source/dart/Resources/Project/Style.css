@@ -46,6 +46,13 @@
 
   .dashboardsection { }
   .dashboardsection h3 { clear: both; margin-top: 5px; }
+  
+  .arrows {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 100%;
+  clear: both;
+  }
 
   .tracknav { 
   font-family: Arial, Helvetica, sans-serif;
