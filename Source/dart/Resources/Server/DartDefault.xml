@@ -321,6 +321,8 @@
       <Start>9:00 PM</Start>
       <!-- Duration is in floating point hours -->
       <Duration>24</Duration>
+      <DefaultSortBy>buildName</DefaultSortBy>
+      <DefaultOrder>ascending</DefaultOrder>
     </TemporalTrack>
 
     <TemporalTrack>
@@ -328,6 +330,8 @@
       <Start>9:00 PM</Start>
       <!-- Duration is in floating point hours -->
       <Duration>24</Duration>
+      <DefaultSortBy>timeStamp</DefaultSortBy>
+      <DefaultOrder>descending</DefaultOrder>
     </TemporalTrack>
 
     <TemporalTrack>
@@ -335,6 +339,8 @@
       <Start>9:00 PM</Start>
       <!-- Duration is in floating point hours -->
       <Duration>24</Duration>
+      <DefaultSortBy>timeStamp</DefaultSortBy>
+      <DefaultOrder>descending</DefaultOrder>
     </TemporalTrack>
 
     <TemporalTrack>
@@ -342,6 +348,8 @@
       <Start>Jan 16, 2005 9:00 PM</Start>
       <!-- Duration is in floating point hours -->
       <Duration>168</Duration>
+      <DefaultSortBy>buildName</DefaultSortBy>
+      <DefaultOrder>ascending</DefaultOrder>
     </TemporalTrack>
   </TrackManager>
 

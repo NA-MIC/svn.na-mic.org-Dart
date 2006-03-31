@@ -40,12 +40,26 @@
 
 <br>
 
+
+
+<div class="content">
+
+<!-- For each track, display a table with the submissions in that track -->
+<#list trackorder as trackname>
+<#assign track=tracks[trackname]>
+
 <!-- determine the sorting key -->
-<#assign sortByKey="buildName"/>
-<#assign order="ascending"/>
-<#assign reverseOrder="descending"/>
-<#assign orderIcon="/${projectName}/Resources/Icons/UpBlack.gif"/>
-<#assign orderArrow="&uarr;">
+<#assign sortByKey=trackmanager.tracks[trackname].defaultSortBy/>
+<#assign order=trackmanager.tracks[trackname].defaultOrder/>
+<#if order == "ascending">
+   <#assign reverseOrder="descending"/>
+   <#assign orderIcon="/${projectName}/Resources/Icons/UpBlack.gif"/>
+   <#assign orderArrow="&uarr;">
+<#else>
+   <#assign reverseOrder="ascending"/>
+   <#assign orderIcon="/${projectName}/Resources/Icons/DownBlack.gif"/>
+   <#assign orderArrow="&darr;">
+</#if>
 <#if parameters.sortBy?exists && parameters.sortBy[0] == "site">
   <#assign sortByKey="site"/>
 <#elseif parameters.sortBy?exists && parameters.sortBy[0] == "name">
@@ -82,12 +96,6 @@
   <#assign orderArrow="&darr;">
 </#if>
 
-
-<div class="content">
-
-<!-- For each track, display a table with the submissions in that track -->
-<#list trackorder as trackname>
-<#assign track=tracks[trackname]>
 <#if !parameters.showtrack?exists || (parameters.showtrack?exists && parameters.showtrack?seq_contains(track.name) )>
 <#assign submissions = track.getSubmissionList()>
    <div class="dashboardsection">

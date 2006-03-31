@@ -236,6 +236,7 @@ public class Dashboard extends HttpServlet {
     root.put ( "tracks", getTrackMap ( trackEntityList) );
     root.put ( "defaulttrack", project.getTrackManager().getDefaultTrack() );
     root.put( "trackorder", project.getTrackManager().getTrackOrder() );
+    root.put( "trackmanager", project.getTrackManager() );
     
     // find submissions that matches the query
     //

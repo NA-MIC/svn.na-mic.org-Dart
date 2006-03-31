@@ -1143,6 +1143,8 @@ different types of submissions and review processes.
       <Start>9:00 PM</Start>
       <Duration>24</Duration>
       <Priority>0</Priority>
+      <DefaultSortBy>buildName</DefaultSortBy>
+      <DefaultOrder>ascending</DefaultOrder>
     </TemporalTrack>
 
     <TemporalTrack>
@@ -1150,6 +1152,8 @@ different types of submissions and review processes.
       <Start>9:00 PM</Start>
       <!-- Duration is in floating point hours -->
       <Duration>24</Duration>
+      <DefaultSortBy>timeStamp</DefaultSortBy>
+      <DefaultOrder>descending</DefaultOrder>
     </TemporalTrack>
 
     <TemporalTrack>
@@ -1157,6 +1161,8 @@ different types of submissions and review processes.
       <Start>9:00 PM</Start>
       <!-- Duration is in floating point hours -->
       <Duration>24</Duration>
+      <DefaultSortBy>timeStamp</DefaultSortBy>
+      <DefaultOrder>descending</DefaultOrder>
     </TemporalTrack>
 
     <TemporalTrack>
@@ -1164,6 +1170,8 @@ different types of submissions and review processes.
       <Start>Jan 16, 2005 9:00 PM</Start>
       <!-- Duration is in floating point hours -->
       <Duration>168</Duration>
+      <DefaultSortBy>buildName</DefaultSortBy>
+      <DefaultOrder>ascending</DefaultOrder>
     </TemporalTrack>
   </TrackManager>
 \end{verbatim}
@@ -1176,7 +1184,23 @@ span of a week.  Note, that tracks do not have to span the duration of time.  Fo
 configure the Continuous track to only span a 4 hour window, thereby limiting the number of submissions displayed on dashboard. 
 
 Tracks will appear on the Dashboard in the order they are specified in Project.xml.  The ordering 
-can be changed by specifying a <Priority>.
+can be changed by specifying a \xmltag{Priority}. 
+
+TemporalTrack's have two other optional parameters \xmltag{DefaultSortBy} and \xmltag{DefaultOrder}.  These parameters control how the display of submissions for the track appear on the dashboard. \xmltag{DefaultSortBy} specifies how submissions are sorted on the dashboard.  \xmltag{DefaultSortBy} can have values of:
+\begin{itemize}
+\item site
+\item buildName
+\item updateCount
+\item errorCount
+\item warningCount
+\item elapsedBuildTime
+\item passedCount
+\item failedCount
+\item notRunCount
+\item elapsedTestTime
+\item timeStamp
+\end{itemize}
+\xmltag{DefaultOrder} can have values of ``ascending'' or ``descending''.
 
 CTest (see Section~\ref{Section:CTest}) uses a standard collection of Tracks: Nightly, Continuous, and Experimental. If you are using CTest for a Dart client, you should define your tracks to be Nightly, Continuous, and Experimental.
 

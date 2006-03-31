@@ -16,6 +16,8 @@ public class TemporalTrack implements Track {
   String name = "Track";
   Date start;
   long priority = Track.DEFAULT_PRIORITY;
+  String defaultSortBy = "buildName";
+  String defaultOrder = "ascending";
   Project project;
   DateFormat format = DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.MEDIUM );
 
@@ -28,6 +30,11 @@ public class TemporalTrack implements Track {
   public void setPriority(String p) { priority = Long.parseLong(p); };
   public void setPriority(long p) { priority = p; };
   public long getPriority() { return priority; };
+  public void setDefaultSortBy(String s) { defaultSortBy = s; }
+  public String getDefaultSortBy() { return defaultSortBy; }
+  public String getDefaultOrder() { return defaultOrder; }
+  public void setDefaultOrder(String s) { defaultOrder = s; }
+  
   public void setStart ( String s ) { 
     int[] styles = { DateFormat.SHORT, DateFormat.MEDIUM, DateFormat.LONG, DateFormat.FULL };
 
