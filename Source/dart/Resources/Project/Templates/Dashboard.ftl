@@ -44,6 +44,13 @@
 
 <div class="content">
 
+<#-- Determine the trackid for this dashboard -->
+<#if parameters.trackid?exists>
+   <#assign currentTrackId = parameters.trackid[0]/>
+<#else>
+   <#assign currentTrackId = tracks[defaulttrack].trackId/>
+</#if>
+
 <!-- For each track, display a table with the submissions in that track -->
 <#list trackorder as trackname>
 <#assign track=tracks[trackname]>
@@ -103,6 +110,7 @@
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="12" valign="middle">
+            <@displayTrackNav/>
             <h3>
             <#if track.getLastTrackId()?exists>
                <a href="Dashboard?trackid=${track.getLastTrackId()}"><img alt="Last" src="/${projectName}/Resources/Icons/LeftBlack.gif" align="absmiddle"/></a>
@@ -304,6 +312,7 @@
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="8" valign="middle">
+            <@displayTrackNav/>
             <h3>Coverage</h3>
           </td>
         </tr>
@@ -372,6 +381,7 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="8" valign="middle">
+            <@displayTrackNav/>
             <h3>Style</h3>
           </td>
         </tr>
@@ -434,6 +444,7 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
         <!-- Table heading for track -->
         <tr class="table-heading">
           <td colspan="5" valign="middle">
+            <@displayTrackNav/>
             <h3>Dynamic Analysis</h3>
           </td>
         </tr>

@@ -44,6 +44,15 @@
     color : #ffffff;
   }
 
+  .dashboardsection { }
+  .dashboardsection h3 { clear: both; margin-top: 5px; }
+
+  .tracknav { 
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 80%;
+  text-align: right;
+  }
 
   #login { 
   font-family: Arial, Helvetica, sans-serif;
