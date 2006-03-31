@@ -1,0 +1,110 @@
+<style TYPE="text/css">
+  <!--
+
+  img { border: none; }
+  a:link img, a:visited img, a:hover img, a:active img { border: none; }
+
+
+  .normal { background-color : #00aa00; }
+  .warning { background-color : #ffcc66; }
+  .error { background-color : #ff6666; }
+  .pass { background-color : #00aa00; }
+  .fail { background-color : #ffcc66; }
+  .nr { background-color : #ff6666; }
+  .na { background-color : #cccccc; }
+  .tr-even { background-color : #b0c4de; }
+  .tr-odd { background-color : #ffffff; }
+  .measurement { background-color : #b0c4de; }
+  .table-heading { background-color : #b0c4de; }
+  .sort-key { 
+    height: 100%;
+    background-color : #cccccc; 
+  }
+  .icon { vertical-align: text-bottom; border: none; }
+  .chart { border: 1px solid #0000aa;}
+
+  table.dart { border-collapse: collapse; }
+  .dart td { border: 1px solid #0000aa; padding: 2px; }
+  .dart th { border: 1px solid #0000aa; padding: 2px; }
+
+  table.pagetitle { width: 100% border-collapse: collapse; }
+  .pagetitle td { border: none; padding: 2px;  }
+  .pagetitle h2 { padding-left: 15px; }
+  .pagetitle h3 { padding-left: 15px; }
+
+  .title { 
+    height: 100%;
+    background-color : #6699cc;
+    color : #ffffff;
+  }
+ 
+  .errorBlock {
+    margin-top: 1px;
+    padding: 0em 2em 0em 2em !important;
+    font-size: 110%;
+    font-weight: bold;
+    background-color: #ff6666;
+    border: 3px solid #aa0000;
+  }
+
+  #p-personal { 
+    width:100%;
+    white-space:nowrap;
+    padding:0 0 0 0;
+    margin:0;
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index: 0;
+    border: none;
+    background: none;
+    overflow: visible;
+    line-height: 1.2em;
+  }
+
+  input[type="submit"] {
+    margin-top: 1px;
+    padding: 0 0.3em 0.1em 0.3em !important;
+    font-size: 95%;
+    height: 1.5em !important;
+    cursor: pointer;
+    background-color: White;
+    border: 2px solid #2f6fab;
+  }
+
+  Body {
+  font-family : arial, helvetica, sans-serif;
+  color : black;
+  }
+
+  Table {
+  font-family : arial, helvetica, sans-serif;
+  color : black;
+  }
+
+  Table, TD {
+  font-family : arial, helvetica, sans-serif;
+  color : black; 
+  background-repeat : no-repeat;
+  }
+
+  Table, TH {
+  font-family : arial, helvetica, sans-serif;
+  color : black; 
+  background-repeat : no-repeat;
+  }
+
+  P {font-family : arial, helvetica, sans-serif; color: black; }
+
+  a {
+  Font-Family : arial, helvetica, sans-serif;
+  Font-Style : normal;
+  color : blue;
+  }
+
+  a:hover  {
+  color : black;
+  Font-Style : bold;
+  }
+  -->
+</style>

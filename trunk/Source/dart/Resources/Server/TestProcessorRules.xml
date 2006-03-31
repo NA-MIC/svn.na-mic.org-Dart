@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="utf-8"?>
+<digester-rules>
+
+
+  <!-- CruiseControl build messages -->
+  <pattern value="*/task">
+    <pattern value="message">
+      <call-method-rule methodname="appendCruiseControlMessage" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="Log" paramnumber="0"/>
+      <call-param-rule paramnumber="1" attrname="priority"/>
+      <call-param-rule paramnumber="2"/>
+    </pattern>
+  </pattern>
+
+  <!-- cobertura Coverage info -->
+  <pattern value="*/package">
+    <!-- <object-create-rule classname="dart.server.TestProxy"/>
+    <set-next-rule methodname="addChild"/>
+    -->
+  </pattern>
+
+  <!-- CruseControl integration -->
+  <pattern value="cruisecontrol">
+    <!-- need to accumulate everything before we go to town -->
+    <call-method-rule methodname="setDelayProcessing" paramcount="1"/>
+    <object-param-rule type="java.lang.String" value="true" paramnumber="0"/>
+    
+    <pattern value="BuildInfo">
+      <call-method-rule pattern="BuildName" methodname="setBuildname" paramcount="0"/>
+      <call-method-rule pattern="Site" methodname="setSite" paramcount="0"/>
+      <call-method-rule pattern="Track" methodname="setTrack" paramcount="0"/>
+    </pattern>
+
+    <pattern value="build">
+
+      <!-- Create a single stage build called "Build" -->
+
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build"/>
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="StageName" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <object-param-rule type="java.lang.String" value="Build" paramnumber="2"/>
+
+      <pattern value="stacktrace">
+        <call-method-rule methodname="appendCruiseControlMessage" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="Log" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="error" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+    </pattern>
+
+    <pattern value="CheckStyle">
+      <pattern value="Test">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+        <call-method-rule pattern="Name" methodname="setQualifiedNameNoReplace" paramcount="0"/>
+        <call-method-rule pattern="Status" methodname="setStatus" paramcount="0"/>
+        <pattern value="Measurement">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <call-param-rule paramnumber='0' attrname='name'/>
+          <call-param-rule paramnumber="1" attrname="type"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+      </pattern>
+    </pattern>
+
+    <pattern value="Style">
+      <pattern value="Test">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+        <call-method-rule pattern="Name" methodname="setQualifiedNameNoReplace" paramcount="0"/>
+        <call-method-rule pattern="Status" methodname="setStatus" paramcount="0"/>
+        <pattern value="Measurement">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <call-param-rule paramnumber='0' attrname='name'/>
+          <call-param-rule paramnumber="1" attrname="type"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+      </pattern>
+    </pattern>
+
+    <pattern value="Coverage">
+      <pattern value="Test">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+        <call-method-rule pattern="Name" methodname="setQualifiedNameNoReplace" paramcount="0"/>
+        <call-method-rule pattern="Status" methodname="setStatus" paramcount="0"/>
+        <pattern value="Measurement">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <call-param-rule paramnumber='0' attrname='name'/>
+          <call-param-rule paramnumber="1" attrname="type"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+      </pattern>
+    </pattern>
+    
+    <pattern value="info">
+      <pattern value="property">
+        <call-method-rule methodname="setCruiseControlInfo" paramcount="2"/>
+        <call-param-rule paramnumber="0" attrname="name"/>
+        <call-param-rule paramnumber="1" attrname="value"/>
+      </pattern>
+    </pattern>
+
+    <pattern value="testsuite">
+      <object-create-rule classname="dart.server.TestProxy"/>
+
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+      
+      <call-method-rule methodname="setQualifiedName" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="Suite"/>
+      
+      <pattern value="testcase">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        
+        <set-next-rule methodname="addChild"/>
+        
+        <pattern value="error">
+          <call-method-rule methodname="setStatus" paramcount="1"/>
+          <object-param-rule paramnumber="0" type="java.lang.String" value="failed"/>
+          
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Completion Status" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2" attrname="type"/>
+        </pattern>
+        
+        <pattern value="failure">
+          <call-method-rule methodname="setStatus" paramcount="1"/>
+          <object-param-rule paramnumber="0" type="java.lang.String" value="failed"/>
+          
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Completion Status" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2" attrname="type"/>
+        </pattern>
+         
+        <call-method-rule methodname="setJUnitName" paramcount="2"/>
+        <call-param-rule paramnumber="0" attrname="classname"/>
+        <call-param-rule paramnumber="1" attrname="name"/>
+        
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="Execution Time" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+        <call-param-rule paramnumber="2" attrname="time"/>
+
+      </pattern>
+
+      <pattern value="system-out">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="Output" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/text" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+      
+      <pattern value="system-err">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="Error" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/text" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+    </pattern>
+
+    <!-- File modification output -->
+    <pattern value="modifications">
+      <pattern value="modification">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        
+        <call-method-rule methodname="setStatus" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+        
+        <!-- Set Repeated test -->
+        <call-method-rule methodname="setRepeated" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+        <!-- Set a fixed name -->
+        <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Update.Update.Update"/>
+        
+        <pattern value="file">
+          <pattern value="filename">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <object-param-rule type="java.lang.String" value="File" paramnumber="0"/>
+            <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+            <call-param-rule paramnumber="2"/>
+          </pattern>
+          <pattern value="revision">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <object-param-rule type="java.lang.String" value="Revision" paramnumber="0"/>
+            <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+            <call-param-rule paramnumber="2"/>
+          </pattern>
+        </pattern>
+        <pattern value="project">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Directory" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="date">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="CheckinDate" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="user">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Author" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="comment">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Log" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+      </pattern>
+    </pattern>
+  </pattern>
+
+
+  <pattern value="DartSubmission">
+    <call-method-rule pattern="Site" methodname="setSite" paramcount="0"/>
+    <call-method-rule pattern="BuildName" methodname="setBuildname" paramcount="0"/>
+    <call-method-rule pattern="DateTimeStamp" methodname="setDateTimeStamp" paramcount="0"/>
+    <call-method-rule pattern="Track" methodname="setTrack" paramcount="0"/>
+    <pattern value="Test">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      
+      <call-method-rule pattern="Name" methodname="setQualifiedNameNoReplace" paramcount="0"/>
+      <call-method-rule pattern="Status" methodname="setStatus" paramcount="0"/>
+      <pattern value="Measurement">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <call-param-rule paramnumber='0' attrname='name'/>
+        <call-param-rule paramnumber="1" attrname="type"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+    </pattern>
+  </pattern>
+
+  <pattern value="Update">
+    <set-properties-rule>
+      <alias attr-name="Generator" prop-name="generator"/>
+    </set-properties-rule>
+    <call-method-rule pattern="Site" methodname="setSite" paramcount="0"/>
+    <call-method-rule pattern="BuildName" methodname="setBuildname" paramcount="0"/>
+    <call-method-rule pattern="BuildStamp" methodname="setBuildstamp" paramcount="0"/>
+
+    <pattern value="StartDateTime">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="processTestProxy"/>
+
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Update.Update"/>
+      
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+      <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="StartDateTime" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <call-param-rule paramnumber="2"/>
+    </pattern>
+
+    <pattern value="UpdateCommand">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="processTestProxy"/>
+
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Update.Update"/>
+      
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+      <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="UpdateCommand" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <call-param-rule paramnumber="2"/>
+    </pattern>
+
+    <pattern value="UpdateType">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="processTestProxy"/>
+
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Update.Update"/>
+      
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+      <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="UpdateType" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <call-param-rule paramnumber="2"/>
+    </pattern>
+
+    <pattern value="ElapsedMinutes">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="processTestProxy"/>
+
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Update.Update"/>
+      
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+      <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="ElapsedTime" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+      <call-param-rule paramnumber="2"/>
+    </pattern>
+
+
+    <pattern value="EndDateTime">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="processTestProxy"/>
+
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Update.Update"/>
+      
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+      <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="EndDateTime" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <call-param-rule paramnumber="2"/>
+    </pattern>
+
+    <pattern value="Directory">
+      <pattern value="Updated">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+
+        <call-method-rule methodname="setStatus" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+        <!-- Set Repeated test -->
+        <call-method-rule methodname="setRepeated" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+        <!-- Set a fixed name -->
+        <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Update.Update.Update"/>
+        
+        <pattern value="File">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="File" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="Directory">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Directory" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="CheckinDate">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="CheckinDate" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="Author">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Author" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="Email">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Email" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="Log">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Log" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="Revision">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Revision" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        <pattern value="PriorRevision">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="PriorRevision" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+
+      </pattern>
+    </pattern>
+    
+
+  </pattern>
+  
+  <pattern value="Site">
+    <set-properties-rule>
+      <!-- Map from to lowercase names for the Bean setter -->
+      <alias attr-name="BuildStamp" prop-name="buildstamp"/>
+      <alias attr-name="BuildName" prop-name="buildname"/>
+      <alias attr-name="Name" prop-name="site"/>
+      <alias attr-name="Site" prop-name="site"/>
+      <alias attr-name="Generator" prop-name="generator"/>
+    </set-properties-rule>
+
+    <pattern value="Notes">
+       <pattern value="Note">
+         <object-create-rule classname="dart.server.TestProxy"/>
+         <set-next-rule methodname="addChild"/>
+         <call-method-rule methodname="setRepeated" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+         <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+         <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value=".Note.Note"/>
+         <call-method-rule methodname="setStatus" paramcount="1"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+         <call-method-rule methodname="setNamedResult" paramcount="3"/>
+         <object-param-rule paramnumber="0" type="java.lang.String" value="Name"/>
+         <object-param-rule paramnumber="1" type="java.lang.String" value="text/string"/>
+         <call-param-rule paramnumber="2" attrname="Name"/>
+
+
+         <pattern value="DateTime">
+           <call-method-rule methodname="setNamedResult" paramcount="3"/>
+           <object-param-rule paramnumber="0" type="java.lang.String" value="DateTime"/>
+           <object-param-rule paramnumber="1" type="java.lang.String" value="text/string"/>
+           <call-param-rule paramnumber="2"/>
+         </pattern>
+
+         <pattern value="Text">
+           <call-method-rule methodname="setNamedResult" paramcount="3"/>
+           <object-param-rule paramnumber="0" type="java.lang.String" value="Note"/>
+           <object-param-rule paramnumber="1" type="java.lang.String" value="text/text"/>
+           <call-param-rule paramnumber="2"/>
+         </pattern>
+       </pattern>
+    </pattern>
+    
+    <pattern value="Build">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+      <!-- Create a build stage called "Build" -->
+
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build.Stage1"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="StageName" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <object-param-rule type="java.lang.String" value="Build" paramnumber="2"/>
+
+      <!-- Parse the errors recorded in the submission -->
+
+      <pattern value="StartDateTime">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="StartDateTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+      
+      <pattern value="BuildCommand" >
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="BuildCommand" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+      
+      <pattern value="EndDateTime">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="EndDateTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+      <pattern value="ElapsedMinutes">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="ElapsedTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+      <pattern value="Error">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        <call-method-rule methodname="setStatus" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+        <call-method-rule methodname="setRepeated" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+        <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Build.Stage1.Error"/>
+        
+        <pattern value="BuildLogLine">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="BuildLogLine" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+
+        <pattern value="SourceFile">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="SourceFile" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+
+        <pattern value="SourceLineNumber">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="SourceLineNumber" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="Text">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Text" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="PreContext">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="PreContext" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="PostContext">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="PostContext" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="RepeatCount">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="RepeatCount" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+      </pattern>
+
+      <pattern value="Warning">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        <call-method-rule methodname="setStatus" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+        <call-method-rule methodname="setRepeated" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+        <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Build.Stage1.Warning"/>
+        
+        <pattern value="BuildLogLine">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="BuildLogLine" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="SourceFile">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="SourceFile" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+
+        <pattern value="SourceLineNumber">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="SourceLineNumber" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+
+        <pattern value="Text">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="Text" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="PreContext">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="PreContext" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="PostContext">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="PostContext" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+        
+        <pattern value="RepeatCount">
+          <call-method-rule methodname="setNamedResult" paramcount="3"/>
+          <object-param-rule type="java.lang.String" value="RepeatCount" paramnumber="0"/>
+          <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+          <call-param-rule paramnumber="2"/>
+        </pattern>
+      </pattern>
+    </pattern>
+
+    <pattern value="Testing">
+      <pattern value="Test">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        <set-properties-rule>
+          <alias attr-name="Status" prop-name="status"/>
+        </set-properties-rule>
+        <call-method-rule pattern="Name" methodname="setName" paramcount="0"/>
+        <call-method-rule pattern="FullName" methodname="setQualifiedName" paramcount="0"/>
+        <pattern value="Results">
+          <!-- Handle Standard output -->
+          <pattern value="Measurement">
+            <pattern value="Value">
+              <call-method-rule methodname="setResult" paramcount="0"/>
+            </pattern>
+          </pattern>
+          
+          <!-- Handle NamedMeasurement tags -->
+          <pattern value="NamedMeasurement">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <call-param-rule paramnumber='0' attrname='name'/>
+            <call-param-rule paramnumber="1" attrname="type"/>
+            <pattern value="Value">
+              <call-param-rule paramnumber="2"/>
+            </pattern>
+          </pattern>
+        </pattern>
+      </pattern>
+      <pattern value="ElapsedMinutes">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+        <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Test._Properties"/>
+        <call-method-rule methodname="setStatus" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="ElapsedTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+    </pattern>
+
+
+    <!-- Coverage -->
+    <pattern value="Coverage">
+      <pattern value="File">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+
+        <call-method-rule methodname="replaceClass" paramcount="2"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Test"/>
+        <object-param-rule paramnumber="1" type="java.lang.String" value=".Coverage"/>
+        <call-method-rule methodname="setStatus" paramcount="1"/>
+        <call-param-rule paramnumber="0" attrname='Covered'/>
+        <call-method-rule methodname="setName" paramcount="1"/>
+        <call-param-rule paramnumber='0' attrname='Name'/>
+        <call-method-rule methodname="setQualifiedName" paramcount="1"/>
+        <call-param-rule paramnumber='0' attrname='FullPath'/>
+        
+          <!-- Handle Measurement tags -->
+          <pattern value="LOCTested">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <object-param-rule type="java.lang.String" value="LOCTested" paramnumber="0"/>
+            <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+            <call-param-rule paramnumber="2"/>
+          </pattern>
+          <pattern value="LOCUnTested">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <object-param-rule type="java.lang.String" value="LOCUnTested" paramnumber="0"/>
+            <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+            <call-param-rule paramnumber="2"/>
+          </pattern>
+          <pattern value="PercentCoverage">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <object-param-rule type="java.lang.String" value="PercentCoverage" paramnumber="0"/>
+            <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+            <call-param-rule paramnumber="2"/>
+          </pattern>
+          <pattern value="CoverageMetric">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <object-param-rule type="java.lang.String" value="CoverageMetric" paramnumber="0"/>
+            <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+            <call-param-rule paramnumber="2"/>
+          </pattern>
+      </pattern>
+    </pattern>
+
+    <!-- Coverage Log -->
+    <pattern value="CoverageLog">
+      <pattern value="File">
+        <object-create-rule classname="dart.server.TestProxy"/>
+        <set-next-rule methodname="addChild"/>
+
+        <call-method-rule methodname="setAllowDuplicates" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="true"/>
+      
+        <call-method-rule methodname="setStatus" paramcount="1"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+        <call-method-rule methodname="replaceClass" paramcount="2"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Test"/>
+        <object-param-rule paramnumber="1" type="java.lang.String" value=".Coverage"/>
+
+        <call-method-rule methodname="setName" paramcount="1"/>
+        <call-param-rule paramnumber='0' attrname='Name'/>
+
+        <call-method-rule methodname="setQualifiedName" paramcount="1"/>
+        <call-param-rule paramnumber='0' attrname='FullPath'/>
+
+        <!-- Report -->
+        <pattern value="Report">
+          <pattern value="Line">
+            <call-method-rule methodname="appendCoverageLine" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname='Count'/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+        </pattern>
+      </pattern>
+    </pattern>
+
+    <!-- Dynamic Analysis rules -->
+    <pattern value="DynamicAnalysis">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".DynamicAnalysis._Properties"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="Checker" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <call-param-rule paramnumber="2" attrname="Checker"/>
+
+      <pattern value="Test">
+        <object-create-rule classname="dart.server.TestProxy"/>
+
+        <set-next-rule methodname="addChild"/>
+        <call-method-rule methodname="replaceClass" paramcount="2"/>
+        <object-param-rule paramnumber="0" type="java.lang.String" value=".Test"/>
+        <object-param-rule paramnumber="1" type="java.lang.String" value=".DynamicAnalysis"/>
+
+        <set-properties-rule>
+          <alias attr-name="Status" prop-name="status"/>
+        </set-properties-rule>
+        <call-method-rule pattern="Name" methodname="setName" paramcount="0"/>
+        <call-method-rule pattern="FullName" methodname="setQualifiedName" paramcount="0"/>
+        <pattern value="Results">
+          <!-- Handle Defect types output -->
+          <pattern value="Defect">
+            <call-method-rule methodname="setNamedResult" paramcount="3"/>
+            <call-param-rule paramnumber='0' attrname='type'/>
+            <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+            <call-param-rule paramnumber="2"/>
+          </pattern>
+        </pattern>
+          
+        <!-- Handle Log -->
+        <pattern value="Log">
+          <call-method-rule methodname="setResult" paramcount="0"/>
+        </pattern>
+
+      </pattern>
+    </pattern>
+
+    <!-- Configure -->
+    <pattern value="Configure">
+
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+
+      <!-- Create a build stage called "Configure" -->
+
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build.Stage0"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="StageName" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <object-param-rule type="java.lang.String" value="Configure" paramnumber="2"/>
+
+      <!-- Parse the logs and errors -->
+
+      <pattern value="StartDateTime">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="StartDateTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+      
+      <!-- Store ConfigureCommand as BuildCommand -->
+      <pattern value="ConfigureCommand" >
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="BuildCommand" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+      
+      <pattern value="EndDateTime">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="EndDateTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+
+      <pattern value="ElapsedMinutes">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="ElapsedTime" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="numeric/float" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+
+      <!-- Store ConfigureStatus as BuildStatus -->
+      <pattern value="ConfigureStatus">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="BuildStatus" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="numeric/integer" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+
+      <pattern value="Log">
+        <call-method-rule methodname="setNamedResult" paramcount="3"/>
+        <object-param-rule type="java.lang.String" value="Log" paramnumber="0"/>
+        <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+        <call-param-rule paramnumber="2"/>
+      </pattern>
+    </pattern>
+
+  </pattern>
+
+
+</digester-rules>
+
+
