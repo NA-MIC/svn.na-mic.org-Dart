@@ -15,6 +15,7 @@
     <column name="createdtimestamp" type="java.sql.Timestamp" nullable="true" alias="CreatedTimeStamp" default="new java.sql.Timestamp ( java.util.Calendar.getInstance().getTimeInMillis() )"/>
     <column name="nextsubmissionid" type="Long" nullable="true" alias="NextSubmissionId"/>
     <column name="lastsubmissionid" type="Long" nullable="true" alias="LastSubmissionId"/>
+    <column name="generator" type="String" nullable="true" alias="Generator"/>
     <!-- Should be only one Client entry -->
     <entity-ref table="Client">
       <key source="ClientId"/>

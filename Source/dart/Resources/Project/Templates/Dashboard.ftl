@@ -212,10 +212,14 @@
         <#assign submissionid = submission.submissionId/>
   
           <td><a href="Submission?submissionid=${submissionid}">${submission.site?replace(".", ".&shy;")}</a></td>
-          <td><a href="Submission?submissionid=${submissionid}">${submission.buildName?replace(".", ".&shy;")}</a>
-          <#if (submission.noteCount > 0)>
-              <a href="Note?submissionid=${submissionid}"><img src="/${projectName}/Resources/Icons/Document.gif"></a>
+          <td>
+          <#if submission.generator?has_content>
+          <a class="justicon" href="javascript:alert(&#34;Generator: ${submission.generator?html}&#34;);"><img src="/${projectName}/Resources/Icons/Generator.png"></a>
           </#if>
+          <#if (submission.noteCount > 0)>
+              <a class="justicon" href="Note?submissionid=${submissionid}"><img src="/${projectName}/Resources/Icons/Document.gif"></a>
+          </#if>
+          <a href="Submission?submissionid=${submissionid}">${submission.buildName?replace(".", ".&shy;")}</a>
           </td>
           
           <#assign updatecount=submission.updateCount/>

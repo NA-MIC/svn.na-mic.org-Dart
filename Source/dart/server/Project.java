@@ -59,7 +59,7 @@ import org.apache.log4j.Logger;
 public class Project extends Container {
 
   static final int DBMajorVersion = 1;
-  static final int DBMinorVersion = 0;
+  static final int DBMinorVersion = 1;
   static final String DBVersionString = "" + DBMajorVersion + "." + DBMinorVersion;
 
   static Logger logger = Logger.getLogger ( Project.class );
@@ -330,6 +330,13 @@ public class Project extends Container {
     if ( Major == 0 && Minor == 6 ) {
       // Get us to 1.0
       upgradeDatabase ( 0, 6, 1, 0 );
+    }
+    /* 1.0 to 1.1 */
+    version = getDBVersion ();
+    Major = version[0]; Minor = version[1]; Patch = version[2];
+    if ( Major == 1 && Minor == 0 ) {
+      // Get us to 1.1
+      upgradeDatabase ( 1, 0, 1, 1 );
     }
   }
 

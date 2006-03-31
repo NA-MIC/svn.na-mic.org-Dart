@@ -254,6 +254,9 @@
   </pattern>
 
   <pattern value="Update">
+    <set-properties-rule>
+      <alias attr-name="Generator" prop-name="generator"/>
+    </set-properties-rule>
     <call-method-rule pattern="Site" methodname="setSite" paramcount="0"/>
     <call-method-rule pattern="BuildName" methodname="setBuildname" paramcount="0"/>
     <call-method-rule pattern="BuildStamp" methodname="setBuildstamp" paramcount="0"/>
@@ -431,6 +434,7 @@
       <alias attr-name="BuildName" prop-name="buildname"/>
       <alias attr-name="Name" prop-name="site"/>
       <alias attr-name="Site" prop-name="site"/>
+      <alias attr-name="Generator" prop-name="generator"/>
     </set-properties-rule>
 
     <pattern value="Notes">

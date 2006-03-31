@@ -67,6 +67,15 @@
 
 <div class="left-content">
 <table class="dart" width="100%">
+  <#-- Generator -->
+  <tr class="table-heading">
+     <td colspan="2" valign="middle">
+     <h3>Generator</h3>
+     </td>
+   <tr class="tr-odd">
+     <td><b>Generator</b></td>
+      <td align="right"><#if submission.generator?has_content><b>${submission.generator?html}</b></#if></td>
+   </tr>
   <#-- Notes -->
   <tr class="table-heading">
      <td colspan="2" valign="middle">

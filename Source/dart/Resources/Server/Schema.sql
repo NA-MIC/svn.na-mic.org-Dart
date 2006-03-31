@@ -9,7 +9,7 @@ create table Version (
 );
 
 delete from Version;
-insert into Version ( Major, Minor, Patch ) Values ( 1, 0, 0 );
+insert into Version ( Major, Minor, Patch ) Values ( 1, 1, 0 );
 
 create table Client (
     ClientId ${auto} primary key,
@@ -48,7 +48,8 @@ create table Submission (
   ArchiveLevel int default 0,
   TrackId bigint,
   NextSubmissionId bigint,
-  LastSubmissionId bigint
+  LastSubmissionId bigint,
+  Generator varchar(1024) default null
 );
 
 create index SubmissionIdx1 on Submission ( ClientId, Timestamp, Type );

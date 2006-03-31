@@ -38,6 +38,7 @@ public class TestProcessor {
   Timestamp timestamp = null;
   String Type = null;
   String Site = null;
+  String Generator= null;
   HashMap repeated = new HashMap();
   boolean foundSubmission = false;
   int maxTests = -1;
@@ -110,6 +111,18 @@ public class TestProcessor {
     logger.debug ( "setType: " + Type );
   }
 
+  /**
+     Set the Generator name, called from Digestor.
+     Note: In bean jargon, the property Generator must map to
+     generator and a method setGenerator.
+     @param generator Name of the Generator
+  */
+  public void setGenerator ( String generator ) {
+    logger.debug ( project.getTitle() + ": Setting generator " + generator );
+
+    Generator = generator;
+  }
+  
   /**
      Set the DateTimeStamp, called from Digestor
      @param stamp Name of the BuildStamp
@@ -259,6 +272,7 @@ public class TestProcessor {
           submission.setTimeStamp ( timestamp );
           submission.setClientId ( client.getClientId() );
           submission.setType ( Type );
+          submission.setGenerator( Generator );
           submission.setStatus ( "InProgress" );
           session.commit();
           submission = submissionFinder.findUnique ( "where ClientId = ? and Timestamp = ? and Type = ?", q, false );
@@ -296,7 +310,7 @@ public class TestProcessor {
         q.add ( proxy.getQualifiedName() );
         test = testFinder.findUnique ( "where SubmissionId = ? and QualifiedName = ?", q, false );
         if ( proxy.allowDuplicates() == false ) {
-          logger.warn ( "Duplicate Test in DB, ignoring. " + proxy.getQualifiedName());
+          logger.debug ( "Duplicate Test in DB, ignoring. " + proxy.getQualifiedName());
           return;
         }
       } catch ( EntityNotFoundException notfound ) {
