@@ -774,6 +774,17 @@
 
     <!-- Dynamic Analysis rules -->
     <pattern value="DynamicAnalysis">
+      <object-create-rule classname="dart.server.TestProxy"/>
+      <set-next-rule methodname="addChild"/>
+      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".DynamicAnalysis._Properties"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
+      <call-method-rule methodname="setNamedResult" paramcount="3"/>
+      <object-param-rule type="java.lang.String" value="Checker" paramnumber="0"/>
+      <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
+      <call-param-rule paramnumber="2" attrname="Checker"/>
+
       <pattern value="Test">
         <object-create-rule classname="dart.server.TestProxy"/>
 

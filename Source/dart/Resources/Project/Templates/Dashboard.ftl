@@ -479,7 +479,9 @@ href="CoverageCatalog?submissionid=${submissionid}">${test.PercentCoverage?strin
             <td><a href="Submission?submissionid=${submissionid}">${submission.site?replace(".", ".&shy;")}</a></td>
             <td><a href="Submission?submissionid=${submissionid}">${submission.buildName?replace(".", ".&shy;")}</a></td>
             <!-- Checker -->
-            <td></td>
+            <#assign checkertest = submission.selectTest( ".DynamicAnalysis._Properties" )/>
+            <#assign checkerresult = checkertest.getResultValue("Checker", "unknown")/>
+            <td>${checkerresult?html}</td>
 
             <!-- Rollup of defects -->
             <#assign numberOfDefects = 0>
