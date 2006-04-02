@@ -94,12 +94,11 @@ background-repeat : no-repeat;
 P {font-family : arial, helvetica, sans-serif; color: black; }
 
 a {
-Font-Family : arial, helvetica, sans-serif;
-Font-Style : normal;
+font-family : arial, helvetica, sans-serif;
+font-style : normal;
 color : blue;
 }
 
 a:hover  {
 color : black;
-Font-Style : bold;
 }
