@@ -207,6 +207,9 @@ function tree_close() {
    <#case "cvstrac">
      <#assign url = projectProperties[key + "RepositoryURL"] + "filediff?f=" + file + "&v1=" + prior + "&v2=" + revision>
      <#break>
+   <#case "svntrac">
+     <#assign url = projectProperties[key + "RepositoryURL"] + file + "?rev=" + revision>
+     <#break>
    <#default>
 </#switch>
 </#if>
