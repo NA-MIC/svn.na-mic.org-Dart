@@ -82,8 +82,13 @@ public class MissingSubmissionListener extends Listener {
     HttpContext httpContext = httpServer.getContext("/" + project.getTitle() + "/*");
     String cp = httpContext.getContextPath();
 
-    String url = "http://" + java.net.InetAddress.getLocalHost().getCanonicalHostName() + ":" + project.getServer().getHttpPort() + cp + "/Dashboard/Dashboard?trackid=" + event.getTrackId();
+    String url = "unknown";
 
+    try {
+      url = "http://" + java.net.InetAddress.getLocalHost().getCanonicalHostName() + ":" + project.getServer().getHttpPort() + cp + "/Dashboard/Dashboard?trackid=" + event.getTrackId();
+    } catch ( Exception urlException ) {
+      logger.warn ( "Failed to properly format url", urlException );
+    }
     // Construct the content of the message
     String content = new String();
     content = "The following clients have not submitted to the Dart server for project \""
