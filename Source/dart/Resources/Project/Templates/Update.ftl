@@ -201,6 +201,9 @@ function tree_close() {
    <#case "viewcvs">
      <#assign url = projectProperties[key + "RepositoryURL"] + file + "?r1=" + prior + "&r2=" + revision + "&cvsroot=" + projectProperties[key + "RepositoryURL.Repository"]>
      <#break>
+   <#case "viewcvswithsvn">
+     <#assign url = projectProperties[key + "RepositoryURL"] + projectProperties[key + "RepositoryURL.Repository"] + "/" + file + "?rev=" + revision + "&view=log">
+     <#break>       
    <#case "websvn">
      <#assign url = projectProperties[key + "RepositoryURL"] +"diff.php?repname=" + projectProperties[key + "RepositoryURL.Repository"] + "&path=" + file + "&rev" + revision>
      <#break>
