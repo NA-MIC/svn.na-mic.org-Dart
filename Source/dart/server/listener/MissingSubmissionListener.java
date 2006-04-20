@@ -77,6 +77,16 @@ public class MissingSubmissionListener extends Listener {
       
     }
 
+    // add any default email addresses
+    HashSet defaultContactList = new HashSet();
+    if (properties.containsKey("DefaultContactList")) {
+      String[] defaultList
+        = properties.getProperty("DefaultContactList").split(",");
+      for (int i=0; i < defaultList.length; ++i) {
+        defaultContactList.add(defaultList[i]);
+      }
+    }
+
     // Build the url to put in the message
     HttpServer httpServer = project.getHttpServer();
     HttpContext httpContext = httpServer.getContext("/" + project.getTitle() + "/*");
@@ -119,7 +129,7 @@ public class MissingSubmissionListener extends Listener {
     // Send the message by the mechanism specified
     //
     try {
-      messenger.send(emailList, subject, content);
+      messenger.send(emailList, defaultContactList, subject, content);
     } catch (Exception e) {
       logger.error("Error sending notification: " + e);
     }

@@ -114,6 +114,16 @@ public class SubmissionErrorsListener extends Listener {
           }
         }
 
+        // add any default email addresses
+        HashSet defaultContactList = new HashSet();
+        if (properties.containsKey("DefaultContactList")) {
+          String[] defaultList
+            = properties.getProperty("DefaultContactList").split(",");
+          for (int i=0; i < defaultList.length; ++i) {
+            defaultContactList.add(defaultList[i]);
+          }
+        }
+
         // Build the subject of the message
         String subject = "Dart(" + project.getTitle() + ") - "
                    + submission.getSite() + " - "
@@ -134,13 +144,54 @@ public class SubmissionErrorsListener extends Listener {
         String content = new String();
         content = "A submission to the Dart server for project \""
           + project.getTitle()
-          + "\" has build errors. You have been identified as one of the authors who have checked in changes that are part of this submission.  Details on the submission can be found at " + url;
+          + "\" has build errors. You have been identified as one of the authors who have checked in changes that are part of this submission or you are listed in the default contact list.  Details on the submission can be found at " + url + "\n\n";
 
+        // Put the information of submission in the message
+        content = content
+          + "Project: " + project.getTitle() + "\n"
+          + "Site: " + submission.getSite() + "\n"
+          + "BuildName: " + submission.getBuildName() + "\n"
+          + "Type: " + submission.getType() + "\n"
+          + "Errors: " + submission.getErrorCount() + "\n"
+          + "Warnings: " + submission.getWarningCount() + "\n"
+          + "\n\n";
+        
+        // Find the first error for each stage of the build and report
+        // it in the message 
+        TestList firstErrorsPerStage
+          = submission.selectTestListLike(".Build.Stage%.Error");
+        TestIterator errorIt = firstErrorsPerStage.iterator();
+
+        while(errorIt.hasNext()) {
+          TestEntity error = errorIt.next();
+          TestEntity parent = error.selectParent();
+          
+          content = content
+            + "First error for stage "
+            + parent.getResultValue("StageName", "(Unkown)")
+            + ": \n"
+            + "File: " + error.getResultValue("SourceFile", "(Unknown)")
+            + "\n"
+            + "Line: " + error.getResultValue("SourceLineNumber", "(Unknown)")
+            + "\n"
+            + error.getResultValue("PreContext", "")
+            + "\n"
+            + error.getResultValue("Text", "")
+            + "\n"
+            + error.getResultValue("PostContext", "")
+            + "\n\n";
+        }
+
+        content = content
+          + "- Dart server on "
+          + java.net.InetAddress.getLocalHost().getCanonicalHostName();
+        
+        
         // Send the message by the mechanism specified
         //
         //
         try {
-          messenger.send(emailList, subject, content);
+          messenger.send(emailList, defaultContactList, subject, content);
         } catch (Exception e) {
           logger.error("Error sending notification: " + e);
         }

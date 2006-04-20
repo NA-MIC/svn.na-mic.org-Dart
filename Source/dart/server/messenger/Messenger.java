@@ -20,7 +20,13 @@ abstract public class Messenger {
 
   /**
    * Send a message to a list recipients.
+   *
+   * @param recipients collection of Dart userids (currently email addresses)
+   * @param defaultContacts collection of contacts specific to the
+   * type of messenger (SMTP, IM, etc.)
+   * @param subject short subject string
+   * @param message content of the message
    */
-  public void send(Collection recipients, String subject, String message) throws Exception {};
+  public void send(Collection recipients, Collection defaultContacts, String subject, String message) throws Exception {};
 }
 

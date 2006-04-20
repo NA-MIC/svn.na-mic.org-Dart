@@ -822,12 +822,14 @@ Multiple Messengers of the same type can be configured.  For instance, a Project
       <Type>dart.server.listener.SubmissionErrorsListener</Type>
       <Properties>
         <Property name="Messenger">SMTP</Property>
+        <Property name="DefaultContactList">me@foo.com,you@bar.com</Property>
       </Properties>
     </Listener>
     <Listener>
       <Type>dart.server.listener.MissingSubmissionListener</Type>
       <Properties>
         <Property name="Messenger">SMTP</Property>
+        <Property name="DefaultContactList">me@foo.com,you@bar.com</Property>
       </Properties>
     </Listener>
   </ListenerManager>
@@ -844,11 +846,14 @@ The first Listener in the stock configuration determines whether a
 submission contains information about build errors and notifies the 
 authors of the code tested in the submission.  The authors of the code in the submission are determined from the \texttt{Update} information sent to the Dart server. Each
 author that can be linked to a Dart User is notified via email with a link
-to a web page summarizing the submission. More information on Dart Users can be found in Section~\ref{Section:Users}.
+to a web page summarizing the submission. The \texttt{DefaultContactList} property
+of a SubmissionErrorsListener specifies a comma separated set of recipients that will be notified whenever 
+an error is found in a submission.  The entries in the \texttt{DefaultContactList} are not Dart userids.  Rather, the contacts are specified in a format specific to the Messenger. For instance, if a Listener is configured with a SMTPMessenger, the \texttt{DefaultContactList} will  be composed of email addresses.
+More information on Dart Users can be found in Section~\ref{Section:Users}.
 
 The second Listener in the stock configuration determines whether any
 clients that are expected to submit on a particular track have yet to submit to the dashboard within the allotted timeframe.  More details on configuring \emph{when} a submission is noted as being missing is in Section~\ref{Section:TaskConfiguration}.
-More information of configuring a client as being \emph{expected} can be found in Section~\ref{Section:ClientConfiguration}.
+More information of configuring a client as being \emph{expected} can be found in Section~\ref{Section:ClientConfiguration}.  The MissingSubmissionListener can also be configured with a DefaultContactList.
  
 
 \subsection{Task Configuration}
@@ -924,8 +929,8 @@ Dart Users associated with a particular client.  The task above is configured to
 \emph{expected} submissions can be found in Section~\ref{Section:ClientConfiguration}.
 
 The format of the \xmltag{Schedule} tag
-is detailed at
-\texttt{http://quartz.sourceforge.net/javadoc/org/quartz/CronTrigger.html}
+is detailed at\newline
+\texttt{http://quartz.sourceforge.net/javadoc/org/quartz/CronTrigger.html}\newline
 and is reproduced here for clarity.
 
 \subsubsection{Cron Expressions}

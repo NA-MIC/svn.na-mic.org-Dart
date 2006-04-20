@@ -68,9 +68,15 @@ public class SMTPMessenger extends Messenger {
 
   
   /**
-   * Send a message over an SMTP connection
+   * Send a message to a list recipients.
+   *
+   * @param recipients collection of Dart userids (currently email addresses)
+   * @param defaultContacts collection of contacts specific to the
+   * type of messenger (SMTP, IM, etc.)
+   * @param subject short subject string
+   * @param message content of the message
    */
-  public void send(Collection recipients, String subject, String message) throws Exception {
+  public void send(Collection recipients, Collection defaultContacts, String subject, String message) throws Exception {
 
     // Get a mail session and construct the message.  The
     // properties attached to the Messenger (specified in the
@@ -133,6 +139,16 @@ public class SMTPMessenger extends Messenger {
       msg.addRecipient(Message.RecipientType.TO,
                        new InternetAddress((String)rit.next()));
     }
+
+    // Set the "CC: field. The defaultContacts are already email
+    // addresses, so we do not need to map to a user for the transport
+    // mechanism
+    rit = defaultContacts.iterator();
+    while (rit.hasNext()) {
+      msg.addRecipient(Message.RecipientType.CC,
+                       new InternetAddress((String)rit.next()));
+    }
+    
     
     // set the "Subject:" field
     msg.setSubject(subject);
