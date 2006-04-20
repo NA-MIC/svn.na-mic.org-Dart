@@ -42,7 +42,7 @@ public class QueueManager implements Task {
         break;
       }
       tasks++;
-      logger.debug ( project.getTitle() + ": Processing task " + tasks + " / " + maxTasks );
+      logger.debug ( project.getTitle() + ": Processing task " + tasks + ", remaining tasks " + list.size() );
       String Status = "completed";
       String Result = "";
 
