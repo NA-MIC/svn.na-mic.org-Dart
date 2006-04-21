@@ -23,6 +23,11 @@ a:link img, a:visited img, a:hover img, a:active img { border: none; }
 table.dart { border-collapse: collapse; }
 .dart td { border: 1px solid #0000aa; padding: 2px; }
 .dart th { border: 1px solid #0000aa; padding: 2px; }
+.dart a:link, .dart a:visited { text-decoration: none; }
+.dart tr.ruled { background: #cccc00; }
+
+.dart tr.tr-even:hover { background: #cccc00; }
+.dart tr.tr-odd:hover { background: #cccc00; }
 
 table.pagetitle { width: 100%; border-collapse: collapse; }
 .pagetitle td { border: none; padding: 2px;  }

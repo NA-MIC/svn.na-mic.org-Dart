@@ -16,9 +16,8 @@
     <script language="javascript" src="/${projectName}/Resources/cssMenuHelper.js" type="text/javascript"></script>
 <![endif]-->
   </head>
-<body>
+<body id="top">
 
-<a name="pagetop"></a>
 <@displayLogin />
 <table class="pagetitle">
 <tr>
@@ -31,6 +30,15 @@
 </table>
 
 <br/>
+
+<#macro displayStageNav>
+<div class="tracknav">
+[<a href="Build?submissionid=${submission.submissionId?url}#top">Top</a>]
+<#list stages as stage>
+[<a href="Build?submissionid=${submission.submissionId?url}#${stage.name?url}">${stage.StageName?html}</a><#if (stage.ErrorCount>0)>|<a href="Build?submissionid=${submission.submissionId?url}#${stage.name?url}Errors">E</a></#if><#if (stage.WarningCount>0)>|<a href="Build?submissionid=${submission.submissionId?url}#${stage.name}Warnings">W</a></#if>]
+</#list>
+</div>
+</#macro>
 
 <div class="content">
     <!-- Build log for a single submission -->
@@ -56,71 +64,80 @@
       <#assign errorcount = build.selectResult ( "ErrorCount" ).toList()[0] />
       <#assign warningcount = build.selectResult ( "WarningCount" ).toList()[0] />
 
+      <#-- Navigation list -->
+      <br/><br/>
+      <#assign stages=build.selectChildren().toList()?sort_by("qualifiedName")>
+      <table class="dart">
+      <tr class="table-heading">
+        <th>Stage</th><th>Errors</th><th>Warnings</th>
+      </tr>
+      <#assign row=1/>
+      <#list stages as stage>
+       <#if row % 2 == 1>
+        <tr class="tr-odd">
+       <#else>
+        <tr class="tr-even">
+       </#if>
+       <#assign row = row + 1/>
+        <td><a href="#${stage.name}"><b>${stage.StageName}</b></a></td>
+        <td align="right"><b><#if (stage.ErrorCount>0)><a href="#${stage.name}Errors">${stage.ErrorCount}</a><#else>0</#if></b></td>
+        <td align="right"><b><#if (stage.WarningCount>0)><a href="#${stage.name}Warnings">${stage.WarningCount}</a><#else>0</#if></b></td>
+       </tr>
+      </#list>
+      </table>
+      <br/>
+      <br/>
 
-      <!-- Generate the navigation menu -->
-      <p>
-      <ul>
-      <#visit build.getTree("DisplayMenu")>
-      </ul>
-      </p>
+      <#-- For each stage -->
+      <#list stages as stage>
+        <div class="title-divider" id="${stage.name?url}">
+          <@displayStageNav/>
+          Stage: ${stage.StageName?html} (${stage.getResultValue("ErrorCount","Unknown")?html} errors, ${stage.getResultValue("WarningCount","Unknown")?html} warnings)
+        </div>
+        <br><b>Build command: </b><tt>${stage.getResultValue("BuildCommand","(Unknown)")?html}</tt>
+        <br><b>Build return status: </b>${stage.getResultValue("BuildStatus","(Unknown)")?html}
+        <br><b>Start Time: </b>${stage.getResultValue("StartDateTime","(Unknown)")?html}
+        <br><b>End Time: </b>${stage.getResultValue("EndDateTime","(Unknown)")?html}
+        <#assign logs = stage.selectResult("Log").toList()>
+        <#list logs as log>
+        <br><b>Log: </b>
+        <#switch log.getType()>
+        <#case "text/text"><pre>${fetchdata(log.getValue())?html}</pre><#break>
+        <#case "text/html">${fetchdata(log.getValue())}<#break>
+        <#case "text/xml"><pre>${fetchdata(log.getValue())?html}</pre><#break>
+        <#case "archive/zip"><a href="/${projectName}/Zip/${log.getValue()?replace('\\','/')}"/>link</a><#break>
+        <#default><pre>${log.getValue()?html}</pre><#break/>
+        </#switch>
+        </#list>
 
-      <#macro @DisplayMenu>
-        <#local stagename = .node.getResultValue("StageName","NotAStage")>
-        <#if stagename != "NotAStage" >
-          <li>
-           <a href="#stage${.node.name}">${stagename?html}</a> (${.node.getResultValue("ErrorCount","Unknown")?html} errors, ${.node.getResultValue("WarningCount","Unknown")?html} warnings)
-           <ul><#recurse/></ul>
-          </li>
-        <#else>
-          <#recurse/>
+        <#-- iterate over errors -->
+        <#if (stage.ErrorCount > 0)>
+        <div class="title-divider" id="${stage.name?url}Errors"><@displayStageNav/>${stage.StageName?html} Errors (${stage.ErrorCount?html})</div>
+        <#list submission.selectTestListLike(stage.qualifiedName+".Error%").toList() as test>        
+           <h3>Error Build Log Line ${test.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
+           File: <b> ${test.getResultValue ( "SourceFile", "Unknown"  )?html}</b>
+           Line: <b> ${test.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>p
+           <pre>${test.getResultValue ( "PreContext", "" )}
+<b>${test.getResultValue ( "Text", "" )}</b>
+${test.getResultValue ( "PostContext", "" )}</pre>
+        </#list>
         </#if>
-      </#macro>
 
-
-      <!-- Generate the actual build error entries -->
-      <#visit build.getTree("DisplayDetails")>
-
-      <#macro @DisplayDetails>
-        <#local iserror = .node.name?matches(".*Error[^.]*")>
-        <#local iswarning = .node.name?matches(".*Warning[^.]*")>
-
-        <#if iserror || iswarning>
-          <#local child = .node>
-          <hr/>
-           <h3><#if iserror> Error <#else> Warning </#if>Build Log Line ${child.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
-           File: <b> ${child.getResultValue ( "SourceFile", "Unknown"  )?html}</b>
-           Line: <b> ${child.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>
-           <pre>${child.getResultValue ( "PreContext", "" )}
-<b>${child.getResultValue ( "Text", "" )}</b>
-${child.getResultValue ( "PostContext", "" )}</pre>
-        <#else>
-          <#local stagename = .node.getResultValue("StageName","NotAStage")>
-          <#if stagename != "NotAStage" >
-            <hr/>
-            <h2>
-              <a name="stage${.node.name}">
-              Stage: ${stagename?html} (${.node.getResultValue("ErrorCount","Unknown")?html} Errors, ${.node.getResultValue("WarningCount","Unknown")?html} Warnings)
-              </a>
-            </h2>
-            <br><b>Build command: </b><tt>${.node.getResultValue("BuildCommand","(Unknown)")?html}</tt>
-            <br><b>Build return status: </b>${.node.getResultValue("BuildStatus","(Unknown)")?html}
-            <br><b>Start Time: </b>${.node.getResultValue("StartDateTime","(Unknown)")?html}
-            <br><b>End Time: </b>${.node.getResultValue("EndDateTime","(Unknown)")?html}
-            <#local logs = .node.selectResult("Log").toList()>
-            <#list logs as log>
-            <br><b>Log: </b>
-            <#switch log.getType()>
-            <#case "text/text"><pre>${fetchdata(log.getValue())?html}</pre><#break>
-            <#case "text/html">${fetchdata(log.getValue())}<#break>
-            <#case "text/xml"><pre>${fetchdata(log.getValue())?html}</pre><#break>
-            <#case "archive/zip"><a href="/${projectName}/Zip/${log.getValue()?replace('\\','/')}"/>link</a><#break>
-            <#default><pre>${log.getValue()?html}</pre><#break/>
-            </#switch>
-            </#list>
-          </#if>
+        <#-- iterate over warnings -->
+        <#if (stage.WarningCount > 0)>
+        <div class="title-divider" id="${stage.name?url}Warnings"><@displayStageNav/>${stage.StageName?html} Warnings (${stage.WarningCount?html})</div>
+        <#list submission.selectTestListLike(stage.qualifiedName+".Warning%").toList() as test>        
+           <h3>Warning Build Log Line ${test.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
+           File: <b> ${test.getResultValue ( "SourceFile", "Unknown"  )?html}</b>
+           Line: <b> ${test.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>
+           <pre>${test.getResultValue ( "PreContext", "" )}
+<b>${test.getResultValue ( "Text", "" )}</b>
+${test.getResultValue ( "PostContext", "" )}</pre>
+        </#list>
         </#if>
-        <#recurse/>
-      </#macro>
+    
+      </#list>
+
     </#if>
 </div>
 </body>
