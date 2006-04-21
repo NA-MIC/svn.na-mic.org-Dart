@@ -86,7 +86,6 @@
       </#list>
       </table>
       <br/>
-      <br/>
 
       <#-- For each stage -->
       <#list stages as stage>
@@ -98,6 +97,7 @@
         <br><b>Build return status: </b>${stage.getResultValue("BuildStatus","(Unknown)")?html}
         <br><b>Start Time: </b>${stage.getResultValue("StartDateTime","(Unknown)")?html}
         <br><b>End Time: </b>${stage.getResultValue("EndDateTime","(Unknown)")?html}
+
         <#assign logs = stage.selectResult("Log").toList()>
         <#list logs as log>
         <br><b>Log: </b>
@@ -109,6 +109,8 @@
         <#default><pre>${log.getValue()?html}</pre><#break/>
         </#switch>
         </#list>
+        <br/>
+        <br/>
 
         <#-- iterate over errors -->
         <#if (stage.ErrorCount > 0)>
