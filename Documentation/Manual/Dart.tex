@@ -527,12 +527,15 @@ starting with /Dart/*.
 
 
 \section{Project Configuration}
-After following the directions in Section~\ref{Section:QuickStart}, in
-the \texttt{TestProject} directory, there is a file named
+After following the directions in Section~\ref{Section:QuickStart}, 
+the \texttt{TestProject} directory will contain a file named
 \filename{Project.xml}.  This is a preconfigured Project configuration
-file containing all the settings required to run a basic Dart
-Project.  The contents of the file are not presented in their
-entirety, but will be discussed section by section.
+file containing the settings necesary to run a basic Dart
+Project. The settings can be modified to control tasks, notifications, and archiving.
+The contents of Project.xml are discussed section by section in the following sections.
+
+Accompaning Project.xml is a file called DefaultProject.xml.  DefaultProject.xml always shows the stock project configuration.  DefaultProject.xml can serve as a reference to the original settings as Project.xml is modified.  DefaultProject.xml is regenerated whenever the Dart server is started. When the Dart server is started with a new version of Dart, the DefaultProject.xml file will be representative of the stock project configuration for the new version of Dart. Therefore, DefaultProject.xml can serve as a means to migrate new Dart capabilities into an existing project.
+
 
 \subsection{Project Info}
 \begin{verbatim}
@@ -1522,6 +1525,54 @@ The definition of the default Archivers are:
       <Property name="Archiver.ExperimentalLevel4.WriteArchive">false</Property>
 
 \end{verbatim}
+
+\section{Customizing Dart}
+\label{Section:Customization}
+
+\subsection{Project styles, icons, and templates}
+\label{Section:ProjectStylesIconsTemplates}
+The look and feel for a Project as well as what and how information is reported can be customized on a project by project basis.  The simpliest customizations may including branding the Dashboard with project specific icons and cross references.  More advanced customizations include developing custom reports and servlets.
+
+\subsubsection{Styles and Icons}
+The Cascading Style Sheets for a project are kept in the project directory under HTML/Resources and the icons used in the webpages for the project are in the project directory under HTML/Resources/Icons.  The content in these directories are what is served by Dart.
+
+There are two other directories in the project directory under HTML, namely HTML/DefaultResources and HTML/LocalResources.  HTML/DefaultResources contains the cascading style sheets and icons that are shipped with Dart.  HTML/LocalResources is reserved for project specific customizations.
+
+Resources are refreshed when the server is started with the --refresh option. Refreshing performs the following options in sequence:
+\begin{enumerate}
+\item Project resources are copied from the DartServer.jar into the HTML/DefaultResources directory.
+\item Project resources are copied from the DartServer.jar into the HTML/Resources directory.
+\item Local resource overrides and new resources are copied from the HTML/LocalResources directory to HTML/Resources directory.
+\end{enumerate}
+HTML/DefaultResources always contains the stock configuration of resources for the current version of Dart.  When a new version of Dart is used, HTML/DefaultResources will contain the latest set of resources. Like DefaultProject.xml, the content of HTML/DefaultResources can serve as a reference when migrating between Dart versions.
+
+Content in HTML/LocalResources overrides the content in HTML/DefaultResources.  Therefore, project specific icons and style sheets can be used by placing them in HTML/LocalResources. 
+
+\subsubsection{Templates}
+Dart uses the Freemarker template engine to generate web pages.  The templates for a project are kept in the project directory in a subdirectory called Templates. 
+
+There are two other directories in the project directory, DefaultTemplates and LocalTemplates.  DefaultTemplates contains the templates that are shipped with Dart.  LocalTemplates is reserved for project specific customizations.
+
+Templates are refreshed when the server is started with the --refresh option.  Refreshing performs the following options in sequence:
+\begin{enumerate}
+\item Project templates are copied from the DartServer.jar into the DefaultTemplates directory.
+\item Project templates are copied from the DartServer.jar into the Templates directory.
+\item Local template overrides and new templates are copied from the LocalTemplates directory to the Templates directory.
+\end{enumerate}
+DefaultTemplates always contains the stock configuration of templates for the current version of Dart. When a new version of Dart is used, DefaultTemplates will contain the latest set of templates.  Like DefaultProject.xml, the content of DefaultTemplates can serve as a reference when migrating between Dart versions.
+
+Content in LocalTemplates overrides the content in DefaultTemplates.  Therefore, project specific template overrides or new templates can be used by placing them in the LocalTemplates directory.
+
+\subsection{Server styles, icons, and templates}
+The look and feel as well as how and what is served can be customized for the Dart server as well.  The cascading style sheets, icons, and templates for the server are manage in a manner similar to the project customization described in Section~\ref{Section:ProjectStylesIconsTemplates}.  Under the server directory, there are Templates, LocalTemplates, and DefaultTemplates directories as well as HTML/Resources, HTML/DefaultResources and HTML/LocalResources directories.  The default configurations for the current version of Dart are stored in the DefaultTemplates and HTML/DefaultResources directories.  These can be overriden and augmented using the LocalTemplates and HTML/LocalResources directories.
+
+
+\subsection{Plugins}
+\label{Section:Plugins}
+Most of the content for a project is served by the Dashboard servlet.  The Dashboard servlet interprets the any path after \url{http://server:port/Project/Dashboard} as the name of a template to process.  The Dashboard servlet is very general and serves pages as diverse as the Dashboard, TestCatalog, Notes, Test, Build, etc.
+
+If the stock Dashboard servlet cannot provide information needed for a template in LocalTemplates, then a new servlet can be added to Dart using a plugin mechanism.  In the project directory, there is subdirectory called Plugins.  Any jar files placed in this directory will be added to the servlet classpath.  Servlets in these jar files can be added to a Project by adding a \xmltag{Servlet} to the \xmltag{ServletManager} section of the Project.xml file. See Section~\ref{Sec:ServletManager} for more information on configuring a servlet.
+
 
 \section{Upgrade Dart Server from 0.5 or 0.6}
 \label{Section:UpgradeServer}

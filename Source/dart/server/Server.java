@@ -636,47 +636,103 @@ public class Server extends Container
     }
 
     // Find the default resources on the server
+    FileObject dest = null, src = null, templates = null;
     URL resourceRootURL = Server.class.getClassLoader().getResource( "dart/Resources/Server/Style.css" );
     logger.info ( "Default server resources root path is " + resourceRootURL.toString() );
-    FileObject dest = null, src = null, templates = null;
     try {
       FileSystemManager fsManager = VFS.getManager();
-
-      /*
-      FileObject t = fsManager.resolveFile ( "jar:file:/projects/mion/Source/Dart/DartServer.jar!/dart/Resources/Project/Style.css" );
-      logger.debug ( "Test exists: " + t.exists() );
-      
-      src = fsManager.resolveFile ( resourceRootURL.toString().replaceAll ( "jar:file:", "jar://" ) ).getParent();
-      logger.debug ( "Replaced version:" + src.exists() );
-      */
-      logger.debug ( "New Resource Root:" + resourceRootURL.toString().replaceAll ( "jar:file:", "jar://" ) );
-      logger.debug ( "Resource Root:" + resourceRootURL.toString() );
       src = fsManager.resolveFile ( resourceRootURL.toString() ).getParent();
-      logger.debug ( "Src exists: " + src.exists() );
 
-      // copy HTTP resources to the server, excluding the templates
-      File destinationDirectory = new File ( htmlDirectory, "Resources" ).getAbsoluteFile();
+      // First copy styles and icons to an area served by the HTTP
+      // server but do not the templates to this area. We do not want
+      // to serve the templates
+      //
+      File destinationDirectory
+        = new File ( htmlDirectory, "Resources" ).getAbsoluteFile();
       dest = fsManager.resolveFile ( destinationDirectory.toString() );
-      templates = dest.getParent().getParent().resolveFile ( "Templates" );
 
-      logger.debug ( "src: " + src.toString() );
-      logger.debug ( "dest: " + dest.toString() );
-      logger.debug ( "templates: " + templates.toString() );
-
-      logger.debug ( "Copy Templates" );
-      if ( ! src.resolveFile ( "Templates" ).exists() ) {
-        logger.debug ( "Could not find Templates in src" );
-      }
-      templates.copyFrom ( src.resolveFile ( "Templates" ), new AllFileSelector() );
-      logger.debug ( "Copy Resources" );
-      dest.copyFrom ( src, new FileSelector () {
+      // Define a FileSelector type that does not copy the Templates
+      // directory
+      FileSelector noTemplates = new FileSelector () {
           public boolean includeFile ( FileSelectInfo info ) throws Exception {
-            return !info.getFile().getName().getBaseName().equals ( "Templates" );
+            return !info.getFile().getName().getBaseName().equals ( "Templates" )
+              && !info.getFile().getName().getBaseName().equals ( ".svn" );
           }
           public boolean traverseDescendents ( FileSelectInfo info ) throws Exception {
-            return !info.getFile().getName().getBaseName().equals ( "Templates" );
+            return !info.getFile().getName().getBaseName().equals ( "Templates" )
+              && !info.getFile().getName().getBaseName().equals ( ".svn" );
           }
-        } );
+        };
+      // Define a FileSelector which is everything
+      FileSelector allFiles = new AllFileSelector();
+
+      // Copy the resources from the jar to a Default directory as a reference
+      File defaultDirectory
+        = new File ( htmlDirectory, "DefaultResources" ).getAbsoluteFile();
+      FileObject defaultDest
+        = fsManager.resolveFile ( defaultDirectory.toString() );
+
+      // delete the default directory so it is always an exact copy of
+      // what is in the jar
+      if (defaultDirectory.exists()) {
+        defaultDest.delete(allFiles);
+      }
+      logger.debug( "Copying Resources to " + defaultDirectory.toString());
+      defaultDest.copyFrom(src, noTemplates);
+
+      // Copy the resources to the Resources directory that is served
+      logger.debug ( "Copying Resources to "+destinationDirectory.toString());
+      dest.copyFrom ( src, noTemplates );
+
+      // Copy any local resources to the Resource directory
+      File localDirectory = new File ( htmlDirectory, "LocalResources" ).getAbsoluteFile();
+      if (!localDirectory.exists()) {
+        localDirectory.mkdir();
+      }
+      File localIcons = new File( localDirectory, "Icons").getAbsoluteFile();
+      if (!localIcons.exists()) {
+        localIcons.mkdir();
+      }
+      FileObject local = fsManager.resolveFile ( localDirectory.toString() );
+      logger.debug( "Copying " + localDirectory.toString() + " to "
+                    + destinationDirectory.toString() );
+      dest.copyFrom( local, noTemplates);
+
+      // Copy Templates
+      //
+      //
+      templates = dest.getParent().getParent().resolveFile ( "Templates" );
+
+      // Copy the Templates from the jar to a Default directory as a reference
+      File defaultTemplates
+        = new File (templatesDirectory.getParent(), "DefaultTemplates").getAbsoluteFile();
+      FileObject defaultTempl
+        = fsManager.resolveFile( defaultTemplates.toString() );
+
+      // delete the default template directory so it is always an
+      // exact copy of  what is in the jar
+      if (defaultTemplates.exists()) {
+        defaultTempl.delete(allFiles);
+      }
+      logger.debug( "Copying Templates to " + defaultTemplates.toString());
+      defaultTempl.copyFrom(src.resolveFile( "Templates"), allFiles);
+
+      // copy the templates to the Templates directory that is served
+      logger.debug ( "Copying Templates to " + templatesDirectory.toString());
+      templates.copyFrom ( src.resolveFile ( "Templates" ), allFiles );
+
+      // copy any local templates
+      File localTemplates
+        = new File(templatesDirectory.getParent(), "LocalTemplates").getAbsoluteFile();
+      if (!localTemplates.exists()) {
+        localTemplates.mkdir();
+      }
+      FileObject localTempl
+        = fsManager.resolveFile( localTemplates.toString() );
+      logger.debug( "Copying " + localTemplates.toString() + " to "
+                    + templates.toString() );
+      templates.copyFrom( localTempl, allFiles);
+
     } catch ( Exception e ) {
       logger.error ( title + ": Failed to refresh resources", e );
     }
