@@ -39,7 +39,11 @@ public class DartClient
     options.addOption ( "r", "refresh", false, "Refresh Project resources" );
     options.addOption ( "R", "refreshServer", false, "Refresh Server resources" );
     options.addOption ( "g", "getstatus", false, "Get Server status" );
+    options.addOption ( "z", "schedulerstatus", false, "Get Scheduler status" );
     options.addOption ( "d", "date", false, "Print the current date and exit" );
+    options.addOption ( "w", "password", true, "ProjectAdministrator password" );
+    options.addOption ( "u", "username", true, "ProjectAdministrator username" );
+    options.addOption ( "l", "sql", true, "SQL Commands to run on server" );
     try {
       cmd = parser.parse ( options, args );
     } catch ( Exception e ) {
@@ -116,6 +120,39 @@ public class DartClient
         System.exit ( 1 );
       }
     }
+
+    if ( cmd.hasOption ( "l" ) ) {
+      // Execute sql commands
+        Vector params = new Vector();
+        params.addElement ( cmd.getOptionValue ( "u", "" ) );
+        params.addElement ( cmd.getOptionValue ( "w", "" ) );
+        
+        // Read the SQL file
+        File SQL = new File ( cmd.getOptionValue ( "l", "" ) );
+        if ( !SQL.exists() ) { 
+          logger.error ( "File: " + SQL.toString() + " does not exist" );
+          System.exit ( 1 );
+        }
+        try {
+          Reader in = new BufferedReader ( new FileReader ( SQL ) );
+          StringWriter out = new StringWriter ();
+          char[] Data = new char[3000];
+          while ( true ) {
+            int bytesRead = 0;
+            bytesRead = in.read ( Data );
+            if ( bytesRead == -1 ) {
+              break;
+            }
+            out.write ( Data, 0, bytesRead );
+          }
+          params.addElement ( out.toString() );
+          client.execute ( "ProjectAdministration.runSQL", params );
+          System.exit ( 0 );
+        } catch ( Exception adminEx ) {
+          logger.error ( "Failed to execute runSQL command", adminEx );
+          System.exit ( 1 );
+        }
+    }
     
     
     if ( cmd.hasOption ( "g" ) ) {
@@ -125,6 +162,23 @@ public class DartClient
         XmlRpcClient admin = new XmlRpcClient ( );
         admin.setConfig ( config );
         String o = (String)admin.execute ( "Administration.getStatus", new Vector() );
+        // Vector params = new Vector();
+        // String result = (String) client.execute ( "
+        logger.info ( "Status: " + o );
+        System.exit ( 0 );
+      } catch ( Exception e ) {
+        logger.error ( "Failed to get project status", e );
+        System.exit ( 1 );
+      }
+    }
+
+    if ( cmd.hasOption ( "z" ) ) {
+      try {
+        XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+        config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
+        XmlRpcClient admin = new XmlRpcClient ( );
+        admin.setConfig ( config );
+        String o = (String)admin.execute ( "Administration.getSchedulerStatus", new Vector() );
         // Vector params = new Vector();
         // String result = (String) client.execute ( "
         logger.info ( "Status: " + o );

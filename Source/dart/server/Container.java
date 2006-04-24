@@ -35,6 +35,8 @@ public class Container {
   int uniqueFileIndex = 0;
   protected Server dartServer = null;
   protected CommandManager commandManager = null;
+  protected String administratorUsername = "";
+  protected String administratorPassword = "";
   
   /**
    * Default (empty) constructor
@@ -48,6 +50,14 @@ public class Container {
    */
   public void setTitle ( String t ) { title = t; logger.debug ( "title: " + title ); }
   public String getTitle () { return title; }
+
+  /** 
+   * Set/Get the Administrator Username/Password for this Container
+   */
+  public void setAdministratorUsername ( String u ) { administratorUsername = u; logger.debug ( "Set Username: " + u ); }
+  public String getAdministratorUsername () { return administratorUsername; }
+  public void setAdministratorPassword ( String p ) { administratorPassword = p; logger.debug ( "Set Password: " + p ); }
+  public String getAdministratorPassword () { return administratorPassword; }
 
   /**
    * Set the base directory for this object.
@@ -177,7 +187,7 @@ public class Container {
    * are reported, but ignored.
    * @param schema File containing the SQL to be executed.
    */
-  public void executeSQL ( Reader r ) {
+  public void executeSQL ( Reader r ) throws Exception {
     // Read and execute
     StringWriter writer = new StringWriter();
     PrintWriter w = new PrintWriter ( writer );
@@ -212,6 +222,7 @@ public class Container {
       }
     } catch ( Exception e ) {
       logger.error ( getTitle() + ": Error initializing the database\n", e );
+      throw e;
     } finally {
       try { connection.close(); } catch ( Exception e ) { }
     }

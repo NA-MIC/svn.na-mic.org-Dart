@@ -4,7 +4,7 @@
 \usepackage{cite}
 \usepackage{subfigure}
 \usepackage{graphicx}
-\usepackage[font=sf]{caption}
+\usepackage[sf]{caption}
 \usepackage{enumerate}
 \usepackage{fancyhdr}
 % \usepackage{fncychap}
@@ -295,12 +295,18 @@ DartClient also provides other options:
 # java -jar DartClient.jar --help
 0 [main] INFO dart.DartClient  - Starting DartClient
 usage: DartClient [options] Project <foox.xml> <foo2.xml> ... <fooN.xml>
- -g,--getstatus   Get Server status
- -h,--help        Print help message
- -p,--port        XML-RPC Port to connect to, 8081 is default
- -q,--shutdown    Shutdown the Server
- -r,--refresh     Refresh Project resources
- -s,--server      Server to connect to, localhost is default
+ -p,--port              XML-RPC Port to connect to, 8081 is default
+ -R,--refreshServer     Refresh Server resources
+ -d,--date              Print the current date and exit
+ -g,--getstatus         Get Server status
+ -h,--help              Print help message
+ -l,--sql               SQL Commands to run on server
+ -q,--shutdown          Shutdown the Server
+ -r,--refresh           Refresh Project resources
+ -s,--server            Server to connect to, localhost is default
+ -u,--username          ProjectAdministrator username
+ -w,--password          ProjectAdministrator password
+ -z,--schedulerstatus   Get Scheduler status
 \end{verbatim}
 
 To connect through a proxy or firewall use:
@@ -462,6 +468,17 @@ server.  The sections of the Server configuration are as follows.
 This is the XML preamble followed by the Server information: Title and
 BaseDirectory.
 
+\subsection{Server Name}
+\begin{verbatim}
+  <ServerName></ServerName>
+\end{verbatim}
+
+Because it is not always possible for Java to correctly determine the
+name of the server, this tag is included.  ServerName should be in the
+format of \texttt{www.somewhere.com:8081}.  The default is to attempt
+to detemmine the hostname and use the \texttt{HTTPPort} specified in
+the next section.
+
 \subsection{Ports}
 \begin{verbatim}
   <HTTPPort>8081</HTTPPort>
@@ -551,6 +568,16 @@ the Project configuration.  \xmltag{Title} is the project title, and
 directory.  If the Project is moved to a new location on the file
 system, \xmltag{BaseDirectory} must be changed to reflect the new
 location.
+
+\subsection{Administrator Username and Password}
+\begin{verbatim}
+  <!-- Administrator Username/Password.  If blank, no administrator access -->
+  <AdministratorUsername></AdministratorUsername>
+  <AdministratorPassword></AdministratorPassword>
+\end{verbatim}
+
+These tags specify the Project Administrator username and password.
+If blank, the Project denys all access to Administrator functions.
 
 \subsection{Project Properties}
 Certain aspects of a Dart project can be customized by properties
@@ -646,6 +673,11 @@ Username/Password is required.
         <Property name="DeleteWhenDigested">true</Property>
       </Properties>
     </Command>
+    <Command>
+      <Name>ProjectAdministration</Name>
+      <Class>dart.server.command.ProjectAdministration</Class>
+      <Properties/>
+    </Command>
   </CommandManager>
 \end{verbatim}
 The Dart Server provides an XML-RPC server for results to be
@@ -665,6 +697,9 @@ is the object name, \xmltag{Class} is the name of the class that the
 CommandManager instantiates and any Properties for the object are
 specified using the \xmltag{Properties} tags.  Any public methods of
 the object are exposed to XML-RPC calls.
+
+The ProjectAdministration Command allows a remote Administrator to
+perform a variety of tasks.
 
 \subsection{ServletManager Configuration}
 \label{Sec:ServletManager}

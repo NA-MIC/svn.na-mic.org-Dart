@@ -4,6 +4,9 @@
     <object-create-rule classname="dart.server.Project"/>
     <call-method-rule pattern="Title" methodname="setTitle" paramcount="0"/>
     <call-method-rule pattern="BaseDirectory" methodname="setBaseDirectory" paramcount="0"/>
+    <call-method-rule pattern="AdministratorUsername" methodname="setAdministratorUsername" paramcount="0"/>
+    <call-method-rule pattern="AdministratorPassword" methodname="setAdministratorPassword" paramcount="0"/>
+
     <pattern value="Properties">
       <object-create-rule classname="java.util.Properties"/>
       <set-next-rule methodname="setProperties"/>
@@ -206,6 +209,7 @@
     <call-method-rule pattern="BaseDirectory" methodname="setBaseDirectory" paramcount="0"/>
 
     <call-method-rule pattern="HTTPPort" methodname="setHttpPort" paramcount="0"/>
+    <call-method-rule pattern="ServerName" methodname="setServerName" paramcount="0"/>
     
     <pattern value="Database">
       <object-create-rule classname="dart.server.Database"/>

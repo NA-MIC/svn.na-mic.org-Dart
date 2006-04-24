@@ -71,6 +71,7 @@ create table Test (
 -- This a common query for processing tests
 create index TestIdx1 on Test ( SubmissionId, QualifiedName );
 create index TestIdx2 on Test ( ParentTestId );
+create index TestIdx3 on Test ( QualifiedName, SubmissionId );
 
 create table RelatedTest (
   TestId bigint primary key not null,

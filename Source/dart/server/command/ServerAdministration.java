@@ -48,6 +48,14 @@ public class ServerAdministration implements Command {
     return server.getStatus();
   }
 
+  /**
+     Handle the <code>getSchedulerStatus</code> XML-RPC method
+  */
+  public String getSchedulerStatus () {
+    logger.debug ( "getSchedulerStatus called" );
+    return server.getSchedulerStatus();
+  }
+
 
   /**
    * Refresh the server resources

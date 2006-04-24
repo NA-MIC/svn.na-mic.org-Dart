@@ -8,7 +8,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.HashMap;
+import java.util.*;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -30,7 +30,7 @@ import org.mortbay.http.JDBCUserRealm;
 import org.mortbay.http.handler.ResourceHandler;
 import org.mortbay.http.handler.SecurityHandler;
 import org.quartz.Scheduler;
-import org.quartz.Trigger;
+import org.quartz.*;
 import org.quartz.impl.DirectSchedulerFactory;
 
 import freemarker.template.Configuration;
@@ -53,6 +53,7 @@ public class Server extends Container
   //  static HashMap qeds = new HashMap();
   static HashMap servers = new HashMap();
   HashMap projectNames = new HashMap();
+  String serverName = "";
   int httpPort = 8081;
   int schedulerThreadPoolSize = 10;
 
@@ -104,6 +105,27 @@ public class Server extends Container
      Get the Http Port
   */
   public int getHttpPort() { return httpPort; }
+
+  /**
+     Set the ServerName
+     @param name ServerName
+  */
+  public void setServerName ( String name ) { serverName = name; }
+
+  /**
+     Get ServerName
+  */
+  public String getServerName() { 
+    if ( serverName.equals ( "" ) ) {
+      try {
+        serverName = java.net.InetAddress.getLocalHost().getCanonicalHostName() + ":" + getHttpPort();
+      } catch ( Exception e ) {
+        logger.error ( "Failed to construct servername", e );
+        serverName = getTitle() + ":" + getHttpPort();
+      }
+    }
+    return serverName;
+   }
 
   /**
      Lookup the project by name
@@ -228,7 +250,7 @@ public class Server extends Container
     // Initialize the scheduler
     try {
       logger.info ( "Initializing Scheduler" );
-      DirectSchedulerFactory.getInstance().createVolatileSchduler ( schedulerThreadPoolSize );
+      DirectSchedulerFactory.getInstance().createVolatileScheduler ( schedulerThreadPoolSize );
       scheduler = DirectSchedulerFactory.getInstance().getScheduler();
       logger.info ( "Scheduler initialized" );
     } catch ( Exception e ) {
@@ -521,7 +543,7 @@ public class Server extends Container
      @return A valid server
   */
   public static Server loadServer ( String inPath ) {
-    logger.info( "Loading Dart server from " + inPath );
+    logger.info( "Loading from " + inPath );
     
     // See if this is a file or directory, if directory, look for the file Server.xml
     File path = new File ( inPath );
@@ -566,6 +588,52 @@ public class Server extends Container
     }
     executeSQL ( schema );
     
+  }
+
+  /**
+     Return the Scheduler status
+     @return Status of the Scheduler
+  */
+  public String getSchedulerStatus () {
+    StringWriter b = new StringWriter();
+    PrintWriter out = new PrintWriter ( b );
+    try {
+      out.println ( "Scheduler: " + scheduler.getMetaData().getSummary() );
+      out.println ( "Paused: " + scheduler.getPausedTriggerGroups() );
+      out.println ( "Triggers" );
+      String[] groups = scheduler.getTriggerGroupNames();
+      for ( int i = 0; i < groups.length; i++ ) {
+        String[] names = scheduler.getTriggerNames ( groups[i] );
+        for ( int j = 0; j < names.length; j++ ) {
+          Trigger trigger = scheduler.getTrigger ( names[j], groups[i] );
+          out.println ( trigger.toString() );
+        }
+      }
+      out.println ( "\nCurrently executing: " + scheduler.getCurrentlyExecutingJobs().size() );
+      List jobs = scheduler.getCurrentlyExecutingJobs();
+      Iterator i = jobs.iterator();
+      while ( i.hasNext() ) {
+        JobExecutionContext c = (JobExecutionContext) i.next();
+        out.println ( "\tContext: " + c.toString() );
+        
+        JobDetail detail = c.getJobDetail();
+        out.println ( "\tName: " + detail.getFullName() );
+        out.println ( "\tDescription: " + detail.getDescription() );
+        out.println ( "\tJobClass: " + detail.getJobClass() );
+        out.println ( "\tProperties: " );
+        JobDataMap map = c.getMergedJobDataMap();
+        Iterator keys = map.keySet().iterator();
+        while ( keys.hasNext() ) {
+          String key = (String) keys.next();
+          out.println ( key + ": " + map.get ( key ) );
+        }
+        out.println ( detail.getJobDataMap() );
+        out.println ( "\tString:" + detail.toString() );
+      }
+    } catch ( Exception qe ) {
+      logger.error ( "Failed to provide Scheduler info", qe );
+    }
+    return b.toString();
   }
 
   /**

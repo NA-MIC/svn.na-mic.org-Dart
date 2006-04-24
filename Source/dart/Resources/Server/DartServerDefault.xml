@@ -3,6 +3,13 @@
   <Title>${ServerName}</Title>
   <BaseDirectory>${ServerDirectory}</BaseDirectory>
 
+  <!-- Name the server uses to identify itself 
+       this is used for notification messages.
+       Must include port number if applicable.
+       If not set, defaults to Java's idea of the
+       Canonical Host name, and the HTTPPort. -->
+  <ServerName></ServerName>
+
   <HTTPPort>8081</HTTPPort>
 
   <Scheduler>

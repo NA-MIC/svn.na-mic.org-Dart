@@ -56,6 +56,7 @@ public class DartServer extends Container
       }
     }
     PropertyConfigurator.configure ( logConfigurationFile );
+    logger.info ( "Starting DartServer version " + dart.server.Version.getVersionString() + " db version " + dart.server.Version.getDBVersionString() );
     logger.info ( "Initialized log4j from " + logConfigurationFile.toString() ); 
 
     // Create a project
@@ -111,8 +112,8 @@ public class DartServer extends Container
       }
     }
 
-    logger.info( "Server name: " + server.getTitle() );
-    logger.info( "Server directory: " + server.getBaseDirectory() );
+    logger.info ( "Server name: " + server.getTitle() );
+    logger.info ( "Server directory: " + server.getBaseDirectory() );
 
     // Initialize the server database
     try {

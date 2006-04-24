@@ -3,6 +3,10 @@
   <Title>${ProjectName}</Title>
   <BaseDirectory>${ProjectDirectory}</BaseDirectory>
 
+  <!-- Administrator Username/Password.  If blank, no administrator access -->
+  <AdministratorUsername></AdministratorUsername>
+  <AdministratorPassword></AdministratorPassword>
+
   <Properties>
     <Property name="MaxTestsPerSubmission">1500</Property>
     <Property name="RepositoryURL">http://www.itk.org/cgi-bin/viewcvs.cgi/</Property>
@@ -74,6 +78,11 @@
       <Properties>
         <Property name="DeleteWhenDigested">true</Property>
       </Properties>
+    </Command>
+    <Command>
+      <Name>ProjectAdministration</Name>
+      <Class>dart.server.command.ProjectAdministration</Class>
+      <Properties/>
     </Command>
   </CommandManager>
 
