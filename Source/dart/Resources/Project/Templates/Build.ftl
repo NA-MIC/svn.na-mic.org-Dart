@@ -118,7 +118,7 @@
         <#list submission.selectTestListLike(stage.qualifiedName+".Error%").toList() as test>        
            <h3>Error Build Log Line ${test.getResultValue ( "BuildLogLine", "Unknown" )?html}</h3>
            File: <b> ${test.getResultValue ( "SourceFile", "Unknown"  )?html}</b>
-           Line: <b> ${test.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>p
+           Line: <b> ${test.getResultValue ( "SourceLineNumber", "Unknown" )?html}</b>
            <pre>${test.getResultValue ( "PreContext", "" )}
 <b>${test.getResultValue ( "Text", "" )}</b>
 ${test.getResultValue ( "PostContext", "" )}</pre>
