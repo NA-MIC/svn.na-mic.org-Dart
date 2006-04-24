@@ -138,7 +138,7 @@ public class SubmissionErrorsListener extends Listener {
         HttpContext httpContext = httpServer.getContext("/" + project.getTitle() + "/*");
         String cp = httpContext.getContextPath();
 
-        String url = "http://" + java.net.InetAddress.getLocalHost().getCanonicalHostName() + ":" + project.getServer().getHttpPort() + cp + "/Dashboard/Submission?submissionid=" + submission.getSubmissionId();
+        String url = "http://" + project.getServer().getServerName() + cp + "/Dashboard/Submission?submissionid=" + submission.getSubmissionId();
         
         // Build the content of the message
         String content = new String();
@@ -183,8 +183,7 @@ public class SubmissionErrorsListener extends Listener {
         }
 
         content = content
-          + "- Dart server on "
-          + java.net.InetAddress.getLocalHost().getCanonicalHostName();
+          + "- Dart server on " + project.getServer().getServerName();
         
         
         // Send the message by the mechanism specified

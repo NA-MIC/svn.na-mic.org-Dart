@@ -95,7 +95,7 @@ public class MissingSubmissionListener extends Listener {
     String url = "unknown";
 
     try {
-      url = "http://" + java.net.InetAddress.getLocalHost().getCanonicalHostName() + ":" + project.getServer().getHttpPort() + cp + "/Dashboard/Dashboard?trackid=" + event.getTrackId();
+      url = "http://" + project.getServer().getServerName() + cp + "/Dashboard/Dashboard?trackid=" + event.getTrackId();
     } catch ( Exception urlException ) {
       logger.warn ( "Failed to properly format url", urlException );
     }
@@ -122,6 +122,9 @@ public class MissingSubmissionListener extends Listener {
     content = content + "\n\n"
       + "You are listed as a maintainer of one of these clients.  You may want"
       + " to check client. Details on the current dashboard are at " + url;
+
+    content = content + "\n\n"
+      + "- Dart server on " + project.getServer().getServerName();
     
     // Build the subject of the message
     String subject = "Dart(" + project.getTitle() + ") - Expected submissions missing";

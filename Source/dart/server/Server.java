@@ -464,7 +464,6 @@ public class Server extends Container
       // Escape the directory string for the server database because
       // this is put in a properties file
       if (File.separatorChar == '\\' ) {
-        logger.info("Hello");
         serverDatabaseDirectory = 
           serverDatabaseDirectory.replaceAll("\\\\", "\\\\\\\\");
         logger.info(serverDatabaseDirectory);
@@ -483,12 +482,21 @@ public class Server extends Container
       outTemplate = new BufferedWriter ( new FileWriter ( new File ( dir, "Server.xml" ) ) );
       template.process ( root, outTemplate );
       outTemplate.flush();
+      outTemplate.close();
 
+      // Also create a DefaultProject.xml file for reference.
+      template = cfg.getTemplate ( "dart/Resources/Server/DartServerDefault.xml" );
+      outTemplate = new BufferedWriter(new FileWriter(new File(dir, "DefaultServer.xml")));
+      template.process(root, outTemplate);
+      outTemplate.flush();
+      outTemplate.close();
+      
       // Generate realm.properties
       template = cfg.getTemplate ( "dart/Resources/Server/realm.properties" );
       outTemplate = new BufferedWriter ( new FileWriter ( new File ( dir, "realm.properties" ) ) );
       template.process ( root, outTemplate );
       outTemplate.flush();
+      outTemplate.close();
       
 
       if ( db != null ) {
@@ -569,6 +577,45 @@ public class Server extends Container
       logger.error ( "Failed to create server", e );
     }
 
+    // Whenever we load a server, create a DefaultServer.xml file so
+    // that there is always a reference copy of what Server.xml looks
+    // like in the stock configuration
+    Configuration cfg = new Configuration();
+    cfg.setClassForTemplateLoading ( Server.class, "/" );
+
+    Writer outTemplate = null;
+    try {
+      Map root = new HashMap();
+      root.put ( "ServerName", server.getTitle() );
+      root.put ( "ServerDirectory", server.getBaseDirectory() );
+
+      // Construct the directory string for the server database
+      String serverDatabaseDirectory = server.getBaseDirectory()
+        + File.separator + "Database" + File.separator + server.getTitle();
+
+      // Escape the directory string for the server database because
+      // this is put in a properties file
+      if (File.separatorChar == '\\' ) {
+        serverDatabaseDirectory = 
+          serverDatabaseDirectory.replaceAll("\\\\", "\\\\\\\\");
+        logger.info(serverDatabaseDirectory);
+      } 
+      root.put ( "ServerDatabaseDirectory", serverDatabaseDirectory);
+      root.put ( "Type", "derby" );
+
+      Template template;
+      template=cfg.getTemplate("dart/Resources/Server/DartServerDefault.xml");
+
+      outTemplate
+        = new BufferedWriter(new FileWriter(new File(server.getBaseDirectory(),
+                                                     "DefaultServer.xml")));
+      template.process(root, outTemplate);
+      outTemplate.flush();
+      outTemplate.close();
+    } catch ( Exception e ) {
+      logger.error( "Failed to create DefaultServer.xml", e);
+    }
+                                                        
     return server;
   }
 
