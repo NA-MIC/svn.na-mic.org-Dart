@@ -473,11 +473,9 @@ BaseDirectory.
   <ServerName></ServerName>
 \end{verbatim}
 
-Because it is not always possible for Java to correctly determine the
-name of the server, this tag is included.  ServerName should be in the
-format of \texttt{www.somewhere.com:8081}.  The default is to attempt
-to detemmine the hostname and use the \texttt{HTTPPort} specified in
-the next section.
+Dart defaults to using the canonical hostname and the \texttt{HTTPPort} specified in the next section for constructing self referring urls. These urls are included in email messages to notify users of various events. The canoncial hostname is not always appropriate for inclusion in these notifications.  For instance, 
+if the Dart server is behind a firewall or accessed via a proxy server, a server name other than the canonical hostname may need to used.  The \xmltag{ServerName} tag can be used specify an alternative to the canonical hostname. ServerName should be in the
+format of a servername and port \texttt{www.somewhere.com:8081}.  
 
 \subsection{Ports}
 \begin{verbatim}
