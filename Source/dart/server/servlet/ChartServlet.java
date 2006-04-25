@@ -234,6 +234,9 @@ public class ChartServlet extends HttpServlet {
         // get the submission (could change this to take several submissions)
         String [] submissionids = (String[])parameters.get( "submissionid" );
 
+        Float minValue = new Float(Float.POSITIVE_INFINITY);
+        Float maxValue = new Float(Float.NEGATIVE_INFINITY);
+        
         for (int j=0; j < submissionids.length; ++j)
           {
             SubmissionEntity submission = submissionFinder
@@ -375,7 +378,14 @@ public class ChartServlet extends HttpServlet {
                         = test.getSubmissionEntity().getTimeStamp();
                       
                       Minute time = new Minute( testTimeStamp );
-                      series.add( time, new Float(results.get(0).getValue()) );
+                      Float value = new Float(results.get(0).getValue());
+                      series.add( time, value);
+                      if (value.compareTo(minValue) < 0) {
+                        minValue = value;
+                      }
+                      if (value.compareTo(maxValue) > 0) {
+                        maxValue = value;
+                      }
                     }
                   }
               }
@@ -384,7 +394,7 @@ public class ChartServlet extends HttpServlet {
               data.addSeries( series );
           
             } // end of testname loop
-          } // emd of submissionid loop
+          } // end of submissionid loop
         
         // Create a chart of the appropriate type
         if (type.equals("time")) {
@@ -408,8 +418,21 @@ public class ChartServlet extends HttpServlet {
           
           NumberAxis rangeAxis = (NumberAxis) chart.getXYPlot().getRangeAxis();
           rangeAxis.setNumberFormatOverride( rangeFormat );
-          rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
           
+          // If the minValue and maxValue are between the same
+          // integer, then JFreeChart doesn't do the right thing
+          // when using a integer tick units. So set our own bounds
+          // for the range.
+          if (minValue.longValue() == maxValue.longValue()) {
+            float fudge = 0.1f;
+            rangeAxis.setAutoRange( false );
+            rangeAxis.setLowerBound( minValue.floatValue() * (1.0 - fudge) );
+            rangeAxis.setUpperBound( maxValue.floatValue() * (1.0 + fudge) );
+          } else {
+            // Use JFreeChart's integer range axis
+            rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+          }
+            
           // For plotting status, enforce the range to be [-1, 1]
           if (measurement.equals("Status")) {
             rangeAxis.setAutoRange( false );
@@ -417,7 +440,7 @@ public class ChartServlet extends HttpServlet {
             rangeAxis.setUpperBound( 1.1 );
             rangeAxis.setAutoTickUnitSelection( false );
             rangeAxis.setTickUnit( new NumberTickUnit(1.0) );
-
+            
             StatusFormat statusFormat = new StatusFormat();
             rangeAxis.setNumberFormatOverride( statusFormat );
           }
