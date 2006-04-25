@@ -150,24 +150,29 @@ public class TestProxy {
       }
       l = l + count + " ";
     }
-    l = "<pre>" + l + line + "</pre>";
-    if ( count.equals ( "0" ) ) {
-      l = "<font color=\"#ff0000\">" + l + "</font>";
-    }
-      
+    l = l + line;
+
+    // Do we have something to append to
+    StringBuffer output = new StringBuffer ();
     if ( !map.containsKey ( "Output" ) ) {
       // Append to it
-      setNamedResult ( "Output", "text/html", l );
+      output.append ( "<pre>" );
     } else {
       String[] r = (String[]) map.get ( "Output" );
-      r[1] = r[1] + l;
-      map.put ( "Output", r );
+      // Strip off the trailing </pre>
+      int idx = r[1].lastIndexOf ( "</pre>" );
+      output.append ( r[1].substring ( 0, idx ) );
     }
+    
+    output.append ( l + "\n</pre>" );
+    setNamedResult ( "Output", "text/html", output.toString() );
+    logger.debug ( "Formatted\n" + line + "\n\t to \n" + l );
+      
   }
       
 
   public void setNamedResult ( String Name, String Type, String Value ) {
-    logger.debug ( "setNamedResult: " + Name + " " + Type + " " + Value );
+    // logger.debug ( "setNamedResult: " + Name + " " + Type + " " + Value );
     map.put ( Name, new String[] { Type, Value } );
   }
 

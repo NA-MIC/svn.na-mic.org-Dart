@@ -40,7 +40,7 @@
       <call-method-rule methodname="setStatus" paramcount="1"/>
       <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
       <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
-      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build.Stage1"/>
       <call-method-rule methodname="setNamedResult" paramcount="3"/>
       <object-param-rule type="java.lang.String" value="StageName" paramnumber="0"/>
       <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
@@ -473,13 +473,6 @@
     </pattern>
     
     <pattern value="Build">
-      <object-create-rule classname="dart.server.TestProxy"/>
-      <set-next-rule methodname="addChild"/>
-      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
-      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build"/>
-      <call-method-rule methodname="setStatus" paramcount="1"/>
-      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
-
       <!-- Create a build stage called "Build" -->
 
       <object-create-rule classname="dart.server.TestProxy"/>
@@ -818,13 +811,6 @@
 
     <!-- Configure -->
     <pattern value="Configure">
-
-      <object-create-rule classname="dart.server.TestProxy"/>
-      <set-next-rule methodname="addChild"/>
-      <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
-      <object-param-rule paramnumber="0" type="java.lang.String" value=".Build"/>
-      <call-method-rule methodname="setStatus" paramcount="1"/>
-      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
 
       <!-- Create a build stage called "Configure" -->
 
