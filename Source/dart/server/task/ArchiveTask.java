@@ -49,7 +49,7 @@ public class ArchiveTask implements Task {
 
     // Setup the map of information that will be passed to the
     // template engine
-    logger.debug ( "Starting to archive submission" );
+    logger.debug ( "Starting to archive submission: " + submission.getSubmissionId() );
     HashMap root = new HashMap();
     root.put ( "fetchdata", new FetchData ( project ) );
     root.put ( "base64encode", new Base64Encode () );
@@ -105,8 +105,9 @@ public class ArchiveTask implements Task {
     }
     ArchiveSizeInK += l;
     File destination = new File ( Working, ArchiveFileName );
-    logger.debug ( "TempFile: " + TempFile.getPath() );
-    logger.debug ( "destination: " + destination.getPath() );
+    // logger.debug ( "TempFile: " + TempFile.getPath() );
+    // logger.debug ( "destination: " + destination.getPath() );
+    logger.debug ( "Finished archiving submission" );
     TempFile.renameTo ( destination );
   }
   
@@ -154,14 +155,13 @@ public class ArchiveTask implements Task {
     return patterns;
   }
 
-  private void syncronizedExecute ( Project p, Properties properties ) throws Exception {
+  private void synchronizedExecute ( Project p, Properties properties ) throws Exception {
     if ( properties == null ) {
       logger.warn ( "Null properties" );
     }
     project = p;
     logger.info ( project.getTitle() + ": Starting Archive" );
     
-
     SimpleDateFormat format = new SimpleDateFormat ( Container.UTCFormat );
     String DirectoryName = format.format ( Calendar.getInstance().getTime() ).toString();
     logger.debug ( "DirectoryName: " + DirectoryName );
@@ -175,6 +175,7 @@ public class ArchiveTask implements Task {
       String[] Archivers = properties.getProperty( "ArchiverList", "" ).split ( "," );
       for ( int ArchiverIdx = 0; ArchiverIdx < Archivers.length; ArchiverIdx++ ) {
         String Archiver = Archivers[ArchiverIdx];
+        logger.debug ( "Starting Archiver: " + Archiver );
 
         FileNamePattern = properties.getProperty ( "Archiver." + Archiver + ".FileNamePattern", "Archive-%P-%S-%B-%T-%D.xml.gz" );
         TemplateName = properties.getProperty ( "Archiver." + Archiver + ".Template", "ArchiveSubmission.xml" );
@@ -336,8 +337,11 @@ public class ArchiveTask implements Task {
   
   public void execute ( Project project, Properties properties ) throws Exception {
     // Syncronize on the Project, i.e. only one ArchiveTask per project
-    synchronized ( project ) {
-      syncronizedExecute ( project, properties );
-    }
+    logger.debug ( "Synchronizing on project" );
+    // synchronized ( project ) {
+    // logger.debug ( "Lock acquiried, starting execute" );
+    synchronizedExecute ( project, properties );
+    // logger.debug ( "Finished execute" );
+    // }
   }
 }
