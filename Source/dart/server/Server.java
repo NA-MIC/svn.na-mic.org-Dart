@@ -647,16 +647,20 @@ public class Server extends Container
     try {
       out.println ( "Scheduler: " + scheduler.getMetaData().getSummary() );
       out.println ( "Paused: " + scheduler.getPausedTriggerGroups() );
-      out.println ( "Triggers" );
-      String[] groups = scheduler.getTriggerGroupNames();
-      for ( int i = 0; i < groups.length; i++ ) {
-        String[] names = scheduler.getTriggerNames ( groups[i] );
-        for ( int j = 0; j < names.length; j++ ) {
-          Trigger trigger = scheduler.getTrigger ( names[j], groups[i] );
-          out.println ( trigger.toString() );
+      out.println ( "Currently executing: " + scheduler.getCurrentlyExecutingJobs().size() );
+
+      if ( !scheduler.isShutdown() ) {
+        out.println ( "Triggers" );
+        String[] groups = scheduler.getTriggerGroupNames();
+        for ( int i = 0; i < groups.length; i++ ) {
+          String[] names = scheduler.getTriggerNames ( groups[i] );
+          for ( int j = 0; j < names.length; j++ ) {
+            Trigger trigger = scheduler.getTrigger ( names[j], groups[i] );
+            out.println ( trigger.toString() );
+          }
         }
       }
-      out.println ( "\nCurrently executing: " + scheduler.getCurrentlyExecutingJobs().size() );
+      out.println ( "" );
       List jobs = scheduler.getCurrentlyExecutingJobs();
       Iterator i = jobs.iterator();
       while ( i.hasNext() ) {

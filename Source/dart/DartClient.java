@@ -1,4 +1,3 @@
-//
 package dart;
 
 import java.io.BufferedInputStream;
@@ -193,8 +192,9 @@ public class DartClient
       try {
         byte[] Data = new byte[32000];
         File inputfile = new File ( files[i] );
+        logger.info ( inputfile + " Length: " + inputfile.length() );
+        if ( inputfile.length() <= 4  ) { logger.info ( inputfile.toString() + " short file, skipping" ); continue; }
         // Reject anything more than 20 m
-        logger.info ( "Length: " + inputfile.length() );
         if ( inputfile.length() > 1024 * 1024 * 10 ) {
           long l = (long) ( inputfile.length() / (1024.*1024.) );
           logger.warn ( "Skipping " + inputfile.toString() + " Length: " + l + "M" );
@@ -219,6 +219,11 @@ public class DartClient
         if ( out instanceof GZIPOutputStream ) {
           ((GZIPOutputStream)out).finish();
         }
+        out.flush();
+        if ( bytes.toByteArray().length == 0 ) { 
+          logger.error ( "bytes is zero length" );
+        }
+
         Vector params = new Vector();
         params.addElement ( bytes.toByteArray() );
         client.execute ( "Submit.put", params );
