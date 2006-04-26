@@ -373,7 +373,7 @@
     </jar>
   </target>
 
-  <target name="clientjar">
+  <target name="clientjar" depends="compile">
     <delete file="DartClient.jar"/>
     <jar compress="true" destfile="DartClient.jar" index="true">
       <fileset dir="${classes.dir}">
