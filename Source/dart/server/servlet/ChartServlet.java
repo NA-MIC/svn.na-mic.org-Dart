@@ -423,7 +423,7 @@ public class ChartServlet extends HttpServlet {
           // integer, then JFreeChart doesn't do the right thing
           // when using a integer tick units. So set our own bounds
           // for the range.
-          if (minValue.longValue() == maxValue.longValue()) {
+          if (maxValue.floatValue() - minValue.floatValue() < 2.0) {
             float fudge = 0.1f;
             rangeAxis.setAutoRange( false );
             rangeAxis.setLowerBound( minValue.floatValue() * (1.0 - fudge) );
