@@ -203,6 +203,9 @@
       <Type>dart.server.task.ArchiveTask</Type>
       <Schedule>0 0 3 * * ?</Schedule>
       <Properties>
+        <!-- SubmissionsToArchive puts a throttle on the Archive process, -1 is all
+             Should be more than the expected Submissions per day... -->
+        <Property name="SubmissionsToArchive">300</Property>
         <!-- Default archivers are:
              Nightly:  Level 1 after 2 months (NightlyLevel1)
                        Level 2 after 4 months (NightlyLevel2)

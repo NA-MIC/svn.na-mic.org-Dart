@@ -159,6 +159,9 @@ public class ArchiveTask implements Task {
     if ( properties == null ) {
       logger.warn ( "Null properties" );
     }
+    int SubmissionsToArchive = -1;
+    int SubmissionsArchived = 0;
+    SubmissionsToArchive = Integer.parseInt ( properties.getProperty ( "SubmissionsToArchive", "-1" ) );
     project = p;
     logger.info ( project.getTitle() + ": Starting Archive" );
     
@@ -242,6 +245,14 @@ public class ArchiveTask implements Task {
         SubmissionIterator submissions;
         submissions = submissionFinder.find ( "where " + ArchiveBy + " < ? and ArchiveLevel < ?", q ).iterator();
         while ( submissions.hasNext() ) {
+          if ( SubmissionsToArchive != -1 ) {
+            if ( SubmissionsArchived >= SubmissionsToArchive ) {
+              logger.debug ( "Completed archive of " + SubmissionsArchived + " Submissions, break" );
+              break;
+            }
+            SubmissionsArchived++;
+          }
+          
           SubmissionEntity submission = submissions.next();
           ClientEntity client = submission.getClientEntity();
           TrackEntity track = submission.getTrackEntity();
@@ -338,10 +349,10 @@ public class ArchiveTask implements Task {
   public void execute ( Project project, Properties properties ) throws Exception {
     // Syncronize on the Project, i.e. only one ArchiveTask per project
     logger.debug ( "Synchronizing on project" );
-    // synchronized ( project ) {
-    // logger.debug ( "Lock acquiried, starting execute" );
-    synchronizedExecute ( project, properties );
-    // logger.debug ( "Finished execute" );
-    // }
+    synchronized ( project.getLockObject ( this.getClass().toString() ) ) {
+      logger.debug ( "Lock acquiried, starting execute" );
+      synchronizedExecute ( project, properties );
+      logger.debug ( "Finished execute, released lock" );
+    }
   }
 }

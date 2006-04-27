@@ -216,6 +216,11 @@ public class Server extends Container
   public void clearProjects () {
     projectNames.clear();
   }
+
+  /**
+   * Set ThreadPoolSize
+   */
+  public void setThreadPoolSize ( String s ) { schedulerThreadPoolSize = Integer.parseInt ( s ); }
     
   /**
      Start the Server
@@ -700,7 +705,7 @@ public class Server extends Container
         Iterator p = projects.values().iterator();
         while ( p.hasNext() ) {
           Project project = (Project) p.next();
-          out.println ( project.toString() );
+          out.println ( project.getStatus() );
         }
 
         DecimalFormat format = new DecimalFormat ( "0.00" );

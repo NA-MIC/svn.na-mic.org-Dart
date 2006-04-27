@@ -82,6 +82,7 @@ public class Project extends Container {
   HttpServer httpServer = null;
   Scheduler scheduler = null;
   ArrayList Rollups = new ArrayList();
+  HashMap lockMap = new HashMap();
 
   public Project() {
   }
@@ -92,11 +93,11 @@ public class Project extends Container {
   /**
      Print out some basic status information
   */
-  public String toString() {
+  public String getStatus() {
     StringBuffer buffer = new StringBuffer();
     buffer.append ( "Project: " + title + "\n" );
     buffer.append ( "Statistics: " + stats + "\n" );
-    buffer.append ( "Database Version: " + DBVersionString );
+    buffer.append ( "Database Version: " + DBVersionString + "\n");
     
     buffer.append ( "Table Counts: \n" );
     Connection connection = database.getConnection();
@@ -168,6 +169,18 @@ public class Project extends Container {
   public File getResultDirectory () { return resultDirectory; }
   public File getDataDirectory () { return dataDirectory; }
   public File getArchiveDirectory () { return archiveDirectory; }
+
+  /**
+   * Create a lock object for a particular purpose.
+   * Looks up the desired object in the hashmap.  If it doesn't exist, 
+   * create a new java.lang.Object and return.
+   */
+  public Object getLockObject ( String key ) {
+    if ( !lockMap.containsKey ( key ) ) {
+      lockMap.put ( key, new Object() );
+    }
+    return lockMap.get ( key );
+  }
 
   public File generateProjectRelativeFileForBinary ( byte[] b, String suffix ) {
     // Only one thread at a time, lock the dataDirectory object

@@ -210,6 +210,10 @@
 
     <call-method-rule pattern="HTTPPort" methodname="setHttpPort" paramcount="0"/>
     <call-method-rule pattern="ServerName" methodname="setServerName" paramcount="0"/>
+
+    <pattern value="Scheduler">
+      <call-method-rule pattern="ThreadPoolSize" methodname="setThreadPoolSize" paramcount="0"/>
+    </pattern>
     
     <pattern value="Database">
       <object-create-rule classname="dart.server.Database"/>
