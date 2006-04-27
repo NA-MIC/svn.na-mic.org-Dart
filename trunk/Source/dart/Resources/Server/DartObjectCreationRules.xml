@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<digester-rules>
+  <pattern value="Project">
+    <object-create-rule classname="dart.server.Project"/>
+    <call-method-rule pattern="Title" methodname="setTitle" paramcount="0"/>
+    <call-method-rule pattern="BaseDirectory" methodname="setBaseDirectory" paramcount="0"/>
+    <call-method-rule pattern="AdministratorUsername" methodname="setAdministratorUsername" paramcount="0"/>
+    <call-method-rule pattern="AdministratorPassword" methodname="setAdministratorPassword" paramcount="0"/>
+
+    <pattern value="Properties">
+      <object-create-rule classname="java.util.Properties"/>
+      <set-next-rule methodname="setProperties"/>
+      <pattern value="Property">
+        <call-method-rule methodname="setProperty" paramcount="2"/>
+        <call-param-rule paramnumber='0' attrname="name"/>
+        <call-param-rule paramnumber='1'/>
+      </pattern>
+    </pattern>
+
+    <pattern value="Database">
+      <object-create-rule classname="dart.server.Database"/>
+      <call-method-rule pattern="Driver" methodname="setDriver" paramcount="0"/>
+      <call-method-rule pattern="URL" methodname="setURL" paramcount="0"/>
+      <call-method-rule pattern="ShutdownURL" methodname="setShutdownURL" paramcount="0"/>
+      <call-method-rule pattern="Username" methodname="setUsername" paramcount="0"/>
+      <call-method-rule pattern="Password" methodname="setPassword" paramcount="0"/>
+      <call-method-rule pattern="MaxIdle" methodname="setMaxIdle" paramcount="0"/>
+      <call-method-rule pattern="MaxActive" methodname="setMaxActive" paramcount="0"/>
+      <set-next-rule methodname="setDatabase"/>
+    </pattern>
+
+    <pattern value="CommandManager">
+      <object-create-rule classname="dart.server.CommandManager"/>
+      <pattern value="Command">
+        <call-method-rule methodname="addCommand" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+        <call-param-rule paramnumber='0' pattern="Name"/>
+        <call-param-rule paramnumber='1' pattern="Class"/>
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+      </pattern>
+      <set-next-rule methodname="setCommandManager"/>
+    </pattern>
+
+    <pattern value="MessengerManager">
+      <object-create-rule classname="dart.server.MessengerManager"/>
+
+      <pattern value="Messenger">
+
+        <call-method-rule methodname="addMessenger" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+
+        <call-param-rule paramnumber='0' pattern="Name"/>
+        <call-param-rule paramnumber='1' pattern="Type"/>
+
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+
+      </pattern>
+
+      <set-next-rule methodname="setMessengerManager"/>
+    </pattern>
+
+    <pattern value="ListenerManager">
+      <object-create-rule classname="dart.server.ListenerManager"/>
+
+      <pattern value="Listener">
+
+        <call-method-rule methodname="addListener" paramcount="2" paramtypes="java.lang.String,java.util.Properties"/>
+
+        <call-param-rule paramnumber='0' pattern="Type"/>
+
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          <call-param-rule paramnumber='1' from-stack='true'/>
+        </pattern>
+      </pattern>
+
+      <set-next-rule methodname="setListenerManager"/>
+    </pattern>
+
+    <pattern value="ServletManager">
+      <object-create-rule classname="dart.server.ServletManager"/>
+
+      <!-- Add individual servlets to the manager -->
+      <pattern value="Servlet">
+        <call-method-rule methodname="addServlet" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+        <call-param-rule paramnumber='0' pattern="Class"/>
+        <call-param-rule paramnumber='1' pattern="Context"/>
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+      </pattern>
+      <set-next-rule methodname="setServletManager"/>
+    </pattern>
+
+    <pattern value="TrackManager">
+      <object-create-rule classname="dart.server.TrackManager"/>
+      <call-method-rule pattern="DefaultTrack" methodname="setDefaultTrack" paramcount="0"/>
+
+      <!-- Add individual Tracks to the manager -->
+      <pattern value="TemporalTrack">
+        <object-create-rule classname="dart.server.track.TemporalTrack"/>
+        <call-method-rule pattern="Name" methodname="setName" paramcount="0"/>
+        <call-method-rule pattern="Duration" methodname="setDuration" paramcount="0"/>
+        <call-method-rule pattern="Start" methodname="setStart" paramcount="0"/>
+        <call-method-rule pattern="Priority" methodname="setPriority" paramcount="0"/>
+        <call-method-rule pattern="DefaultSortBy" methodname="setDefaultSortBy" paramcount="0"/>
+        <call-method-rule pattern="DefaultOrder" methodname="setDefaultOrder" paramcount="0"/>
+        <set-next-rule methodname="addTrack"/>
+      </pattern>
+      <set-next-rule methodname="setTrackManager"/>
+    </pattern>
+
+
+    <pattern value="RollupManager">
+      <pattern value="Rollup">
+        <call-method-rule methodname="addRollup" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+        <call-param-rule paramnumber='0' pattern="Type"/>
+        <call-param-rule paramnumber='1' pattern="Priority"/>
+        
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+      </pattern>
+    </pattern>
+
+
+
+    <pattern value="Task">
+      <call-method-rule methodname="addTask" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+
+      <call-param-rule paramnumber='0' pattern="Type"/>
+
+      <pattern value="Schedule">
+        <call-param-rule paramnumber='1'/>
+      </pattern>
+
+      <pattern value="Properties">
+        <object-create-rule classname="java.util.Properties"/>
+        <pattern value="Property">
+          <call-method-rule methodname="setProperty" paramcount="2"/>
+          <call-param-rule paramnumber='0' attrname="name"/>
+          <call-param-rule paramnumber='1'/>
+        </pattern>
+
+        <call-param-rule paramnumber='2' from-stack='true'/>
+      </pattern>
+    </pattern>
+
+    <pattern value="TaskManager">
+      <pattern value="Task">
+        <call-method-rule methodname="addTask" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+
+        <call-param-rule paramnumber='0' pattern="Type"/>
+        
+        <pattern value="Schedule">
+          <call-param-rule paramnumber='1'/>
+        </pattern>
+        
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+      </pattern>
+    </pattern>
+
+  </pattern>
+
+  <pattern value="Server">
+    <object-create-rule classname="dart.server.Server"/>
+    <call-method-rule pattern="Title" methodname="setTitle" paramcount="0"/>
+    <call-method-rule pattern="BaseDirectory" methodname="setBaseDirectory" paramcount="0"/>
+
+    <call-method-rule pattern="HTTPPort" methodname="setHttpPort" paramcount="0"/>
+    <call-method-rule pattern="ServerName" methodname="setServerName" paramcount="0"/>
+    
+    <pattern value="Database">
+      <object-create-rule classname="dart.server.Database"/>
+      <call-method-rule pattern="Driver" methodname="setDriver" paramcount="0"/>
+      <call-method-rule pattern="URL" methodname="setURL" paramcount="0"/>
+      <call-method-rule pattern="ShutdownURL" methodname="setShutdownURL" paramcount="0"/>
+      <call-method-rule pattern="Username" methodname="setUsername" paramcount="0"/>
+      <call-method-rule pattern="Password" methodname="setPassword" paramcount="0"/>
+      <call-method-rule pattern="MaxIdle" methodname="setMaxIdle" paramcount="0"/>
+      <call-method-rule pattern="MaxActive" methodname="setMaxActive" paramcount="0"/>
+      <set-next-rule methodname="setDatabase"/>
+    </pattern>
+
+    <pattern value="ServletManager">
+      <object-create-rule classname="dart.server.ServletManager"/>
+      <!-- Add individual servlets to the manager -->
+      <pattern value="Servlet">
+        <call-method-rule methodname="addServlet" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+        <call-param-rule paramnumber='0' pattern="Class"/>
+        <call-param-rule paramnumber='1' pattern="Context"/>
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+      </pattern>
+      <set-next-rule methodname="setServletManager"/>
+    </pattern>
+    
+    <pattern value="CommandManager">
+      <object-create-rule classname="dart.server.CommandManager"/>
+      <pattern value="Command">
+        <call-method-rule methodname="addCommand" paramcount="3" paramtypes="java.lang.String,java.lang.String,java.util.Properties"/>
+        <call-param-rule paramnumber='0' pattern="Name"/>
+        <call-param-rule paramnumber='1' pattern="Class"/>
+        <pattern value="Properties">
+          <object-create-rule classname="java.util.Properties"/>
+          <pattern value="Property">
+            <call-method-rule methodname="setProperty" paramcount="2"/>
+            <call-param-rule paramnumber='0' attrname="name"/>
+            <call-param-rule paramnumber='1'/>
+          </pattern>
+          <call-param-rule paramnumber='2' from-stack='true'/>
+        </pattern>
+      </pattern>
+      <set-next-rule methodname="setCommandManager"/>
+    </pattern>
+    
+  </pattern>
+
+</digester-rules>
+
+

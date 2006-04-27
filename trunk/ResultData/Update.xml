@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Update mode="Client">
+	<Site>pragmatic.crd</Site>
+	<BuildName>Linux-2.4.18-24.8.0smp-c++</BuildName>
+	<BuildStamp>20050209-0500-Nightly</BuildStamp>
+	<StartDateTime>2005-02-09 05:00 GMT</StartDateTime>
+	<UpdateCommand>/usr/bin/cvs -z3 update -d -A -P -D "2005-02-09 05:00 GMT"</UpdateCommand>
+	<UpdateReturnStatus></UpdateReturnStatus>
+	<Directory>
+		<Name>Testing/Code/Common</Name>
+	<Updated>
+		<File Directory="Testing/Code/Common">itkSplineKernelTransformTest.cxx</File>
+		<Directory>Testing/Code/Common</Directory>
+		<FullName>Testing/Code/Common/itkSplineKernelTransformTest.cxx</FullName>
+		<CheckinDate>2005-02-08 19:05:55 +0000</CheckinDate>
+		<Author>ibanez</Author>
+		<Email>luis.ibanez@kitware.com</Email>
+		<Log>ENH: ReinitializeSeed() methods are not needed in this class.
+     The class doesn't rely on random number generators. The methods were removed.
+</Log>
+		<Revision>1.23</Revision>
+		<PriorRevision>1.22</PriorRevision>
+		<Revisions>
+			<Revision>1.23</Revision>
+			<PreviousRevision>1.22</PreviousRevision>
+			<Author>ibanez</Author>
+			<Date>2005-02-08 19:05:55 +0000</Date>
+			<Comment>ENH: ReinitializeSeed() methods are not needed in this class.
+     The class doesn't rely on random number generators. The methods were removed.
+</Comment>
+			<Email>luis.ibanez@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.22</Revision>
+			<PreviousRevision>1.22</PreviousRevision>
+			<Author>karthik</Author>
+			<Date>2005-01-22 02:49:17 +0000</Date>
+			<Comment>COMP: Reseed with default seed for SplineKernelTransformTest- temporary fix
+</Comment>
+			<Email>karthik.krishnan@kitware.com</Email>
+		</Revisions>
+	</Updated>
+	</Directory>
+	<Directory>
+		<Name>Code/BasicFilters</Name>
+	<Updated>
+		<File Directory="Code/BasicFilters">itkSpatialObjectToImageStatisticsCalculator.txx</File>
+		<Directory>Code/BasicFilters</Directory>
+		<FullName>Code/BasicFilters/itkSpatialObjectToImageStatisticsCalculator.txx</FullName>
+		<CheckinDate>2005-02-09 00:56:57 +0000</CheckinDate>
+		<Author>jjomier</Author>
+		<Email>jjomier@cs.unc.edu</Email>
+		<Log>BUG: The bounding box is in physical coordinates
+</Log>
+		<Revision>1.13</Revision>
+		<PriorRevision>1.12</PriorRevision>
+		<Revisions>
+			<Revision>1.13</Revision>
+			<PreviousRevision>1.12</PreviousRevision>
+			<Author>jjomier</Author>
+			<Date>2005-02-09 00:56:57 +0000</Date>
+			<Comment>BUG: The bounding box is in physical coordinates
+</Comment>
+			<Email>jjomier@cs.unc.edu</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.12</Revision>
+			<PreviousRevision>1.12</PreviousRevision>
+			<Author>will</Author>
+			<Date>2003-09-10 14:28:57 +0000</Date>
+			<Comment>ENH:Insight Software Consortium copyright update
+</Comment>
+			<Email>will.schroeder@kitware.com</Email>
+		</Revisions>
+	</Updated>
+	</Directory>
+	<Directory>
+		<Name>Examples/IO</Name>
+	<Updated>
+		<File Directory="Examples/IO">CovariantVectorImageExtractComponent.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/CovariantVectorImageExtractComponent.cxx</FullName>
+		<CheckinDate>2005-02-08 20:53:59 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.12</Revision>
+		<PriorRevision>1.11</PriorRevision>
+		<Revisions>
+			<Revision>1.12</Revision>
+			<PreviousRevision>1.11</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:53:59 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.11</Revision>
+			<PreviousRevision>1.11</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">CovariantVectorImageRead.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/CovariantVectorImageRead.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.9</Revision>
+		<PriorRevision>1.8</PriorRevision>
+		<Revisions>
+			<Revision>1.9</Revision>
+			<PreviousRevision>1.8</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.8</Revision>
+			<PreviousRevision>1.8</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">CovariantVectorImageWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/CovariantVectorImageWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.10</Revision>
+		<PriorRevision>1.9</PriorRevision>
+		<Revisions>
+			<Revision>1.10</Revision>
+			<PreviousRevision>1.9</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.9</Revision>
+			<PreviousRevision>1.9</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">DicomImageReadChangeHeaderWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/DicomImageReadChangeHeaderWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.3</Revision>
+		<PriorRevision>1.2</PriorRevision>
+		<Revisions>
+			<Revision>1.3</Revision>
+			<PreviousRevision>1.2</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.2</Revision>
+			<PreviousRevision>1.2</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">DicomImageReadWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/DicomImageReadWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.4</Revision>
+		<PriorRevision>1.3</PriorRevision>
+		<Revisions>
+			<Revision>1.4</Revision>
+			<PreviousRevision>1.3</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.3</Revision>
+			<PreviousRevision>1.3</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">DicomSeriesReadImageWrite2.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/DicomSeriesReadImageWrite2.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.6</Revision>
+		<PriorRevision>1.5</PriorRevision>
+		<Revisions>
+			<Revision>1.6</Revision>
+			<PreviousRevision>1.5</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.5</Revision>
+			<PreviousRevision>1.5</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">DicomSeriesReadSeriesWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/DicomSeriesReadSeriesWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.5</Revision>
+		<PriorRevision>1.4</PriorRevision>
+		<Revisions>
+			<Revision>1.5</Revision>
+			<PreviousRevision>1.4</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.4</Revision>
+			<PreviousRevision>1.4</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">ImageReadCastWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/ImageReadCastWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.11</Revision>
+		<PriorRevision>1.10</PriorRevision>
+		<Revisions>
+			<Revision>1.11</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.10</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">ImageReadExportVTK.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/ImageReadExportVTK.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.11</Revision>
+		<PriorRevision>1.10</PriorRevision>
+		<Revisions>
+			<Revision>1.11</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.10</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">ImageReadExtractWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/ImageReadExtractWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.14</Revision>
+		<PriorRevision>1.13</PriorRevision>
+		<Revisions>
+			<Revision>1.14</Revision>
+			<PreviousRevision>1.13</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.13</Revision>
+			<PreviousRevision>1.13</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">ImageReadRegionOfInterestWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/ImageReadRegionOfInterestWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.9</Revision>
+		<PriorRevision>1.8</PriorRevision>
+		<Revisions>
+			<Revision>1.9</Revision>
+			<PreviousRevision>1.8</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.8</Revision>
+			<PreviousRevision>1.8</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:29 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">ImageReadWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/ImageReadWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.14</Revision>
+		<PriorRevision>1.13</PriorRevision>
+		<Revisions>
+			<Revision>1.14</Revision>
+			<PreviousRevision>1.13</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.13</Revision>
+			<PreviousRevision>1.13</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:30 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">ImageSeriesReadWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/ImageSeriesReadWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.5</Revision>
+		<PriorRevision>1.4</PriorRevision>
+		<Revisions>
+			<Revision>1.5</Revision>
+			<PreviousRevision>1.4</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.4</Revision>
+			<PreviousRevision>1.4</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:30 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">RGBImageReadWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/RGBImageReadWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.11</Revision>
+		<PriorRevision>1.10</PriorRevision>
+		<Revisions>
+			<Revision>1.11</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.10</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:30 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">RGBImageSeriesReadWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/RGBImageSeriesReadWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.6</Revision>
+		<PriorRevision>1.5</PriorRevision>
+		<Revisions>
+			<Revision>1.6</Revision>
+			<PreviousRevision>1.5</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.5</Revision>
+			<PreviousRevision>1.5</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:30 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Examples/IO">VectorImageReadWrite.cxx</File>
+		<Directory>Examples/IO</Directory>
+		<FullName>Examples/IO/VectorImageReadWrite.cxx</FullName>
+		<CheckinDate>2005-02-08 20:54:00 +0000</CheckinDate>
+		<Author>malaterre</Author>
+		<Email>mathieu.malaterre@kitware.com</Email>
+		<Log>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Log>
+		<Revision>1.6</Revision>
+		<PriorRevision>1.5</PriorRevision>
+		<Revisions>
+			<Revision>1.6</Revision>
+			<PreviousRevision>1.5</PreviousRevision>
+			<Author>malaterre</Author>
+			<Date>2005-02-08 20:54:00 +0000</Date>
+			<Comment>STYLE: Mainly enhance the DICOM/GDCM example to generate proper ITK Software Guide. Also fix some inconsistency
+</Comment>
+			<Email>mathieu.malaterre@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.5</Revision>
+			<PreviousRevision>1.5</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:51:30 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	</Directory>
+	<Directory>
+		<Name>Examples/Filtering</Name>
+	<Updated>
+		<File Directory="Examples/Filtering">ScaleSpaceGenerator2D.cxx</File>
+		<Directory>Examples/Filtering</Directory>
+		<FullName>Examples/Filtering/ScaleSpaceGenerator2D.cxx</FullName>
+		<CheckinDate>2005-02-08 12:00:54 +0000</CheckinDate>
+		<Author>lorensen</Author>
+		<Email>lorensen@crd.ge.com</Email>
+		<Log>COMP: warning.
+</Log>
+		<Revision>1.11</Revision>
+		<PriorRevision>1.10</PriorRevision>
+		<Revisions>
+			<Revision>1.11</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 12:00:54 +0000</Date>
+			<Comment>COMP: warning.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.10</Revision>
+			<PreviousRevision>1.10</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2005-02-08 03:58:59 +0000</Date>
+			<Comment>COMP: disable 4786 warning on windows.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	</Directory>
+	<Directory>
+		<Name>Code/SpatialObject</Name>
+	<Updated>
+		<File Directory="Code/SpatialObject">itkEllipseSpatialObject.txx</File>
+		<Directory>Code/SpatialObject</Directory>
+		<FullName>Code/SpatialObject/itkEllipseSpatialObject.txx</FullName>
+		<CheckinDate>2005-02-08 22:31:06 +0000</CheckinDate>
+		<Author>jjomier</Author>
+		<Email>jjomier@cs.unc.edu</Email>
+		<Log>BUG: Computation of the bounding box was wrong
+</Log>
+		<Revision>1.27</Revision>
+		<PriorRevision>1.26</PriorRevision>
+		<Revisions>
+			<Revision>1.27</Revision>
+			<PreviousRevision>1.26</PreviousRevision>
+			<Author>jjomier</Author>
+			<Date>2005-02-08 22:31:06 +0000</Date>
+			<Comment>BUG: Computation of the bounding box was wrong
+</Comment>
+			<Email>jjomier@cs.unc.edu</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.26</Revision>
+			<PreviousRevision>1.26</PreviousRevision>
+			<Author>lorensen</Author>
+			<Date>2004-09-11 23:45:59 +0000</Date>
+			<Comment>ENH: gcc 3.4 with information hiding in mind.
+</Comment>
+			<Email>lorensen@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Code/SpatialObject">itkTubeSpatialObject.txx</File>
+		<Directory>Code/SpatialObject</Directory>
+		<FullName>Code/SpatialObject/itkTubeSpatialObject.txx</FullName>
+		<CheckinDate>2005-02-08 22:32:37 +0000</CheckinDate>
+		<Author>jjomier</Author>
+		<Email>jjomier@cs.unc.edu</Email>
+		<Log>BUG: No need to compute the precise IsInside value if the point is not inside the bounding box
+</Log>
+		<Revision>1.54</Revision>
+		<PriorRevision>1.53</PriorRevision>
+		<Revisions>
+			<Revision>1.54</Revision>
+			<PreviousRevision>1.53</PreviousRevision>
+			<Author>jjomier</Author>
+			<Date>2005-02-08 22:32:37 +0000</Date>
+			<Comment>BUG: No need to compute the precise IsInside value if the point is not inside the bounding box
+</Comment>
+			<Email>jjomier@cs.unc.edu</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.53</Revision>
+			<PreviousRevision>1.53</PreviousRevision>
+			<Author>jjomier</Author>
+			<Date>2004-12-14 00:31:22 +0000</Date>
+			<Comment>ENH: Removing fields corresponding to vesselTube
+</Comment>
+			<Email>jjomier@cs.unc.edu</Email>
+		</Revisions>
+	</Updated>
+	</Directory>
+	<Directory>
+		<Name>Code/Common</Name>
+	<Updated>
+		<File Directory="Code/Common">itkKernelTransform.h</File>
+		<Directory>Code/Common</Directory>
+		<FullName>Code/Common/itkKernelTransform.h</FullName>
+		<CheckinDate>2005-02-08 19:05:55 +0000</CheckinDate>
+		<Author>ibanez</Author>
+		<Email>luis.ibanez@kitware.com</Email>
+		<Log>ENH: ReinitializeSeed() methods are not needed in this class.
+     The class doesn't rely on random number generators. The methods were removed.
+</Log>
+		<Revision>1.38</Revision>
+		<PriorRevision>1.37</PriorRevision>
+		<Revisions>
+			<Revision>1.38</Revision>
+			<PreviousRevision>1.37</PreviousRevision>
+			<Author>ibanez</Author>
+			<Date>2005-02-08 19:05:55 +0000</Date>
+			<Comment>ENH: ReinitializeSeed() methods are not needed in this class.
+     The class doesn't rely on random number generators. The methods were removed.
+</Comment>
+			<Email>luis.ibanez@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.37</Revision>
+			<PreviousRevision>1.37</PreviousRevision>
+			<Author>karthik</Author>
+			<Date>2005-01-22 02:47:25 +0000</Date>
+			<Comment>COMP: API to provide reseeding, so they can be called from tests
+</Comment>
+			<Email>karthik.krishnan@kitware.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Code/Common">itkKernelTransform.txx</File>
+		<Directory>Code/Common</Directory>
+		<FullName>Code/Common/itkKernelTransform.txx</FullName>
+		<CheckinDate>2005-02-08 19:05:55 +0000</CheckinDate>
+		<Author>ibanez</Author>
+		<Email>luis.ibanez@kitware.com</Email>
+		<Log>ENH: ReinitializeSeed() methods are not needed in this class.
+     The class doesn't rely on random number generators. The methods were removed.
+</Log>
+		<Revision>1.41</Revision>
+		<PriorRevision>1.40</PriorRevision>
+		<Revisions>
+			<Revision>1.41</Revision>
+			<PreviousRevision>1.40</PreviousRevision>
+			<Author>ibanez</Author>
+			<Date>2005-02-08 19:05:55 +0000</Date>
+			<Comment>ENH: ReinitializeSeed() methods are not needed in this class.
+     The class doesn't rely on random number generators. The methods were removed.
+</Comment>
+			<Email>luis.ibanez@kitware.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.40</Revision>
+			<PreviousRevision>1.40</PreviousRevision>
+			<Author>karthik</Author>
+			<Date>2005-01-22 02:47:25 +0000</Date>
+			<Comment>COMP: API to provide reseeding, so they can be called from tests
+</Comment>
+			<Email>karthik.krishnan@kitware.com</Email>
+		</Revisions>
+	</Updated>
+	<Updated>
+		<File Directory="Code/Common">itkVersion.h</File>
+		<Directory>Code/Common</Directory>
+		<FullName>Code/Common/itkVersion.h</FullName>
+		<CheckinDate>2005-02-09 06:07:42 +0000</CheckinDate>
+		<Author>blezek</Author>
+		<Email>blezek@crd.ge.com</Email>
+		<Log>ENH: Nightly version
+</Log>
+		<Revision>1.1555</Revision>
+		<PriorRevision>1.1554</PriorRevision>
+		<Revisions>
+			<Revision>1.1555</Revision>
+			<PreviousRevision>1.1554</PreviousRevision>
+			<Author>blezek</Author>
+			<Date>2005-02-09 06:07:42 +0000</Date>
+			<Comment>ENH: Nightly version
+</Comment>
+			<Email>blezek@crd.ge.com</Email>
+		</Revisions>
+		<Revisions>
+			<Revision>1.1554</Revision>
+			<PreviousRevision>1.1554</PreviousRevision>
+			<Author>blezek</Author>
+			<Date>2005-02-08 06:07:46 +0000</Date>
+			<Comment>ENH: Nightly version
+</Comment>
+			<Email>blezek@crd.ge.com</Email>
+		</Revisions>
+	</Updated>
+	</Directory>
+	<Author>
+		<Name>jjomier</Name>
+		<File Directory="Code/BasicFilters">itkSpatialObjectToImageStatisticsCalculator.txx</File>
+		<File Directory="Code/SpatialObject">itkEllipseSpatialObject.txx</File>
+		<File Directory="Code/SpatialObject">itkTubeSpatialObject.txx</File>
+	</Author>
+	<Author>
+		<Name>malaterre</Name>
+		<File Directory="Examples/IO">CovariantVectorImageExtractComponent.cxx</File>
+		<File Directory="Examples/IO">CovariantVectorImageRead.cxx</File>
+		<File Directory="Examples/IO">CovariantVectorImageWrite.cxx</File>
+		<File Directory="Examples/IO">DicomImageReadChangeHeaderWrite.cxx</File>
+		<File Directory="Examples/IO">DicomImageReadWrite.cxx</File>
+		<File Directory="Examples/IO">DicomSeriesReadImageWrite2.cxx</File>
+		<File Directory="Examples/IO">DicomSeriesReadSeriesWrite.cxx</File>
+		<File Directory="Examples/IO">ImageReadCastWrite.cxx</File>
+		<File Directory="Examples/IO">ImageReadExportVTK.cxx</File>
+		<File Directory="Examples/IO">ImageReadExtractWrite.cxx</File>
+		<File Directory="Examples/IO">ImageReadRegionOfInterestWrite.cxx</File>
+		<File Directory="Examples/IO">ImageReadWrite.cxx</File>
+		<File Directory="Examples/IO">ImageSeriesReadWrite.cxx</File>
+		<File Directory="Examples/IO">RGBImageReadWrite.cxx</File>
+		<File Directory="Examples/IO">RGBImageSeriesReadWrite.cxx</File>
+		<File Directory="Examples/IO">VectorImageReadWrite.cxx</File>
+	</Author>
+	<Author>
+		<Name>blezek</Name>
+		<File Directory="Code/Common">itkVersion.h</File>
+	</Author>
+	<Author>
+		<Name>ibanez</Name>
+		<File Directory="Code/Common">itkKernelTransform.h</File>
+		<File Directory="Code/Common">itkKernelTransform.txx</File>
+		<File Directory="Testing/Code/Common">itkSplineKernelTransformTest.cxx</File>
+	</Author>
+	<Author>
+		<Name>lorensen</Name>
+		<File Directory="Examples/Filtering">ScaleSpaceGenerator2D.cxx</File>
+	</Author>
+	<EndDateTime>Wed Feb 09 01:10:06 EST 2005</EndDateTime>
+</Update>

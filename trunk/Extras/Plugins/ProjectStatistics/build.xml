@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="ProjectStatitics" basedir="." default="compile">
+
+  <property name="src.dir" value="."/>
+  <property name="classes.dir" value="Class"/>
+  <property name="dartclasses.dir" value="../../../Class"/>
+  <property name="server.dir" value="../../../TestServer/Plugins"/>
+
+  <path id="classpath">
+    <fileset dir="../../../lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <pathelement location="../../../Class"/>
+    <pathelement location="${classes.dir}"/>
+  </path>
+  
+  <target name="clean" description="Delete all generated files">
+    <delete dir="${classes.dir}" failonerror="false"/>
+  </target>
+  
+  <target name="compile" description="Compiles the Task">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" excludes="Test/**" deprecation="true">
+      <classpath refid="classpath"/>
+    </javac>
+    <copy file="ProjectStatistics.ftl" tofile="${classes.dir}/dart/extras/servlet/ProjectStatistics.ftl"/>
+  </target>
+
+  <target name="jar" depends="compile" description="Roll a jar with the servlet and template">
+    <jar compress="true" destfile="ProjectStatistics.jar" update="false" index="true">
+      <fileset dir="${classes.dir}">
+         <include name="**"/>
+      </fileset>
+    </jar>
+  </target>
+  
+  <target name="install" depends="jar" description="Installs the plugin in the TestServer project">
+     <copy file="ProjectStatistics.jar" tofile="${server.dir}/ProjectStatistics.jar"/>
+  </target>
+</project>
+

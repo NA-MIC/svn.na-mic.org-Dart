@@ -1,0 +1,230 @@
+img { border: none; }
+a:link img, a:visited img, a:hover img, a:active img { border: none; }
+
+.normal { background-color : #00aa00; }
+.warning { background-color : #ffcc66; }
+.error { background-color : #ff6666; }
+.pass { background-color : #00aa00; }
+.fail { background-color : #ffcc66; }
+.nr { background-color : #ff6666; }
+.na { background-color : #cccccc; }
+.tr-even { background-color : #b0c4de; }
+.tr-odd { background-color : #ffffff; }
+.measurement { background-color : #b0c4de; }
+.table-heading { background-color : #b0c4de; }
+.table-columns { background-color: #b0c4de; }
+.sort-key { 
+  height: 100%;
+  background-color : #cccccc; 
+}
+.icon { vertical-align: text-bottom; border: none; }
+.chart { border: 1px solid #0000aa;}
+.title-divider { background-color: #b0c4de; text-align: center; font-weight: bold; }
+
+table.dart { border-collapse: collapse; }
+.dart td { border: 1px solid #0000aa; padding: 2px; }
+.dart th { border: 1px solid #0000aa; padding: 2px; }
+.dart a:link, .dart a:visited { text-decoration: none; }
+.dart tr.ruled { background: #cccc00; }
+
+.dart tr.tr-even:hover { background: #cccc00; }
+.dart tr.tr-odd:hover { background: #cccc00; }
+
+table.pagetitle { width: 100%; border-collapse: collapse; }
+.pagetitle td { border: none; padding: 2px;  }
+.pagetitle h2 { padding-left: 15px; }
+.pagetitle h3 { padding-left: 15px; }
+
+.title { 
+  height: 100%;
+  background-color : #6699cc;
+  color : #ffffff;
+}
+
+.dashboardsection { }
+.dashboardsection h3 { clear: both; margin-top: 5px; }
+
+.arrows {
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+font-size: 100%;
+clear: both;
+}
+
+.justicon { 
+border: none;
+float: right;
+}
+
+.tracknav { 
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+font-size: 80%;
+text-align: right;
+}
+
+.tracknav a:link, .tracknav a:visited { text-decoration: none; }
+
+#login { 
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+font-size: 85%;
+text-align: right;
+margin: 0 0 0 0.2em;
+padding-left: 1em;
+padding-right: 1em;
+background: #ffffff;
+}
+#login a:link, #login a:visited { 
+ text-decoration: none;
+}
+.loginicon { vertical-align: text-bottom; border: none; }
+
+input[type="submit"] {
+  margin-top: 1px;
+  padding: 0 0.3em 0.1em 0.3em !important;
+  font-size: 95%;
+  height: 1.5em !important;
+  cursor: pointer;
+  background-color: White;
+  border: 2px solid #2f6fab;
+}
+
+.left-content { 
+float: left;
+width: 55%;
+margin-right: 15px;
+}
+
+.left-content-45 { 
+float: left;
+width: 45%;
+margin-right: 15px;
+}
+
+.left-content-50 { 
+float: left;
+width: 50%;
+margin-right: 15px;
+}
+
+.left-content-55 { 
+float: left;
+width: 55%;
+margin-right: 15px;
+}
+
+.right-content { 
+}
+
+#nav, #nav ul { 
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+font-size: 90%;
+padding: 0;
+margin: 0;
+list-style: none;
+width: 90%;
+float: left;
+}
+#nav a:link, #nav a:visited  {
+padding: 3px 10px 2px 10px;
+background-color: #CCCCCC;
+color: #000000;
+text-decoration: none;
+border-bottom: 1px solid #4682b4;
+border-left: 8px solid #4682b4;
+/* width: 10em; */ /* Widths needed for Opera (and for vertical submenus)*/
+display: block; 
+}
+#nav a:hover {
+color: #FFFFFF;
+background-color: #6699cc;
+border-left: 8px solid #4682b4;
+/* width: 10em; */
+display: block; 
+}
+#nav li { 
+float: left;
+/* width: 10em; */
+}
+#nav li ul { 
+position: absolute;
+background-color: #CCCCCC;
+width: 10em;
+left: -999em;
+}
+#nav li ul li { 
+width: 10em;
+}
+#nav li:hover ul { 
+left: auto;
+}
+#nav li ul ul { 
+margin: -1em 0 0 10em; 
+}
+#nav li:hover ul ul, #nav li:hover ul ul ul, #nav li.sfhover ul ul, #nav li.sfhover ul ul ul { 
+left: -999em;
+}
+#nav li:hover ul, #nav li li:hover ul, #nav li li li:hover ul, #nav li.sfhover ul, #nav li li.sfhover ul, #nav li li li.sfhover ul { 
+left: auto;
+}
+
+.content {  /* This is used for content that will appear below the menu */
+  clear: left;
+}
+
+.clear { 
+clear: both;
+}
+
+
+Body {
+font-family : arial, helvetica, sans-serif;
+color : black;
+background-color: #FFFFFF;
+}
+
+Table {
+font-family : arial, helvetica, sans-serif;
+color : black;
+}
+
+Table, TD {
+font-family : arial, helvetica, sans-serif;
+color : black; 
+background-repeat : no-repeat;
+}
+
+Table, TH {
+font-family : arial, helvetica, sans-serif;
+color : black; 
+background-repeat : no-repeat;
+}
+
+P {font-family : arial, helvetica, sans-serif; color: black; }
+
+a {
+font-family : arial, helvetica, sans-serif;
+font-style : normal;
+color : blue;
+}
+
+a:hover  {
+color : black;
+}
+
+h1 { 
+margin-top: 15px;
+margin-bottom: 15px;
+}
+
+h2 { 
+margin-top: 15px;
+margin-bottom: 15px;
+}
+
+h3 { 
+margin-top: 15px;
+margin-bottom: 15px;
+}
