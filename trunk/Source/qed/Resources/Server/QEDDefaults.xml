@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QED>
+  <Title>${Name}</Title>
+  <BaseDirectory>${Directory}</BaseDirectory>
+  <Properties>
+  </Properties>
+
+  <!-- Configure the database parameters ${Type}-->
+  <Database>
+  <#if Type == "postgres">
+    <!-- Postgresql -->
+    <Driver>org.postgresql.Driver</Driver>
+    <URL>jdbc:postgresql:testserver</URL>
+    <Username>blezek</Username>
+    <Password/>
+  <#else>
+    <!-- Derby database -->
+    <Driver>org.apache.derby.jdbc.EmbeddedDriver</Driver>
+    <URL>jdbc:derby:${Directory}/Database/${Name};create=true</URL>
+    <ShutdownURL>jdbc:derby:${Directory}/Database/${Name};shutdown=true</ShutdownURL>
+    <Username/>
+    <Password/>
+  </#if>
+    <!-- Maximum active / idle connections, -1 is infinite -->
+    <MaxActive>20</MaxActive>
+    <MaxIdle>3</MaxIdle>
+  </Database>
+
+  <!-- XML-RPC Commands to respond to -->
+  <CommandManager>
+    <Command>
+      <Name>Write</Name>
+      <Class>qed.server.command.Write</Class>
+      <Properties>
+      </Properties>
+    </Command>
+  </CommandManager>
+
+  <!-- Servlet configuration -->
+  <ServletManager>
+    <Servlet>
+      <Class>qed.server.servlet.View</Class>
+      <Context>/View/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.CommandServlet</Class>
+      <Context>/Command/</Context>
+      <Properties/>
+    </Servlet>
+  </ServletManager>
+
+  <!-- Scheduled tasks.  The Schedule tag is in cron format. -->
+  <Task>
+    <Type>dart.server.task.SaveStatistics</Type>
+    <Schedule>10 4 * * * ?</Schedule>
+    <Properties>
+    </Properties>
+  </Task>
+
+
+</QED>

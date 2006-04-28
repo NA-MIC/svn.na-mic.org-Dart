@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DART_HOME=`dirname $0`
+
+CP=$DART_HOME/Class:$DART_HOME/Resources
+for file in `ls $DART_HOME/lib/*.jar`; do
+    CP=$CP:$file
+done
+
+# echo $CP
+
+# Run w/128M stack size
+$JAVA_HOME/bin/java -Xmx256M -classpath $CP dart.DartServer "$@"

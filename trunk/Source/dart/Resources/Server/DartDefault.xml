@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Title>${ProjectName}</Title>
+  <BaseDirectory>${ProjectDirectory}</BaseDirectory>
+
+  <!-- Administrator Username/Password.  If blank, no administrator access -->
+  <AdministratorUsername></AdministratorUsername>
+  <AdministratorPassword></AdministratorPassword>
+
+  <Properties>
+    <Property name="MaxTestsPerSubmission">1500</Property>
+    <Property name="RepositoryURL">http://www.itk.org/cgi-bin/viewcvs.cgi/</Property>
+    <Property name="RepositoryURL.Type">viewcvs</Property>
+    <Property name="RepositoryURL.Repository">Insight</Property>
+    <Property name="SomeSubProject.RepositoryURL">http://nowhere.com:8000/websvn/</Property>
+    <Property name="SomeSubProject.RepositoryURL.Type">websvn</Property>
+    <Property name="SomeSubProject.RepositoryURL.Repository">Somethingelse</Property>
+    <!-- Define a navigation menu to be displayed by Dart.  If the "Menu"
+         property is not defined, then no menu will be displayed. Menus are 
+         defined using HTML lists.  Submenus are defined using nested lists. 
+         Each item in the list is a link to another url (either internal to 
+         Dart or to an external site).  To define just a drop-down menu, have 
+         the menu name be linked as href="#" and nest another list the menu 
+         name list item. Currently, only one level of menus is supported.
+    -->
+    <!-- 
+    <Property name="Menu">
+      <![CDATA[
+       <ul>
+         <li><a href="#">Repository &gt;</a>
+           <ul>
+            <li><a href="http://www.itk.org/cgi-bin/viewcvs.cgi?cvsroot=Insight">Insight</a></li>
+            <li><a href="http://www.itk.org/cgi-bin/viewcvs.cgi?cvsroot=InsightApplications">Insight Applications</a></li>
+           </ul>
+         <li>
+         <li><a href="http://www.itk.org/Bug/query.php?projects=6&status%5B%5D=1&status%5B%5D=2&status%5B%5D=3&status%5B%5D=4&status%5B%5D=6&op=doquery">Bugs</a></li>
+         <li><a href="#">Documentation &gt;</a>
+           <ul>
+             <li><a href="http://www.itk.org/Insight/Doxygen/html/">Doxygen (API)</a></li>
+             <li><a href="http://www.itk.org/">www.itk.org</a></li>
+             <li><a href="http://www.itk.org/Wiki/ITK">ITK Wiki</a></li>
+             <li><a href="http://www.insightsoftwareconsortium.org/">Insight Software Consortium</a></li>
+           </ul>
+        </li>
+        <li><a href="http://www.itk.org/">Home</a></li>
+      </ul>
+      ]]>
+    </Property>
+    -->
+  </Properties>
+
+  <!-- Configure the database parameters ${Type}-->
+  <Database>
+  <#if Type == "postgres">
+    <!-- Postgresql -->
+    <Driver>org.postgresql.Driver</Driver>
+    <URL>jdbc:postgresql:testserver</URL>
+    <Username>blezek</Username>
+    <Password/>
+  <#else>
+    <!-- Derby database -->
+    <Driver>org.apache.derby.jdbc.EmbeddedDriver</Driver>
+    <URL>jdbc:derby:${ProjectDirectory}/Database/${ProjectName};create=true</URL>
+    <ShutdownURL>jdbc:derby:${ProjectDirectory}/Database/${ProjectName};shutdown=true</ShutdownURL>
+    <Username/>
+    <Password/>
+  </#if>
+    <!-- Maximum active / idle connections, -1 is infinite -->
+    <MaxActive>20</MaxActive>
+    <MaxIdle>3</MaxIdle>
+  </Database>
+
+  <!-- XML-RPC Commands to respond to -->
+  <CommandManager>
+    <Command>
+      <Name>Submit</Name>
+      <Class>dart.server.command.Submit</Class>
+      <Properties>
+        <Property name="DeleteWhenDigested">true</Property>
+      </Properties>
+    </Command>
+    <Command>
+      <Name>ProjectAdministration</Name>
+      <Class>dart.server.command.ProjectAdministration</Class>
+      <Properties/>
+    </Command>
+  </CommandManager>
+
+  <!-- Servlet configuration -->
+  <ServletManager>
+    <Servlet>
+      <Class>dart.server.servlet.Dashboard</Class>
+      <Context>/Dashboard/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.Admin</Class>
+      <Context>/Admin/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.User</Class>
+      <Context>/User/*</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.ZipServlet</Class>
+      <Context>/Zip/*</Context>
+      <Properties>
+        <!-- Properties for the ZipServlet are encodings for the files
+             in the zip archive.  The name of the property is used to match the
+             suffix of the file (lowercased...).
+             .html == text/html, .png == image/png
+             -->
+        <Property name=".html">text/html</Property>
+        <Property name=".htm">text/html</Property>
+        <Property name=".xml">text/xml</Property>
+        <Property name=".xsl">text/xml</Property>
+        <Property name=".png">image/png</Property>
+        <Property name=".jpg">image/jpg</Property>
+        <Property name=".jpeg">image/jpg</Property>
+        <Property name=".css">text/css</Property>
+        <Property name=".js">application/x-javascript</Property>
+        <Property name=".txt">text/plain</Property>
+      </Properties>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.CommandServlet</Class>
+      <Context>/Command/</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
+      <Class>dart.server.servlet.ChartServlet</Class>
+      <Context>/Chart</Context>
+      <Properties/>
+    </Servlet>
+    <!--
+         <Servlet>
+           <Class>user.servlet.MyDashboard</Class>
+           <Context>/MyDashboard/*</Context>
+           <Properties>
+             <Property name="Foo">10</Property>
+             <Property name="classpath">foo.jar</Property>
+           </Properties>
+         </Servlet>
+         -->
+  </ServletManager>
+
+  <!-- MessengerManager. Manage different transport mechanisms for notifications (typically used by an event listener) -->
+  <MessengerManager>
+    <Messenger>
+      <Name>SMTP</Name>
+      <Type>dart.server.messenger.SMTPMessenger</Type>
+      <!-- The properties specified on the SMTPMessenger are passed directly 
+           to JavaMail to configure the mail host, port, protocols, 
+           authentication, encryption, etc. -->
+      <Properties>
+        <Property name="mail.host">localhost</Property>
+        <Property name="mail.port">25</Property>
+        <Property name="mail.from">dart@localhost</Property>
+        <Property name="mail.transport.protocol">smtp</Property>
+      </Properties>
+    </Messenger>
+  </MessengerManager>
+
+  <!-- Listener manager.  Do specific things when events happen in the Project -->
+  <ListenerManager>
+    <Listener>
+      <Type>dart.server.listener.SubmissionErrorsListener</Type>
+      <Properties>
+        <Property name="Messenger">SMTP</Property>
+      </Properties>
+    </Listener>
+    <Listener>
+      <Type>dart.server.listener.MissingSubmissionListener</Type>
+      <Properties>
+        <Property name="Messenger">SMTP</Property>
+      </Properties>
+    </Listener>
+  </ListenerManager>
+
+  <!-- Scheduled tasks.  The Schedule tag is in cron format. -->
+  <TaskManager>
+    <Task>
+      <!-- Process queued tasks every 10 minutes -->
+      <Type>dart.server.task.QueueManager</Type>
+      <Schedule>0 */10 * * * ?</Schedule>
+      <Properties>
+        <Property name="MaxTasks">1000</Property>
+        <Property name="Description">QueueManager thread</Property>
+      </Properties>
+    </Task>
+
+    <Task>
+      <!-- Reindex Tracks if the definition has changed every night at 2am -->
+      <Type>dart.server.task.ReindexTrackTask</Type>
+      <Schedule>0 0 2 * * ?</Schedule>
+      <Properties/>
+    </Task>
+
+    <Task>
+      <!-- Archive task, runs at 3am each morning -->
+      <Type>dart.server.task.ArchiveTask</Type>
+      <Schedule>0 0 3 * * ?</Schedule>
+      <Properties>
+        <!-- SubmissionsToArchive puts a throttle on the Archive process, -1 is all
+             Should be more than the expected Submissions per day... -->
+        <Property name="SubmissionsToArchive">300</Property>
+        <!-- Default archivers are:
+             Nightly:  Level 1 after 2 months (NightlyLevel1)
+                       Level 2 after 4 months (NightlyLevel2)
+                       Level 3 after 6 months (NightlyLevel3)
+             Continuous:  Level 2 after 1 week (ContinuousLevel2)
+                          Level 4 after 1 month (ContinuousLevel4)
+             Experimental:  Level 4 after 1 week - No files saved (ExperimentalLevel4)
+             -->
+
+        <!-- Default is no archiver, uncomment next line to activate all the archivers -->
+        <Property name="ArchiverList"></Property>
+        <!-- <Property name="ArchiverList">NightlyLevel1,NightlyLevel2,NightlyLevel3,ContinuousLevel2,ContinuousLevel4,ExperimentalLevel4</Property> -->
+  
+        <!-- Archiver.Foo describes an Archiver which is sort of a sub-Task.
+             Parameters:
+             AgeInDays is in fractional days, to nearest hour
+  
+             ArchiveLevel indicates how much data to remove
+               1 - remove least amount of data.  All bulk data (images, logs, etc...) are to be removed
+               2 - remove all leaf tests and data, leaving only intermediate levels in the Test hierarchy
+               3 - remove all non-root Tests, leaving rollup info at the root level of the Test hierarchy
+               4 - remove all data and the Submission itself
+  
+             MatchTest is an optional comma separated list Tests to match.  Default is ".*"
+             MatchSite is an optional comma separated list Sites to match.  Default is ".*"
+             MatchBuildName is an optional comma separated list BuildNames to match.  Default is ".*"
+             MatchTrack is an optional comma separated list of Tracks to match. Default is .*
+  
+             FileNamePattern specifies how the file will be constructed
+             %L is replaced by ArchiveLevel
+             %P is replaced by the project name
+             %S is replaced by the Site name
+             %B is replaced by the BuildName
+             %T is replaced by the TrackName
+             %D is replaced by the DateTimeStamp
+             %N is replaced by the current time "now" in UTC
+  
+             ArchiveBy - TimeStamp (for when the data was generated)
+                          CreatedTimeStamp (for when the data was submitted, this is the default)
+  
+             MaxDirectorySizeMB - Maximum size for each directory, 700 is default
+  
+             WriteArchive - flag to indicate if Submissions should be archived, true is default
+             -->
+  
+        <!-- Nightly archivers -->
+        <Property name="Archiver.NightlyLevel1.AgeInDays">60</Property>
+        <Property name="Archiver.NightlyLevel1.ArchiveLevel">1</Property>
+        <Property name="Archiver.NightlyLevel1.MatchTrack">Nightly</Property>
+  
+        <Property name="Archiver.NightlyLevel2.AgeInDays">120</Property>
+        <Property name="Archiver.NightlyLevel2.ArchiveLevel">2</Property>
+        <Property name="Archiver.NightlyLevel2.MatchTrack">Nightly</Property>
+        
+        <Property name="Archiver.NightlyLevel3.AgeInDays">180</Property>
+        <Property name="Archiver.NightlyLevel3.ArchiveLevel">3</Property>
+        <Property name="Archiver.NightlyLevel3.MatchTrack">Nightly</Property>
+  
+        <!-- Continuous archivers -->
+        <Property name="Archiver.ContinuousLevel2.AgeInDays">7</Property>
+        <Property name="Archiver.ContinuousLevel2.ArchiveLevel">2</Property>
+        <Property name="Archiver.ContinuousLevel2.MatchTrack">Continuous</Property>
+        
+        <Property name="Archiver.ContinuousLevel4.AgeInDays">30</Property>
+        <Property name="Archiver.ContinuousLevel4.ArchiveLevel">4</Property>
+        <Property name="Archiver.ContinuousLevel4.MatchTrack">Continuous</Property>
+  
+        <!-- Experimental archiver -->      
+        <Property name="Archiver.ExperimentalLevel4.AgeInDays">7</Property>
+        <Property name="Archiver.ExperimentalLevel4.ArchiveLevel">4</Property>
+        <Property name="Archiver.ExperimentalLevel4.MatchTrack">Experimental</Property>
+        <Property name="Archiver.ExperimentalLevel4.WriteArchive">false</Property>
+        
+        
+        <!-- Example archiver detailing all the possible options -->
+        <Property name="Archiver.Nightly.WriteArchive">true</Property>
+        <Property name="Archiver.Nightly.FileNamePattern">Archive-%L-%P-%S-%B-%T-%D.xml.gz</Property>
+        <Property name="Archiver.Nightly.Template">ArchiveSubmission.xml</Property>
+        <Property name="Archiver.Nightly.MatchTrack">.*</Property>
+        <Property name="Archiver.Nightly.AgeInDays">0.010</Property> <!-- Roughly 10 minutes -->
+        <Property name="Archiver.Nightly.ArchiveLevel">3</Property>
+        <Property name="Archiver.Nightly.MatchTest">.*</Property>
+        <Property name="Archiver.Nightly.MatchSite">.*</Property>
+        <Property name="Archiver.Nightly.ArchiveBy">CreatedTimeStamp</Property>
+        <Property name="Archiver.Nightly.MaxDirectorySizeMB">700</Property>
+        <Property name="Archiver.Nightly.ArchiveDirectory">/tmp/DartArchive</Property>
+        
+      </Properties>
+    </Task>
+  
+    <Task>
+      <Type>dart.server.task.SaveStatistics</Type>
+      <Schedule>* */1 * * * ?</Schedule>
+      <Properties>
+      </Properties>
+    </Task>
+
+    <Task>
+      <Type>dart.server.task.MissingSubmissionTask</Type>
+      <!-- Check for missing submissions from 5am to 9pm (exclusive) 
+           every 15 minutes.  Since the Nightly track starts at 9pm, 
+           this gives 8 hours for submissions to roll in before they are 
+           marked as late -->
+      <Schedule>0 */15 5-20 * * ?</Schedule>
+      <Properties>
+        <!-- What track to monitor -->
+        <Property name="Track">Nightly</Property>
+      </Properties>
+    </Task>
+  
+    <Task>
+      <!-- Run the JVM GarbageCollector once an hour, on the hour -->
+      <Type>dart.server.task.GarbageCollectionTask</Type>
+      <Schedule>0 0 * * * ?</Schedule>
+      <Properties>
+      </Properties>
+    </Task>
+  </TaskManager>
+  
+  <!-- TrackManager.  Configure temporal Tracks -->
+  <TrackManager>
+    <DefaultTrack>Nightly</DefaultTrack>
+    <TemporalTrack>
+      <Name>Nightly</Name>
+      <Start>9:00 PM</Start>
+      <!-- Duration is in floating point hours -->
+      <Duration>24</Duration>
+      <DefaultSortBy>buildName</DefaultSortBy>
+      <DefaultOrder>ascending</DefaultOrder>
+    </TemporalTrack>
+
+    <TemporalTrack>
+      <Name>Continuous</Name>
+      <Start>9:00 PM</Start>
+      <!-- Duration is in floating point hours -->
+      <Duration>24</Duration>
+      <DefaultSortBy>timeStamp</DefaultSortBy>
+      <DefaultOrder>descending</DefaultOrder>
+    </TemporalTrack>
+
+    <TemporalTrack>
+      <Name>Experimental</Name>
+      <Start>9:00 PM</Start>
+      <!-- Duration is in floating point hours -->
+      <Duration>24</Duration>
+      <DefaultSortBy>timeStamp</DefaultSortBy>
+      <DefaultOrder>descending</DefaultOrder>
+    </TemporalTrack>
+
+    <TemporalTrack>
+      <Name>Weekly</Name>
+      <Start>Jan 16, 2005 9:00 PM</Start>
+      <!-- Duration is in floating point hours -->
+      <Duration>168</Duration>
+      <DefaultSortBy>buildName</DefaultSortBy>
+      <DefaultOrder>ascending</DefaultOrder>
+    </TemporalTrack>
+  </TrackManager>
+
+  <RollupManager>
+    <Rollup>
+      <Type>dart.server.task.SummarizeTests</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.SummarizeBuildTask</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.SummarizeCoverage</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.SummarizeDynamicAnalysis</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <Type>dart.server.task.PlaceSubmissionInTrackTask</Type>
+      <Priority>4</Priority>
+      <Properties/>
+    </Rollup>
+    <Rollup>
+      <!-- Trigger a SubmissionEvent -->
+      <Type>dart.server.task.SubmissionEventTask</Type>
+      <Priority>5</Priority>
+      <Properties/>
+    </Rollup>
+  </RollupManager>
+
+
+</Project>

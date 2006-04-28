@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Style>
+  <Test>
+    <Name>.Style</Name>
+    <Status>passed</Status>
+    <Measurement name="Log" type="archive/zip">
+
