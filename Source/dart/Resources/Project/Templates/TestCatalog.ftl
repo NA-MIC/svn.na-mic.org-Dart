@@ -130,9 +130,27 @@
       <!-- present the information for the current group first -->
       <tr class="tr-odd">
         <td>&nbsp;<img class="icon" src="/${projectName}/Resources/Icons/Closed.gif">&nbsp;<a href="TestCatalog?trackid=${submission.trackId?url}&submissionid=${submission.submissionId?url}&showall=${showall?url}&sortBy=${sortKey}&order=${order}&roottest=${rootTest.qualifiedName}">.</a></td>
-        <td align="right">${rootTest.notRunSubTests?html}</td>
-        <td align="right">${rootTest.failedSubTests?html}</td>
-        <td align="right">${rootTest.passedSubTests?html}</td>
+       <#if (rootTest.notRunSubTests > 0)>
+        <td align="right" class="error">
+       <#else>
+        <td align="right">
+       </#if>
+              ${rootTest.notRunSubTests?html}
+	</td>
+       <#if (rootTest.failedSubTests > 0)>
+        <td align="right" class="warning">
+       <#else>
+        <td align="right">
+       </#if>
+          ${rootTest.failedSubTests?html}
+        </td>
+       <#if (rootTest.notRunSubTests + rootTest.failedSubTests > 0)>
+        <td align="right" class="warning">
+       <#else>
+        <td align="right">
+       </#if>
+          ${rootTest.passedSubTests?html}
+	</td>
       </tr>              
       <tr height="5"><td colspan="4" class="na"></td></tr>
 
@@ -150,9 +168,27 @@
           <#assign row = row + 1/>
           <#assign numberOfMeta = numberOfMeta + 1/>
           <td>&nbsp;<img class="icon" src="/${projectName}/Resources/Icons/Closed.gif">&nbsp;<a href="TestCatalog?trackid=${submission.trackId?url}&submissionid=${submission.submissionId?url}&showall=${showall?url}&sortBy=${sortKey}&order=${order}&roottest=${test.qualifiedName}">${test.name?html}</a></td>
-          <td align="right">${test.notRunSubTests?html}</td>
-          <td align="right">${test.failedSubTests?html}</td>
-          <td align="right">${test.passedSubTests?html}</td>
+         <#if (test.notRunSubTests > 0)>
+           <td align="right" class="error">
+         <#else>
+           <td align="right">
+         </#if>
+              ${test.notRunSubTests?html}
+   	   </td>
+         <#if (test.failedSubTests > 0)>
+           <td align="right" class="warning">
+         <#else>
+           <td align="right">
+         </#if>
+             ${test.failedSubTests?html}
+          </td>
+         <#if (test.notRunSubTests + test.failedSubTests > 0)>
+          <td align="right" class="warning">
+         <#else>
+          <td align="right">
+         </#if>
+             ${test.passedSubTests?html}
+    	   </td>
           </tr>
         </#if>
       </#list>

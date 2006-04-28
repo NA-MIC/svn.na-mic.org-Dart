@@ -159,7 +159,14 @@
         <td>&nbsp;<img class="icon" src="/${projectName}/Resources/Icons/Closed.gif">&nbsp;<a href="DynamicAnalysisCatalog?trackid=${submission.trackId?url}&submissionid=${submission.submissionId?url}&showall=${showall?url}&sortBy=${sortByKey}&order=${order}&roottest=${rootTest.qualifiedName}">.</a></td>
 
         <#list rootTestResults as result>
-        <td align="right">${rootTest.getResultValueAsObject(result.getName(), 0)?html}</td>
+           <#assign value=rootTest.getResultValueAsObject(result.getName(), 0)>
+	   <#if value != 0>
+              <td align="right" class="warning">
+           <#else>
+              <td align="right">
+	   </#if>
+	     	${value?html}
+              </td>
         </#list>
 
       </tr>              
@@ -185,7 +192,14 @@
           <td>&nbsp;<img class="icon" src="/${projectName}/Resources/Icons/Closed.gif">&nbsp;<a href="DynamicAnalysisCatalog?trackid=${submission.trackId?url}&submissionid=${submission.submissionId?url}&showall=${showall?url}&sortBy=${sortByKey}&order=${order}&roottest=${test.qualifiedName}">${test.name?html}</a></td>
 
           <#list rootTestResults as result>
-          <td align="right">${test.getResultValueAsObject(result.getName(), 0)?html}</td>
+           <#assign value=test.getResultValueAsObject(result.getName(), 0)>
+	   <#if value != 0>
+              <td align="right" class="warning">
+           <#else>
+              <td align="right">
+	   </#if>
+	     	${value?html}
+              </td>
           </#list>
         
           </tr>
@@ -270,7 +284,14 @@
           <td align="center"><a href="Test?testname=${test.qualifiedName?url}&submissionid=${submission.submissionId?url}"><img alt="Report" src="/${projectName}/Resources/Icons/Document.gif" class="icon"></a></td>
 
           <#list rootTestResults as result>
-          <td align="right">${test.getResultValueAsObject(result.getName(), 0)?html}</td>
+           <#assign value=test.getResultValueAsObject(result.getName(), 0)>
+	   <#if value != 0>
+              <td align="right" class="warning">
+           <#else>
+              <td align="right">
+	   </#if>
+	     	${value?html}
+              </td>
           </#list>
 
           </tr>
