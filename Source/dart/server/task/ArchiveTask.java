@@ -227,7 +227,7 @@ public class ArchiveTask implements Task {
         
         float AgeInDays = Float.parseFloat ( properties.getProperty ( "Archiver." + Archiver + ".AgeInDays", "-1.0" ) );
         if ( AgeInDays < 0.0 ) { 
-          logger.info ( project.getTitle() + ": Archiver: " + Archiver + " has no AgeInDays" );
+          logger.debug ( project.getTitle() + ": Archiver: " + Archiver + " has no AgeInDays" );
           continue;
         }
         ArchiveLevel = Integer.parseInt ( properties.getProperty ( "Archiver." + Archiver + ".ArchiveLevel", "0" ) );
@@ -250,7 +250,6 @@ public class ArchiveTask implements Task {
               logger.debug ( "Completed archive of " + SubmissionsArchived + " Submissions, break" );
               break;
             }
-            SubmissionsArchived++;
           }
           
           SubmissionEntity submission = submissions.next();
@@ -286,6 +285,8 @@ public class ArchiveTask implements Task {
             submission.setArchivedTimeStamp ( new java.sql.Timestamp ( Calendar.getInstance().getTimeInMillis() ) );
             session.commit();
           }
+          SubmissionsArchived++;
+          logger.info ( "Archiving " + SubmissionsArchived + " of " + SubmissionsToArchive );
           
           // Find all the tests
           TestIterator tests = submission.getTestList().iterator();
@@ -350,9 +351,9 @@ public class ArchiveTask implements Task {
     // Syncronize on the Project, i.e. only one ArchiveTask per project
     logger.debug ( "Synchronizing on project" );
     synchronized ( project.getLockObject ( this.getClass().toString() ) ) {
-      logger.debug ( "Lock acquiried, starting execute" );
+      logger.info ( "Lock acquiried, starting execute" );
       synchronizedExecute ( project, properties );
-      logger.debug ( "Finished execute, released lock" );
+      logger.info ( "Finished execute, released lock" );
     }
   }
 }
