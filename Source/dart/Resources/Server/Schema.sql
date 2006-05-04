@@ -9,7 +9,7 @@ create table Version (
 );
 
 delete from Version;
-insert into Version ( Major, Minor, Patch ) Values ( 1, 1, 0 );
+insert into Version ( Major, Minor, Patch ) Values ( 1, 2, 0 );
 
 create table Client (
     ClientId ${auto} primary key,

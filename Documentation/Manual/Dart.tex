@@ -148,13 +148,12 @@ In 2004, NIH sponsored the National Alliance of Medical Image Computing, NA-MIC 
 \item Allow for longitudinal or temporal analysis of test results
 \end{enumerate}
 
-To this end, we introduce the new version of Dart.  We affectionately refer to the previous version of Dart as \emph{Dart Classic}.   The new Dart still accepts build/test results in the \emph{Dart Classic} format.  Dart has been completely rewritten in Java.  It uses an embedded web server and servlet engine (Jetty) and an embedded database (Derby).  XML-RPC is used to transmit build/test results to the Dart server.  Dart is distributed as two jar files.  The first jar file, DartServer.jar, contains everything to create and run a Dart server managing serveral Dart projects.  The second jar file, DartClient.jar, is a small utility to shutdown a server, refresh its resources, query its status, and can be used as an XML-RPC messenger.
+To this end, we introduce the new version of Dart.  We affectionately refer to the previous version of Dart as \emph{Dart Classic}.   The new Dart still accepts build/test results in the \emph{Dart Classic} format.  Dart has been completely rewritten in Java.  It uses an embedded web server and servlet engine (Jetty) and an embedded database (Derby).  XML-RPC is used to transmit build/test results to the Dart server.  Dart is distributed as two jar files.  The first jar file, DartServer.jar, contains everything to create and run a Dart server managing several Dart projects.  The second jar file, DartClient.jar, is a small utility to shutdown a server, refresh its resources, query its status, and can be used as an XML-RPC messenger.
 
 
 \section{To Do}
 \begin{itemize}
 \item Calendar for easy day navigation
-\item Fix display of gcov results, not currently indented correctly
 \item Use Javascript column sorting, rather than server side sorting
 \item HTAccess support 
 \begin{verbatim}
@@ -183,7 +182,7 @@ from an earlier version of Dart, please see Sections~\ref{Section:UpgradeServer}
 
 Dart contains two jar files:
 \begin{description}
-\item[DartServer.jar] Complete Dart server with http server, servlet engine, and backend database.
+\item[DartServer.jar] Complete Dart server with http server, servlet engine, and back end database.
 \item[DartClient.jar] Small client to communicate with the Dart server.  DartClient.jar can be used to shutdown the server, instruct the server to refresh/restore its resources (icons, templates, styles) from the DartServer.jar file, query the status of the Dart server, and transmit XML files to the Dart server.
 \end{description}
 
@@ -259,7 +258,7 @@ Once you are logged into the Dart web application, you can modify the default pa
 
 \begin{figure}[htb]
 	\centering
-		\includegraphics[width=4in]{FirstDartPage}
+        \includegraphics[width=4in]{FirstDartPage}
 	\caption{Dart Dashboard}
 	\label{fig:FirstDartPage}
 \end{figure}
@@ -374,7 +373,7 @@ Future versions of Dart will allow these customizations to be stored as User spe
 \begin{floatingfigure}[l]{16pt}
 \includegraphics[width=16pt]{feed-icon32x32.png}
 \end{floatingfigure}
-The Dashboard for any given Project can be monitored for new submissions by watching the provided RSS feed. In the title block on the Dashboard page, the RSS icon displayed is a hyperlink to the Project's RSS page.  You can copy the link associated with this image and paste the link into your RSS reader.
+The Dashboard for any given Project can be monitored for new submissions by watching the provided RSS feed. In the title block on the Dashboard page, the RSS icon displayed is a hyper-link to the Project's RSS page.  You can copy the link associated with this image and paste the link into your RSS reader.
 
 If use the FireFox browser, the RSS icon will appear in the address bar, indicating a RSS feed is available. You can add the RSS feed to your \emph{Live Bookmarks} by clicking on the icon.
 
@@ -451,6 +450,48 @@ The \filename{DartDefault.xml} file may be edited to suit the site
 specific needs.  Take care to preserve the FreeMarker tags in the
 original file, as they are specific to some parts of the Project creation process.
 
+\section{Server Directory Layout}
+
+When is Server is created, several directories and files are created.
+These are shown below:
+
+\begin{verbatim}
+practical:Dart}1016:ls DartServer/
+Database/          HTML/            realm.properties  Templates/
+DefaultServer.xml  LocalTemplates/  ServerSchema.sql  Temporary/
+DefaultTemplates/  Plugins/         Server.xml
+\end{verbatim}
+
+The sub-directories are
+\begin{description}
+  \item[Server.xml] This file contains the settings for the server.
+The details of this file are found in Section~\ref{Section:Settings}.
+  \item[ServerSchema.sql]  This file contains the database specific
+SQL code used to create the Server database.  This file is copied from
+the \filename{DartServer.jar} file when the Server is created.
+  \item[realm.properties] This file is used for authentication from
+the Jetty embedded web server.  The Server Administrator should not
+modify this file.
+  \item[Database] This directory contains the Derby database used by
+the Server to manage Users and Server-wide settings.  The Dart
+administrator should have no reason to modify anything in this
+directory.
+  \item[Templates,LocalTemplates,DefaultTemplates] These three
+directories contain the templates used by the Server.  Generally the
+Dart Administrator will only modify the files in LocalTemplates and
+move them to the Templates directory.
+Section~\ref{Section:TemplateDirectories} gives more detail on these
+directories.
+  \item[HTML]  This directory contains Server resources such as the
+standard Project.xml used to configure a project and the dart style
+sheets (\filename{Style.css}).  More detail is found in
+Section~\ref{Section:TemplateDirectories}.
+  \item[Plugins] This directory contains Server specific plugins as
+detailed in Section~\ref{Section:Plugins}.
+  \item[Temporary] This directory is used to store temporary files for
+the Server.
+\end{description}
+
 \section{Server Configuration}
 \label{Section:Settings}
 In the \texttt{TestServer} directory, there is a file named
@@ -473,7 +514,7 @@ BaseDirectory.
   <ServerName></ServerName>
 \end{verbatim}
 
-Dart defaults to using the canonical hostname and the \texttt{HTTPPort} specified in the next section for constructing self referring urls. These urls are included in email messages to notify users of various events. The canoncial hostname is not always appropriate for inclusion in these notifications.  For instance, 
+Dart defaults to using the canonical hostname and the \texttt{HTTPPort} specified in the next section for constructing self referring urls. These urls are included in email messages to notify users of various events. The canonical hostname is not always appropriate for inclusion in these notifications.  For instance, 
 if the Dart server is behind a firewall or accessed via a proxy server, a server name other than the canonical hostname may need to used.  The \xmltag{ServerName} tag can be used specify an alternative to the canonical hostname. ServerName should be in the
 format of a servername and port \texttt{www.somewhere.com:8081}.  
 
@@ -542,17 +583,71 @@ starting with /Dart/*.
 
 
 \section{Project Configuration}
+\subsection{Project Directory Layout}
 After following the directions in Section~\ref{Section:QuickStart}, 
-the \texttt{TestProject} directory will contain a file named
-\filename{Project.xml}.  This is a preconfigured Project configuration
-file containing the settings necesary to run a basic Dart
+the \texttt{TestProject} directory will contain several files and
+directories.
+
+\begin{verbatim}
+{practical:Dart}1014:dir TestProject/
+Archive/   DefaultProject.xml  LocalTemplates/  Result/         Templates/
+Data/      DefaultTemplates/   Plugins/         Schema.sql      Temporary/
+Database/  HTML/               Project.xml      Statistics.txt
+\end{verbatim}
+
+\begin{description}
+  \item[Project.xml] The Project's configuration information.  The
+format and available options are described in
+Section~\ref{Section:ProjectConfiguration}.
+  \item[DefaultProject.xml] This file is generated each time the
+Project's resources are refreshed.  It contains the stock Dart
+configuration and is useful for merging new Dart features into
+existing Project.xml files.
+  \item[Schema.sql] This file contains the SQL statements used to
+create the database.  This is mainly for reference as this file is not
+used after the initial creation of the database.
+  \item[Statistics.txt]  This file is created by the
+\texttt{SaveStatistics} task (see
+Section~\ref{Section:TaskConfiguration} for details).
+  \item[Archive] This is the default directory for the ArchiveTask.
+It contains sub-directories where Archived Submissions are written.
+Section~\ref{Section:TaskConfiguration} details the structure and use
+of this directory.
+  \item[Data] A Dart Project stores large Test Results in the Data
+directory.  Each file is stored based on it's MD5 hash value, and
+duplicate files are stored only once.  The Dart Administrator should
+have no reason to change the contents of this directory.  The
+ArchiveTask may be configured to remove these files during the
+archiving process.
+  \item[Database] Database is the default directory for the Derby
+embedded database.  This directory should not be disturbed.
+  \item[DefaultTemplates,LocalTemplates,Templates]  These directories
+contain the Freemarker templates used to generate the Dart Project
+pages.  See Section~\ref{Section:TemplateDirectories} for details of
+how these directories are used.
+  \item[HTML]  This directory contains Project resources.  More detail is found in
+Section~\ref{Section:TemplateDirectories}.
+  \item[Plugins] Project specific Java Plugins are stored in this
+directory.  Section~\ref{Section:Plugins} gives details of Plugin
+creation and configuration.
+  \item[Temporary]  The Temporary directory is a temporary cache for
+Submission to the Dart Server.  The Submit Command
+(Section~\ref{Section:CommandManager}) may optionally delete processed
+Submissions from this directory.  By default, submissions containing
+errors are not deleted and remain in the Temporary directory.
+\end{description}
+
+\subsection{Project.xml Configuration}
+\label{Section:ProjectConfiguration}
+Project.xml is a preconfigured Project configuration
+file containing the settings necessary to run a basic Dart
 Project. The settings can be modified to control tasks, notifications, and archiving.
 The contents of Project.xml are discussed section by section in the following sections.
 
-Accompaning Project.xml is a file called DefaultProject.xml.  DefaultProject.xml always shows the stock project configuration.  DefaultProject.xml can serve as a reference to the original settings as Project.xml is modified.  DefaultProject.xml is regenerated whenever the Dart server is started. When the Dart server is started with a new version of Dart, the DefaultProject.xml file will be representative of the stock project configuration for the new version of Dart. Therefore, DefaultProject.xml can serve as a means to migrate new Dart capabilities into an existing project.
+Accompanying Project.xml is a file called DefaultProject.xml.  DefaultProject.xml always shows the stock project configuration.  DefaultProject.xml can serve as a reference to the original settings as Project.xml is modified.  DefaultProject.xml is regenerated whenever the Dart server is started. When the Dart server is started with a new version of Dart, the DefaultProject.xml file will be representative of the stock project configuration for the new version of Dart. Therefore, DefaultProject.xml can serve as a means to migrate new Dart capabilities into an existing project.
 
 
-\subsection{Project Info}
+\subsubsection{Project Info}
 \begin{verbatim}
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
@@ -567,7 +662,7 @@ directory.  If the Project is moved to a new location on the file
 system, \xmltag{BaseDirectory} must be changed to reflect the new
 location.
 
-\subsection{Administrator Username and Password}
+\subsubsection{Administrator Username and Password}
 \begin{verbatim}
   <!-- Administrator Username/Password.  If blank, no administrator access -->
   <AdministratorUsername></AdministratorUsername>
@@ -577,7 +672,7 @@ location.
 These tags specify the Project Administrator username and password.
 If blank, the Project denys all access to Administrator functions.
 
-\subsection{Project Properties}
+\subsubsection{Project Properties}
 Certain aspects of a Dart project can be customized by properties
 assigned to the project.
 \begin{verbatim}
@@ -624,10 +719,10 @@ assigned to the project.
 \item[RepositoryURL]{URL for accessing a project's software repository via the web.}
 \item[RepositoryURL.Type]{Identifies the type of the web portal for the repository (viewcvs, cvsweb, websvn, viewcvswithsvn,cvstrac,svntrac).}
 \item[RepositoryURL.Repository]{Identifies the repository to reference at the specified \texttt{RepositoryURL}}.
-\item[Menu]{Definition of a menu to display on web pages.  This menu can include links to navigate within Dart or to navigate to external sites such as documentation, bug trackers, \etc.  \texttt{Menu} is defined as an HTML list (encapsulated in a \texttt{CData} section), with submenus being sublists.  Each menu item is modelled with an \texttt{HREF} within an \texttt{LI}. If a menu item is the title of a submenu, then the \texttt{HREF} should link to ''\#'' and the item label should indicate a drop down menu is available (for instance, suffixing the name with a \texttt{>} sign.  }
+\item[Menu]{Definition of a menu to display on web pages.  This menu can include links to navigate within Dart or to navigate to external sites such as documentation, bug trackers, \etc.  \texttt{Menu} is defined as an HTML list (encapsulated in a \texttt{CData} section), with sub-menus being sublists.  Each menu item is modelled with an \texttt{HREF} within an \texttt{LI}. If a menu item is the title of a sub-menu, then the \texttt{HREF} should link to ''\#'' and the item label should indicate a drop down menu is available (for instance, suffixing the name with a \texttt{>} sign.  }
 \end{description}
 
-\subsection{Database Configuration}
+\subsubsection{Database Configuration}
 \begin{verbatim}
     <!-- Derby database -->
     <Database>
@@ -661,7 +756,8 @@ shutdown processing, leave this tag empty and it will be ignored.
 authentication settings for the RDBMS.  In the case of Derby, no
 Username/Password is required.
 
-\subsection{CommandManager Configuration}
+\paragraph{CommandManager Configuration}
+\label{Section:CommandManager}
 \begin{verbatim}
   <CommandManager>
     <Command>
@@ -699,7 +795,7 @@ the object are exposed to XML-RPC calls.
 The ProjectAdministration Command allows a remote Administrator to
 perform a variety of tasks.
 
-\subsection{ServletManager Configuration}
+\subsubsection{ServletManager Configuration}
 \label{Sec:ServletManager}
 \begin{verbatim}
   <!-- Servlet configuration -->
@@ -773,7 +869,7 @@ administration tools from their \emph{User} page.
 The third servlet in the stock configuration provides \emph{User}
 logins and \emph{User} configuration.
 
-The forth servlet in the stock configuration provides cabilities to serve
+The forth servlet in the stock configuration provides capabilities to serve
 content from within zip archives.  Some third party software analysis tools 
 output web-based reports.  These web-based reports can be place in a zip
 archive and placed on the Dart server.  The Dart server can serve pages 
@@ -797,7 +893,7 @@ capabilities.  The \emph{ChartServlet} uses JFreeChart to generate plots of test
 
 
 
-\subsubsection{Adding a new servlet to Dart}
+\paragraph{Adding a new servlet to Dart}
 \label{Sec:UserServlet}
 
 If you are building Dart from source, you can add additional servlets 
@@ -822,7 +918,7 @@ property to the servlet definition in the Project.xml file.
 This example adds the class \texttt{user.servlet.MyDashboard} from the \filename{foo.jar} 
 archive to the project and assigns it the url space of \texttt{/MyDashboard/*}.
 
-\subsection{MessengerManager Configuration}
+\subsubsection{MessengerManager Configuration}
 \label{Section:MessengerManager}
 \begin{verbatim}
   <MessengerManager>
@@ -849,7 +945,7 @@ SMTP provider will be available in future versions of Dart.
 
 Multiple Messengers of the same type can be configured.  For instance, a Project may use different SMTPMessenger's to report on different Events.  One SMTPMessenger may be configured to be used when a submission contains information on build errors while another SMTPMessenger with a different \emph{from} address could be used to report on server level issues.
 
-\subsection{ListenerManager Configuration}
+\subsubsection{ListenerManager Configuration}
 \label{Section:ListenerManager}
 \begin{verbatim}
   <!-- Listener manager.  Do specific things when events happen in the Project -->
@@ -888,11 +984,11 @@ an error is found in a submission.  The entries in the \texttt{DefaultContactLis
 More information on Dart Users can be found in Section~\ref{Section:Users}.
 
 The second Listener in the stock configuration determines whether any
-clients that are expected to submit on a particular track have yet to submit to the dashboard within the allotted timeframe.  More details on configuring \emph{when} a submission is noted as being missing is in Section~\ref{Section:TaskConfiguration}.
+clients that are expected to submit on a particular track have yet to submit to the dashboard within the allotted time frame.  More details on configuring \emph{when} a submission is noted as being missing is in Section~\ref{Section:TaskConfiguration}.
 More information of configuring a client as being \emph{expected} can be found in Section~\ref{Section:ClientConfiguration}.  The MissingSubmissionListener can also be configured with a DefaultContactList.
  
 
-\subsection{Task Configuration}
+\subsubsection{Task Configuration}
 \label{Section:TaskConfiguration}
 \begin{verbatim}
   <!-- Scheduled tasks.  The Schedule tag is in cron format. -->
@@ -969,7 +1065,7 @@ is detailed at\newline
 \texttt{http://quartz.sourceforge.net/javadoc/org/quartz/CronTrigger.html}\newline
 and is reproduced here for clarity.
 
-\subsubsection{Cron Expressions}
+\paragraph{Cron Expressions}
  For those unfamiliar with ``cron'', this means being able to create a firing schedule such as: ``At 8:00am every Monday through Friday'' or ``At 1:30am every last Friday of the month''.
 
 A ``Cron-Expression'' is a string comprised of 6 or 7 fields separated
@@ -1052,7 +1148,7 @@ is associated, then it is equivalent to having an all-inclusive
 calendar. A value of ``5C'' in the day-of-month field means ``the first
 day included by the calendar on or after the 5th''. A value of ``1C'' in
 the day-of-week field means "the first day included by the calendar on
-or after sunday".
+or after Sunday".
 
 The legal characters and the names of months and days of the week are
 not case sensitive.
@@ -1123,7 +1219,7 @@ does not have any parameters, and saves the statistics in a file named
 An extremely important Task is the ArchiveTask.  This Task is detailed
 in Section~\ref{Section:ArchiveTask}.
 
-\subsection{Task List}
+\subsubsection{Task List}
 These are the currently available Tasks:
 \begin{description}
   \item[ArchiveTask] The ArchiveTask is responsible for finding old
@@ -1169,7 +1265,7 @@ These are the currently available Tasks:
   Section~\ref{Section:RollupManager} to queue further Tasks.
 \end{description}
 
-\subsection{TrackManager}
+\subsubsection{TrackManager}
 \label{Section:TrackManager}
 Submissions are grouped and navigated by a collection of \emph{Tracks}. You define  
 tracks for a project by configuring the TrackManager. TemporalTracks group submissions
@@ -1246,7 +1342,7 @@ TemporalTrack's have two other optional parameters \xmltag{DefaultSortBy} and \x
 CTest (see Section~\ref{Section:CTest}) uses a standard collection of Tracks: Nightly, Continuous, and Experimental. If you are using CTest for a Dart client, you should define your tracks to be Nightly, Continuous, and Experimental.
 
 
-\subsection{RollupManager}
+\subsubsection{RollupManager}
 \label{Section:RollupManager}
 After a Submission is process and the raw data placed in the database,
 the configuration in the RollupManager section of the Project.xml file
@@ -1302,7 +1398,7 @@ failures, \etc.  To monitor and respond to Events, the Dart Server may
 be configured with different Listeners that receive Events and have
 the opportunity to respond in a variety of ways.  The Event subsystem
 has two components, Event sources and Listeners.  Events are generated
-automatically (and programatically) by the Dart Server and are handled
+automatically (and programmaticly) by the Dart Server and are handled
 immediately by the ListenerManager.  The ListenerManager checks each
 Listener defined by the Project, if a Listener is registered for the particular type of Event, the Listener's trigger method
 is called.  The Listener is free to take any action based on the
@@ -1559,53 +1655,6 @@ The definition of the default Archivers are:
 
 \end{verbatim}
 
-\section{Customizing Dart}
-\label{Section:Customization}
-
-\subsection{Project styles, icons, and templates}
-\label{Section:ProjectStylesIconsTemplates}
-The look and feel for a Project as well as what and how information is reported can be customized on a project by project basis.  The simpliest customizations may including branding the Dashboard with project specific icons and cross references.  More advanced customizations include developing custom reports and servlets.
-
-\subsubsection{Styles and Icons}
-The Cascading Style Sheets for a project are kept in the project directory under HTML/Resources and the icons used in the webpages for the project are in the project directory under HTML/Resources/Icons.  The content in these directories are what is served by Dart.
-
-There are two other directories in the project directory under HTML, namely HTML/DefaultResources and HTML/LocalResources.  HTML/DefaultResources contains the cascading style sheets and icons that are shipped with Dart.  HTML/LocalResources is reserved for project specific customizations.
-
-Resources are refreshed when the server is started with the --refresh option. Refreshing performs the following options in sequence:
-\begin{enumerate}
-\item Project resources are copied from the DartServer.jar into the HTML/DefaultResources directory.
-\item Project resources are copied from the DartServer.jar into the HTML/Resources directory.
-\item Local resource overrides and new resources are copied from the HTML/LocalResources directory to HTML/Resources directory.
-\end{enumerate}
-HTML/DefaultResources always contains the stock configuration of resources for the current version of Dart.  When a new version of Dart is used, HTML/DefaultResources will contain the latest set of resources. Like DefaultProject.xml, the content of HTML/DefaultResources can serve as a reference when migrating between Dart versions.
-
-Content in HTML/LocalResources overrides the content in HTML/DefaultResources.  Therefore, project specific icons and style sheets can be used by placing them in HTML/LocalResources. 
-
-\subsubsection{Templates}
-Dart uses the Freemarker template engine to generate web pages.  The templates for a project are kept in the project directory in a subdirectory called Templates. 
-
-There are two other directories in the project directory, DefaultTemplates and LocalTemplates.  DefaultTemplates contains the templates that are shipped with Dart.  LocalTemplates is reserved for project specific customizations.
-
-Templates are refreshed when the server is started with the --refresh option.  Refreshing performs the following options in sequence:
-\begin{enumerate}
-\item Project templates are copied from the DartServer.jar into the DefaultTemplates directory.
-\item Project templates are copied from the DartServer.jar into the Templates directory.
-\item Local template overrides and new templates are copied from the LocalTemplates directory to the Templates directory.
-\end{enumerate}
-DefaultTemplates always contains the stock configuration of templates for the current version of Dart. When a new version of Dart is used, DefaultTemplates will contain the latest set of templates.  Like DefaultProject.xml, the content of DefaultTemplates can serve as a reference when migrating between Dart versions.
-
-Content in LocalTemplates overrides the content in DefaultTemplates.  Therefore, project specific template overrides or new templates can be used by placing them in the LocalTemplates directory.
-
-\subsection{Server styles, icons, and templates}
-The look and feel as well as how and what is served can be customized for the Dart server as well.  The cascading style sheets, icons, and templates for the server are manage in a manner similar to the project customization described in Section~\ref{Section:ProjectStylesIconsTemplates}.  Under the server directory, there are Templates, LocalTemplates, and DefaultTemplates directories as well as HTML/Resources, HTML/DefaultResources and HTML/LocalResources directories.  The default configurations for the current version of Dart are stored in the DefaultTemplates and HTML/DefaultResources directories.  These can be overriden and augmented using the LocalTemplates and HTML/LocalResources directories.
-
-
-\subsection{Plugins}
-\label{Section:Plugins}
-Most of the content for a project is served by the Dashboard servlet.  The Dashboard servlet interprets the any path after \url{http://server:port/Project/Dashboard} as the name of a template to process.  The Dashboard servlet is very general and serves pages as diverse as the Dashboard, TestCatalog, Notes, Test, Build, etc.
-
-If the stock Dashboard servlet cannot provide information needed for a template in LocalTemplates, then a new servlet can be added to Dart using a plugin mechanism.  In the project directory, there is subdirectory called Plugins.  Any jar files placed in this directory will be added to the servlet classpath.  Servlets in these jar files can be added to a Project by adding a \xmltag{Servlet} to the \xmltag{ServletManager} section of the Project.xml file. See Section~\ref{Sec:ServletManager} for more information on configuring a servlet.
-
 
 \section{Upgrade Dart Server from 0.5 or 0.6}
 \label{Section:UpgradeServer}
@@ -1741,6 +1790,54 @@ If the Dart server is hosted on a different machine than the Apache
 web server, then you'll need to replace the use of \texttt{localhost} with
 the url to your Dart server.
 
+\chapter{Customizing Your Dart Project}
+\label{Section:Customization}
+
+\section{Project styles, icons, and templates}
+\label{Section:ProjectStylesIconsTemplates}
+The look and feel for a Project as well as what and how information is reported can be customized on a project by project basis.  The simplest customizations may including branding the Dashboard with project specific icons and cross references.  More advanced customizations include developing custom reports and servlets.
+
+\subsection{Styles and Icons}
+The Cascading Style Sheets for a project are kept in the project directory under HTML/Resources and the icons used in the web pages for the project are in the project directory under HTML/Resources/Icons.  The content in these directories are what is served by Dart.
+
+There are two other directories in the project directory under HTML, namely HTML/DefaultResources and HTML/LocalResources.  HTML/DefaultResources contains the cascading style sheets and icons that are shipped with Dart.  HTML/LocalResources is reserved for project specific customizations.
+
+Resources are refreshed when the server is started with the --refresh option. Refreshing performs the following options in sequence:
+\begin{enumerate}
+\item Project resources are copied from the DartServer.jar into the HTML/DefaultResources directory.
+\item Project resources are copied from the DartServer.jar into the HTML/Resources directory.
+\item Local resource overrides and new resources are copied from the HTML/LocalResources directory to HTML/Resources directory.
+\end{enumerate}
+HTML/DefaultResources always contains the stock configuration of resources for the current version of Dart.  When a new version of Dart is used, HTML/DefaultResources will contain the latest set of resources. Like DefaultProject.xml, the content of HTML/DefaultResources can serve as a reference when migrating between Dart versions.
+
+Content in HTML/LocalResources overrides the content in HTML/DefaultResources.  Therefore, project specific icons and style sheets can be used by placing them in HTML/LocalResources. 
+
+\subsection{Templates}
+\label{Section:TemplateDirectories}
+Dart uses the Freemarker template engine to generate web pages.  The templates for a project are kept in the project directory in a subdirectory called Templates. 
+
+There are two other directories in the project directory, DefaultTemplates and LocalTemplates.  DefaultTemplates contains the templates that are shipped with Dart.  LocalTemplates is reserved for project specific customizations.
+
+Templates are refreshed when the server is started with the --refresh option.  Refreshing performs the following options in sequence:
+\begin{enumerate}
+\item Project templates are copied from the DartServer.jar into the DefaultTemplates directory.
+\item Project templates are copied from the DartServer.jar into the Templates directory.
+\item Local template overrides and new templates are copied from the LocalTemplates directory to the Templates directory.
+\end{enumerate}
+DefaultTemplates always contains the stock configuration of templates for the current version of Dart. When a new version of Dart is used, DefaultTemplates will contain the latest set of templates.  Like DefaultProject.xml, the content of DefaultTemplates can serve as a reference when migrating between Dart versions.
+
+Content in LocalTemplates overrides the content in DefaultTemplates.  Therefore, project specific template overrides or new templates can be used by placing them in the LocalTemplates directory.
+
+\section{Server styles, icons, and templates}
+The look and feel as well as how and what is served can be customized for the Dart server as well.  The cascading style sheets, icons, and templates for the server are manage in a manner similar to the project customization described in Section~\ref{Section:ProjectStylesIconsTemplates}.  Under the server directory, there are Templates, LocalTemplates, and DefaultTemplates directories as well as HTML/Resources, HTML/DefaultResources and HTML/LocalResources directories.  The default configurations for the current version of Dart are stored in the DefaultTemplates and HTML/DefaultResources directories.  These can be overridden and augmented using the LocalTemplates and HTML/LocalResources directories.
+
+
+\section{Plugins}
+\label{Section:Plugins}
+Most of the content for a project is served by the Dashboard servlet.  The Dashboard servlet interprets the any path after \url{http://server:port/Project/Dashboard} as the name of a template to process.  The Dashboard servlet is very general and serves pages as diverse as the Dashboard, TestCatalog, Notes, Test, Build, etc.
+
+If the stock Dashboard servlet cannot provide information needed for a template in LocalTemplates, then a new servlet can be added to Dart using a plugin mechanism.  In the project directory, there is subdirectory called Plugins.  Any jar files placed in this directory will be added to the servlet classpath.  Servlets in these jar files can be added to a Project by adding a \xmltag{Servlet} to the \xmltag{ServletManager} section of the Project.xml file. See Section~\ref{Sec:ServletManager} for more information on configuring a servlet.
+
 
 %----------------------------------------------------------------------
 \chapter{Dart Clients and Tool Integration}
@@ -1751,11 +1848,9 @@ To perform a build/test sequence and submit the results to a Dart server, you wi
 \item[Cruise Control] Many Java projects use Cruise Control (\url{http://cruisecontrol.sourceforge.net/}) to perform a build/test sequence. Cruise Control is layered on top of the Java build tool Ant. Section~\ref{Section:CruiseControl} discusses how to configure Cruise Control to submit build/test results to a Dart server.
 \end{description}
 
-
-
 \section{CTest}
 \label{Section:CTest}
-CTest is a Dart client distributed as part of CMake (\url{http://www.cmake.org/}). A short tutorial on using CTest ass a Dart client can be found at \url{http://www.cmake.org/Wiki/CMake_Testing_With_CTest} (this tutorial covers both this version of \emph{Dart}, frequently called \emph{Dart 2}, and its predecessor, to be called \emph{Dart Classic}).
+CTest is a Dart client distributed as part of CMake (\url{http://www.cmake.org/}). A short tutorial on using CTest ass a Dart client can be found at \url{http://www.cmake.org/Wiki/CMake\_Testing\_With\_CTest} (this tutorial covers both this version of \emph{Dart}, frequently called \emph{Dart 2}, and its predecessor, to be called \emph{Dart Classic}).
 
 If you are using CMake as your cross platform build tool, you can configure your project to use CTest to communicate with a Dart server by putting these lines in your CMakeLists.txt file
 \begin{verbatim}
@@ -1816,7 +1911,7 @@ Command-Line Options
 
 \subsection{Scripting CTest}
 
-Additional information on scripting CTest to perform an automated update, configure, build, test sequence can be found at \url{http://www.cmake.org/Wiki/CMake_Scripting_Of_CTest}.
+Additional information on scripting CTest to perform an automated update, configure, build, test sequence can be found at \url{http://www.cmake.org/Wiki/CMake\_Scripting\_Of\_CTest}.
 
 
 
@@ -2201,7 +2296,7 @@ jar file.
 \chapter{Custom Test Results}
 This chapter is intended to introduce the Dart XML format for
 submitting testing results to a Server.  Though Dart, through
-Digestor, is capabile of parsing a variety of XML, new tool writers
+Digestor, is capable of parsing a variety of XML, new tool writers
 are encouraged to us the standard Dart XML format.  Details on
 Digestor customization will be forthcoming as demanded.
 
@@ -2213,7 +2308,7 @@ Dashboard generation process and assumptions will be part of this
 \section{XML Format}
 Though Dart has the capability to parse and translate XML (provided
 through Digestor), submitting data to Dart in the native XML format is
- perferred.  Dart XML is intentionally simple and straightforward.
+ preferred.  Dart XML is intentionally simple and straightforward.
 The main elements are illustrated in this example file:
 
 \begin{verbatim}
@@ -2221,7 +2316,7 @@ The main elements are illustrated in this example file:
 <DartSubmission version="2.0" createdby="ArchiveTask">
   <Site>Machine.MySite.com</Site>
   
-  <!-- BuildName will be the concationation of OS and Compiler -->
+  <!-- BuildName will be the concatenation of OS and Compiler -->
   <BuildName>Linux-2.6-jdk1.5</BuildName>
   <Track>Nightly</Track>
   
@@ -2283,7 +2378,7 @@ The Measurements recorded by the test are contained in \xmltag{Measurement}
 tags, and may be of several different types.
 
 \begin{description}
-  \item[numeric/float]{The contents of this tag are stored verbatum,
+  \item[numeric/float]{The contents of this tag are stored verbatim,
 and presented as a floating point number on the Dashboard.
 numeric/float types may be plotted.}
   \item[numeric/integer]{A numeric value that may be plotted on the
@@ -2291,21 +2386,21 @@ Dashboard.}
   \item[text/string]{A short (less that 2000 characters) text string.
 text/string Measurements are stored directly in the Dart database.}
   \item[text/text]{A longer text string that is stored on the
-filesystem.}
+file system.}
   \item[text/html]{A complete HTML document.  text/html Measurements
-are stored in the filesystem and present as links by the Dashboard.
+are stored in the file system and present as links by the Dashboard.
 It is often advisable to enclose text/html Measurements in
 \xmltag{![CDATA[]]} containers.}
   \item[text/xml]{A complete XML document.  text/xml Measurements
-are stored in the filesystem and present as links by the Dashboard. 
+are stored in the file system and present as links by the Dashboard. 
 It is often advisable to enclose text/xml Measurements in
 \xmltag{![CDATA[]]} containers.}
   \item[image/png]{A uuencoded PNG image.  The contents of this tag
 should be a valid uuencoding of the binary file.  The PNG image is
-decoded and stored in the filesystem and presented as an image on the dashboard.}
+decoded and stored in the file system and presented as an image on the dashboard.}
   \item[image/jpeg]{A uuencoded JPEG image.  The contents of this tag
 should be a valid uuencoding of the binary file.  The JPEG image is
-decoded and stored in the filesystem and presented as an image on the
+decoded and stored in the file system and presented as an image on the
 dashboard.}
   \item[archive/zip]{An archive/zip Measurement is a set of zipped
 files.  Generally, Measurements of these types contain web sites such
@@ -2346,7 +2441,7 @@ Dart has conventions for handling different types of Tests, resulting
 in different entries on the Dashboard, \eg Coverage, Style,
 DynamicAnalysis.  The current classes of results that are handled by
 Dart include Test, Coverage, Style, and DynamicAnalysis.  They are
-detailed below to aid the developer in cohercing data into the proper
+detailed below to aid the developer in coercing data into the proper
 convention to be recognized and presented by Dart.
 
 In the following sections, the term ``Test'' is used both to indicate
@@ -2357,7 +2452,7 @@ disambiguate the particular use.
 \subsection{Test}
 The Test class of results are presented as a line on the Dashboard by
 the origin Submission.  To be recognized as the Test class, a
-submitted Test's name must begin with ``.Test''.  This signifes to
+submitted Test's name must begin with ``.Test''.  This signifies to
 Dart to include this Test on the Dashboard summary line for the
 Submission.  There is no requirement to have a full hierarchy when
 submitting Tests, as Dart fills in the gaps and rolls up sub-Test
@@ -2371,7 +2466,7 @@ sub-Tests will be summarized by higher level test.  For instance, if
 .Test.dart.server.Test1 and .Test.dart.server.Test2 are submitted, 
 placeholder tests called .Test.dart, .Test.dart.server will be created
 and contain the count of sub-Tests that have passed, failed or were
-not run.  If a Mesurement called ``Output'' is present, it will be
+not run.  If a Measurement called ``Output'' is present, it will be
 displayed on the Test page as the standard output of the Test.
 
 \subsection{Builds}
@@ -2399,7 +2494,7 @@ sequence of digits. Examples of valid names are
 \texttt{Build.Error032} and \texttt{Build.Stage5.Error}.
 
 
-\paragraph{Stages} Esstentially, a stage represents a single build
+\paragraph{Stages} Essentially, a stage represents a single build
 log. For example, a project could have three stages, such as
 ``configure'', ``make bootstrap'', and ``make''. These stages are
 typically launched sequentially, and their results are typically
@@ -3768,7 +3863,8 @@ This license is based on the Apache Software License, version 1.1.
 \end{document}
 % LocalWords:  FreeMarker CommandServlet MaxTasks commandline TestServer cron
 % LocalWords:  DartServer refreshServer TestProject getstatus logconfiguration
-% LocalWords:  getInitParameter CommandManager ChartServlet TaskQueue
+% LocalWords:  getInitParameter CommandManager ChartServlet TaskQueue VTK ITK
 % LocalWords:  CronTrigger ListenerManager QueueManager MyDashboard classpath
 % LocalWords:  servlet ListenTo xml SaveStatistics ArchiveTask QueueManagerTask
-% LocalWords:  GarbageCollectionTask datetime
+% LocalWords:  GarbageCollectionTask datetime online VXL Kitware CTest Roadmap
+% LocalWords:  DartClient gcov FireFox
