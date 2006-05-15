@@ -38,6 +38,7 @@ public class FetchData implements TemplateMethodModel {
       while ( (count = in.read ( buffer )) != -1 ) {
         out.write ( buffer, 0, count );
       }
+      in.close();
       return out.toString();
     } catch ( Exception e ) {
       throw new TemplateModelException ( "Failed to read file", e );
