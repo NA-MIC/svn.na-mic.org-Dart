@@ -294,7 +294,7 @@ dbAdd (true, "Updated files  (${update.selectChildren().size()})", "", 0, "", "1
 		  }
                 if ( db[i].author != "" && db[i].author != null )
                 {
-                  if ( db[i].mailto == "" || db[i].mailto == null )
+                  if ( db[i].mailto == "Unknown" || db[i].mailto == "Unknown Email" || db[i].mailto == "" || db[i].mailto == null )
                   {
                     Outline += " by " + db[i].author
                   }
