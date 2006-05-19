@@ -124,7 +124,10 @@ public class TrackManager {
     } catch ( Exception e ) {
       logger.error ( "Failed to link Submission: " + SubmissionId );
     } finally { 
-      try { connection.close(); } catch ( Exception ex ) {}
+      try {
+        logger.debug("Closing connection.");
+        connection.close(); }
+      catch ( Exception ex ) {}
     }
   }
 

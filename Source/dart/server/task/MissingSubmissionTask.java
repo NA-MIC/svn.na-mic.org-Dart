@@ -130,7 +130,13 @@ public class MissingSubmissionTask implements Task {
     }
 
     // close the connections to the databases
-    try { connection.close(); } catch ( Exception e2 ) { }
-    try { serverConnection.close(); } catch ( Exception e2 ) { }
+    try {
+      logger.debug("Closing connection.");
+      connection.close();
+    } catch ( Exception e2 ) { }
+    try {
+      logger.debug("Closing connection.");
+      serverConnection.close();
+    } catch ( Exception e2 ) { }
   }      
 }

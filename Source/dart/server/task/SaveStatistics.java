@@ -18,12 +18,17 @@ public class SaveStatistics implements Task {
 
   public void execute ( Project project, Properties properties ) throws Exception {
     File file = new File ( project.getBaseDirectory(), "Statistics.txt" );
+    OutputStream out = null;
     try {
-      OutputStream out = new BufferedOutputStream ( new FileOutputStream ( file ) );
+      out = new BufferedOutputStream ( new FileOutputStream ( file ) );
       project.getStats().store ( out, null );
     } catch ( Exception e ) {
       logger.error ( "Failed to save statistics", e );
       throw e;
+    } finally {
+      if (out != null) {
+        out.close();
+      }
     }
   }
 }

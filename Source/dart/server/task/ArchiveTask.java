@@ -343,6 +343,7 @@ public class ArchiveTask implements Task {
       logger.error ( "Failed to Archive task", e );
       throw e;
     } finally {
+      logger.debug("Closing connection.");
       connection.close();
     }
   }

@@ -54,6 +54,7 @@ public class DeleteDataTask implements Task {
       logger.error ( "Failed to delete data", e );
       throw e;
     } finally {
+      logger.debug("Closing connection.");
       connection.close();
     }
   }

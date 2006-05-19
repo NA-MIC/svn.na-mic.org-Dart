@@ -422,7 +422,10 @@ public class TestProcessor {
     } catch ( Exception e ) {
       logger.error ( "Failed to process Test", e );
     } finally {
-      try { connection.close(); } catch ( Exception e ) { }
+      try {
+        logger.info("Closing connection.");
+        connection.close();
+      } catch ( Exception e ) { }
     }
   }
 

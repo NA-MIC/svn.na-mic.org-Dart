@@ -124,8 +124,8 @@ public class Database {
       PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,connectionPool,null,null,false,true);
       dataSource = new PoolingDataSource(connectionPool);
       
-      connectionPool.setTimeBetweenEvictionRunsMillis ( 4 * 60 * 1000 );
-      connectionPool.setMinEvictableIdleTimeMillis ( 4 * 60 * 1000 );
+//       connectionPool.setTimeBetweenEvictionRunsMillis ( 4 * 60 * 1000 );
+//       connectionPool.setMinEvictableIdleTimeMillis ( 4 * 60 * 1000 );
 
     } catch ( Exception e ) {
       logger.error ( owner.getTitle() + ": Failed to connect to database via: " + url + " driver: " + driver, e );

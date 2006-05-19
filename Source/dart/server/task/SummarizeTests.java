@@ -153,6 +153,7 @@ public class SummarizeTests implements Task {
     } catch ( Exception e ) {
       throw e;
     } finally {
+      logger.debug("Closing connection.");
       connection.close();
     }
   }

@@ -224,7 +224,10 @@ public class Container {
       logger.error ( getTitle() + ": Error initializing the database\n", e );
       throw e;
     } finally {
-      try { connection.close(); } catch ( Exception e ) { }
+      try {
+        logger.debug("Closing connection.");
+        connection.close();
+      } catch ( Exception e ) { }
     }
   }
 

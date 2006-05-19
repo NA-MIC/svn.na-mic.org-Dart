@@ -110,10 +110,15 @@ public class Project extends Container {
         rs.next();
         buffer.append ( "\t" + Tables[i] + ": " + rs.getInt ( "c" ) + "\n" );
       }
-      connection.close();
     } catch ( Exception e ) {
       logger.error ( title + ": Failed to fetch counts", e );
+    } finally {
+      try {
+        logger.debug("Closing connection.");
+        connection.close();
+      } catch (Exception e) {}
     }
+    
     buffer.append ( database.toString() + "\n" );
     buffer.append ( servletManager.toString() + "\n" );
     buffer.append ( trackManager.toString() + "\n" );
@@ -262,6 +267,7 @@ public class Project extends Container {
       Patch = rs.getInt ( "Patch" );
       logger.debug ( "getDBVersion found Major: " + Major + " Minor: " + Minor + " Patch: " + Patch );
     } finally {
+      logger.debug("Closing connection.");
       connection.close();
     }
     return new int[] { Major, Minor, Patch };
@@ -304,6 +310,7 @@ public class Project extends Container {
       }
       
     } finally {
+      logger.debug("Closing connection.");
       connection.close();
     }
     return true;
@@ -558,7 +565,10 @@ public class Project extends Container {
       logger.error ( title + ": Failed to add Task: " + TaskType + " to queue with priority: " + priority
                      + " properties:\n" + propString, e );
     } finally {
-      try { connection.close(); } catch ( Exception e ) { }
+      try {
+        logger.debug("Closing connection.");
+        connection.close();
+      } catch ( Exception e ) { }
     }
   }
 

@@ -57,88 +57,98 @@ public class MissingSubmissionListener extends Listener {
     JaxorContextImpl serverDBSession = new JaxorContextImpl ( serverConnection );
     UserFinderBase userFinder = new UserFinderBase( serverDBSession );
 
-    // Construct the list of people to notify
-    HashSet emailList = new HashSet();
-
-    Iterator uit = userIds.iterator();
-    Long userId;
-    UserEntity user = null;
-    while (uit.hasNext()) {
-      userId = (Long) uit.next();
-      
-      try {
-        user = userFinder.selectByUserId( userId );
-        emailList.add( user.getEmail() );
-      } catch ( EntityNotFoundException notfound ) {
-        logger.info("User not found. UserId = " + userId);
-      } catch (net.sourceforge.jaxor.util.SystemException exc) {
-        logger.info("User not found. UserId = " + userId);
-      }
-      
-    }
-
-    // add any default email addresses
-    HashSet defaultContactList = new HashSet();
-    if (properties.containsKey("DefaultContactList")) {
-      String[] defaultList
-        = properties.getProperty("DefaultContactList").split(",");
-      for (int i=0; i < defaultList.length; ++i) {
-        defaultContactList.add(defaultList[i]);
-      }
-    }
-
-    // Build the url to put in the message
-    HttpServer httpServer = project.getHttpServer();
-    HttpContext httpContext = httpServer.getContext("/" + project.getTitle() + "/*");
-    String cp = httpContext.getContextPath();
-
-    String url = "unknown";
-
     try {
-      url = "http://" + project.getServer().getServerName() + cp + "/Dashboard/Dashboard?trackid=" + event.getTrackId();
-    } catch ( Exception urlException ) {
-      logger.warn ( "Failed to properly format url", urlException );
-    }
-    // Construct the content of the message
-    String content = new String();
-    content = "The following clients have not submitted to the Dart server for project \""
-      + project.getTitle()
-      + "\" on track \"" + event.getTrackName() + "\" within the alloted time:\n\n";
-    Iterator cit = clientIds.iterator();
-    Long clientId;
-    ClientEntity client = null;
-    while (cit.hasNext()) {
-      clientId = (Long) cit.next();
+      // Construct the list of people to notify
+      HashSet emailList = new HashSet();
+
+      Iterator uit = userIds.iterator();
+      Long userId;
+      UserEntity user = null;
+      while (uit.hasNext()) {
+        userId = (Long) uit.next();
+      
+        try {
+          user = userFinder.selectByUserId( userId );
+          emailList.add( user.getEmail() );
+        } catch ( EntityNotFoundException notfound ) {
+          logger.info("User not found. UserId = " + userId);
+        } catch (net.sourceforge.jaxor.util.SystemException exc) {
+          logger.info("User not found. UserId = " + userId);
+        }
+      
+      }
+
+      // add any default email addresses
+      HashSet defaultContactList = new HashSet();
+      if (properties.containsKey("DefaultContactList")) {
+        String[] defaultList
+          = properties.getProperty("DefaultContactList").split(",");
+        for (int i=0; i < defaultList.length; ++i) {
+          defaultContactList.add(defaultList[i]);
+        }
+      }
+
+      // Build the url to put in the message
+      HttpServer httpServer = project.getHttpServer();
+      HttpContext httpContext = httpServer.getContext("/" + project.getTitle() + "/*");
+      String cp = httpContext.getContextPath();
+
+      String url = "unknown";
 
       try {
-        client = clientFinder.selectByClientId( clientId );
-        content = content + "\t\t" + client.getSite() + " - "
-          + client.getBuildName() + "\n";
-      } catch ( EntityNotFoundException notfound ) {
-        logger.warn("Client not found. ClientId = " + clientId);
+        url = "http://" + project.getServer().getServerName() + cp + "/Dashboard/Dashboard?trackid=" + event.getTrackId();
+      } catch ( Exception urlException ) {
+        logger.warn ( "Failed to properly format url", urlException );
       }
-    }
-    
-    content = content + "\n\n"
-      + "You are listed as a maintainer of one of these clients.  You may want"
-      + " to check client. Details on the current dashboard are at " + url;
+      // Construct the content of the message
+      String content = new String();
+      content = "The following clients have not submitted to the Dart server for project \""
+        + project.getTitle()
+        + "\" on track \"" + event.getTrackName() + "\" within the alloted time:\n\n";
+      Iterator cit = clientIds.iterator();
+      Long clientId;
+      ClientEntity client = null;
+      while (cit.hasNext()) {
+        clientId = (Long) cit.next();
 
-    content = content + "\n\n"
-      + "- Dart server on " + project.getServer().getServerName();
+        try {
+          client = clientFinder.selectByClientId( clientId );
+          content = content + "\t\t" + client.getSite() + " - "
+            + client.getBuildName() + "\n";
+        } catch ( EntityNotFoundException notfound ) {
+          logger.warn("Client not found. ClientId = " + clientId);
+        }
+      }
     
-    // Build the subject of the message
-    String subject = "Dart(" + project.getTitle() + ") - Expected submissions missing";
+      content = content + "\n\n"
+        + "You are listed as a maintainer of one of these clients.  You may want"
+        + " to check client. Details on the current dashboard are at " + url;
 
-    // Send the message by the mechanism specified
-    //
-    try {
-      messenger.send(emailList, defaultContactList, subject, content);
+      content = content + "\n\n"
+        + "- Dart server on " + project.getServer().getServerName();
+    
+      // Build the subject of the message
+      String subject = "Dart(" + project.getTitle() + ") - Expected submissions missing";
+
+      // Send the message by the mechanism specified
+      //
+      try {
+        messenger.send(emailList, defaultContactList, subject, content);
+      } catch (Exception e) {
+        logger.error("Error sending notification: " + e);
+      }
+
     } catch (Exception e) {
-      logger.error("Error sending notification: " + e);
+    } finally {
+      // close the connections to the databases
+      try {
+        logger.debug("Closing connection.");
+        connection.close();
+      } catch ( Exception e2 ) { }
+      try {
+        logger.debug("Closing connection.");
+        serverConnection.close();
+      } catch ( Exception e2 ) { }
     }
-    
-    // close the connections to the databases
-    try { connection.close(); } catch ( Exception e2 ) { }
-    try { serverConnection.close(); } catch ( Exception e2 ) { }
   }
 }

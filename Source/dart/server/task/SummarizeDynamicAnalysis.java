@@ -162,6 +162,7 @@ public class SummarizeDynamicAnalysis implements Task {
       // rethrow
       throw e;
     } finally {
+      logger.debug("Closing connection.");
       connection.close();
     }
 

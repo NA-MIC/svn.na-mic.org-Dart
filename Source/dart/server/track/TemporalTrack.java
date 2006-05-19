@@ -171,6 +171,7 @@ public class TemporalTrack implements Track {
       logger.error ( project.getTitle() + ": Failed to find track", e );
     }
     try {
+      logger.debug("Closing connection.");
       connection.close();
     } catch ( Exception e ) {}
     return trackId;
@@ -217,6 +218,7 @@ public class TemporalTrack implements Track {
       logger.error ( project.getTitle() + ": Error getting placing Submission", e );
     } finally {
       try {
+        logger.debug("Closing connection.");
         connection.close();
       } catch ( Exception e ) {}
     }
