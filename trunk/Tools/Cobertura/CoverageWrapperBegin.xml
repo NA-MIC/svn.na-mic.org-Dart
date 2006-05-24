@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Coverage>
+  <Test>
+    <Name>.Coverage</Name>
+    <Status>passed</Status>
+    <Measurement name="Log" type="archive/zip">

@@ -1,0 +1,23 @@
+<jaxor package="dart.server.wrap">
+    <entity name="users" alias="User">
+        <primary-key autoassign="true">
+            <column name="userid" type="Long" alias="UserId"/>
+        </primary-key>
+        <column name="email" type="String" nullable="true" alias="Email"/>
+        <column name="password" type="String" nullable="true" alias="Password"/>
+        <column name="firstname" type="String" nullable="true" alias="FirstName"/>
+        <column name="lastname" type="String" nullable="true" alias="LastName"/>
+        <column name="active" type="String" nullable="true" alias="Active"/>
+
+        <!-- List of roles for a given user -->
+        <list-ref table="Role"
+          query="select r.* from UserRole ur, Role r where ur.UserId=? and ur.RoleId=r.RoleId" >
+          <key source="UserId" target="Name"/>
+        </list-ref>
+
+        <!-- List of properties for a given user -->
+        <list-ref table="UserProperty">
+          <key source="UserId"/>
+        </list-ref>
+    </entity>
+</jaxor>
