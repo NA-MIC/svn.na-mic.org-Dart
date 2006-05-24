@@ -506,7 +506,7 @@ public class ChartServlet extends HttpServlet {
     }
     finally {
       if ( connection != null ) {
-        try { connection.close(); } catch (Exception e) {};
+        try { project.closeConnection ( connection ); } catch (Exception e) {};
       }
       out.close();
     }

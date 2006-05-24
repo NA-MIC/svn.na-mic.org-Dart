@@ -197,7 +197,7 @@ public class User extends HttpServlet {
       }
 
       // do the necessary clean up
-      try { connection.close(); } catch (Exception e) {}
+      try { server.closeConnection ( connection ); } catch (Exception e) {}
       
       // redirect to the User Login page.
       res.sendRedirect( req.getHeader("Referer") );
@@ -220,7 +220,7 @@ public class User extends HttpServlet {
       template.process ( root, out );
     } catch ( Exception e ) {
     } finally {
-      try { connection.close(); } catch ( Exception e ) { }
+      try { server.closeConnection ( connection ); } catch ( Exception e ) { }
     }
     out.close();
   }
@@ -327,7 +327,7 @@ public class User extends HttpServlet {
             }
             
             // close the connection to the database
-            try { connection.close(); } catch (Exception e) {}
+            try { server.closeConnection ( connection ); } catch (Exception e) {}
                         
             // redirect to the user page
             res.sendRedirect( req.getContextPath()
@@ -506,7 +506,7 @@ public class User extends HttpServlet {
         
       }
 
-      try { connection.close(); } catch (Exception e) {}
+      try { server.closeConnection ( connection ); } catch (Exception e) {}
 
     } else if (parameters.get("UpdateUser") != null) {
       // Modify a user
@@ -630,7 +630,7 @@ public class User extends HttpServlet {
         }
       }        
 
-      try { connection.close(); } catch (Exception e) {}
+      try { server.closeConnection ( connection ); } catch (Exception e) {}
       
     } else if (parameters.get("AddRepositoryId") != null) {
       // Modify a user
@@ -672,7 +672,7 @@ public class User extends HttpServlet {
       }
       
       // close the connection to the database
-      try { connection.close(); } catch (Exception e) {}
+      try { server.closeConnection ( connection ); } catch (Exception e) {}
       
       // redirect to the User page.
       res.sendRedirect( req.getContextPath()
@@ -729,7 +729,7 @@ public class User extends HttpServlet {
       }
       
       // close the connection to the database
-      try { connection.close(); } catch (Exception e) {}
+      try { server.closeConnection ( connection ); } catch (Exception e) {}
       
       // redirect to the User page.
       res.sendRedirect( req.getContextPath()

@@ -209,8 +209,8 @@ public class Admin extends HttpServlet {
     } catch ( Exception e ) {
       logger.error ( "Failed to find template", e );
       error ( out, "Dart Administration", "Dart: Failed to find or parse template: \"" + (String) map.get ( "templateName" ) + "\"", map );
-      try { connection.close(); } catch ( Exception e2 ) { }
-      try { serverConnection.close(); } catch ( Exception e2 ) { }
+      try { project.closeConnection ( connection ); } catch ( Exception e2 ) { }
+      try { project.getServer().closeConnection ( serverConnection ); } catch ( Exception e2 ) { }
       out.close();
       return;
     }
@@ -222,8 +222,8 @@ public class Admin extends HttpServlet {
       template.process ( root, out );
     } catch ( Exception e ) {
     } finally {
-      try { connection.close(); } catch ( Exception e ) { }
-      try { serverConnection.close(); } catch ( Exception e ) { }
+      try { project.closeConnection ( connection ); } catch ( Exception e ) { }
+      try { project.getServer().closeConnection ( serverConnection ); } catch ( Exception e ) { }
     }
     out.close();
   }
@@ -325,8 +325,8 @@ public class Admin extends HttpServlet {
               logger.error("User to notify cannot be located.");
 
               // close the connection to the database
-              try { connection.close(); } catch (Exception e) {}
-              try { serverConnection.close(); } catch (Exception e) {}
+              try { project.closeConnection ( connection ); } catch (Exception e) {}
+              try { project.getServer().closeConnection ( serverConnection ); } catch (Exception e) {}
 
               // redirect
               res.sendRedirect( req.getContextPath()
@@ -353,8 +353,8 @@ public class Admin extends HttpServlet {
           if (propertyList.size() > 0) {
             logger.info("Client property already exists.");
             // close the connection to the database
-            try { connection.close(); } catch (Exception e) {}
-            try { serverConnection.close(); } catch (Exception e) {}
+            try { project.closeConnection ( connection ); } catch ( Exception e ) { }
+            try { project.getServer().closeConnection ( serverConnection ); } catch ( Exception e ) { }
             
             // redirect to the Client page.
             res.sendRedirect( req.getContextPath()
@@ -384,8 +384,8 @@ public class Admin extends HttpServlet {
         }
         
         // close the connection to the database
-        try { connection.close(); } catch (Exception e) {}
-        try { serverConnection.close(); } catch (Exception e) {}
+        try { project.closeConnection ( connection ); } catch ( Exception e ) { }
+        try { project.getServer().closeConnection ( serverConnection ); } catch ( Exception e ) { }
       
         // redirect to the User page.
         res.sendRedirect( req.getContextPath()
@@ -459,8 +459,8 @@ public class Admin extends HttpServlet {
               logger.error("User to notify cannot be located.");
 
               // close the connection to the database
-              try { connection.close(); } catch (Exception e) {}
-              try { serverConnection.close(); } catch (Exception e) {}
+              try { project.closeConnection ( connection ); } catch ( Exception e ) { }
+              try { project.getServer().closeConnection ( serverConnection ); } catch ( Exception e ) { }
 
               // redirect
               res.sendRedirect( req.getContextPath()
@@ -499,8 +499,8 @@ public class Admin extends HttpServlet {
         }
         
         // close the connection to the database
-        try { connection.close(); } catch (Exception e) {}
-        try { serverConnection.close(); } catch (Exception e) {}
+        try { project.closeConnection ( connection ); } catch ( Exception e ) { }
+        try { project.getServer().closeConnection ( serverConnection ); } catch ( Exception e ) { }
       
         // redirect to the User page.
         res.sendRedirect( req.getContextPath()

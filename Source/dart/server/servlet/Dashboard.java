@@ -300,7 +300,7 @@ public class Dashboard extends HttpServlet {
     } catch ( Exception e ) {
       logger.error ( "Failed to find template", e );
       error ( out, "Dart Dashboard", "Dart: Failed to find or parse template: \"" + (String) map.get ( "templateName" ) + "\"", map );
-      try { connection.close(); } catch ( Exception e2 ) { }
+      try { project.closeConnection ( connection ); } catch ( Exception e2 ) { }
       out.close();
       return;
     }
@@ -312,7 +312,7 @@ public class Dashboard extends HttpServlet {
       template.process ( root, out );
     } catch ( Exception e ) {
     } finally {
-      try { connection.close(); } catch ( Exception e ) { }
+      try { project.closeConnection ( connection ); } catch ( Exception e ) { }
     }
     out.close();
   }
