@@ -217,7 +217,7 @@ public class Database {
         c.close();
       } catch ( SQLException sqle ) {
         // got a problem, mark this guy as invalid and re-throw
-        logger.error ( project.getTitle() + ": Something was wrong with this connection, marking it invalid.", sqle );
+        logger.error ( "Something was wrong with this connection, marking it invalid.", sqle );
         connectionPool.invalidateObject ( c );
         throw sqle;
       } finally {
