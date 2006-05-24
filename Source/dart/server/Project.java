@@ -115,7 +115,8 @@ public class Project extends Container {
     } finally {
       try {
         logger.debug("Closing connection.");
-        connection.close();
+        closeConnection ( connection );
+        // connection.close();
       } catch (Exception e) {}
     }
     
@@ -268,7 +269,8 @@ public class Project extends Container {
       logger.debug ( "getDBVersion found Major: " + Major + " Minor: " + Minor + " Patch: " + Patch );
     } finally {
       logger.debug("Closing connection.");
-      connection.close();
+      // connection.close();
+      closeConnection ( connection );
     }
     return new int[] { Major, Minor, Patch };
   }
@@ -311,7 +313,8 @@ public class Project extends Container {
       
     } finally {
       logger.debug("Closing connection.");
-      connection.close();
+      // connection.close();
+      closeConnection ( connection );
     }
     return true;
   }
@@ -567,7 +570,8 @@ public class Project extends Container {
     } finally {
       try {
         logger.debug("Closing connection.");
-        connection.close();
+        // connection.close();
+        closeConnection ( connection );
       } catch ( Exception e ) { }
     }
   }

@@ -68,7 +68,9 @@ public class DeleteTrackTask implements Task {
       logger.error ( project.getTitle() + ": Failed to place delete track", e );
       throw e;
     } finally {
-      try { connection.close(); } catch ( Exception e ) { }
+      try { 
+        project.closeConnection ( connection );
+      } catch ( Exception e ) { }
     }      
   }
 }

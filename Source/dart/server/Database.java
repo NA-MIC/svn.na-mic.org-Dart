@@ -1,7 +1,7 @@
 package dart.server;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
@@ -9,6 +9,9 @@ import org.apache.commons.dbcp.PoolableConnectionFactory;
 import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
+import java.util.*;
+import java.lang.*;
+
 
 /**
  * Database is a utility case to manage the JDBC connection.
@@ -27,8 +30,12 @@ public class Database {
   String password = "Default";
   int maxActive = 10;
   int maxIdle = 3;
+  int currentActive = 0;
   Connection connection = null;
   GenericObjectPool connectionPool = null;
+
+  Map connectionInfo = Collections.synchronizedMap ( new HashMap () );
+
   /**
    * Constructor, does nothing
    */
@@ -161,23 +168,65 @@ public class Database {
    * @return JDBC Connection object
    */
   public Connection getConnection() {
-    try {
-    if ( ( connectionPool.getMaxActive() - connectionPool.getNumActive() ) < 2 ) {
-    logger.warn ( owner.getTitle() 
-                  + ": getConnection Connection pool nearly exhausted  " 
-                  + connectionPool.getNumActive() + " of " 
-                  + connectionPool.getMaxActive() 
-                  + " currently active " );
-    }
-    
-    logger.debug ( owner.getTitle() + ": getConnection " + connectionPool.getNumActive() + " active " + connectionPool.getNumIdle() + " idle " );
-    Connection connection = dataSource.getConnection();
-    logger.debug ( owner.getTitle() + ": got connection" );
-    return connection;
-    } catch ( Exception e ) {
-    logger.error ( owner.getTitle() + ": Failed to get connection", e );
+    synchronized ( this ) {
+      try {
+        if ( ( connectionPool.getMaxActive() - connectionPool.getNumActive() ) < 2 ) {
+          logger.warn ( owner.getTitle() 
+                        + ": getConnection Connection pool nearly exhausted  " 
+                        + connectionPool.getNumActive() + " of " 
+                        + connectionPool.getMaxActive() 
+                        + " currently active " );
+        }
+        
+        logger.debug ( owner.getTitle() + ": getConnection " + connectionPool.getNumActive() + " active " + connectionPool.getNumIdle() + " idle " );
+        Connection connection = dataSource.getConnection();
+        logger.debug ( owner.getTitle() + ": got connection" );
+
+        
+        Throwable t;
+        try {
+          throw new Throwable();
+        } catch ( Throwable tt ) {
+          t = tt;
+        }
+        connectionInfo.put ( connection, t );
+        currentActive++;
+        if ( currentActive != connectionPool.getNumActive() ) {
+          // logger.debug ( "getConnection: Dart's count: " + currentActive + " Pool count: " + connectionPool.getNumActive() );
+          logger.error ( "getConnection: Dart's count: " + currentActive + " Pool count: " + connectionPool.getNumActive() + "\n" + this.toString() );
+        }
+        
+        return connection;
+      } catch ( Exception e ) {
+        logger.error ( owner.getTitle() + ": Failed to get connection", e );
+      }
     }
     return null;
+  }
+
+  public void closeConnection ( Connection c ) throws Exception {
+    synchronized ( this ) {
+      Throwable t = null;
+      if ( !connectionInfo.containsKey ( c ) ) {
+        logger.error ( "Do not have connection info for connection!!!" );
+      } else {
+        t = (Throwable) connectionInfo.get ( c );
+        connectionInfo.remove ( c );
+      }
+      try {
+        c.close();
+      } catch ( SQLException sqle ) {
+        // got a problem, mark this guy as invalid and re-throw
+        logger.error ( project.getTitle() + ": Something was wrong with this connection, marking it invalid.", sqle );
+        connectionPool.invalidateObject ( c );
+        throw sqle;
+      } finally {
+        currentActive--;
+        if ( currentActive != connectionPool.getNumActive() ) {
+          logger.error ( "closeConnection: Dart's count: " + currentActive + " Pool count: " + connectionPool.getNumActive() + "\n" + this.toString() );
+        }
+      }
+    }
   }
 
   /**
@@ -185,11 +234,29 @@ public class Database {
    * @return String representation of this object
    */
   public String toString () {
-    StringBuffer buffer = new StringBuffer();
-    if ( connectionPool != null ) {
-      buffer.append ( "Database: " + connectionPool.getNumActive() + " active " + connectionPool.getNumIdle() + " idle " );
+    synchronized ( this ) {
+      StringBuffer buffer = new StringBuffer();
+      if ( connectionPool != null ) {
+        buffer.append ( "Database: " + connectionPool.getNumActive() + " active " + connectionPool.getNumIdle() + " idle Dart's Count: " + currentActive + "\n" );
+      }
+      Iterator it = connectionInfo.keySet().iterator();
+      while ( it.hasNext () ) {
+        Object o = it.next();
+        
+        Throwable t = (Throwable) connectionInfo.get ( o );
+        if ( t == null ) { continue; }
+        StackTraceElement[] stacks = t.getStackTrace();
+        buffer.append ( "Got connection: " + o + "\n" );
+        
+        if ( stacks != null ) {
+          for ( int l = 2; l < 5; l++ ) {
+            buffer.append ( "\t" + stacks[l].toString() + "\n");
+          }
+          buffer.append ( "\n" );
+        }
+      }
+      return buffer.toString();
     }
-    return buffer.toString();
   }
 }
 

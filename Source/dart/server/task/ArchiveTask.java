@@ -344,7 +344,7 @@ public class ArchiveTask implements Task {
       throw e;
     } finally {
       logger.debug("Closing connection.");
-      connection.close();
+      project.closeConnection ( connection );
     }
   }
   

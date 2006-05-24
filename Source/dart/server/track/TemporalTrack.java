@@ -172,7 +172,8 @@ public class TemporalTrack implements Track {
     }
     try {
       logger.debug("Closing connection.");
-      connection.close();
+      // connection.close();
+      project.closeConnection ( connection );
     } catch ( Exception e ) {}
     return trackId;
   }
@@ -219,7 +220,8 @@ public class TemporalTrack implements Track {
     } finally {
       try {
         logger.debug("Closing connection.");
-        connection.close();
+        // connection.close();
+        project.closeConnection ( connection );
       } catch ( Exception e ) {}
     }
     return true;

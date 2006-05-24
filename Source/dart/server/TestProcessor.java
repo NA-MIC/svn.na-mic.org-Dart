@@ -424,7 +424,7 @@ public class TestProcessor {
     } finally {
       try {
         logger.info("Closing connection.");
-        connection.close();
+        project.closeConnection ( connection );
       } catch ( Exception e ) { }
     }
   }

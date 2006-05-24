@@ -83,7 +83,8 @@ public class QueueManager implements Task {
     catch (Exception e) {}
     finally {
       logger.debug("Closing connection.");
-      connection.close();
+      // connection.close();
+      project.closeConnection ( connection );
     }
   }
 }

@@ -155,6 +155,7 @@ public class Container {
    * @return A JDBC Connection object
    */
   public Connection getConnection() { return database.getConnection(); }
+  public void closeConnection(Connection c ) throws Exception { database.closeConnection ( c ); }
 
   /**
    * Get the webserver associated with this Container
@@ -226,7 +227,8 @@ public class Container {
     } finally {
       try {
         logger.debug("Closing connection.");
-        connection.close();
+        // connection.close();
+        closeConnection ( connection );
       } catch ( Exception e ) { }
     }
   }

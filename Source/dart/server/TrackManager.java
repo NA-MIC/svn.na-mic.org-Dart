@@ -126,8 +126,9 @@ public class TrackManager {
     } finally { 
       try {
         logger.debug("Closing connection.");
-        connection.close(); }
-      catch ( Exception ex ) {}
+        project.closeConnection ( connection );
+        // connection.close(); 
+      } catch ( Exception ex ) {}
     }
   }
 
@@ -170,7 +171,10 @@ public class TrackManager {
     } catch ( Exception e ) {
       logger.error ( "Failed to link valid Tracks ", e );
     } finally { 
-      try { connection.close(); } catch ( Exception ex ) {}
+      try { 
+        // connection.close();
+        project.closeConnection ( connection );
+      } catch ( Exception ex ) {}
     }
   }
 

@@ -7,7 +7,7 @@
   <property name="dist.dir" value="${java.io.tmpdir}/${user.name}/Dart"/>
   <property name="major" value="1"/>
   <property name="minor" value="0"/>
-  <property name="patch" value="0"/>
+  <property name="patch" value="2"/>
   <property name="version" value="${major}.${minor}.${patch}"/>
 
 

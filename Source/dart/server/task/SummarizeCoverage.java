@@ -103,7 +103,8 @@ public class SummarizeCoverage implements Task {
       throw e;
     } finally {
       logger.debug("Closing connection.");
-      connection.close();
+      project.closeConnection ( connection );
+      // connection.close();
     }
 
   }      

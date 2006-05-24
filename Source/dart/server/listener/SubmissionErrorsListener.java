@@ -202,11 +202,13 @@ public class SubmissionErrorsListener extends Listener {
       // close the connection to the database
       try {
         logger.debug("Closing connection.");
-        connection.close();
+        // connection.close();
+        project.closeConnection ( connection );
       } catch (Exception e) {}
       try {
         logger.debug("Closing connection.");
-        serverConnection.close();
+        // serverConnection.close();
+        project.getServer().closeConnection ( serverConnection );
       } catch (Exception e) {}
     }
   }
