@@ -23,26 +23,26 @@ public class QueueManager implements Task {
     
     maxTasks = Integer.parseInt ( properties.getProperty ( "MaxTasks", "-1" ) );
 
-    Connection connection = project.getConnection();
-    JaxorContextImpl session = new JaxorContextImpl ( connection );
-    TaskQueueFinderBase finder = new TaskQueueFinderBase ( session );
-    CompletedTaskFinderBase completedTaskFinder = new CompletedTaskFinderBase ( session );
-    QueryParams q = new QueryParams();
-    q.add ( minPriority );
-    q.add ( maxPriority );
-    try {
-      while ( true ) {
+    while ( true ) {
+      if ( tasks >= maxTasks && maxTasks != -1 ) {
+        logger.debug ( project.getTitle() + ": Reached maximum tasks" ); 
+        break;
+      }
+      tasks++;
+      Connection connection = project.getConnection();
+      JaxorContextImpl session = new JaxorContextImpl ( connection );
+      TaskQueueFinderBase finder = new TaskQueueFinderBase ( session );
+      CompletedTaskFinderBase completedTaskFinder = new CompletedTaskFinderBase ( session );
+      QueryParams q = new QueryParams();
+      q.add ( minPriority );
+      q.add ( maxPriority );
+      try {
         TaskQueueList list = finder.find ( "where priority >= ? and priority <= ? order by priority, taskid", q );
         TaskQueueIterator i = list.iterator();
         if ( !i.hasNext() ) {
           logger.debug ( project.getTitle() + ": TaskQueue is empty" );
           break;
         }
-        if ( tasks >= maxTasks && maxTasks != -1 ) {
-          logger.debug ( project.getTitle() + ": Reached maximum tasks" ); 
-          break;
-        }
-        tasks++;
         logger.debug ( project.getTitle() + ": Processing task " + tasks + ", remaining tasks " + list.size() );
         String Status = "completed";
         String Result = "";
@@ -77,14 +77,16 @@ public class QueueManager implements Task {
           }
           task.delete();
           session.commit();
+          logger.info ( project.getTitle() + ": Processed task " + tasks + " " + task.getType() + ": " + Status );
+
         }
       }
-    }
-    catch (Exception e) {}
-    finally {
-      logger.debug("Closing connection.");
-      // connection.close();
-      project.closeConnection ( connection );
+      catch (Exception e) {}
+      finally {
+        logger.debug("Closing connection.");
+        // connection.close();
+        project.closeConnection ( connection );
+      }
     }
   }
 }

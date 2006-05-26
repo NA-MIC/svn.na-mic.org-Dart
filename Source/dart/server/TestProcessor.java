@@ -220,7 +220,7 @@ public class TestProcessor {
   public void processTestProxy ( TestProxy proxy ) {
 
     if ( testsProcessed > maxTests ) {
-      logger.info ( project.getTitle() + ": Reached maximum tests: " + maxTests );
+      logger.debug ( project.getTitle() + ": Reached maximum tests: " + maxTests );
       return;
     }
     testsProcessed++;
@@ -423,7 +423,7 @@ public class TestProcessor {
       logger.error ( "Failed to process Test", e );
     } finally {
       try {
-        logger.info("Closing connection.");
+        logger.debug("Closing connection.");
         project.closeConnection ( connection );
       } catch ( Exception e ) { }
     }
