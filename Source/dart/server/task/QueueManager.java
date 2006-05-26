@@ -22,6 +22,7 @@ public class QueueManager implements Task {
     int maxTasks = -1, tasks = 0, minPriority = 0, maxPriority = 100;
     
     maxTasks = Integer.parseInt ( properties.getProperty ( "MaxTasks", "-1" ) );
+    logger.info ( project.getTitle() + ": Starting to process tasks, MaxTasks is " + maxTasks );
 
     while ( true ) {
       if ( tasks >= maxTasks && maxTasks != -1 ) {
@@ -88,5 +89,6 @@ public class QueueManager implements Task {
         project.closeConnection ( connection );
       }
     }
+    logger.info ( project.getTitle() + ": Finished processing tasks" );
   }
 }
