@@ -59,7 +59,7 @@ public class QueueManager implements Task {
           record = Boolean.valueOf ( subTaskProperties.getProperty ( "RecordCompletedTask", "true" ) ).booleanValue();
           // Try to find the object
           Task subtask = (Task) Class.forName ( task.getType() ).newInstance();
-          // logger.debug ( project.getTitle() + ": Executing" );
+          logger.info ( project.getTitle() + ": Starting to execute task " + tasks + " " + task.getType() );
           subtask.execute ( project, subTaskProperties );
           logger.debug ( project.getTitle() + ": Task completed" );
         } catch ( Exception e ) {

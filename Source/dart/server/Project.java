@@ -546,18 +546,21 @@ public class Project extends Container {
       properties.store ( out, null );
       propString = out.toString().split ( "\n", 2 )[1];
 
-      // See if this task is alread there, if so, just return...
       JaxorContextImpl session = new JaxorContextImpl ( connection );
       TaskQueueFinderBase finder = new TaskQueueFinderBase ( session );
 
+      /*
+      // See if this task is alread there, if so, just return...
       QueryParams params = new QueryParams();
       params.add ( new Integer ( priority ) );
       params.add ( TaskType );
       params.add ( propString );
-      TaskQueueEntity task;
       if ( finder.asQuery ( "select * from taskqueue where Priority=? and Type=? and Properties=?", params ).list().size() != 0 ) {
         return;
       }
+      */
+
+      TaskQueueEntity task;
       task = finder.newInstance();
       task.setPriority ( new Integer ( priority ) );
       task.setType ( TaskType );
