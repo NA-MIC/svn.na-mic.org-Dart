@@ -24,27 +24,25 @@ public class QueueManager implements Task {
     maxTasks = Integer.parseInt ( properties.getProperty ( "MaxTasks", "-1" ) );
     logger.info ( project.getTitle() + ": Starting to process tasks, MaxTasks is " + maxTasks );
 
-    while ( true ) {
-      if ( tasks >= maxTasks && maxTasks != -1 ) {
-        logger.debug ( project.getTitle() + ": Reached maximum tasks" ); 
-        break;
-      }
-      tasks++;
-      Connection connection = project.getConnection();
+    Connection connection = project.getConnection();
+    try {
       JaxorContextImpl session = new JaxorContextImpl ( connection );
       TaskQueueFinderBase finder = new TaskQueueFinderBase ( session );
       CompletedTaskFinderBase completedTaskFinder = new CompletedTaskFinderBase ( session );
       QueryParams q = new QueryParams();
       q.add ( minPriority );
       q.add ( maxPriority );
-      try {
-        TaskQueueList list = finder.find ( "where priority >= ? and priority <= ? order by priority, taskid", q );
-        TaskQueueIterator i = list.iterator();
-        if ( !i.hasNext() ) {
-          logger.debug ( project.getTitle() + ": TaskQueue is empty" );
+      logger.info ( project.getTitle() + ": Finding tasks" );
+      TaskQueueList list = finder.find ( "where priority >= ? and priority <= ? order by priority, taskid", q );
+      TaskQueueIterator i = list.iterator();
+      logger.info ( project.getTitle() + ": Found tasks" );
+      while ( i.hasNext() ) {
+        if ( tasks >= maxTasks && maxTasks != -1 ) {
+          logger.debug ( project.getTitle() + ": Reached maximum tasks" ); 
           break;
         }
-        logger.debug ( project.getTitle() + ": Processing task " + tasks + ", remaining tasks " + list.size() );
+        tasks++;
+        // logger.debug ( project.getTitle() + ": Processing task " + tasks + ", remaining tasks " + list.size() );
         String Status = "completed";
         String Result = "";
 
@@ -56,7 +54,7 @@ public class QueueManager implements Task {
         try {
           subTaskProperties = new Properties();
           subTaskProperties.load ( new ByteArrayInputStream ( task.getProperties().getBytes() ) );
-          record = Boolean.valueOf ( subTaskProperties.getProperty ( "RecordCompletedTask", "true" ) ).booleanValue();
+          record = Boolean.valueOf ( subTaskProperties.getProperty ( "RecordCompletedTask", "false" ) ).booleanValue();
           // Try to find the object
           Task subtask = (Task) Class.forName ( task.getType() ).newInstance();
           logger.info ( project.getTitle() + ": Starting to execute task " + tasks + " " + task.getType() );
@@ -79,15 +77,15 @@ public class QueueManager implements Task {
           task.delete();
           session.commit();
           logger.info ( project.getTitle() + ": Processed task " + tasks + " " + task.getType() + ": " + Status );
-
+            
         }
       }
-      catch (Exception e) {}
-      finally {
-        logger.debug("Closing connection.");
-        // connection.close();
-        project.closeConnection ( connection );
-      }
+    }
+    catch (Exception e) {}
+    finally {
+      logger.debug("Closing connection.");
+      // connection.close();
+      project.closeConnection ( connection );
     }
     logger.info ( project.getTitle() + ": Finished processing tasks" );
   }
