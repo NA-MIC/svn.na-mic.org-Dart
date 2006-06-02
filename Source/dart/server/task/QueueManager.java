@@ -65,6 +65,8 @@ public class QueueManager implements Task {
           logger.error ( project.getTitle() + ": Failed to create or execute queued task", e );
           Status = "failed";
           Result = e.toString();
+          // Bomb out
+          throw e;
         } finally {
           if ( record ) {
             CompletedTaskEntity CompletedTask = completedTaskFinder.newInstance( task.getTaskId() );
