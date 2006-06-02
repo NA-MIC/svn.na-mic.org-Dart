@@ -1,0 +1,2662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-g++-3.3-Python" BuildStamp="20050107-0500-Nightly" Name="zion.kitware" Generator="ctest">
+<Build>
+	<StartDateTime>Fri Jan 07 03:03:46 EST 2005</StartDateTime>
+<BuildCommand>/usr/bin/make -i -j2</BuildCommand>
+	<Error>
+		<BuildLogLine>1344</BuildLogLine>
+		<Text>/.../Insight/Wrapping/CSwig/Common/itkPyBuffer.txx:32: error: `
+</Text>
+		<PreContext>Building object file itkStringStream.o...
+/.../Insight/Wrapping/CSwig/Common/itkPyBuffer.txx: In constructor 
+   `itk::PyBuffer&lt;TImage&gt;::PyBuffer() [with TImage = itk::Image&lt;unsigned char, 
+   3&gt;]':
+/.../Insight/Wrapping/CSwig/Common/itkPyBuffer.h:57:   instantiated from `static itk::SmartPointer&lt;itk::PyBuffer&lt;TImage&gt; &gt; itk::PyBuffer&lt;TImage&gt;::New() [with TImage = itk::Image&lt;unsigned char, 3&gt;]'
+/.../ITKGcc3.3Python/Wrapping/CSwig/Common/wrap_itkPyBufferPython.cxx:1192:   instantiated from here
+</PreContext>
+		<PostContext>   import_libnumarray' undeclared (first use this function)Building shared module /.../ITKGcc3.3Python/bin/_ITKCommonPython.so...
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Error>
+
+
+	<Error>
+		<BuildLogLine>1347</BuildLogLine>
+		<Text>/.../Insight/Wrapping/CSwig/Common/itkPyBuffer.txx:32: error: (Each 
+</Text>
+		<PreContext>   import_libnumarray' undeclared (first use this function)Building shared module /.../ITKGcc3.3Python/bin/_ITKCommonPython.so...
+
+</PreContext>
+		<PostContext>   undeclared identifier is reported only once for each function it appears 
+   in.)
+/.../ITKGcc3.3Python/Wrapping/CSwig/Numerics: building default_target
+Building dependencies. cmake.depends...
+Building wrap_ITKCostFunctions.xml from  /.../ITKGcc3.3Python/Wrapping/CSwig/Numerics/wrap_ITKCostFunctions.xml...
+Building wrap_ITKOptimizers.xml from  /.../ITKGcc3.3Python/Wrapping/CSwig/Numerics/wrap_ITKOptimizers.xml...
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Error>
+
+
+	<Warning>
+		<BuildLogLine>1432</BuildLogLine>
+		<Text>Warning itk::UnaryFunctorImageFilter&lt;itk::Image&lt;unsigned int, 2&gt;,itk::Image&lt;float, 2&gt;,itk::Functor::Cast&lt;unsigned int, float&gt; &gt;
+</Text>
+		<PreContext>Building wrap_itkBinaryThresholdImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersA/wrap_itkBinaryThresholdImageFilterPython.cxx...
+Building wrap_itkBinaryDilateImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersA/wrap_itkBinaryDilateImageFilterPython.cxx...
+Building wrap_itkBinaryErodeImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersA/wrap_itkBinaryErodeImageFilterPython.cxx...
+Building wrap_itkCannyEdgeDetectionImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersA/wrap_itkCannyEdgeDetectionImageFilterPython.cxx...
+Building wrap_itkCastImageFilter_2DPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersA/wrap_itkCastImageFilter_2DPython.cxx...
+Building wrap_itkCastImageFilter_3DPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersA/wrap_itkCastImageFilter_3DPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned int,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned int,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1442</BuildLogLine>
+		<Text>Warning itk::UnaryFunctorImageFilter&lt;itk::Image&lt;unsigned int, 3&gt;,itk::Image&lt;float, 3&gt;,itk::Functor::Cast&lt;unsigned int, float&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned int,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned int,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned int,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1578</BuildLogLine>
+		<Text>Warning itk::ExpImageFilter&lt;itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;short unsigned int, 3&gt; &gt;
+</Text>
+		<PreContext>Building wrap_itkThresholdImageFilter.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkThresholdImageFilter.idx...
+Building wrap_itkVTKImageExport.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkVTKImageExport.idx...
+Building wrap_itkVTKImageImport.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkVTKImageImport.idx...
+Building wrap_ITKBasicFiltersBPython.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_ITKBasicFiltersBPython.idx...
+Building wrap_itkExpImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkExpImageFilterPython.cxx...
+Building wrap_itkExpNegativeImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkExpNegativeImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;,itk::Function::Exp&lt;(unsigned short,unsigned short)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1589</BuildLogLine>
+		<Text>Warning itk::ExpImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;,itk::Function::Exp&lt;(float,float)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1600</BuildLogLine>
+		<Text>Warning itk::ExpImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;,itk::Function::Exp&lt;(float,float)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1611</BuildLogLine>
+		<Text>Warning itk::ExpImageFilter&lt;itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;short unsignedWarning itk::ExpNegativeImageFilter&lt;itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;short unsigned int, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;,itk::Function::ExpNegative&lt;(unsigned short,unsigned short)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1622</BuildLogLine>
+		<Text>Warning itk::ExpNegativeImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;,itk::Function::ExpNegative&lt;(float,float)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1644</BuildLogLine>
+		<Text>Warning itk::ExpNegativeImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::LightObject
+
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;,itk::Function::ExpNegative&lt;(float,float)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1655</BuildLogLine>
+		<Text>Warning itk::ExpNegativeImageFilter&lt;itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;short unsigned int, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(unsigned short,2)&gt;,itk::Function::ExpNegative&lt;(unsigned short,unsigned short)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(unsigned short,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(unsigned short,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1668</BuildLogLine>
+		<Text>Warning itk::ImageToImageFilter&lt;itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkGradientMagnitudeRecursiveGaussianImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkGradientMagnitudeRecursiveGaussianImageFilterPython.cxx...
+Building wrap_itkGradientRecursiveGaussianImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkGradientRecursiveGaussianImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1676</BuildLogLine>
+		<Text>Warning itk::ImageToImageFilter&lt;itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1684</BuildLogLine>
+		<Text>Warning itk::ImageToImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1692</BuildLogLine>
+		<Text>Warning itk::ImageToImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1700</BuildLogLine>
+		<Text>Warning itk::GradientRecursiveGaussianImageFilter&lt;itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1709</BuildLogLine>
+		<Text>Warning itk::GradientRecursiveGaussianImageFilter&lt;itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1718</BuildLogLine>
+		<Text>Warning itk::GradientRecursiveGaussianImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1727</BuildLogLine>
+		<Text>Warning itk::GradientRecursiveGaussianImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;itk::CovariantVector&lt;double, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::CovariantVector&lt;(double,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1749</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;int, 3&gt;,itk::Image&lt;int, 3&gt; &gt;
+</Text>
+		<PreContext>Building wrap_itkRecursiveSeparableImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkRecursiveSeparableImageFilterPython.cxx...
+Building wrap_itkRegionOfInterestImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkRegionOfInterestImageFilterPython.cxx...
+Building wrap_itkResampleImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkResampleImageFilterPython.cxx...
+Building wrap_itkRescaleIntensityImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkRescaleIntensityImageFilterPython.cxx...
+Building wrap_itkShiftScaleImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkShiftScaleImageFilterPython.cxx...
+Building wrap_itkSigmoidImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkSigmoidImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(int,3)&gt;,itk::Image&lt;(int,3)&gt;,itk::Function::Sigmoid&lt;(int,int)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(int,3)&gt;,itk::Image&lt;(int,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(int,3)&gt;,itk::Image&lt;(int,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(int,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1760</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;unsigned int, 2&gt;,itk::Image&lt;unsigned int, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(int,3)&gt;,itk::Image&lt;(int,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(int,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned int,2)&gt;,itk::Image&lt;(unsigned int,2)&gt;,itk::Function::Sigmoid&lt;(unsigned int,unsigned int)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned int,2)&gt;,itk::Image&lt;(unsigned int,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned int,2)&gt;,itk::Image&lt;(unsigned int,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned int,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1771</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;short unsigned int, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned int,2)&gt;,itk::Image&lt;(unsigned int,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned int,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(unsigned short,2)&gt;,itk::Function::Sigmoid&lt;(unsigned short,unsigned short)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(unsigned short,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(unsigned short,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1782</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;short int, 2&gt;,itk::Image&lt;short int, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,2)&gt;,itk::Image&lt;(unsigned short,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(short int,2)&gt;,itk::Image&lt;(short int,2)&gt;,itk::Function::Sigmoid&lt;(short int,short int)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(short int,2)&gt;,itk::Image&lt;(short int,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(short int,2)&gt;,itk::Image&lt;(short int,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(short int,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1793</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;signed char, 2&gt;,itk::Image&lt;signed char, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(short int,2)&gt;,itk::Image&lt;(short int,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(short int,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(signed char,2)&gt;,itk::Image&lt;(signed char,2)&gt;,itk::Function::Sigmoid&lt;(signed char,signed char)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(signed char,2)&gt;,itk::Image&lt;(signed char,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(signed char,2)&gt;,itk::Image&lt;(signed char,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(signed char,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1804</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;short int, 3&gt;,itk::Image&lt;short int, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(signed char,2)&gt;,itk::Image&lt;(signed char,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(signed char,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(short int,3)&gt;,itk::Image&lt;(short int,3)&gt;,itk::Function::Sigmoid&lt;(short int,short int)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(short int,3)&gt;,itk::Image&lt;(short int,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(short int,3)&gt;,itk::Image&lt;(short int,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(short int,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1815</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;unsigned char, 2&gt;,itk::Image&lt;unsigned char, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(short int,3)&gt;,itk::Image&lt;(short int,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(short int,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned char,2)&gt;,itk::Image&lt;(unsigned char,2)&gt;,itk::Function::Sigmoid&lt;(unsigned char,unsigned char)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned char,2)&gt;,itk::Image&lt;(unsigned char,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned char,2)&gt;,itk::Image&lt;(unsigned char,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned char,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1826</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;double, 2&gt;,itk::Image&lt;double, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned char,2)&gt;,itk::Image&lt;(unsigned char,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned char,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(double,2)&gt;,itk::Image&lt;(double,2)&gt;,itk::Function::Sigmoid&lt;(double,double)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(double,2)&gt;,itk::Image&lt;(double,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,2)&gt;,itk::Image&lt;(double,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(double,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1837</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,2)&gt;,itk::Image&lt;(double,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(double,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;,itk::Function::Sigmoid&lt;(float,float)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1848</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;signed char, 3&gt;,itk::Image&lt;signed char, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(signed char,3)&gt;,itk::Image&lt;(signed char,3)&gt;,itk::Function::Sigmoid&lt;(signed char,signed char)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(signed char,3)&gt;,itk::Image&lt;(signed char,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(signed char,3)&gt;,itk::Image&lt;(signed char,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(signed char,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1859</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;unsigned int, 3&gt;,itk::Image&lt;unsigned int, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(signed char,3)&gt;,itk::Image&lt;(signed char,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(signed char,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned int,3)&gt;,itk::Image&lt;(unsigned int,3)&gt;,itk::Function::Sigmoid&lt;(unsigned int,unsigned int)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned int,3)&gt;,itk::Image&lt;(unsigned int,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned int,3)&gt;,itk::Image&lt;(unsigned int,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned int,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1870</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;short unsigned int, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned int,3)&gt;,itk::Image&lt;(unsigned int,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned int,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;,itk::Function::Sigmoid&lt;(unsigned short,unsigned short)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1881</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;unsigned char, 3&gt;,itk::Image&lt;unsigned char, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned short,3)&gt;,itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned short,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(unsigned char,3)&gt;,itk::Image&lt;(unsigned char,3)&gt;,itk::Function::Sigmoid&lt;(unsigned char,unsigned char)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(unsigned char,3)&gt;,itk::Image&lt;(unsigned char,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned char,3)&gt;,itk::Image&lt;(unsigned char,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned char,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1892</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;double, 3&gt;,itk::Image&lt;double, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned char,3)&gt;,itk::Image&lt;(unsigned char,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned char,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(double,3)&gt;,itk::Image&lt;(double,3)&gt;,itk::Function::Sigmoid&lt;(double,double)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(double,3)&gt;,itk::Image&lt;(double,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,3)&gt;,itk::Image&lt;(double,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(double,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1903</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,3)&gt;,itk::Image&lt;(double,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(double,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;,itk::Function::Sigmoid&lt;(float,float)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1914</BuildLogLine>
+		<Text>Warning itk::SigmoidImageFilter&lt;itk::Image&lt;int, 2&gt;,itk::Image&lt;int, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::UnaryFunctorImageFilter&lt;(itk::Image&lt;(int,2)&gt;,itk::Image&lt;(int,2)&gt;,itk::Function::Sigmoid&lt;(int,int)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(int,2)&gt;,itk::Image&lt;(int,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(int,2)&gt;,itk::Image&lt;(int,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(int,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1929</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;long unsigned int, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::LightObject
+
+Building wrap_itkSmoothingRecursiveGaussianImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkSmoothingRecursiveGaussianImageFilterPython.cxx...
+Building wrap_itkStatisticsImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkStatisticsImageFilterPython.cxx...
+Building wrap_itkThresholdImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkThresholdImageFilterPython.cxx...
+Building wrap_itkVTKImageExportPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/BasicFiltersB/wrap_itkVTKImageExportPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1937</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;long unsigned int, 2&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1945</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;short unsigned int, 2&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1953</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;unsigned char, 2&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1961</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;short unsigned int, 3&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1969</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1977</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;unsigned char, 3&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>1985</BuildLogLine>
+		<Text>Warning itk::VTKImageExport&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VTKImageExportBase
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2063</BuildLogLine>
+		<Text>Warning itk::DicomImageIOFactory
+</Text>
+		<PreContext>Building wrap_itkImageFileWriter_3D.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/IO/wrap_itkImageFileWriter_3D.idx...
+Building wrap_itkImageSeriesReader.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/IO/wrap_itkImageSeriesReader.idx...
+Building wrap_itkImageSeriesWriter.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/IO/wrap_itkImageSeriesWriter.idx...
+Building wrap_ITKIOPython.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/IO/wrap_ITKIOPython.idx...
+Building wrap_IOBasePython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/IO/wrap_IOBasePython.cxx...
+Building wrap_itkImageFileReader_2DPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/IO/wrap_itkImageFileReader_2DPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ObjectFactoryBase
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2070</BuildLogLine>
+		<Text>Warning itk::MetaImageIOFactory
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ObjectFactoryBase
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ObjectFactoryBase
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2077</BuildLogLine>
+		<Text>Warning itk::PNGImageIOFactory
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ObjectFactoryBase
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ObjectFactoryBase
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2160</BuildLogLine>
+		<Text>Warning itk::InPlaceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>Building wrap_itkNarrowBandCurvesLevelSetImageFilter.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkNarrowBandCurvesLevelSetImageFilter.idx...
+Building wrap_itkVoronoiSegmentationImageFilter.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkVoronoiSegmentationImageFilter.idx...
+Building wrap_itkWatershedImageFilter.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkWatershedImageFilter.idx...
+Building wrap_ITKAlgorithmsPython.idx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_ITKAlgorithmsPython.idx...
+Building wrap_itkCurvatureFlowImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkCurvatureFlowImageFilterPython.cxx...
+Building wrap_itkDemonsRegistrationFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkDemonsRegistrationFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2169</BuildLogLine>
+		<Text>Warning itk::FiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2179</BuildLogLine>
+		<Text>Warning itk::DenseFiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2190</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2202</BuildLogLine>
+		<Text>Warning itk::FiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2212</BuildLogLine>
+		<Text>Warning itk::DenseFiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2223</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2235</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2247</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2262</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkHistogramMatchingImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkHistogramMatchingImageFilterPython.cxx...
+Building wrap_itkImageRegistrationMethodPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkImageRegistrationMethodPython.cxx...
+Building wrap_itkImageToImageMetricPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkImageToImageMetricPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2269</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;2&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2276</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2283</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;2&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2292</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkMattesMutualInformationImageToImageMetricPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkMattesMutualInformationImageToImageMetricPython.cxx...
+Building wrap_itkMeanSquaresImageToImageMetricPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkMeanSquaresImageToImageMetricPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2299</BuildLogLine>
+		<Text>Warning itk::SpaWarning itk::SpatialOtialObjectTreeNode&lt;2&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follbows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2313</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2322</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkMinMaxCurvatureFlowImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkMinMaxCurvatureFlowImageFilterPython.cxx...
+Building wrap_itkMutualInformationImageToImageMetricPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkMutualInformationImageToImageMetricPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2329</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;2&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2338</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkMultiResolutionImageRegistrationMethodPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkMultiResolutionImageRegistrationMethodPython.cxx...
+Building wrap_itkNormalizedCorrelationImageToImageMetricPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkNormalizedCorrelationImageToImageMetricPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2345</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;2&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2352</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2359</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;2&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2368</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;3&gt;
+</Text>
+		<PreContext>Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkOtsuThresholdImageCalculatorPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkOtsuThresholdImageCalculatorPython.cxx...
+Building wrap_itkMeanReciprocalSquareDifferenceImageToImageMetricPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkMeanReciprocalSquareDifferenceImageToImageMetricPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2375</BuildLogLine>
+		<Text>Warning itk::SpatialObjectTreeNode&lt;2&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(3)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2384</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,float&gt;
+</Text>
+		<PreContext>Not wrapped: itk::TreeNode&lt;(itk::SpatialObject&lt;(2)&gt;*)&gt;
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkRecursiveMultiResolutionPyramidImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkRecursiveMultiResolutionPyramidImageFilterPython.cxx...
+Building wrap_itkThresholdSegmentationLevelSetImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkThresholdSegmentationLevelSetImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2396</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,float&gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2408</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2414</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2421</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2427</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2435</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,float&gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+Building wrap_itkGeodesicActiveContourLevelSetImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkGeodesicActiveContourLevelSetImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2447</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,float&gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2459</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2465</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2472</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2478</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2486</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+Building wrap_itkShapeDetectionLevelSetImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkShapeDetectionLevelSetImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2492</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2499</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2505</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2512</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,float&gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2524</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,float&gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2537</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,float&gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkCurvesLevelSetImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkCurvesLevelSetImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2549</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,float&gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::SparseFieldLevelSetImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2561</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2567</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2574</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2580</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2589</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+Building wrap_itkNarrowBandLevelSetImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkNarrowBandLevelSetImageFilterPython.cxx...
+Building wrap_itkPDEDeformableRegistrationFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkPDEDeformableRegistrationFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2595</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2602</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2608</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2615</BuildLogLine>
+		<Text>Warning itk::NarrowBandLevelSetImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,float,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::NarrowBandImageFilterBase&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2627</BuildLogLine>
+		<Text>Warning itk::NarrowBandLevelSetImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,float,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::NarrowBandImageFilterBase&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2639</BuildLogLine>
+		<Text>Warning itk::InPlaceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2648</BuildLogLine>
+		<Text>Warning itk::FiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2658</BuildLogLine>
+		<Text>Warning itk::DenseFiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2669</BuildLogLine>
+		<Text>Warning itk::FiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2679</BuildLogLine>
+		<Text>Warning itk::DenseFiniteDifferenceImageFilter&lt;itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2690</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;short unsigned int, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2702</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;short unsigned int, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2714</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,itk::Image&lt;itk::Vector&lt;float, 3&gt;, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2726</BuildLogLine>
+		<Text>Warning itk::PDEDeformableRegistrationFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,itk::Image&lt;itk::Vector&lt;float, 2&gt;, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;,itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,3)&gt;,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::DenseFiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+Not wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;,itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2739</BuildLogLine>
+		<Text>Warning itk::NarrowBandLevelSetImageFilter&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt;,float,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(itk::Vector&lt;(float,2)&gt;,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+Building wrap_itkNarrowBandCurvesLevelSetImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkNarrowBandCurvesLevelSetImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::NarrowBandImageFilterBase&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2751</BuildLogLine>
+		<Text>Warning itk::NarrowBandLevelSetImageFilter&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt;,float,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::NarrowBandImageFilterBase&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::FiniteDifferenceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::InPlaceImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2763</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2769</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 3&gt;,itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2776</BuildLogLine>
+		<Text>Warning itk::LevelSetFunction&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,3)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2782</BuildLogLine>
+		<Text>Warning itk::SegmentationLevelSetFunction&lt;itk::Image&lt;float, 2&gt;,itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2790</BuildLogLine>
+		<Text>Warning itk::Mesh&lt;double,2,itk::DefaultDynamicMeshTraits&lt;double, 2, 2, double, float, double&gt; &gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::LevelSetFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+Not wrapped: itk::FiniteDifferenceFunction&lt;(itk::Image&lt;(float,2)&gt;)&gt;
+    Wrapped: itk::LightObject
+
+Building wrap_itkVoronoiSegmentationImageFilterPython.cxx from  /.../ITKGcc3.3Python/Wrapping/CSwig/Algorithms/wrap_itkVoronoiSegmentationImageFilterPython.cxx...
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::PointSet&lt;(double,2,itk::DefaultDynamicMeshTraits&lt;(double,2,2,double,float,double)&gt;)&gt;
+    Wrapped: itk::DataObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2798</BuildLogLine>
+		<Text>Warning itk::VoronoiDiagram2D&lt;double&gt;
+</Text>
+		<PreContext>The class hierarchy wrapping is as follows:
+Not wrapped: itk::PointSet&lt;(double,2,itk::DefaultDynamicMeshTraits&lt;(double,2,2,double,float,double)&gt;)&gt;
+    Wrapped: itk::DataObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::Mesh&lt;(double,2,itk::DefaultDynamicMeshTraits&lt;(double,2,2,double,float,double)&gt;)&gt;
+Not wrapped: itk::PointSet&lt;(double,2,itk::DefaultDynamicMeshTraits&lt;(double,2,2,double,float,double)&gt;)&gt;
+    Wrapped: itk::DataObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2807</BuildLogLine>
+		<Text>Warning itk::VoronoiSegmentationImageFilter&lt;itk::Image&lt;unsigned char, 2&gt;,itk::Image&lt;unsigned char, 2&gt;,itk::Image&lt;unsigned char, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::Mesh&lt;(double,2,itk::DefaultDynamicMeshTraits&lt;(double,2,2,double,float,double)&gt;)&gt;
+Not wrapped: itk::PointSet&lt;(double,2,itk::DefaultDynamicMeshTraits&lt;(double,2,2,double,float,double)&gt;)&gt;
+    Wrapped: itk::DataObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::VoronoiSegmentationImageFilterBase&lt;(itk::Image&lt;(unsigned char,2)&gt;,itk::Image&lt;(unsigned char,2)&gt;,itk::Image&lt;(unsigned char,2)&gt;)&gt;
+    Wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(unsigned char,2)&gt;,itk::Image&lt;(unsigned char,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned char,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2842</BuildLogLine>
+		<Text>Warning itk::WatershedImageFilter&lt;itk::Image&lt;double, 3&gt; &gt;
+</Text>
+		<PreContext>  init module: itkNarrowBandCurvesLevelSetImageFilter
+  init module: itkMattesMutualInformationImageToImageMetric
+  init module: itkPDEDeformableRegistrationFilter
+  init module: itkRecursiveMultiResolutionPyramidImageFilter
+  init module: itkVoronoiSegmentationImageFilter
+  init module: itkWatershedImageFilter
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,3)&gt;,itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2851</BuildLogLine>
+		<Text>Warning itk::WatershedImageFilter&lt;itk::Image&lt;double, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,3)&gt;,itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,2)&gt;,itk::Image&lt;(unsigned long,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned long,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2860</BuildLogLine>
+		<Text>Warning itk::WatershedImageFilter&lt;itk::Image&lt;float, 3&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(double,2)&gt;,itk::Image&lt;(unsigned long,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned long,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Warning>
+		<BuildLogLine>2869</BuildLogLine>
+		<Text>Warning itk::WatershedImageFilter&lt;itk::Image&lt;float, 2&gt; &gt;
+</Text>
+		<PreContext>Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,3)&gt;,itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned long,3)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+    Wrapped: itk::LightObject
+
+</PreContext>
+		<PostContext>has a class hierarchy that has wrapping gaps.
+The class hierarchy wrapping is as follows:
+Not wrapped: itk::ImageToImageFilter&lt;(itk::Image&lt;(float,2)&gt;,itk::Image&lt;(unsigned long,2)&gt;)&gt;
+    Wrapped: itk::ImageSource&lt;(itk::Image&lt;(unsigned long,2)&gt;)&gt;
+    Wrapped: itk::ProcessObject
+    Wrapped: itk::Object
+</PostContext>
+		<RepeatCount>0</RepeatCount>
+</Warning>
+
+
+	<Log Encoding="base64" Compression="/bin/gzip">
+	</Log>
+	<EndDateTime>Fri Jan 07 04:07:06 EST 2005</EndDateTime>
+</Build>
+</Site>

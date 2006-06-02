@@ -1,0 +1,17 @@
+<jaxor package="dart.server.wrap">
+    <entity name="userproperty" alias="UserProperty">
+        <primary-key auto-assign="true">
+          <column name="userpropertyid" type="Long" alias="UserPropertyId"/>
+        </primary-key>
+        <column name="userid" type="Long" alias="UserId"/>
+        <column name="name" type="String" nullable="true" alias="Name"/>
+        <column name="value" type="String" nullable="true" alias="Value"/>
+
+        <!-- Query by name and value -->
+        <query name="selectByNameValue" query="select * from userproperty where  name = ? and value = ?">
+            <param name="name" type="String"/>
+            <param name="value" type="String"/>
+        </query>
+        
+    </entity>
+</jaxor>

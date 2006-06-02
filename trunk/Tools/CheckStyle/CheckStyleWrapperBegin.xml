@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckStyle>
+  <Test>
+    <Name>Style.CheckStyle</Name>
+    <Status>passed</Status>
+    <Measurement name="FilesChecked" type="archive/zip">
