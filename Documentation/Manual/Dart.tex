@@ -1850,17 +1850,21 @@ To perform a build/test sequence and submit the results to a Dart server, you wi
 
 \section{CTest}
 \label{Section:CTest}
-CTest is a Dart client distributed as part of CMake (\url{http://www.cmake.org/}). A short tutorial on using CTest ass a Dart client can be found at \url{http://www.cmake.org/Wiki/CMake\_Testing\_With\_CTest} (this tutorial covers both this version of \emph{Dart}, frequently called \emph{Dart 2}, and its predecessor, to be called \emph{Dart Classic}).
+CTest is a Dart client distributed as part of CMake (\url{http://www.cmake.org/}). A short tutorial on using CTest as a Dart client can be found at \url{http://www.cmake.org/Wiki/CMake\_Testing\_With\_CTest} (this tutorial covers both this version of \emph{Dart}, frequently called \emph{Dart 2}, and its predecessor, to be called \emph{Dart Classic}).
 
 If you are using CMake as your cross platform build tool, you can configure your project to use CTest to communicate with a Dart server by putting these lines in your CMakeLists.txt file
 \begin{verbatim}
   ENABLE_TESTING()
-  INCLUDE(Dart)
-
-  SET (DROP_METHOD "xmlrpc")
-  SET (DROP_SITE "http://myserver.org:8081")
-  SET (DROP_LOCATION "TestProject")
-  SET (COMPRESS_SUBMISSION ON)
+  INCLUDE(CTest)
+\end{verbatim}
+and putting these lines in your CTestConfig.cmake file
+\begin{verbatim}
+  SET (CTEST_PROJECT_NAME "TestProject")
+  SET (CTEST_NIGHTLY_START_TIME "21:00:00 EDT")
+  SET (CTEST_DROP_METHOD "xmlrpc")
+  SET (CTEST_DROP_SITE "http://localhost:8081")
+  SET (CTEST_DROP_LOCATION "TestProject")
+  SET (CTEST_COMPRESS_SUBMISSION ON)
 \end{verbatim}
 Tests are described to CMake using using the \texttt{ADD\_TEST} command in a CMakeLists.txt file
 \begin{verbatim}
