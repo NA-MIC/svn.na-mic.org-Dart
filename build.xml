@@ -207,8 +207,10 @@
     <java classname="dart.DartServer" fork="true">
       <jvmarg value="-DDEBUG"/>
       <jvmarg value="-DDEBUG_PATTERNS=main,org.mortbay.http"/>
-      <jvmarg value="-Dderby.language.logQueryPlan=true"/>
+      <!-- <jvmarg value="-Dderby.language.logQueryPlan=true"/> -->
       <jvmarg value="-DDEBUG_VERBOSE=1"/>
+      <jvmarg value="-Xdebug"/>
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,address=4747,suspend=n,server=y"/>
       <jvmarg value="-Xmx256m"/>
       <classpath refid="classpath"/>
       <arg value="DartServer"/>

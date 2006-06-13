@@ -115,6 +115,7 @@ public class View extends HttpServlet {
 
     QED qed;
     try {
+      /*
       qed = Server.getQED( qedName );
       if (qed == null) {
         logger.debug( qed.getTitle() + ": not found" );
@@ -122,13 +123,14 @@ public class View extends HttpServlet {
         out.close();
         return;
         }
+        */
     } catch ( Exception e ) {
       logger.debug( qedName + ": error getting qed" );
       error ( out, "Dart Dashboard", "Dart: Error accessing qed \"" + qedName + "\"", map );
       out.close();
       return;
     }
-    map.put ( "qed", qed );
+    // map.put ( "qed", qed );
 
     // find the template specified on the URL
     try {
@@ -145,19 +147,21 @@ public class View extends HttpServlet {
     HashMap root = new HashMap();
     root.put ( "qedName", qedName );
     // root.put ( "fetchdata", new FetchData ( qed ) );
-    root.put ( "qedProperties", qed.getProperties() );
+    // root.put ( "qedProperties", qed.getProperties() );
 
     // Put in the request parameters
     Map parameters = req.getParameterMap();
     root.put ( "parameters", parameters );
 
     // connect to the database
+    /*
     Connection connection = qed.getConnection();
     try {
       connection.setReadOnly ( true );
     } catch ( Exception e ) {
       logger.error ( qed.getTitle() + ": Could not set connection to ReadOnly, possible security hole!", e );
     }
+    
     JaxorContextImpl jaxorContext = new JaxorContextImpl ( connection );
     PopulationFinderBase populationFinder = new PopulationFinderBase ( jaxorContext );
     SubjectFinderBase subjectFinder = new SubjectFinderBase ( jaxorContext );
@@ -214,5 +218,6 @@ public class View extends HttpServlet {
     Template template = cfg.getTemplate ( templateName + ".ftl" );
     map.put ( "template", template );
   }
+  */
 }
 /* $Log$ */
