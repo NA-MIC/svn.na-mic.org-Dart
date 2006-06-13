@@ -25,6 +25,7 @@ public class QueueManager implements Task {
     logger.info ( project.getTitle() + ": Starting to process tasks, MaxTasks is " + maxTasks );
 
     Connection connection = project.getConnection();
+    TaskQueueResultSet i = null;
     try {
       JaxorContextImpl session = new JaxorContextImpl ( connection );
       TaskQueueFinderBase finder = new TaskQueueFinderBase ( session );
@@ -33,8 +34,7 @@ public class QueueManager implements Task {
       q.add ( minPriority );
       q.add ( maxPriority );
       logger.info ( project.getTitle() + ": Finding tasks" );
-      TaskQueueList list = finder.find ( "where priority >= ? and priority <= ? order by priority, taskid", q );
-      TaskQueueIterator i = list.iterator();
+      i = finder.findResultSet ( "where priority >= ? and priority <= ? order by priority, taskid", q );
       logger.info ( project.getTitle() + ": Found tasks" );
       while ( i.hasNext() ) {
         if ( tasks >= maxTasks && maxTasks != -1 ) {
@@ -83,11 +83,16 @@ public class QueueManager implements Task {
         }
       }
     }
-    catch (Throwable e) {}
+    catch (Throwable e) {
+      logger.error ( project.getTitle() + ": Error in QueueManager", e );
+    }
     finally {
       logger.debug("Closing connection.");
       // connection.close();
       project.closeConnection ( connection );
+      if ( i != null ) {
+        i.close();
+      }
     }
     logger.info ( project.getTitle() + ": Finished processing tasks" );
   }

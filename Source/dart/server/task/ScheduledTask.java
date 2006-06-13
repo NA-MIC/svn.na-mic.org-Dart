@@ -34,8 +34,8 @@ public class ScheduledTask implements StatefulJob {
     try {
       logger.debug ( "Starting task" );
       task.execute ( project, properties );
-    } catch ( Exception e ) {
-      logger.error ( "Execution failed: " + context.getJobDetail().getName(), e );
+    } catch ( Throwable e ) {
+      logger.error ( project.getTitle() + ": Execution failed: " + context.getJobDetail().getName(), e );
       throw new JobExecutionException ( new Exception ( "Execution failed: " + context.getJobDetail().getName(), e ) );
     }
   }
