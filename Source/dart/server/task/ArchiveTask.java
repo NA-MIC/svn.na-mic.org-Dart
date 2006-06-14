@@ -242,8 +242,8 @@ public class ArchiveTask implements Task {
 
         logger.debug ( "Age Timestamp: " + new java.sql.Timestamp ( age.getTimeInMillis() ) );
 
-        SubmissionIterator submissions;
-        submissions = submissionFinder.find ( "where " + ArchiveBy + " < ? and ArchiveLevel < ?", q ).iterator();
+        SubmissionResultSet submissions;
+        submissions = submissionFinder.findResultSet ( "where " + ArchiveBy + " < ? and ArchiveLevel < ?", q );
         while ( submissions.hasNext() ) {
           if ( SubmissionsToArchive != -1 ) {
             if ( SubmissionsArchived >= SubmissionsToArchive ) {
