@@ -57,6 +57,19 @@ public class DartServer extends Container
     }
     PropertyConfigurator.configure ( logConfigurationFile );
     logger.info ( "Starting DartServer version " + dart.server.Version.getVersionString() + " db version " + dart.server.Version.getDBVersionString() );
+
+    String[] keys = { 
+      "java.class.version",
+      "java.vendor",
+      "java.vendor.url",
+      "java.version",
+      "os.arch",
+      "os.name",
+      "os.version"
+    };
+    for ( int i = 0; i < keys.length; i++ ) {
+      logger.info ( "JVM " + keys[i] + ": " + System.getProperty ( keys[i] ) );
+    }
     logger.info ( "Initialized log4j from " + logConfigurationFile.toString() ); 
 
     // Create a project

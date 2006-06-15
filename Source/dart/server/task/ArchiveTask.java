@@ -172,6 +172,7 @@ public class ArchiveTask implements Task {
     connection = project.getConnection();
     session = new JaxorContextImpl ( connection );
     SubmissionFinderBase submissionFinder = new SubmissionFinderBase ( session );
+    TestFinderBase testFinder = new TestFinderBase ( session );
     
     try {
       // Figure out what we need to do
@@ -289,7 +290,7 @@ public class ArchiveTask implements Task {
           logger.info ( "Archiving " + SubmissionsArchived + " of " + SubmissionsToArchive );
           
           // Find all the tests
-          TestIterator tests = submission.getTestList().iterator();
+          TestResultSet tests = testFinder.selectBySubmissionIdResultSet ( submission.getSubmissionId() );
           while ( tests.hasNext() ) {
             TestEntity test = tests.next();
             logger.debug ( "Examining test: " + test.getQualifiedName() );
@@ -329,12 +330,14 @@ public class ArchiveTask implements Task {
               deleteTest ( test, false );
             }
           }
+          tests.close();
           if ( ArchiveLevel == 4 ) {
             logger.debug ( "Deleting submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
             submission.delete();
           } else {
             submission.setArchiveLevel ( new Integer ( ArchiveLevel ) );
           }
+          submissions.close();
           session.commit();
         }
       }

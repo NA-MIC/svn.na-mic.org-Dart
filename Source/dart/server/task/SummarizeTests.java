@@ -155,7 +155,7 @@ public class SummarizeTests implements Task {
     } finally {
       logger.debug("Closing connection.");
       project.closeConnection ( connection );
-      //      connection.close();
+      // connection.close();
     }
   }
 }

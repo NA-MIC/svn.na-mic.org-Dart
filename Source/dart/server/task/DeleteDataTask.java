@@ -37,8 +37,9 @@ public class DeleteDataTask implements Task {
     Connection connection = project.getConnection();
     JaxorContextImpl session = new JaxorContextImpl ( connection );
     ResultFinderBase resultFinder = new ResultFinderBase ( session );
+    ResultResultSet i = null;
     try {    
-      ResultIterator i = resultFinder.selectByValueList ( ResultValue ).iterator();
+      i = resultFinder.selectByValueResultSet ( ResultValue );
       if ( i.hasNext() ) {
         logger.debug ( "Not deleting data, found active reference" );
         return;
@@ -54,9 +55,13 @@ public class DeleteDataTask implements Task {
       logger.error ( "Failed to delete data", e );
       throw e;
     } finally {
+      if ( i != null ) { 
+        i.close();
+      }
       logger.debug("Closing connection.");
       // connection.close();
       project.closeConnection ( connection );
+      
     }
   }
 }
