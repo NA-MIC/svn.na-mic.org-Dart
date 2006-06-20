@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Sandbox" basedir="." default="all">
+
+  <property name="src.dir" value="Source"/>
+  <property name="classes.dir" value="Class"/>
+  <property name="doc.dir" value="Documentation"/>
+  <property name="dist.dir" value="${java.io.tmpdir}/${user.name}/Dart"/>
+  <property name="major" value="1"/>
+  <property name="minor" value="0"/>
+  <property name="patch" value="7"/>
+  <property name="version" value="${major}.${minor}.${patch}"/>
+
+
+  <!-- Properties in the properties file will be set first, if the file exists
+       build.properties should contain the following variables:
+       proxyhost : Name of the proxy to use for XML/HTTP
+       proxyport : Port number on the proxy
+       Dart.BuildName : Name of this build
+       Dart.Site : Build site
+
+       If these are not set, the defaults below will be used.
+       -->
+  <property file="build.properties"/>
+
+  <!-- Access environment variables -->
+  <property environment="env"/>
+
+  <!-- Get the HOSTNAME in an os independant way -->
+  <property name="env.HOSTNAME" value="${env.COMPUTERNAME}"/>
+
+  <property name="Dart.BuildName" value="${os.name}-${os.arch}-${os.version}-JDK-${java.version}"/>
+  <property name="Dart.Site" value="${env.HOSTNAME}"/>
+
+  <!-- CheckStyle setup -->
+  <taskdef resource="checkstyletask.properties" classpath="Tools/CheckStyle/checkstyle-all-4.0-beta6.jar"/>
+
+  <!-- CheckStyle setup -->
+  <path id="jcsc_classpath">
+    <fileset dir="Tools/jcsc/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+  <taskdef name="jcsc" classname="rj.tools.jcsc.ant.JCSCTask" classpathref="jcsc_classpath"/>
+
+  <!-- Coverage via Cobertura -->
+  <path id="cobertura_classpath">
+    <fileset dir="Tools/Cobertura">
+      <include name="cobertura.jar"/>
+    </fileset>
+    <fileset dir="Tools/Cobertura">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <taskdef classpathref="cobertura_classpath" resource="tasks.properties"/>
+
+  <path id="classpath">
+    <fileset dir="lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <pathelement location="${classes.dir}"/>
+  </path>
+  <path id="testclasspath">
+    <path refid="classpath"/>
+    <pathelement location="{$src.dir}/Test/"/>
+  </path>
+  
+  <target name="all" description="Build everything">
+    <antcall target="fullclean"/>
+    <antcall target="wrap"/>
+    <antcall target="compile"/>
+    <antcall target="test"/>
+    <antcall target="jar"/>
+  </target>
+
+  <target name="clean" description="Delete all generated files">
+    <delete dir="${classes.dir}" failonerror="false"/>
+    <delete file="cobertura.ser"/>
+  </target>
+  
+  <target name="fullclean" description="Delete everything that is generated all generated files" depends="clean">
+    <delete dir="${src.dir}/dart/server/wrap/" failonerror="false"/>
+  </target>
+  
+  <target name="compile" description="Compiles the Task" depends="wrap">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" excludes="Test/**,qed/**" deprecation="true">
+      <!-- Doesn't seem to be compatable with 1.4... -->
+      <!-- <compilerarg compiler="javac1.5" value="-Xlint:unchecked"/> -->
+      <classpath refid="classpath"/>
+    </javac>
+    <copy todir="${classes.dir}/dart/Resources">
+      <fileset dir="Source/dart/Resources">
+        <exclude name="**/*~"/>
+      </fileset>
+    </copy>
+<!--
+    <copy todir="${classes.dir}/qed/Resources">
+      <fileset dir="Source/qed/Resources">
+        <exclude name="**/*~"/>
+      </fileset>
+    </copy>
+-->
+  </target>
+  
+  <target name="compiletests" depends="compile">
+    <javac srcdir="${src.dir}/Test/" debug="on" destdir="${classes.dir}">
+      <classpath refid="classpath"/>
+    </javac>
+    <copy todir="${classes.dir}/dart/Resources">
+      <fileset dir="Source/Test/dart/Resources">
+        <exclude name="**/*~"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="pretest" depends="compiletests">
+    <delete dir="${java.io.tmpdir}/${user.name}" failonerror="false"/>
+  </target>
+
+  <target name="test" depends="pretest">
+    <mkdir dir="TestLog"/>
+    <junit haltonfailure="false" printsummary="true" fork="true">
+      <formatter type="brief" usefile="false"/>
+      <formatter type="xml"/>
+      <classpath refid="testclasspath"/>
+      <test name="dart.DartServerTest" todir="TestLog"/>
+    </junit>
+  </target>
+
+  <target name="coverage" depends="pretest,setproxy1,setproxy2">
+    <mkdir dir="TestLog"/>
+    <mkdir dir="TestLog/Coverage"/>
+    
+    <cobertura-instrument>
+      <fileset dir="${classes.dir}">
+        <include name="**/*.class"/>
+        <exclude name="qed/**"/>
+      </fileset>
+    </cobertura-instrument>
+
+    <junit haltonfailure="false" printsummary="true" fork="true">
+      <jvmarg value="-Xmx256m"/>
+      <formatter type="brief" usefile="false"/>
+      <formatter type="xml"/>
+      <classpath refid="cobertura_classpath"/>
+      <classpath refid="testclasspath"/>
+      <test name="dart.DartServerTest" todir="TestLog"/>
+    </junit>
+    <cobertura-report srcdir="${src.dir}" 
+      destdir="TestLog/Coverage"/>
+    <cobertura-report format="xml" srcdir="${src.dir}" 
+      destdir="TestLog"/>
+    <style
+      in="TestLog/coverage.xml" 
+      out="TestLog/CoverageSummary.xml"
+      style="Tools/Cobertura/coverage-summary.xsl"/>
+    <delete file="TestLog/coverage.xml"/>
+  </target>
+
+  <target name="foobar" depends="setproxy1,setproxy2">
+    <style
+      in="TestLog/coverage.xml" 
+      out="TestLog/CoverageSummary.xml"
+      style="Tools/Cobertura/coverage-summary.xsl"/>
+</target>
+
+
+  <target name="testverbose" depends="pretest">
+    <junit haltonfailure="true" printsummary="false">
+      <classpath refid="testclasspath"/>
+      <test name="dart.DartServerTest"/>
+      <formatter type="plain" usefile="false"/>
+    </junit>
+  </target>
+  
+  <target name="wrap">
+    <taskdef name="wrap" classname="net.sourceforge.jaxor.parser.AntTask" classpathref="classpath"/>
+    <wrap destdir="${src.dir}">
+      <fileset dir="${src.dir}/dart/Wrap">
+        <include name="**/*.jaxor"/>
+      </fileset>
+<!--
+      <fileset dir="${src.dir}/qed/Wrap">
+        <include name="**/*.jaxor"/>
+      </fileset>
+-->
+      <!-- Where should Jaxor look to find user specified implementations -->
+      <impl>
+        <fileset dir="${src.dir}">
+          <include name="**/*.java"/>
+        </fileset>
+        <fileset dir="${src.dir}">
+          <include name="**/*.java"/>
+        </fileset>
+      </impl>
+    </wrap>
+  </target>
+       
+  <target name="run" depends="compile">
+    <java classname="dart.Dart">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+       
+  <target name="server" depends="compile">
+    <java classname="dart.DartServer" fork="true">
+      <jvmarg value="-DDEBUG"/>
+      <jvmarg value="-DDEBUG_PATTERNS=main,org.mortbay.http"/>
+      <!-- <jvmarg value="-Dderby.language.logQueryPlan=true"/> -->
+      <!--  Various debugging and logging options that may not be on any use to anyone
+      <jvmarg value="-Xloggc:gc.log"/>
+      <jvmarg value="-Dcom.sun.management.jmxremote.password.file=jmxremote.password"/>
+      <jvmarg value="-Dcom.sun.management.jmxremote.access.file=jmxremote.access"/>
+      <jvmarg value="-Dcom.sun.management.jmxremote"/>
+      <jvmarg value="-Dcom.sun.management.jmxremote.port=8004"/>
+      <jvmarg value="-Dcom.sun.management.jmxremote.ssl=false"/>
+      <jvmarg value="-DDEBUG_VERBOSE=1"/>
+      <jvmarg value="-Xrunjmp"/>
+      <jvmarg value="-Xdebug"/>
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,address=4747,suspend=n,server=y"/>
+      -->
+      <jvmarg value="-Xmx256m"/>
+      <classpath refid="classpath"/>
+      <arg value="DartServer"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+  
+  <target name="refresh" depends="compile">
+    <java classname="dart.DartServer">
+      <classpath refid="classpath"/>
+      <arg value="DartServer"/>
+      <arg value="-R"/>
+      <arg value="-r"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+
+  <target name="refreshrunning" depends="compile">
+    <java classname="dart.DartClient" fork="true">
+      <classpath refid="classpath"/>
+      <arg value="-r"/>
+      <arg value="TestProject"/>
+    </java>
+    <java classname="dart.DartClient" fork="true">
+      <classpath refid="classpath"/>
+      <arg value="-R"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+  
+  <target name="foo" depends="compile">
+    <java classname="dart.DartServer">
+      <classpath refid="classpath"/>
+      <arg value="-m"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+
+  <target name="createderbyserver" depends="compile">
+    <delete dir="${user.dir}/DartServer" failonerror="false"/>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
+      <classpath refid="classpath"/>
+      <arg value="--createserver"/>
+      <arg value="DartServer"/>
+      <arg value="-d"/>
+      <arg value="derby"/>
+    </java>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
+      <classpath refid="classpath"/>
+      <arg value="--initializeserver"/>
+      <arg value="DartServer"/>
+    </java>
+    <delete dir="${user.dir}/TestProject" failonerror="false"/>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
+      <classpath refid="classpath"/>
+      <arg value="-c"/>
+      <arg value="TestProject"/>
+      <arg value="-d"/>
+      <arg value="derby"/>
+      <arg value="DartServer"/>
+    </java>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
+      <classpath refid="classpath"/>
+      <arg value="-r"/>
+      <arg value="-i"/>
+      <arg value="-R"/>
+      <arg value="DartServer"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+  
+  <target name="createpostgres" depends="compile">
+    <delete dir="${user.dir}/TestServer" failonerror="false"/>
+    <java classname="dart.DartServer" fork="true" dir="${user.dir}">
+      <classpath refid="classpath"/>
+      <arg value="-c"/>
+      <arg value="TestProject"/>
+      <arg value="-n"/>
+      <arg value="TestProject"/>
+      <arg value="-d"/>
+      <arg value="postgres"/>
+    </java>
+    <java classname="dart.DartServer" dir="${user.dir}">
+      <classpath refid="classpath"/>
+      <arg value="-i"/>
+      <arg value="-r"/>
+      <arg value="-R"/>
+      <arg value="TestServer"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+  
+  <target name="client" depends="compile">
+    <java classname="dart.DartClient" fork="true">
+      <classpath refid="classpath"/>
+      <arg value="TestProject"/>
+      <arg value="ResultData/Test.xml"/>
+    </java>
+  </target>
+
+  <target name="clientall" depends="compile">
+    <java classname="dart.DartClient" fork="true">
+      <classpath refid="classpath"/>
+      <arg value="TestProject"/>
+      <arg value="ResultData/Test.xml"/>
+      <arg value="ResultData/TestLong.xml.gz"/>
+      <arg value="ResultData/TestLongCorrect.xml.gz"/>
+    </java>
+  </target>
+
+  <target name="shutdown">
+    <java classname="dart.DartClient" fork="true">
+      <classpath refid="classpath"/>
+      <arg value="-q"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+  
+  <!-- Javadoc runs in a seperate JVM, so the proxy settings are
+  ignored.  Prefetch the package-list for the external packages that
+  Dart uses and make them availible to the "doc" task below -->
+  <target name="getdoc">
+    <mkdir dir="${doc.dir}/PackageList"/>
+    <mkdir dir="${doc.dir}/PackageList/Java"/>
+    <get src="http://java.sun.com/j2se/1.4.2/docs/api/package-list" dest="${doc.dir}/PackageList/Java/package-list"/>
+    <mkdir dir="${doc.dir}/PackageList/Quartz"/>
+    <get src="http://quartz.sorceforge.net/javadoc/package-list" dest="${doc.dir}/PackageList/Quartz/package-list"/>
+  </target>
+
+  <target name="doc">
+    <mkdir dir="${doc.dir}/api"/>
+    <javadoc destdir="${doc.dir}/api">
+      <classpath refid="classpath"/>
+      <fileset dir="${src.dir}"/>
+      <link href="http://java.sun.com/j2se/1.4.2/docs/api/" offline="true" packagelistLoc="${doc.dir}/PackageList/Java"/>
+      <link href="http://quartz.sorceforge.net/javadoc/" offline="true" packagelistLoc="${doc.dir}/PackageList/Quartz"/>
+    </javadoc>
+  </target>
+
+  <!-- Very cool!  Build/update the DartServer.jar file from all the libraries -->
+  <target name="jar" depends="compile">
+    <delete file="DartServer.jar"/>
+    <jar compress="true" destfile="DartServer.jar" update="false" duplicate="preserve" index="true">
+      <fileset dir="${classes.dir}">
+        <include name="**"/>
+      </fileset>
+      <zipgroupfileset dir="lib">
+        <include name="**/*.jar"/>
+      </zipgroupfileset>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="dart.DartServer"/>
+        <section name="common">
+          <attribute name="Specification-Title" value="Dart"/>
+          <attribute name="Specification-Version" value="${version}"/>
+          <attribute name="Specification-Vendor" value="NAMIC"/>
+          <attribute name="Implementation-Title" value="dart"/>
+          <attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+          <attribute name="Implementation-Vendor" value="NAMIC"/>
+        </section>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="clientjar" depends="compile">
+    <delete file="DartClient.jar"/>
+    <jar compress="true" destfile="DartClient.jar" index="true">
+      <fileset dir="${classes.dir}">
+        <filename name="**/DartClient*"/>
+      </fileset>
+      <zipgroupfileset dir="lib">
+        <include name="xmlrpc-3.0a1.jar"/>
+        <include name="xml-apis.jar"/>
+        <include name="wscommons.jar"/>
+        <include name="log4j-1.2.8.jar"/>
+        <include name="commons-cli-1.0.jar"/>
+      </zipgroupfileset>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="dart.DartClient"/>
+        <section name="common">
+          <attribute name="Specification-Title" value="Dart"/>
+          <attribute name="Specification-Version" value="${version}"/>
+          <attribute name="Specification-Vendor" value="NAMIC"/>
+          <attribute name="Implementation-Title" value="dart"/>
+          <attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+          <attribute name="Implementation-Vendor" value="NAMIC"/>
+        </section>
+      </manifest>
+    </jar>
+  </target>
+
+
+  <!-- Build a binary distribution -->
+  <target name="dist" depends="jar,clientjar">
+    <delete dir="${dist.dir}" failonerror="false"/>
+    <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${dist.dir}/Dart${version}"/>
+    <copy todir="${dist.dir}/Dart${version}" file="DartServer.jar"/>
+    <copy todir="${dist.dir}/Dart${version}" file="DartClient.jar"/>
+    <copy todir="${dist.dir}/Dart${version}" file="Dart.pdf"/>
+    <tar destfile="Dart${version}.tar" basedir="${dist.dir}/"/>
+    <gzip zipfile="Dart${version}.tar.gz" src="Dart${version}.tar"/>
+    <delete file="Dart${version}.tar"/>
+    <zip destfile="Dart${version}.zip" basedir="${dist.dir}"/>
+  </target>
+
+  <!-- Cruise Control Integration -->
+  <target name="ccbuild">
+    <ant antfile="build.xml" target="ccrealbuild" output="log.xml"/>
+  </target>
+
+  <target name="ccrealbuild">
+    <delete dir="TestLog"/>
+    <mkdir dir="TestLog"/>
+
+    <!-- Create the BuildName info, if necessary -->
+    <filter token="Dart.BuildName" value="${Dart.BuildName}"/>
+    <filter token="Dart.Site" value="${Dart.Site}"/>
+    <filter token="Dart.Track" value="Continuous"/>
+    <copy file="BuildNameTemplate.xml" tofile="BuildNameContinuous.xml" filtering="true"/>
+    <filter token="Dart.Track" value="Nightly"/>
+    <copy file="BuildNameTemplate.xml" tofile="BuildNameNightly.xml" filtering="true"/>
+    
+    
+    <!-- Get the latest from SVN -->
+    <exec executable="svn">
+      <arg value="update"/>
+    </exec>
+    <!-- Call the target that does everything -->
+    <antcall target="all"/>
+    <antcall target="checkstyle"/>
+    <antcall target="checkstylemerge"/>
+    <antcall target="style"/>
+    <antcall target="stylemerge"/>
+    <antcall target="coverage"/>
+    <antcall target="coveragemerge"/>
+  </target>
+
+  <target name="coveragemerge">
+    <!-- Merge the coverage results -->
+    <zip destfile="TestLog/Coverage/Coverage.zip" basedir="TestLog/Coverage/"/>
+    <java classname="dart.server.util.Base64">
+      <classpath refid="classpath"/>
+      <classpath refid="cobertura_classpath"/>
+      <arg value="TestLog/Coverage/Coverage.zip"/>
+      <arg value="TestLog/Coverage/Coverage.zip.uu"/>
+    </java>
+    <concat destfile="TestLog/CoverageZip.xml">
+      <filelist dir="Tools/Cobertura" files="CoverageWrapperBegin.xml"/>
+      <filelist dir="TestLog/Coverage" files="Coverage.zip.uu"/>
+      <filelist dir="Tools/Cobertura" files="CoverageWrapperEnd.xml"/>
+    </concat>
+  </target>
+
+  <target name="style">
+    <delete dir="TestLog/JCSC"/>
+    <mkdir dir="TestLog/JCSC"/>
+    <jcsc destdir="TestLog/JCSC" jcschome="Tools/jcsc" copyassociatedfiles="true">
+      <fileset dir="Source" includes="**/*.java" excludes="**/wrap/**"/>
+    </jcsc>
+    <style
+      in="TestLog/JCSC/overview.xml" 
+      out="TestLog/StyleSummary.xml"
+      style="Tools/jcsc/jcsc-summary.xsl"/>
+  </target>
+
+  <target name="stylemerge">
+    <zip destfile="TestLog/Style.zip" basedir="TestLog/JCSC/"/>
+    <java classname="dart.server.util.Base64">
+      <classpath refid="classpath"/>
+      <arg value="TestLog/Style.zip"/>
+      <arg value="TestLog/Style.zip.uu"/>
+    </java>
+    <concat destfile="TestLog/StyleZip.xml">
+      <filelist dir="Tools/jcsc" files="StyleWrapperBegin.xml"/>
+      <filelist dir="TestLog/" files="Style.zip.uu"/>
+      <filelist dir="Tools/jcsc" files="StyleWrapperEnd.xml"/>
+    </concat>
+  </target>
+    
+
+
+  <target name="checkstyle">
+    <mkdir dir="TestLog/CheckStyle"/>
+    <checkstyle config="Tools/CheckStyle/sun_checks.xml" failOnViolation="false">
+      <fileset dir="Source" includes="**/*.java" excludes="dart/server/wrap/**,qed/server/wrap/**"/>
+      <formatter type="xml" tofile="TestLog/CheckStyle.xml"/>
+      <property key="basedir" value="/projects/mion/Source/Dart/Source"/>
+    </checkstyle>
+    <style
+      in="TestLog/CheckStyle.xml" 
+      out="TestLog/CheckStyle/CheckStyle.html"
+      style="Tools/CheckStyle/checkstyle-noframes-sorted.xsl"/>
+    <style
+      in="TestLog/CheckStyle.xml" 
+      out="TestLog/CheckStyleSummary.xml"
+      style="Tools/CheckStyle/checkstyle-summary.xsl"/>
+  </target>
+
+  <target name="checkstylemerge">
+    <!-- Merge the CheckStyle results -->
+    <java classname="dart.server.util.Base64">
+      <classpath refid="classpath"/>
+      <classpath refid="cobertura_classpath"/>
+      <arg value="TestLog/CheckStyle/CheckStyle.html"/>
+      <arg value="TestLog/CheckStyle/CheckStyle.html.uu"/>
+    </java>
+    <concat destfile="TestLog/CheckStyleReport.xml">
+      <filelist dir="." files="Tools/CheckStyle/CheckStyleWrapperBegin.xml"/>
+      <filelist dir="TestLog" files="CheckStyle/CheckStyle.html.uu"/>
+      <filelist dir="." files="Tools/CheckStyle/CheckStyleWrapperEnd.xml"/>
+    </concat>
+  </target>
+
+
+  <target name="setproxy1" if="env.HTTP_PROXY_PORT">
+    <property name="proxyhost" value="${env.HTTP_PROXY}"/>
+    <property name="proxyport" value="${env.HTTP_PROXY_PORT}"/>
+    <echo>Set proxy1: proxyhost=${proxyhost} proxyport=${proxyport}</echo>
+    <setproxy proxyhost="${proxyhost}" proxyport="${proxyport}"/>
+  </target>
+
+  <target name="setproxy2" if="proxyport">
+    <echo>Set proxy2: proxyhost=${proxyhost} proxyport=${proxyport}</echo>
+    <setproxy proxyhost="${proxyhost}" proxyport="${proxyport}"/>
+  </target>
+
+  <target name="publish">
+    <antcall target="setproxy1"/>
+    <antcall target="setproxy2"/>
+    <java classname="dart.DartClient">
+      <classpath>
+        <pathelement location="${DartClassPath}"/>
+      </classpath>
+      <arg value="--server"/>
+      <arg value="${DartServer}"/>
+      <arg value="--port"/>
+      <arg value="${DartPort}"/>
+      <arg value="${DartProject}"/>
+      <arg value="${logdir}/${logfile}"/>
+    </java>
+  </target>
+
+
+
+</project>
+

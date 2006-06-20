@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cruisecontrol>
+
+  <!-- Continuous build -->
+  <!-- Be sure to set buildafterfailed="false" to prevent runaway builds -->
+  <project name="DartContinuous" buildafterfailed="false">
+    <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
+
+    <!-- Configures the actual build loop, how often and which build file/target --> 
+    <schedule interval="600"> 
+      <ant
+           buildfile="build.xml"
+           target="ccbuild"
+           uselogger="true"
+           usedebug="false"/> 
+    </schedule>
+
+    <!-- Defines where cruise looks for changes, to decide whether to run the build --> 
+    <modificationset> 
+      <!-- Uncomment next line for testing -->
+      <!-- <alwaysbuild/> -->
+      <alwaysbuild/>
+      <svn localworkingcopy="."/> 
+    </modificationset>
+
+    <!-- directory to write build logs to --> 
+    <log dir="ResultLog">
+      <merge dir="TestLog"/>
+      <merge file="BuildNameContinuous.xml"/>
+    </log>
+
+    <!-- Publishers are run *after* a build completes --> 
+    <publishers> 
+      <antpublisher buildfile="build.xml" target="publish">
+
+        <property name="DartServer" value="na-mic.org"/>
+        <property name="DartPort" value="8081"/>
+        <property name="DartProject" value="Dart"/>
+        <property name="DartClassPath" value="DartClient.jar"/>
+
+      </antpublisher>
+    </publishers> 
+  </project> 
+
+
+  <!-- Nightly build at 10pm local time, see the schedule/ant tag, time attribute -->
+  <!-- Should update code from the last nightly build -->
+  <project name="DartNightly">
+    <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
+
+    <!-- Configures the actual build loop, how often and which build file/target --> 
+    <schedule interval="300"> 
+      <ant
+           buildfile="build.xml"
+           target="ccbuild"
+           uselogger="true"
+           usedebug="false"
+           time="2200"
+        /> 
+    </schedule>
+
+    <!-- Defines where cruise looks for changes, to decide whether to run the build --> 
+    <modificationset> 
+      <svn localworkingcopy="."/> 
+      <!-- Always build the nightly -->
+      <alwaysbuild/>
+    </modificationset>
+
+    <!-- directory to write build logs to --> 
+    <log dir="ResultLog">
+      <merge dir="TestLog"/>
+      <merge file="BuildNameNightly.xml"/>
+    </log>
+
+    <!-- Publishers are run *after* a build completes --> 
+    <publishers> 
+      <antpublisher buildfile="build.xml" target="publish">
+
+        <property name="DartServer" value="na-mic.org"/>
+        <property name="DartPort" value="8081"/>
+        <property name="DartProject" value="Dart"/>
+
+        <!-- <property name="DartServer" value="localhost"/>
+        <property name="DartPort" value="8081"/>
+        <property name="DartProject" value="TestProject"/> -->
+
+        <property name="DartClassPath" value="DartClient.jar"/>
+
+      </antpublisher>
+    </publishers> 
+  </project> 
+
+
+</cruisecontrol>
+

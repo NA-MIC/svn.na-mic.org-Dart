@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Server>
+  <Title>${ServerName}</Title>
+  <BaseDirectory>${ServerDirectory}</BaseDirectory>
+
+  <!-- Name the server uses to identify itself 
+       this is used for notification messages.
+       Must include port number if applicable.
+       If not set, defaults to Java's idea of the
+       Canonical Host name, and the HTTPPort. -->
+  <ServerName></ServerName>
+
+  <HTTPPort>8081</HTTPPort>
+
+  <Scheduler>
+    <ThreadPoolSize>10</ThreadPoolSize>
+  </Scheduler>
+
+  <!-- Configure the database parameters ${Type}-->
+  <Database>
+  <#if Type == "postgres">
+    <!-- Postgresql -->
+    <Driver>org.postgresql.Driver</Driver>
+    <URL>jdbc:postgresql:dart</URL>
+    <Username>blezek</Username>
+    <Password/>
+  <#else>
+    <!-- Derby database -->
+    <Driver>org.apache.derby.jdbc.EmbeddedDriver</Driver>
+    <URL>jdbc:derby:${ServerDirectory}/Database/${ServerName};create=true</URL>
+    <ShutdownURL>jdbc:derby:${ServerDirectory}/Database/${ServerName};shutdown=true</ShutdownURL>
+    <Username/>
+    <Password/>
+  </#if>
+    <!-- Maximum active / idle connections, -1 is infinite -->
+    <MaxActive>10</MaxActive>
+    <MaxIdle>3</MaxIdle>
+  </Database>
+
+  <!-- Servlet configuration -->
+  <ServletManager>
+    <Servlet>
+      <Class>dart.server.servlet.CommandServlet</Class>
+      <Context>/Command/</Context>
+      <Properties/>
+    </Servlet>
+  </ServletManager>
+
+  <!-- XML-RPC Commands to respond to -->
+  <CommandManager>
+    <Command>
+      <Name>Administration</Name>
+      <Class>dart.server.command.ServerAdministration</Class>
+      <Properties/>
+    </Command>
+  </CommandManager>
+
+
+</Server>
