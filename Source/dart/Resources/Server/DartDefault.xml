@@ -130,6 +130,11 @@
       <Properties/>
     </Servlet>
     <Servlet>
+      <Class>dart.server.servlet.SubmitServlet</Class>
+      <Context>/Submit/</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
       <Class>dart.server.servlet.ChartServlet</Class>
       <Context>/Chart</Context>
       <Properties/>

@@ -16,7 +16,7 @@ import dart.server.event.MissingSubmissionEvent;
 import dart.server.wrap.SubmissionEntity;
 import dart.server.wrap.SubmissionList;
 import dart.server.wrap.SubmissionFinderBase;
-import dart.server.wrap.ClientEntity;
+import dart.server.wrap.*;
 import dart.server.wrap.ClientIterator;
 import dart.server.wrap.ClientList;
 import dart.server.wrap.ClientFinderBase;
@@ -76,51 +76,46 @@ public class MissingSubmissionTask implements Task {
 
     // Find the clients that are expected.  Search for clients that
     // have a ClientProperty named "Expected.<TrackName>" with value "true"
-    ClientList clientList
-      = clientFinder.selectByClientPropertyList(expectedSubmissionKey, "true");
+    ClientResultSet clientList
+      = clientFinder.selectByClientPropertyResultSet ( expectedSubmissionKey, "true");
 
-    if (clientList.size() != 0) {
+    while (clientList.hasNext()) {
       // There exist clients that are expected.  Check if any of these
       // clients have a submission in the specifed track.  If not,
       // cache the client id for the listener
-      ClientIterator cit = clientList.iterator();
-      while (cit.hasNext()) {
-        ClientEntity client = cit.next();
-        Long clientId = client.getClientId();
+      ClientEntity client = clientList.next();
+      Long clientId = client.getClientId();
         
-        // query for submissions on this track and from this client
-        SubmissionList submissionList
-          = submissionFinder.selectByClientIdAndTrackIdList(clientId, trackId);
+      // query for submissions on this track and from this client
+      SubmissionList submissionList
+        = submissionFinder.selectByClientIdAndTrackIdList(clientId, trackId);
 
-        if (submissionList.size() == 0) {
-          missing = true;
+      if (submissionList.size() == 0) {
+        missing = true;
           
-          // cache the client id for the event
-          clientIds.add( clientId );
+        // cache the client id for the event
+        clientIds.add( clientId );
 
-          // determine who needs to be notified
-          ClientPropertyEntity cp = null;
-          ClientPropertyList who
-            = clientPropertyFinder.selectByClientIdNameList(clientId,
-                                           expectedSubmissionUserKey); 
+        // determine who needs to be notified
+        ClientPropertyEntity cp = null;
+        ClientPropertyResultSet who
+          = clientPropertyFinder.selectByClientIdNameResultSet(clientId,
+                                                          expectedSubmissionUserKey); 
 
+        while (who.hasNext()) {
           // parse userids as longs from the properties
-          if (who.size() != 0) {
-            ClientPropertyIterator cpit = who.iterator();
-            while (cpit.hasNext()) {
-              cp = cpit.next();
-              
-              try {
-                Long userid = new Long(Long.parseLong(cp.getValue()));
-                userIds.add(userid);
-              } catch (NumberFormatException exc) {
-                // value is not a long, skip it
-              }
-            }
+          cp = who.next();
+          try {
+            Long userid = new Long(Long.parseLong(cp.getValue()));
+            userIds.add(userid);
+          } catch (NumberFormatException exc) {
+            // value is not a long, skip it
           }
         }
+        who.close();
       }
     }
+    clientList.close();
 
     // if something was missing, trigger a MissingSubmissionEvent
     if (missing) {

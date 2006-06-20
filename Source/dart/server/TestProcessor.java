@@ -394,6 +394,7 @@ public class TestProcessor {
             }
             out.finish();
             bytes = bout.toByteArray();
+            out.close();
           }
 
           File output = project.generateProjectRelativeFileForBinary ( bytes, suffix );
@@ -407,6 +408,7 @@ public class TestProcessor {
             OutputStream out = new BufferedOutputStream ( new FileOutputStream ( abs ) );
             out.write ( bytes );
             out.flush();
+            out.close();
           }
         } else {
           // Only take the first 2000 bytes

@@ -196,7 +196,7 @@ public class Server extends Container
       logger.error ( getTitle() + ": Failed to shutdown Database", e );
     }
     
-    logger.warn ( "Dart Server Shutdown" );
+    logger.warn ( "Dart Server Shutdown, goodbye." );
   }
 
   /**

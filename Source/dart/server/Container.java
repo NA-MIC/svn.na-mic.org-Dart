@@ -174,7 +174,9 @@ public class Container {
    */
   public void executeSQL ( File schema ) {
     try {
-      executeSQL ( new BufferedReader ( new FileReader ( schema ) ) );
+      Reader r = new BufferedReader ( new FileReader ( schema ) );
+      executeSQL ( r );
+      r.close();
     } catch ( Exception e ) {
       logger.error ( getTitle() + ": Failed to execute schema from file " + schema, e );
       return;

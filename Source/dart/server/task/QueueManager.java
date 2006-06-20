@@ -73,13 +73,17 @@ public class QueueManager implements Task {
           task.delete();
           session.commit();
 
-          subtask.execute ( project, subTaskProperties );
+          try {
+            subtask.execute ( project, subTaskProperties );
+          } catch ( Exception taskException ) {
+            logger.info ( project.getTitle() + ": Failed to create or execute queued task", taskException );
+          }
           logger.debug ( project.getTitle() + ": Task completed" );
         } catch ( Exception e ) {
           // Log error, and go on to next task
-          logger.error ( project.getTitle() + ": Failed to create or execute queued task", e );
-          Status = "failed";
-          Result = e.toString();
+          logger.error ( project.getTitle() + ": Failure in QueueManager", e );
+          // Status = "failed";
+          // Result = e.toString();
           // Bomb out
           throw e;
         } finally {

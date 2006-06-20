@@ -52,6 +52,7 @@ public class XMLResultProcessor implements Task {
       hasError = true;
       throw e;
     } finally {
+      input.close();
       t.processDelayed();
       t.queueSummary();
       logger.debug ( project.getTitle() + ": DeleteWhenDigested " + deleteWhenDigested );
@@ -71,7 +72,7 @@ public class XMLResultProcessor implements Task {
         } catch ( Exception e ) {
           logger.error ( "Failed to move " + file + " to Failed directory", e );
         }
-      } 
+      }
     }
   }
 }

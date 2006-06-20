@@ -843,6 +843,11 @@ perform a variety of tasks.
       <Properties/>
     </Servlet>
     <Servlet>
+      <Class>dart.server.servlet.SubmitServlet</Class>
+      <Context>/Submit/</Context>
+      <Properties/>
+    </Servlet>
+    <Servlet>
       <Class>dart.server.servlet.ChartServlet</Class>
       <Context>/Chart</Context>
       <Properties/>
@@ -888,7 +893,15 @@ project URL, \ie
 TestProject running on the local system is:
 \url{http://localhost:8081/TestProject/Command/} and the method is \texttt{Submit.put}.
 
-The sixth servlet in the stock configuration provides Dart with charting and plotting 
+SubmitServlet allows Submissions to be transfered through \texttt{HTTP
+PUT} methods, essentially a simplified XMLRPC.  A Client needs only to
+PUT a file to the URL:
+\texttt{http://localhost:8081/\emph{ProjectName}/\emph{SUBMIT}}.  The
+expected response is ``true''.  Submission through this mechanism
+follows the same path as the previous Servlet.
+
+
+The last servlet in the stock configuration provides Dart with charting and plotting 
 capabilities.  The \emph{ChartServlet} uses JFreeChart to generate plots of test timings and status.
 
 

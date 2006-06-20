@@ -38,8 +38,8 @@ public class Submit implements Command {
       logger.info ( project.getTitle() + ": data length is less than 2 bytes, rejecting." );
       return false;
     }
+    OutputStream out = null;
     try {
-      OutputStream out;
       int Magic = ((int)f[0] & 0xff) | ((f[1]<<8) & 0xff00 );
       out = new FileOutputStream ( tmp );
       if ( Magic != java.util.zip.GZIPInputStream.GZIP_MAGIC ) {
@@ -48,11 +48,16 @@ public class Submit implements Command {
         out = new GZIPOutputStream ( out );
       }
       out.write ( f );
-      out.flush();
-      out.close();
     } catch ( Exception e ) {
       logger.error ( project.getTitle() + ": Failed to write", e );
       return false;
+    } finally {
+      if ( out != null ) {
+        try {
+          out.flush();
+          out.close();
+        } catch ( IOException ee ) {}
+      }
     }
 
     // Add a job to the queue
