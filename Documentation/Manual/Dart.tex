@@ -1668,9 +1668,28 @@ The definition of the default Archivers are:
 
 \end{verbatim}
 
+\section{Upgrade Dart Server from 1.0.x}
+\label{Section:UpgradeServer}
+
+Though the Dart jar files are drop in compatible with releases after 1.0.x, each release includes minor database changes.  To upgrade your database to be compatible with new releases, the following procedures are required.
+
+\begin{enumerate}
+  \item Shutdown the existing Dart server
+     \begin{verbatim}
+java -jar DartClient.jar --shutdown <DartServerName>
+     \end{verbatim}
+  \item Replace the DartServer.jar file with the new release.
+  \item Upgrade databases, and refresh the resources from the jar file
+    \begin{verbatim}
+java -jar DartServer.jar --upgradeprojectdb --refreshServer --refresh \
+<DartServerName> <Project1> <Project2> ...
+    \end{verbatim}
+\end{enumerate}
+
+The proceeding steps will upgrade the Databases to the latest release and ensure the project resources are correctly updated.  The DartServer will be running after, and may be shutdown and restarted if custom options are required.
+
 
 \section{Upgrade Dart Server from 0.5 or 0.6}
-\label{Section:UpgradeServer}
 
 Prior to release 1.0, the server database was essentially unused (only the Project databases were employed).  In version 1.0, the server database supports Dart Users.
 To upgrade a Dart Server from a pre-1.0 release
