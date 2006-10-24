@@ -42,6 +42,16 @@ public class SummarizeTests implements Task {
   }
 
   public void execute ( Project project, Properties properties ) throws Exception {
+    // SummarizeTest is a special rollup that places meta tests in the
+    // heirarchy as well as summarizes the levels of rollup. Other
+    // rollups like Coverage and DynamicAnalysis rely on this rollup
+    // having been performed.  Therefore, we skip the early out clause
+    // below:
+    //
+    // // Check to see if the submission packet had test information 
+    // if (! properties.getProperty( "Domains" ).matches( "Test" )) {
+    //   return;
+    // }
   
     // Summarize the tests for a given submission
     String SubmissionId = properties.getProperty ( "SubmissionId" );

@@ -14,7 +14,7 @@ import org.mortbay.http.HttpServer;
 
 import dart.server.Project;
 import dart.server.MessengerManager;
-import dart.server.event.SubmissionEvent;
+import dart.server.event.BuildEvent;
 import dart.server.wrap.SubmissionEntity;
 import dart.server.wrap.SubmissionFinderBase;
 import dart.server.wrap.TestEntity;
@@ -31,7 +31,7 @@ import dart.server.messenger.Messenger;
 public class SubmissionErrorsListener extends Listener {
   static Logger logger = Logger.getLogger ( SubmissionErrorsListener.class );
 
-  public void trigger ( Project project, SubmissionEvent event ) throws Exception {
+  public void trigger ( Project project, BuildEvent event ) throws Exception {
     logger.info ( "Submission event for SubmissionId " + event.getSubmissionId() );
 
     // Get the messenger for this listener

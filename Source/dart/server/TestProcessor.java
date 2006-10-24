@@ -47,6 +47,8 @@ public class TestProcessor {
   boolean delayProcessing = false;
   Vector pending = new Vector();
 
+  HashSet domains = new HashSet();
+
   /**
      Constructor
      @param p Parent Project
@@ -163,6 +165,21 @@ public class TestProcessor {
       Iterator rollup = project.getRollups().iterator();
       String type;
       int priority;
+
+      // convert the domains to a list of strings
+      StringBuffer domainsString = new StringBuffer();
+      Iterator dit = domains.iterator();
+
+      while ( dit.hasNext() ) {
+        domainsString.append(dit.next());
+
+        if (dit.hasNext()) {
+          domainsString.append(",");
+        }
+      }
+
+
+      // schedule each rollup task
       while ( rollup.hasNext() ) {
         Object[] d = (Object[])rollup.next();
         type = (String)d[0];
@@ -170,6 +187,7 @@ public class TestProcessor {
         prop = new Properties((Properties)d[2]);
         prop.setProperty ( "SubmissionId", submission.getSubmissionId().toString() );
         prop.setProperty ( "TrackName", submission.getType().toString() );
+        prop.setProperty ( "Domains", domainsString.toString() );
         logger.debug ( project.getTitle() + ": Queuing Rollup: " + type + " Priority: " + priority + " Properties: \n" + prop );
         project.queueTask ( type, prop, priority );
       }
@@ -239,6 +257,10 @@ public class TestProcessor {
 
     logger.debug ( "Processing test: " + proxy.getQualifiedName() );
 
+    // add the domain of this test to the list of domains for this
+    // submission.  this will be passed down to the rollup tasks.
+    domains.add( proxy.getQualifiedName().split("\\.")[1] );
+    
     try {
       if ( client == null ) {
         ClientFinderBase clientFinder = new ClientFinderBase ( session );

@@ -23,7 +23,11 @@ import java.text.*;
 public class SummarizeBuildTask implements Task {
   static Logger logger = Logger.getLogger ( SummarizeBuildTask.class );   
   public void execute ( Project project, Properties properties ) throws Exception {
-
+    // Check to see if the submission packet had build information 
+    if (! properties.getProperty( "Domains" ).matches( "Build" )) {
+      return;
+    }
+    
     
     // Summarize the tests for a given submission
     String SubmissionId = properties.getProperty ( "SubmissionId" );
