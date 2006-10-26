@@ -57,6 +57,12 @@
     <URL>jdbc:postgresql:testserver</URL>
     <Username>blezek</Username>
     <Password/>
+  <#elseif Type == "mysql">
+    <!-- MySQL -->
+    <Driver>com.mysql.jdbc.Driver</Driver>
+    <URL>jdbc:mysql://localhost/${ProjectName}</URL>
+    <Username>dart</Username>
+    <Password/>
   <#else>
     <!-- Derby database -->
     <Driver>org.apache.derby.jdbc.EmbeddedDriver</Driver>

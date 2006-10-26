@@ -402,7 +402,7 @@ public class Server extends Container
      Generates the Schema.sql file for a database type
      Uses FreeMarker to generate Schema.sql based on the database
      type, saving output to the given Writer.
-     @param DBType Type of database, currently supported are generic, postgres, and derby.
+     @param DBType Type of database, currently supported are generic, postgres, mysql and derby.
      @param out Where to write the Schema text
   */
   static public void generateSchema ( String DBType, Writer out ) {
@@ -423,6 +423,10 @@ public class Server extends Container
       } else if ( DBType.toLowerCase().equals ( "derby" ) ) {
         logger.debug ( "Found derby" );
         root.put ( "auto", "bigint generated always as identity" );
+        root.put ( "now", "CURRENT_TIMESTAMP" );
+      } else if ( DBType.toLowerCase().equals ( "mysql" ) ) {
+        logger.debug ( "Found mysql" );
+        root.put ( "auto", "serial" );
         root.put ( "now", "CURRENT_TIMESTAMP" );
       }
       template.process ( root, out );

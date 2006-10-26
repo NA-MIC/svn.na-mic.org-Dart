@@ -39,12 +39,12 @@ create table ClientProperty (
 create table Submission (
   SubmissionId ${auto} primary key,
   ClientId bigint,
-  TimeStamp timestamp,
+  TimeStamp timestamp default '1999-09-30 00:00:00',
   Type varchar(64),
   Project varchar(1024),
   Status varchar(64),
   CreatedTimeStamp timestamp default ${now},
-  ArchivedTimeStamp timestamp default null,
+  ArchivedTimeStamp timestamp default '1999-09-30 00:00:00',
   ArchiveLevel int default 0,
   TrackId bigint,
   NextSubmissionId bigint,
@@ -99,8 +99,8 @@ create index ResultIdx2 on Result ( Value );
 create table Track (
   TrackId ${auto} primary key,
   Name varchar(32),
-  StartTime timestamp,
-  EndTime timestamp,
+  StartTime timestamp default '1999-09-30 00:00:00',
+  EndTime timestamp default '1999-09-30 00:00:00',
   NextTrackId bigint,
   LastTrackId bigint
 );
