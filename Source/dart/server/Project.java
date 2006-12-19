@@ -460,7 +460,8 @@ public class Project extends Container {
         throw e;
       }
     }
-
+    // Don't need the Tasks anymore, so free
+    Tasks = null;
 
     // Configure the http context for this project
     try {

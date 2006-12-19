@@ -113,8 +113,11 @@
   <target name="compile" description="Compiles the Task" depends="wrap">
     <mkdir dir="${classes.dir}"/>
     <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" excludes="Test/**,qed/**" deprecation="true">
-      <!-- Doesn't seem to be compatable with 1.4... -->
-      <!-- <compilerarg compiler="javac1.5" value="-Xlint:unchecked"/> -->
+      <compilerarg compiler="javac1.5" value="-Xlint:unchecked"/>
+      <compilerarg compiler="javac1.5" value="-target"/>
+      <compilerarg compiler="javac1.5" value="1.4"/>
+      <compilerarg compiler="javac1.5" value="-source"/>
+      <compilerarg compiler="javac1.5" value="1.4"/>
       <classpath refid="classpath"/>
     </javac>
     <copy todir="${classes.dir}/dart/Resources">
@@ -246,6 +249,7 @@
       <jvmarg value="-DDEBUG_VERBOSE=1"/>
       <jvmarg value="-Xrunjmp"/>
       <jvmarg value="-Xdebug"/>
+      -->
       <jvmarg value="-Xrunjdwp:transport=dt_socket,address=4747,suspend=n,server=y"/>
       -->
       <jvmarg value="-Xmx128m"/>
@@ -271,7 +275,6 @@
     </java>
   </target>
 
-  
   <target name="refresh" depends="compile">
     <java classname="dart.DartServer">
       <classpath refid="classpath"/>
@@ -520,13 +523,29 @@
          </cruisecontrol>]]> 
       </insert> 
       <insert path="cruisecontrol" file="BuildNameNightly.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/CoverageSummary.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/CoverageZip.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/StyleSummary.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/StyleZip.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/CheckStyleSummary.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/CheckStyle.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/TEST-dart.DartServerTest.xml"/>
+    </xmltask>
+    <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/BuildLog.xml"/>
     </xmltask>
 
@@ -705,6 +724,30 @@
       <arg value="${DartProject}"/>
       <arg value="${logdir}/${logfile}"/>
     </java>
+  </target>
+
+  <target name="foobarxml">
+    <xmltask dest="${buildlog.dir}/NightlySubmission.xml">
+      <insert path="/"> 
+      <![CDATA[
+         <cruisecontrol>
+           <info>
+             <property name="builddate" value="${DartTimeStamp}"/>
+           </info>
+         </cruisecontrol>]]> 
+      </insert> 
+      <insert path="cruisecontrol" file="BuildNameNightly.xml"/>
+      <!--
+      <insert path="cruisecontrol" file="${buildlog.dir}/CoverageSummary.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/CoverageZip.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/StyleSummary.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/StyleZip.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/CheckStyleSummary.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/CheckStyle.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/TEST-dart.DartServerTest.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/BuildLog.xml"/>
+-->
+    </xmltask>
   </target>
 
 </project>

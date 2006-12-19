@@ -46,6 +46,8 @@ public class TestProcessor {
 
   boolean delayProcessing = false;
   Vector pending = new Vector();
+  Connection connection; // = project.getConnection();
+  JaxorContextImpl session; // = new JaxorContextImpl ( connection );
 
   HashSet domains = new HashSet();
 
@@ -55,8 +57,21 @@ public class TestProcessor {
   */
   public TestProcessor ( Project p ) {
     project = p;
+    connection = project.getConnection();
+    session = new JaxorContextImpl ( connection );
     logger.debug ( "Creating TestProcessor for " + project.getTitle() );
   }
+
+  /**
+     Close all open connections
+  */
+  public void closeConnections() {
+    try {
+      logger.debug("Closing connection.");
+      project.closeConnection ( connection );
+    } catch ( Exception e ) { }
+  }
+
 
   /**
      Set a limit on the number of test to process
@@ -251,8 +266,6 @@ public class TestProcessor {
       }
     }
 
-    Connection connection = project.getConnection();
-    JaxorContextImpl session = new JaxorContextImpl ( connection );
     QueryParams q = null;
 
     logger.debug ( "Processing test: " + proxy.getQualifiedName() );
@@ -301,6 +314,7 @@ public class TestProcessor {
           logger.debug ( "New Submission: " + submission.getSubmissionId() ); 
         }
       }
+
       TestFinderBase testFinder = new TestFinderBase ( session );
       TestEntity test;
       q = new QueryParams();
@@ -355,7 +369,10 @@ public class TestProcessor {
       if (proxy.getStatus().equals("f")) {
         test.setStatus( proxy.getStatus() );
       }
-                        
+
+      session.commit();
+      session.flush();
+
       
       ResultFinderBase resultFinder = new ResultFinderBase ( session );
       Iterator i = proxy.getResultMap().keySet().iterator();
@@ -445,11 +462,6 @@ public class TestProcessor {
       project.incrementStatistic ( "TestsProcessed" );
     } catch ( Exception e ) {
       logger.error ( "Failed to process Test", e );
-    } finally {
-      try {
-        logger.debug("Closing connection.");
-        project.closeConnection ( connection );
-      } catch ( Exception e ) { }
     }
   }
 

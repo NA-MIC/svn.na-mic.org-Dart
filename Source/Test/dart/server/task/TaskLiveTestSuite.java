@@ -35,6 +35,13 @@ public class TaskLiveTestSuite extends TestCase {
     Task task = (Task)Class.forName ( "dart.server.task.GarbageCollectionTask" ).newInstance();
     task.execute ( project, null );
   }
+
+  public void testReindexTrackTask() throws Exception {
+    // Get the live project
+    Task task = (Task)Class.forName ( "dart.server.task.ReindexTrackTask" ).newInstance();
+    task.execute ( project, null );
+  }
+
   
   public void testDeleteDataTask() throws Exception {
     // Get the live project
@@ -43,10 +50,10 @@ public class TaskLiveTestSuite extends TestCase {
     props.put ( "ResultValue", "1" );
     task.execute ( project, props );
   }
-  
-  public void testProcessXMLLongCorrect() throws Exception {
+
+  void processURL ( String u ) throws Exception {
     // Find the file
-    URL url = DartServer.class.getClassLoader().getResource ( "dart/Resources/Test/TestLongCorrect.xml.gz" );
+    URL url = DartServer.class.getClassLoader().getResource ( u );
     // Find the task
     Task task = (Task)Class.forName ( "dart.server.task.XMLResultProcessor" ).newInstance();
     Properties prop = new Properties();
@@ -54,14 +61,36 @@ public class TaskLiveTestSuite extends TestCase {
     task.execute ( project, prop );
   }
 
+  
+  public void testProcessXMLLongCorrect() throws Exception {
+    processURL ( "dart/Resources/Test/TestLongCorrect.xml.gz" );
+  }
   public void testProcessXMLWithZip() throws Exception {
-    // Find the file
-    URL url = DartServer.class.getClassLoader().getResource ( "dart/Resources/Test/TestWithZip.xml.gz" );
-    // Find the task
-    Task task = (Task)Class.forName ( "dart.server.task.XMLResultProcessor" ).newInstance();
-    Properties prop = new Properties();
-    prop.setProperty ( "URL", url.toString() );
-    task.execute ( project, prop );
+    processURL ( "dart/Resources/Test/TestWithZip.xml.gz" );
+  }
+  public void testProcessXMLBuild () throws Exception {
+    processURL ( "dart/Resources/Test/Build.xml.gz" );
+  }
+  public void testProcessXMLConfigure () throws Exception {
+    processURL ( "dart/Resources/Test/Configure.xml.gz" );
+  }
+  public void testProcessXMLCoverage () throws Exception {
+    processURL ( "dart/Resources/Test/Coverage.xml.gz" );
+  }
+  public void testProcessXMLNoteCollection () throws Exception {
+    processURL ( "dart/Resources/Test/NoteCollection.xml.gz" );
+  }
+  public void testProcessXMLNotes () throws Exception {
+    processURL ( "dart/Resources/Test/Notes.xml.gz" );
+  }
+  public void testProcessXMLTestLong () throws Exception {
+    processURL ( "dart/Resources/Test/TestLong.xml.gz" );
+  }
+  public void testProcessXMLTest () throws Exception {
+    processURL ( "dart/Resources/Test/Test.xml.gz" );
+  }
+  public void testProcessXMLUpdate () throws Exception {
+    processURL ( "dart/Resources/Test/Update.xml.gz" );
   }
 
   public void testQueue() throws Exception {
@@ -118,10 +147,16 @@ public class TaskLiveTestSuite extends TestCase {
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLWithZip" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testArchiveTask" ) );
-    tests.addTest ( new TaskLiveTestSuite ( "testSummarizeBuildTask" ) );
-    tests.addTest ( new TaskLiveTestSuite ( "testSummarizeCoverage" ) );
-    tests.addTest ( new TaskLiveTestSuite ( "testSummarizeDynamicAnalysis" ) );
-
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLBuild" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLConfigure" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLCoverage" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLNoteCollection" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLNotes" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLTestLong" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLTest" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLUpdate" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testReindexTrackTask" ) );
     return tests;
   }
 }

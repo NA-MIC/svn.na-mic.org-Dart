@@ -191,7 +191,7 @@ public class Database {
         }
         connectionInfo.put ( connection, t );
         currentActive++;
-        if ( currentActive != connectionPool.getNumActive() ) {
+        if ( currentActive != connectionPool.getNumActive() && false ) {
           // logger.debug ( "getConnection: Dart's count: " + currentActive + " Pool count: " + connectionPool.getNumActive() );
           logger.error ( "getConnection: Dart's count: " + currentActive + " Pool count: " + connectionPool.getNumActive() + "\n" + this.toString() );
         }
@@ -207,12 +207,14 @@ public class Database {
   public void closeConnection ( Connection c ) throws Exception {
     synchronized ( this ) {
       Throwable t = null;
+      /*
       if ( !connectionInfo.containsKey ( c ) ) {
         logger.error ( "Do not have connection info for connection!!!" );
       } else {
         t = (Throwable) connectionInfo.get ( c );
         connectionInfo.remove ( c );
       }
+      */
       try {
         c.close();
       } catch ( SQLException sqle ) {
@@ -222,7 +224,7 @@ public class Database {
         throw sqle;
       } finally {
         currentActive--;
-        if ( currentActive != connectionPool.getNumActive() ) {
+        if ( currentActive != connectionPool.getNumActive() && false ) {
           logger.error ( "closeConnection: Dart's count: " + currentActive + " Pool count: " + connectionPool.getNumActive() + "\n" + this.toString() );
         }
       }

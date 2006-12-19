@@ -18,7 +18,7 @@ import dart.server.TestProxy;
 public class XMLResultProcessor implements Task {
   static Logger logger = Logger.getLogger ( XMLResultProcessor.class );   
 
-  public void execute ( Project project, Properties properties ) throws Exception {
+  public synchronized void execute ( Project project, Properties properties ) throws Exception {
     URL file = new URL ( properties.getProperty ( "URL" ) );
 
     URL rules = Project.class.getClassLoader().getResource ( "dart/Resources/Server/TestProcessorRules.xml" );
@@ -55,6 +55,7 @@ public class XMLResultProcessor implements Task {
       input.close();
       t.processDelayed();
       t.queueSummary();
+      t.closeConnections();
       logger.debug ( project.getTitle() + ": DeleteWhenDigested " + deleteWhenDigested );
       if ( deleteWhenDigested & !hasError ) {
         logger.debug ( project.getTitle() + ": Attempting to delete " + file.toString() );
