@@ -524,6 +524,7 @@
       </insert> 
       <insert path="cruisecontrol" file="BuildNameNightly.xml"/>
     </xmltask>
+    <!-- These jobs may have not run -->
     <xmltask source="${buildlog.dir}/NightlySubmission.xml" dest="${buildlog.dir}/NightlySubmission.xml">
       <insert path="cruisecontrol" file="${buildlog.dir}/CoverageSummary.xml"/>
     </xmltask>

@@ -92,6 +92,9 @@ public class TaskLiveTestSuite extends TestCase {
   public void testProcessXMLUpdate () throws Exception {
     processURL ( "dart/Resources/Test/Update.xml.gz" );
   }
+  public void testProcessXMLCoverageLog () throws Exception {
+    processURL ( "dart/Resources/Test/CoverageLog.xml.gz" );
+  }
 
   public void testQueue() throws Exception {
     Task task = (Task)Class.forName ( "dart.server.task.QueueManager" ).newInstance();
@@ -125,18 +128,6 @@ public class TaskLiveTestSuite extends TestCase {
       fail( e.toString() );
     }
   }
-  
-  public void testSummarizeBuildTask() throws Exception {
-    testSubmissionTask ( "dart.server.task.SummarizeBuildTask" );
-  }
-
-  public void testSummarizeCoverage() throws Exception {
-    testSubmissionTask ( "dart.server.task.SummarizeCoverage" );
-  }
-
-  public void testSummarizeDynamicAnalysis() throws Exception {
-    testSubmissionTask ( "dart.server.task.SummarizeDynamicAnalysis" );
-  }
 
   public static Test suite() {
     TestSuite tests = new TestSuite();
@@ -155,6 +146,7 @@ public class TaskLiveTestSuite extends TestCase {
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLTestLong" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLTest" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLUpdate" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLCoverageLog" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testReindexTrackTask" ) );
     return tests;
