@@ -7,25 +7,24 @@
     <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
 
     <!-- Configures the actual build loop, how often and which build file/target --> 
-    <schedule interval="600"> 
+    <schedule interval="6"> 
       <ant
-           buildfile="build.xml"
-           target="ccbuild"
-           uselogger="true"
-           usedebug="false"/> 
+        buildfile="build.xml"
+        target="ccbuild"
+        uselogger="true"
+        usedebug="false"/> 
     </schedule>
 
     <!-- Defines where cruise looks for changes, to decide whether to run the build --> 
     <modificationset> 
       <!-- Uncomment next line for testing -->
-      <!-- <alwaysbuild/> -->
       <alwaysbuild/>
       <svn localworkingcopy="."/> 
     </modificationset>
 
     <!-- directory to write build logs to --> 
-    <log dir="ResultLog">
-      <merge dir="TestLog"/>
+    <log dir="BuildLogs">
+      <merge dir="BuildLogs"/>
       <merge file="BuildNameContinuous.xml"/>
     </log>
 

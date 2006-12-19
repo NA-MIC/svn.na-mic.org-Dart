@@ -81,7 +81,33 @@ public class TaskLiveTestSuite extends TestCase {
     task.execute ( project, properties );
     assertTrue ( "Archive created", new File ( f, "Working" ).exists() );
   }
+
+  void testSubmissionTask ( String className ) throws Exception {
+    // Get the live project
+    Task task = (Task)Class.forName ( className ).newInstance();
+    Properties properties = new Properties();
+    properties.setProperty ( "SubmissionId", "1" );
+    properties.setProperty ( "Domains", "Build,Test,Coverage,DynamicAnalysis" );
+    properties.setProperty ( "TrackName", "Nightly" );
+    try {
+      logger.error ( "Project: " + project + " Task: " + task );
+      task.execute ( project, properties );
+    } catch ( Exception e ) {
+      fail( e.toString() );
+    }
+  }
   
+  public void testSummarizeBuildTask() throws Exception {
+    testSubmissionTask ( "dart.server.task.SummarizeBuildTask" );
+  }
+
+  public void testSummarizeCoverage() throws Exception {
+    testSubmissionTask ( "dart.server.task.SummarizeCoverage" );
+  }
+
+  public void testSummarizeDynamicAnalysis() throws Exception {
+    testSubmissionTask ( "dart.server.task.SummarizeDynamicAnalysis" );
+  }
 
   public static Test suite() {
     TestSuite tests = new TestSuite();
@@ -92,6 +118,9 @@ public class TaskLiveTestSuite extends TestCase {
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLWithZip" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testArchiveTask" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testSummarizeBuildTask" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testSummarizeCoverage" ) );
+    tests.addTest ( new TaskLiveTestSuite ( "testSummarizeDynamicAnalysis" ) );
 
     return tests;
   }

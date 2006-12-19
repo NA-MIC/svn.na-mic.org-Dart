@@ -4,11 +4,35 @@
   <property name="src.dir" value="Source"/>
   <property name="classes.dir" value="Class"/>
   <property name="doc.dir" value="Documentation"/>
+  <property name="buildlog.dir" value="BuildLogs"/>
+
   <property name="dist.dir" value="${java.io.tmpdir}/${user.name}/Dart"/>
   <property name="major" value="1"/>
   <property name="minor" value="0"/>
   <property name="patch" value="7"/>
   <property name="version" value="${major}.${minor}.${patch}"/>
+
+  <!-- Submission properties -->
+  <property name="DartClassPath" value="DartClient.jar"/>
+  <property name="DartServer" value="na-mic.org"/>
+  <property name="DartPort" value="8081"/>
+  <property name="DartProject" value="Dart"/>
+
+
+  <!-- Figure out how to call ant recursively -->
+  <condition property="AntCommand" value="${ant.home}/bin/ant.bat">
+    <os family="windows"/>
+  </condition>
+  <condition property="AntCommand" value="${ant.home}/bin/ant">
+    <not>
+      <os family="windows"/>
+    </not>
+  </condition>
+
+
+  <tstamp>
+    <format property="DartTimeStamp" pattern="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
+  </tstamp>
 
 
   <!-- Properties in the properties file will be set first, if the file exists
@@ -53,6 +77,10 @@
   </path>
 
   <taskdef classpathref="cobertura_classpath" resource="tasks.properties"/>
+
+
+  <!-- XML Task is helpful for merging files -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" classpath="Tools/AntTasks/xmltask-v1.14.jar"/>
 
   <path id="classpath">
     <fileset dir="lib">
@@ -119,18 +147,18 @@
   </target>
 
   <target name="test" depends="pretest">
-    <mkdir dir="TestLog"/>
+    <mkdir dir="${buildlog.dir}"/>
     <junit haltonfailure="false" printsummary="true" fork="true">
       <formatter type="brief" usefile="false"/>
       <formatter type="xml"/>
       <classpath refid="testclasspath"/>
-      <test name="dart.DartServerTest" todir="TestLog"/>
+      <test name="dart.DartServerTest" todir="${buildlog.dir}"/>
     </junit>
   </target>
 
   <target name="coverage" depends="pretest,setproxy1,setproxy2">
-    <mkdir dir="TestLog"/>
-    <mkdir dir="TestLog/Coverage"/>
+    <mkdir dir="${buildlog.dir}"/>
+    <mkdir dir="${buildlog.dir}/Coverage"/>
     
     <cobertura-instrument>
       <fileset dir="${classes.dir}">
@@ -145,23 +173,23 @@
       <formatter type="xml"/>
       <classpath refid="cobertura_classpath"/>
       <classpath refid="testclasspath"/>
-      <test name="dart.DartServerTest" todir="TestLog"/>
+      <test name="dart.DartServerTest" todir="${buildlog.dir}"/>
     </junit>
     <cobertura-report srcdir="${src.dir}" 
-      destdir="TestLog/Coverage"/>
+      destdir="${buildlog.dir}/Coverage"/>
     <cobertura-report format="xml" srcdir="${src.dir}" 
-      destdir="TestLog"/>
+      destdir="${buildlog.dir}"/>
     <style
-      in="TestLog/coverage.xml" 
-      out="TestLog/CoverageSummary.xml"
+      in="${buildlog.dir}/coverage.xml" 
+      out="${buildlog.dir}/CoverageSummary.xml"
       style="Tools/Cobertura/coverage-summary.xsl"/>
-    <delete file="TestLog/coverage.xml"/>
+    <delete file="${buildlog.dir}/coverage.xml"/>
   </target>
 
   <target name="foobar" depends="setproxy1,setproxy2">
     <style
-      in="TestLog/coverage.xml" 
-      out="TestLog/CoverageSummary.xml"
+      in="${buildlog.dir}/coverage.xml" 
+      out="${buildlog.dir}/CoverageSummary.xml"
       style="Tools/Cobertura/coverage-summary.xsl"/>
 </target>
 
@@ -220,12 +248,29 @@
       <jvmarg value="-Xdebug"/>
       <jvmarg value="-Xrunjdwp:transport=dt_socket,address=4747,suspend=n,server=y"/>
       -->
+      <jvmarg value="-Xmx128m"/>
+      <classpath refid="classpath"/>
+      <arg value="DartServer"/>
+      <arg value="TestProject"/>
+    </java>
+  </target>
+
+  <target name="profile" depends="compile">
+    <fail unless="netbeans.home">Can only be run from inside the NetBeans IDE</fail>
+    <nbprofiledirect>
+      <classpath refid="classpath"/>
+    </nbprofiledirect>
+    <java classname="dart.DartServer" fork="true">
+      <jvmarg value="${profiler.info.jvmargs.agent}"/>
+      <jvmarg value="-DDEBUG"/>
+      <jvmarg value="-DDEBUG_PATTERNS=main,org.mortbay.http"/>
       <jvmarg value="-Xmx256m"/>
       <classpath refid="classpath"/>
       <arg value="DartServer"/>
       <arg value="TestProject"/>
     </java>
   </target>
+
   
   <target name="refresh" depends="compile">
     <java classname="dart.DartServer">
@@ -428,29 +473,108 @@
   </target>
 
   <!-- Cruise Control Integration -->
-  <target name="ccbuild">
-    <ant antfile="build.xml" target="ccrealbuild" output="log.xml"/>
-  </target>
 
-  <target name="ccrealbuild">
-    <delete dir="TestLog"/>
-    <mkdir dir="TestLog"/>
-
+  <target name="setupbuildnamexml">
     <!-- Create the BuildName info, if necessary -->
     <filter token="Dart.BuildName" value="${Dart.BuildName}"/>
     <filter token="Dart.Site" value="${Dart.Site}"/>
     <filter token="Dart.Track" value="Continuous"/>
     <copy file="BuildNameTemplate.xml" tofile="BuildNameContinuous.xml" filtering="true"/>
+    <filter token="Dart.Track" value="Experimental"/>
+    <copy file="BuildNameTemplate.xml" tofile="BuildNameExperimental.xml" filtering="true"/>
     <filter token="Dart.Track" value="Nightly"/>
     <copy file="BuildNameTemplate.xml" tofile="BuildNameNightly.xml" filtering="true"/>
-    
-    
+  </target>
+
+
+  <target name="ccbuild" depends="setupbuildnamexml">
+    <ant antfile="build.xml" target="nightly" output="log.xml"/>
+  </target>
+
+
+  <target name="nightly" depends="setupbuildnamexml">
     <!-- Get the latest from SVN -->
     <exec executable="svn">
       <arg value="update"/>
     </exec>
+
+    <!-- Build/test -->
+    <!-- <antcall target="buildandtest"/> -->
+    <delete dir="${buildlog.dir}"/>
+    <mkdir dir="${buildlog.dir}"/>
+    <exec executable="${AntCommand}">
+      <arg value="-logger"/>
+      <arg value="org.apache.tools.ant.XmlLogger"/>
+      <arg value="-logfile"/>
+      <arg value="${buildlog.dir}/BuildLog.xml"/>
+      <arg value="buildandtest"/>
+    </exec>
+    <!-- Write the output -->
+    <xmltask dest="${buildlog.dir}/NightlySubmission.xml">
+      <insert path="/"> 
+      <![CDATA[
+         <cruisecontrol>
+           <info>
+             <property name="builddate" value="${DartTimeStamp}"/>
+           </info>
+         </cruisecontrol>]]> 
+      </insert> 
+      <insert path="cruisecontrol" file="BuildNameNightly.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/CoverageSummary.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/CoverageZip.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/StyleSummary.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/StyleZip.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/CheckStyleSummary.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/CheckStyle.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/TEST-dart.DartServerTest.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/BuildLog.xml"/>
+    </xmltask>
+
+    <antcall target="submit">
+      <param name="SubmissionFile" value="${buildlog.dir}/NightlySubmission.xml"/>
+    </antcall>
+
+  </target>
+
+  <target name="experimental" depends="setupbuildnamexml">
+    <!-- Build/test -->
+    <!-- Call the target that does everything -->
+    <delete dir="${buildlog.dir}"/>
+    <mkdir dir="${buildlog.dir}"/>
+    <exec executable="${AntCommand}">
+      <arg value="-logger"/>
+      <arg value="org.apache.tools.ant.XmlLogger"/>
+      <arg value="-logfile"/>
+      <arg value="${buildlog.dir}/BuildLog.xml"/>
+      <arg value="all"/>
+    </exec>
+    <!-- Write the output -->
+    <xmltask dest="${buildlog.dir}/ExperimentalSubmission.xml">
+      <insert path="/"> 
+      <![CDATA[
+         <cruisecontrol>
+           <info>
+             <property name="builddate" value="${DartTimeStamp}"/>
+           </info>
+         </cruisecontrol>]]> 
+      </insert> 
+      <insert path="cruisecontrol" file="BuildNameExperimental.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/TEST-dart.DartServerTest.xml"/>
+      <insert path="cruisecontrol" file="${buildlog.dir}/BuildLog.xml"/>
+    </xmltask>
+
+    <antcall target="submit">
+      <param name="SubmissionFile" value="${buildlog.dir}/ExperimentalSubmission.xml"/>
+    </antcall>
+  </target>
+
+
+  <target name="buildandtest" depends="setproxy1,setproxy2">
+
     <!-- Call the target that does everything -->
     <antcall target="all"/>
+
+    <!-- Do the testing -->
     <antcall target="checkstyle"/>
     <antcall target="checkstylemerge"/>
     <antcall target="style"/>
@@ -461,42 +585,42 @@
 
   <target name="coveragemerge">
     <!-- Merge the coverage results -->
-    <zip destfile="TestLog/Coverage/Coverage.zip" basedir="TestLog/Coverage/"/>
+    <zip destfile="${buildlog.dir}/Coverage/Coverage.zip" basedir="${buildlog.dir}/Coverage/"/>
     <java classname="dart.server.util.Base64">
       <classpath refid="classpath"/>
       <classpath refid="cobertura_classpath"/>
-      <arg value="TestLog/Coverage/Coverage.zip"/>
-      <arg value="TestLog/Coverage/Coverage.zip.uu"/>
+      <arg value="${buildlog.dir}/Coverage/Coverage.zip"/>
+      <arg value="${buildlog.dir}/Coverage/Coverage.zip.uu"/>
     </java>
-    <concat destfile="TestLog/CoverageZip.xml">
+    <concat destfile="${buildlog.dir}/CoverageZip.xml">
       <filelist dir="Tools/Cobertura" files="CoverageWrapperBegin.xml"/>
-      <filelist dir="TestLog/Coverage" files="Coverage.zip.uu"/>
+      <filelist dir="${buildlog.dir}/Coverage" files="Coverage.zip.uu"/>
       <filelist dir="Tools/Cobertura" files="CoverageWrapperEnd.xml"/>
     </concat>
   </target>
 
   <target name="style">
-    <delete dir="TestLog/JCSC"/>
-    <mkdir dir="TestLog/JCSC"/>
-    <jcsc destdir="TestLog/JCSC" jcschome="Tools/jcsc" copyassociatedfiles="true">
+    <delete dir="${buildlog.dir}/JCSC"/>
+    <mkdir dir="${buildlog.dir}/JCSC"/>
+    <jcsc destdir="${buildlog.dir}/JCSC" jcschome="Tools/jcsc" copyassociatedfiles="true">
       <fileset dir="Source" includes="**/*.java" excludes="**/wrap/**"/>
     </jcsc>
     <style
-      in="TestLog/JCSC/overview.xml" 
-      out="TestLog/StyleSummary.xml"
+      in="${buildlog.dir}/JCSC/overview.xml" 
+      out="${buildlog.dir}/StyleSummary.xml"
       style="Tools/jcsc/jcsc-summary.xsl"/>
   </target>
 
   <target name="stylemerge">
-    <zip destfile="TestLog/Style.zip" basedir="TestLog/JCSC/"/>
+    <zip destfile="${buildlog.dir}/Style.zip" basedir="${buildlog.dir}/JCSC/"/>
     <java classname="dart.server.util.Base64">
       <classpath refid="classpath"/>
-      <arg value="TestLog/Style.zip"/>
-      <arg value="TestLog/Style.zip.uu"/>
+      <arg value="${buildlog.dir}/Style.zip"/>
+      <arg value="${buildlog.dir}/Style.zip.uu"/>
     </java>
-    <concat destfile="TestLog/StyleZip.xml">
+    <concat destfile="${buildlog.dir}/StyleZip.xml">
       <filelist dir="Tools/jcsc" files="StyleWrapperBegin.xml"/>
-      <filelist dir="TestLog/" files="Style.zip.uu"/>
+      <filelist dir="${buildlog.dir}/" files="Style.zip.uu"/>
       <filelist dir="Tools/jcsc" files="StyleWrapperEnd.xml"/>
     </concat>
   </target>
@@ -504,19 +628,19 @@
 
 
   <target name="checkstyle">
-    <mkdir dir="TestLog/CheckStyle"/>
+    <mkdir dir="${buildlog.dir}/CheckStyle"/>
     <checkstyle config="Tools/CheckStyle/sun_checks.xml" failOnViolation="false">
       <fileset dir="Source" includes="**/*.java" excludes="dart/server/wrap/**,qed/server/wrap/**"/>
-      <formatter type="xml" tofile="TestLog/CheckStyle.xml"/>
+      <formatter type="xml" tofile="${buildlog.dir}/CheckStyle.xml"/>
       <property key="basedir" value="/projects/mion/Source/Dart/Source"/>
     </checkstyle>
     <style
-      in="TestLog/CheckStyle.xml" 
-      out="TestLog/CheckStyle/CheckStyle.html"
+      in="${buildlog.dir}/CheckStyle.xml" 
+      out="${buildlog.dir}/CheckStyle/CheckStyle.html"
       style="Tools/CheckStyle/checkstyle-noframes-sorted.xsl"/>
     <style
-      in="TestLog/CheckStyle.xml" 
-      out="TestLog/CheckStyleSummary.xml"
+      in="${buildlog.dir}/CheckStyle.xml" 
+      out="${buildlog.dir}/CheckStyleSummary.xml"
       style="Tools/CheckStyle/checkstyle-summary.xsl"/>
   </target>
 
@@ -525,12 +649,12 @@
     <java classname="dart.server.util.Base64">
       <classpath refid="classpath"/>
       <classpath refid="cobertura_classpath"/>
-      <arg value="TestLog/CheckStyle/CheckStyle.html"/>
-      <arg value="TestLog/CheckStyle/CheckStyle.html.uu"/>
+      <arg value="${buildlog.dir}/CheckStyle/CheckStyle.html"/>
+      <arg value="${buildlog.dir}/CheckStyle/CheckStyle.html.uu"/>
     </java>
-    <concat destfile="TestLog/CheckStyleReport.xml">
+    <concat destfile="${buildlog.dir}/CheckStyleReport.xml">
       <filelist dir="." files="Tools/CheckStyle/CheckStyleWrapperBegin.xml"/>
-      <filelist dir="TestLog" files="CheckStyle/CheckStyle.html.uu"/>
+      <filelist dir="${buildlog.dir}" files="CheckStyle/CheckStyle.html.uu"/>
       <filelist dir="." files="Tools/CheckStyle/CheckStyleWrapperEnd.xml"/>
     </concat>
   </target>
@@ -548,13 +672,32 @@
     <setproxy proxyhost="${proxyhost}" proxyport="${proxyport}"/>
   </target>
 
-  <target name="publish">
-    <antcall target="setproxy1"/>
-    <antcall target="setproxy2"/>
-    <java classname="dart.DartClient">
+
+  <target name="submit" depends="setproxy1,setproxy2">
+    <java classname="dart.DartClient" fork="true">
       <classpath>
         <pathelement location="${DartClassPath}"/>
       </classpath>
+      <jvmarg value="-Dhttp.proxyPort=${proxyport}"/>
+      <jvmarg value="-Dhttp.proxyHost=${proxyhost}"/>
+      <arg value="--server"/>
+      <arg value="${DartServer}"/>
+      <arg value="--port"/>
+      <arg value="${DartPort}"/>
+      <arg value="${DartProject}"/>
+      <arg value="${SubmissionFile}"/>
+    </java>
+  </target>
+
+  <target name="publish">
+    <antcall target="setproxy1"/>
+    <antcall target="setproxy2"/>
+    <java classname="dart.DartClient" fork="true">
+      <classpath>
+        <pathelement location="${DartClassPath}"/>
+      </classpath>
+      <jvmarg value="-Dhttp.proxyPort=${proxyport}"/>
+      <jvmarg value="-Dhttp.proxyHost=${proxyhost}"/>
       <arg value="--server"/>
       <arg value="${DartServer}"/>
       <arg value="--port"/>
@@ -563,8 +706,6 @@
       <arg value="${logdir}/${logfile}"/>
     </java>
   </target>
-
-
 
 </project>
 

@@ -177,7 +177,7 @@ public class DartServer extends Container
     options.addOption ( "R", "refreshServer", false, "Refresh server resources" );
     options.addOption ( "l", "logconfiguration", true, "File to configure log4j from, defaults are used if not present" );
     options.addOption ( "c", "create", true, "Create a new project in the directory specified" );
-    options.addOption ( "d", "database", true, "At project creation time, configure the Schema.sql file for generic, Postgres, Derby" );
+    options.addOption ( "d", "database", true, "At project creation time, configure the Schema.sql file for generic, Postgres, Derby, or MySQL" );
     options.addOption ( "i", "initialize", false, "Initialize the database from the Schema.sql file in the project directory" );
     options.addOption ( "k", "createserver", true, "Create a new server in the directory specified" );
     options.addOption ( "j", "initializeserver", false, "Initialize the database from the ServerSchema.sql file in the dart server directory" );
