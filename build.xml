@@ -9,7 +9,7 @@
   <property name="dist.dir" value="${java.io.tmpdir}/${user.name}/Dart"/>
   <property name="major" value="1"/>
   <property name="minor" value="0"/>
-  <property name="patch" value="7"/>
+  <property name="patch" value="8"/>
   <property name="version" value="${major}.${minor}.${patch}"/>
 
   <!-- Submission properties -->
@@ -468,7 +468,7 @@
     <mkdir dir="${dist.dir}/Dart${version}"/>
     <copy todir="${dist.dir}/Dart${version}" file="DartServer.jar"/>
     <copy todir="${dist.dir}/Dart${version}" file="DartClient.jar"/>
-    <copy todir="${dist.dir}/Dart${version}" file="Dart.pdf"/>
+    <copy todir="${dist.dir}/Dart${version}" file="Documentation/Manual/Dart.pdf"/>
     <tar destfile="Dart${version}.tar" basedir="${dist.dir}/"/>
     <gzip zipfile="Dart${version}.tar.gz" src="Dart${version}.tar"/>
     <delete file="Dart${version}.tar"/>
