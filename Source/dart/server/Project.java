@@ -129,7 +129,7 @@ public class Project extends Container {
   public Properties getStats() { return stats; }
   public Properties getProperties() { return properties; }
   public void setProperties ( Properties p ) { properties = p; }
-  public void setStatistic(String key, String value) { stats.put(key, value); }
+  public void setStatistic ( String key, String value) { stats.put(key, value); }
   public void incrementStatistic ( String key ) { incrementStatistic ( key, 1 ); }
   public void incrementStatistic ( String key, int i ) {
     if ( !stats.containsKey ( key ) ) {
@@ -259,7 +259,7 @@ public class Project extends Container {
     Statement statement = connection.createStatement();
     int Major, Minor, Patch;
     try {
-      ResultSet rs = statement.executeQuery ( "select * from version" );
+      ResultSet rs = statement.executeQuery ( "select * from Version" );
       if ( !rs.next() ) {
         throw new Exception ( "Version table did not contain any rows!" );
       }
