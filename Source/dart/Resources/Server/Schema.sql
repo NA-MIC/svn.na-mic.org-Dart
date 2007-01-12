@@ -1,7 +1,7 @@
 
 
 -- Version table
-create table Version (
+create table version (
     Major int,
     Minor int,
     Patch int,
@@ -11,7 +11,7 @@ create table Version (
 delete from Version;
 insert into Version ( Major, Minor, Patch ) Values ( 1, 2, 0 );
 
-create table Client (
+create table client (
     ClientId ${auto} primary key,
     Site varchar(64),
     BuildName varchar(64),
@@ -26,17 +26,17 @@ create table Client (
 );
 
 -- How we select a Client during Submission processing
-create index ClientIdx1 on Client ( Site, BuildName );
+create index ClientIdx1 on client ( Site, BuildName );
 
 -- Client properties
-create table ClientProperty (
+create table clientproperty (
   ClientPropertyId ${auto} primary key,
   ClientId bigint,
   Name varchar(1024),
   Value varchar(1024)
 );
 
-create table Submission (
+create table submission (
   SubmissionId ${auto} primary key,
   ClientId bigint,
   TimeStamp timestamp default '1999-09-30 00:00:00',
@@ -52,11 +52,11 @@ create table Submission (
   Generator varchar(1024) default null
 );
 
-create index SubmissionIdx1 on Submission ( ClientId, Timestamp, Type );
-create index SubmissionIdx2 on Submission ( TrackId );
-create index SubmissionIdx3 on Submission ( CreatedTimeStamp, TimeStamp, ArchiveLevel );
+create index SubmissionIdx1 on submission ( ClientId, Timestamp, Type );
+create index SubmissionIdx2 on submission ( TrackId );
+create index SubmissionIdx3 on submission ( CreatedTimeStamp, TimeStamp, ArchiveLevel );
 
-create table Test ( 
+create table test ( 
   TestId ${auto} primary key,
   ParentTestId bigint,
   SubmissionId bigint,
@@ -69,19 +69,19 @@ create table Test (
 );
 
 -- This a common query for processing tests
-create index TestIdx1 on Test ( SubmissionId, QualifiedName );
-create index TestIdx2 on Test ( ParentTestId );
-create index TestIdx3 on Test ( QualifiedName, SubmissionId );
+create index TestIdx1 on test ( SubmissionId, QualifiedName );
+create index TestIdx2 on test ( ParentTestId );
+create index TestIdx3 on test ( QualifiedName, SubmissionId );
 
-create table RelatedTest (
+create table relatedtest (
   TestId bigint primary key not null,
   Relation varchar(32) not null,
   RelatedTestId bigint not null
 );
 
-create index RelatedTestIdx1 on RelatedTest ( TestId, Relation );
+create index RelatedTestIdx1 on relatedtest ( TestId, Relation );
 
-create table Result (
+create table result (
   ResultId ${auto} primary key,
   TestId bigint not null,
   Name varchar(64),
@@ -90,13 +90,13 @@ create table Result (
 );
 
 -- Used to report results
-create index ResultIdx1 on Result ( TestId, Name );
+create index ResultIdx1 on result ( TestId, Name );
 
 -- Used to report results
-create index ResultIdx2 on Result ( Value );
+create index ResultIdx2 on result ( Value );
 
 -- Track table
-create table Track (
+create table track (
   TrackId ${auto} primary key,
   Name varchar(32),
   StartTime timestamp default '1999-09-30 00:00:00',
@@ -106,11 +106,11 @@ create table Track (
 );
 
 -- Speed up Next/Last queries
-create index TrackIdx1 on Track ( Name, StartTime );
-create index TrackIdx2 on Track ( Name, EndTime );
-create index TrackIdx3 on Track ( Name, EndTime, StartTime );
+create index TrackIdx1 on track ( Name, StartTime );
+create index TrackIdx2 on track ( Name, EndTime );
+create index TrackIdx3 on track ( Name, EndTime, StartTime );
 
-create table TaskQueue (
+create table taskqueue (
   TaskId ${auto} primary key,
   Priority int,
   QueuedTime timestamp default ${now},
@@ -119,9 +119,9 @@ create table TaskQueue (
 );
 
 -- Usual task query
-create index TaskQueueIdx1 on TaskQueue ( Priority, TaskId );
+create index TaskQueueIdx1 on taskqueue ( Priority, TaskId );
 
-create table CompletedTask (
+create table completedtask (
   TaskId bigint not null primary key,
   Status varchar(10),
   ProcessedTime timestamp default ${now},
@@ -133,7 +133,7 @@ create table CompletedTask (
 
 
 -- Notes
-create table Note (
+create table note (
   NoteId ${auto} not null primary key,
   Reference varchar(64) not null,       -- Client, Submission, Test, Result
   ReferenceId bigint,                      -- ClientId, SubmissionId, etc.

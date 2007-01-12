@@ -259,7 +259,7 @@ public class Project extends Container {
     Statement statement = connection.createStatement();
     int Major, Minor, Patch;
     try {
-      ResultSet rs = statement.executeQuery ( "select * from Version" );
+      ResultSet rs = statement.executeQuery ( "select * from version" );
       if ( !rs.next() ) {
         throw new Exception ( "Version table did not contain any rows!" );
       }
