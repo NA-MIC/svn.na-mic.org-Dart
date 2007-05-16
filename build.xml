@@ -14,8 +14,8 @@
 
   <!-- Submission properties -->
   <property name="DartClassPath" value="DartClient.jar"/>
-  <property name="DartServer" value="na-mic.org"/>
-  <property name="DartPort" value="8081"/>
+  <property name="DartServer" value="dart.na-mic.org"/>
+  <property name="DartPort" value="80"/>
   <property name="DartProject" value="Dart"/>
 
 

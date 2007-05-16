@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,8 @@ public class QueueManager implements Task {
     
     maxTasks = Integer.parseInt ( properties.getProperty ( "MaxTasks", "-1" ) );
     logger.info ( project.getTitle() + ": Starting to process tasks, MaxTasks is " + maxTasks );
-
+    java.util.Date now = new java.util.Date();
+    project.setStatistic ( "LastRollup", now.toString() );
     Connection connection = project.getConnection();
     TaskQueueResultSet i = null;
     try {

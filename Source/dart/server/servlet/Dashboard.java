@@ -163,6 +163,7 @@ public class Dashboard extends HttpServlet {
     root.put ( "fetchdata", new FetchData ( project ) );
     root.put ( "projectProperties", project.getProperties() );
     root.put ( "request", req );
+    root.put ( "project", project );
     root.put ( "submissionFinder", submissionFinder );
 
     BeansWrapper realmWrapper = new BeansWrapper();

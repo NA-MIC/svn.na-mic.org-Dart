@@ -31,7 +31,7 @@
 </td>
 <td align="left" width="100%" class="title">
 <h2>${projectName?html} Dashboard</h2>
-<h3>${date?datetime?string("long")?html}</h3>
+<h3>${date?datetime?string("long")?html}</h3> Last rollup: ${project.getStats()["LastRollup"]?default("N/A")}
 <@displayMenu />
 <div align="right"><a href="SubmissionRSS.xml"><img class="icon" src="/${projectName?url}/Resources/Icons/feed-icon16x16.png"></a></div>
 </td>

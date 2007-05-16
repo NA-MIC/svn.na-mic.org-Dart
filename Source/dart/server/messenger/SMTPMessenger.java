@@ -158,6 +158,7 @@ public class SMTPMessenger extends Messenger {
     
     // Send the message
     try {
+      logger.debug ( project.getTitle() + ": sending email" );
       Transport.send(msg);
     } catch (AuthenticationFailedException ae) {
       logger.error("Authentication exception. Unable to send notification. " + ae);

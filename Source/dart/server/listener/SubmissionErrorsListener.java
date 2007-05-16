@@ -191,6 +191,7 @@ public class SubmissionErrorsListener extends Listener {
           //
           //
           try {
+            logger.debug ( project.getTitle() + ": sending email to: " + emailList + " and " + defaultContactList + " with subject: " + subject );
             messenger.send(emailList, defaultContactList, subject, content);
           } catch (Exception e) {
             logger.error("Error sending notification: " + e);
