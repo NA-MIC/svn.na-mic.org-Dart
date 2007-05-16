@@ -420,14 +420,17 @@ public class Server extends Container
         logger.debug ( "Found generic or Postgres" );
         root.put ( "auto", "bigserial primary key" );
         root.put ( "now", "'now'" );
+        root.put ( "indexsize", "" );
       } else if ( DBType.toLowerCase().equals ( "derby" ) ) {
         logger.debug ( "Found derby" );
         root.put ( "auto", "bigint generated always as identity" );
         root.put ( "now", "CURRENT_TIMESTAMP" );
+        root.put ( "indexsize", "" );
       } else if ( DBType.toLowerCase().equals ( "mysql" ) ) {
         logger.debug ( "Found mysql" );
         root.put ( "auto", "serial" );
         root.put ( "now", "CURRENT_TIMESTAMP" );
+        root.put ( "indexsize", "(400)" );
       }
       template.process ( root, out );
       out.flush();

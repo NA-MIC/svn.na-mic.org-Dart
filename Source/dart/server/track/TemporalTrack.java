@@ -65,7 +65,8 @@ public class TemporalTrack implements Track {
 
     if ( start == null ) {
       logger.error ( "TemporalTrack Failed to parse datetime: " + s );
-      
+    } else {
+      logger.debug ( "TemporalTrack paresed datetime: " + s + " to: " + start );
     }
   }
 

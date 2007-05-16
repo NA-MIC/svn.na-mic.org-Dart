@@ -337,9 +337,9 @@ public class ArchiveTask implements Task {
           } else {
             submission.setArchiveLevel ( new Integer ( ArchiveLevel ) );
           }
-          submissions.close();
           session.commit();
         }
+        submissions.close();
       }
       session.commit();
     } catch ( Exception e ) {

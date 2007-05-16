@@ -278,7 +278,7 @@ public class ChartServlet extends HttpServlet {
                      lowerTimeStamp );
               qp.add(new net.sourceforge.jaxor.mappers.StringMapper(), testname);
 
-              TestList testList = testFinder.query("select Test.* from Test,Submission where Test.SubmissionId = Submission.SubmissionId and Submission.ClientId = ? and Submission.Type = ? and Submission.TimeStamp <= ? and Submission.TimeStamp >= ? and Test.QualifiedName = ? order by Submission.TimeStamp", qp);
+              TestList testList = testFinder.query("select test.* from test,submission where test.SubmissionId = submission.SubmissionId and submission.ClientId = ? and submission.Type = ? and submission.TimeStamp <= ? and submission.TimeStamp >= ? and test.QualifiedName = ? order by submission.TimeStamp", qp);
 
               // Walk over the test list and build the dataset to
               // chart. The granuality of timestamps in Dart is to the

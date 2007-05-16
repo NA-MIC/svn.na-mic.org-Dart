@@ -8,8 +8,8 @@ create table version (
     TimeStamp timestamp default ${now}
 );
 
-delete from Version;
-insert into Version ( Major, Minor, Patch ) Values ( 1, 2, 0 );
+delete from version;
+insert into version ( Major, Minor, Patch ) Values ( 1, 2, 0 );
 
 create table client (
     ClientId ${auto} primary key,
@@ -26,7 +26,7 @@ create table client (
 );
 
 -- How we select a Client during Submission processing
-create index ClientIdx1 on client ( Site, BuildName );
+create index clientidx1 on client ( Site, BuildName );
 
 -- Client properties
 create table clientproperty (
@@ -52,9 +52,9 @@ create table submission (
   Generator varchar(1024) default null
 );
 
-create index SubmissionIdx1 on submission ( ClientId, Timestamp, Type );
-create index SubmissionIdx2 on submission ( TrackId );
-create index SubmissionIdx3 on submission ( CreatedTimeStamp, TimeStamp, ArchiveLevel );
+create index submissionidx1 on submission ( ClientId, Timestamp, Type );
+create index submissionidx2 on submission ( TrackId );
+create index submissionidx3 on submission ( CreatedTimeStamp, TimeStamp, ArchiveLevel );
 
 create table test ( 
   TestId ${auto} primary key,
@@ -69,9 +69,9 @@ create table test (
 );
 
 -- This a common query for processing tests
-create index TestIdx1 on test ( SubmissionId, QualifiedName );
-create index TestIdx2 on test ( ParentTestId );
-create index TestIdx3 on test ( QualifiedName, SubmissionId );
+create index testidx1 on test ( SubmissionId, QualifiedName${indexsize} );
+create index testidx2 on test ( ParentTestId );
+create index testidx3 on test ( QualifiedName${indexsize}, SubmissionId );
 
 create table relatedtest (
   TestId bigint primary key not null,
@@ -79,7 +79,7 @@ create table relatedtest (
   RelatedTestId bigint not null
 );
 
-create index RelatedTestIdx1 on relatedtest ( TestId, Relation );
+create index relatedtestidx1 on relatedtest ( TestId, Relation );
 
 create table result (
   ResultId ${auto} primary key,
@@ -90,10 +90,10 @@ create table result (
 );
 
 -- Used to report results
-create index ResultIdx1 on result ( TestId, Name );
+create index resultidx1 on result ( TestId, Name );
 
 -- Used to report results
-create index ResultIdx2 on result ( Value );
+create index resultidx2 on result ( Value${indexsize} );
 
 -- Track table
 create table track (
@@ -106,9 +106,9 @@ create table track (
 );
 
 -- Speed up Next/Last queries
-create index TrackIdx1 on track ( Name, StartTime );
-create index TrackIdx2 on track ( Name, EndTime );
-create index TrackIdx3 on track ( Name, EndTime, StartTime );
+create index trackidx1 on track ( Name, StartTime );
+create index trackidx2 on track ( Name, EndTime );
+create index trackidx3 on track ( Name, EndTime, StartTime );
 
 create table taskqueue (
   TaskId ${auto} primary key,
@@ -119,7 +119,7 @@ create table taskqueue (
 );
 
 -- Usual task query
-create index TaskQueueIdx1 on taskqueue ( Priority, TaskId );
+create index taskqueueidx1 on taskqueue ( Priority, TaskId );
 
 create table completedtask (
   TaskId bigint not null primary key,
