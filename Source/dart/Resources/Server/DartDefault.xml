@@ -74,6 +74,10 @@
     <!-- Maximum active / idle connections, -1 is infinite -->
     <MaxActive>20</MaxActive>
     <MaxIdle>3</MaxIdle>
+    <!-- Time (in milliseconds) between pool eviction runs, -1 is never run -->
+    <TimeBetweenEvictionRunsMillis>-1</TimeBetweenEvictionRunsMillis>
+    <!-- Age (in milliseconds) of a Connection in the pool before being considered for eviction -1 is never -->
+    <MinEvictableIdleTimeMillis>-1</MinEvictableIdleTimeMillis>
   </Database>
 
   <!-- XML-RPC Commands to respond to -->

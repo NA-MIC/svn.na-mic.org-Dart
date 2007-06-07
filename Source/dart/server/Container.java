@@ -37,12 +37,19 @@ public class Container {
   protected CommandManager commandManager = null;
   protected String administratorUsername = "";
   protected String administratorPassword = "";
+
+  protected String validationQuery = "SELECT 1";
   
   /**
    * Default (empty) constructor
    */
   public Container() {
   }
+
+  /**
+   * Get the validation query
+   */
+  public String getValidationQuery() { return validationQuery; }
 
   /** 
    * Set/Get the title of this container

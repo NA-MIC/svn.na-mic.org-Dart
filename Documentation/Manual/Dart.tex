@@ -551,6 +551,10 @@ The Scheduler has a default ThreadPoolSize of 10, indicating that 10
     <!-- Maximum active / idle connections, -1 is infinite -->
     <MaxActive>10</MaxActive>
     <MaxIdle>3</MaxIdle>
+    <!-- Time (in milliseconds) between pool eviction runs, -1 is never run -->
+    <TimeBetweenEvictionRunsMillis>-1</TimeBetweenEvictionRunsMillis>
+    <!-- Age (in milliseconds) of a Connection in the pool before being considered for eviction -1 is never -->
+    <MinEvictableIdleTimeMillis>-1</MinEvictableIdleTimeMillis>
   </Database>
 \end{verbatim}
 
@@ -565,6 +569,19 @@ specifies the maximum number of active connections, and MaxIdle
 specifies the maximum number of idle threads.  If a connection is
 needed when MaxActive threads are already active, the connection
 request will block until a connection is return to the pool.
+
+TimeBetweenEvictionRunsMillis and MinEvictableIdleTimeMillis control
+the reaping of invalid Connections in the pool.  Apache DBCP maintains
+a thread that will move Connections out of the pool if they fail a
+validation test.  TimeBetweenEvictionRunsMillis controls how often the
+thread validates all Connections in the pools, any value less than 0
+will prohibit the thread from reaping the pools.
+MinEvictableIdleTimeMillis is the age in milliseconds of a Connection
+before it is considered for reaping.  This setting gives Dart a chance
+to use the Connection without immediately reaping it.  The default
+values are -1 for both, effectively prohibiting reaping.  This setting
+may be used if the Connections become ``stale'' and cause the pool to
+fill up.
 
 \subsubsection{MySQL and PostgreSQL}
 Though Derby is the perfered database for small dashboards, larger

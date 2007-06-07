@@ -31,6 +31,9 @@ public class Database {
   int maxActive = 10;
   int maxIdle = 3;
   int currentActive = 0;
+  long timeBetweenEvictionRunsMillis = -1;
+  long minEvictableIdleTimeMillis = -1;
+
   Connection connection = null;
   GenericObjectPool connectionPool = null;
 
@@ -111,6 +114,23 @@ public class Database {
   public void setMaxIdle ( String idle ) { maxIdle = Integer.parseInt ( idle ); }
 
   /**
+   * Set the time (in Millis) between eviction runs on the connection pool.
+   * This is called by Digestor to set the time between eviction runs.  If a
+   * Connection does not correctly validate itself, it is dropped from the pool.
+   * This should clean up connection pool exhaustion.
+   * @param time Long string indicationg the time between runs in milliseconds.
+   */
+  public void setTimeBetweenEvictionRunsMillis ( String time ) { timeBetweenEvictionRunsMillis = Long.parseLong ( time ); }
+
+  /**
+   * Set the minimum amount of time a Connection must be in the connection pool before being considered for eviction.
+   * This is called by Digestor to set the minimum amount of time a Connection
+   * must have been in the pool before being considered for eviction.
+   * @param time Long string indicationg the minimum age of a Connection to be considered for eviction in milliseconds.
+   */
+  public void setMinEvictableIdleTimeMillis ( String time ) { minEvictableIdleTimeMillis = Long.parseLong ( time ); }
+
+  /**
    * Start up the database object
    * The start method starts up the Database.  The object
    * creates a pool of connections using the specified
@@ -128,11 +148,24 @@ public class Database {
       connectionPool.setMaxActive ( maxActive );
       connectionPool.setMaxIdle ( maxIdle );
       ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, username, password);
+      // The PoolableConnectionFactory registers itself with the connectionPool and is used for new connections.
       PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,connectionPool,null,null,false,true);
+
+      // Setup the validation query
+      poolableConnectionFactory.setValidationQuery ( p.getValidationQuery() );
+
+      /* Have the pool test connections to make sure they are ok */
+      connectionPool.setTestOnReturn ( true );
+
       dataSource = new PoolingDataSource(connectionPool);
       
-//       connectionPool.setTimeBetweenEvictionRunsMillis ( 4 * 60 * 1000 );
-//       connectionPool.setMinEvictableIdleTimeMillis ( 4 * 60 * 1000 );
+      
+      /* eviction of dead connections */
+      connectionPool.setTimeBetweenEvictionRunsMillis ( timeBetweenEvictionRunsMillis );
+      connectionPool.setMinEvictableIdleTimeMillis ( minEvictableIdleTimeMillis );
+      if ( timeBetweenEvictionRunsMillis > 0 && minEvictableIdleTimeMillis > 0 ) {
+        connectionPool.setTestWhileIdle ( true );
+      }
 
     } catch ( Exception e ) {
       logger.error ( owner.getTitle() + ": Failed to connect to database via: " + url + " driver: " + driver, e );
