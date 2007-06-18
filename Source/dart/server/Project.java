@@ -443,7 +443,7 @@ public class Project extends Container {
           detail.getJobDataMap().put ( "Project", this );
           detail.getJobDataMap().put ( "Type", Type );
           detail.getJobDataMap().put ( "Properties", properties );
-          CronTrigger trigger = new CronTrigger ( title + ":" + i, title, Schedule );
+          CronTrigger trigger = new CronTrigger ( Type + ":" + i, title, Schedule );
           if ( properties.containsKey ( "Description" ) ) {
             trigger.setDescription ( title + ": " + properties.get ( "Description" ) );
           } else {
@@ -623,9 +623,7 @@ public class Project extends Container {
     }
 
     if ( date == null ) {
-      String[] formats = { Container.UTCFormat, // UTC format
-                           "MM/dd/yyyy HH:mm:ss", // Cruise control format, not TZ
-      };
+      String[] formats = Container.DateTimeFormats;
       for ( int idx = 0; idx < formats.length; idx++ ) {
         try {
           parse = new SimpleDateFormat( formats[idx] );

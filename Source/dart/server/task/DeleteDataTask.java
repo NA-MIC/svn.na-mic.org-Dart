@@ -46,6 +46,10 @@ public class DeleteDataTask implements Task {
       } else {
         logger.debug ( "Deleting result data: " + ResultValue );
         File file = new File ( project.getDataDirectory() + File.separator + ResultValue );
+        if ( !file.exists() ) {
+          logger.error ( project.getTitle() + ": File does not exist: " + file.getPath() );
+          return;
+        }
         if ( !file.delete() ) {
           logger.error ( "Failed to delete file: " + file.getPath() );
           return;

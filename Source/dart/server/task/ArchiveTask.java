@@ -135,25 +135,6 @@ public class ArchiveTask implements Task {
     test.getJaxorContext().commit();
   }
   
-  private boolean matches ( String s, Pattern[] patterns ) {
-    logger.debug ( "Matching string: " + s );
-    for ( int i = 0; i < patterns.length; i++ ) {
-      logger.debug ( "\tMatching pattern: " + patterns[i].pattern() );
-      if ( patterns[i].matcher ( s ).matches() ) {
-        logger.debug ( "\tMatched!" );
-        return true;
-      }
-    }
-    return false;
-  }
-  
-  private Pattern[] generatePatterns ( String[] regexp ) {
-    Pattern[] patterns = new Pattern[regexp.length];
-    for ( int i = 0; i < regexp.length; i++ ) {
-      patterns[i] = Pattern.compile ( regexp[i] );
-    }
-    return patterns;
-  }
 
   private void synchronizedExecute ( Project p, Properties properties ) throws Exception {
     if ( properties == null ) {
@@ -220,11 +201,11 @@ public class ArchiveTask implements Task {
         String[] MatchBuildName = properties.getProperty ( "Archiver." + Archiver + ".MatchBuildName", ".*" ).split ( "," );
         String[] MatchRemove = properties.getProperty ( "Archiver." + Archiver + ".Remove", ".*" ).split ( "," );
         
-        Pattern[] TrackPatterns = generatePatterns ( MatchTrack );
-        Pattern[] TestPatterns = generatePatterns ( MatchTest );
-        Pattern[] SitePatterns = generatePatterns ( MatchSite );
-        Pattern[] BuildNamePatterns = generatePatterns ( MatchBuildName );
-        Pattern[] RemovePatterns = generatePatterns ( MatchRemove );
+        Pattern[] TrackPatterns = project.generatePatterns ( MatchTrack );
+        Pattern[] TestPatterns = project.generatePatterns ( MatchTest );
+        Pattern[] SitePatterns = project.generatePatterns ( MatchSite );
+        Pattern[] BuildNamePatterns = project.generatePatterns ( MatchBuildName );
+        Pattern[] RemovePatterns = project.generatePatterns ( MatchRemove );
         
         float AgeInDays = Float.parseFloat ( properties.getProperty ( "Archiver." + Archiver + ".AgeInDays", "-1.0" ) );
         if ( AgeInDays < 0.0 ) { 
@@ -261,17 +242,17 @@ public class ArchiveTask implements Task {
           
           // Can we delete it?
           // Check Track
-          if ( track == null || !matches ( track.getName(), TrackPatterns ) ) {
+          if ( track == null || !project.matches ( track.getName(), TrackPatterns ) ) {
             logger.debug ( "Didn't match Track" );
             continue;
           }
           // Check Sites
-          if ( !matches ( client.getSite(), SitePatterns ) ) {
+          if ( !project.matches ( client.getSite(), SitePatterns ) ) {
             logger.debug ( "Didn't match Site" );
             continue;
           }
           // Check BuildName
-          if ( !matches ( client.getBuildName(), BuildNamePatterns ) ) {
+          if ( !project.matches ( client.getBuildName(), BuildNamePatterns ) ) {
             logger.debug ( "Didn't match BuildName" );
             continue;
           }
@@ -287,14 +268,14 @@ public class ArchiveTask implements Task {
             session.commit();
           }
           SubmissionsArchived++;
-          logger.info ( "Archiving " + SubmissionsArchived + " of " + SubmissionsToArchive );
+          logger.info ( project.getTitle() + ": Archiving " + SubmissionsArchived + " of " + SubmissionsToArchive );
           
           // Find all the tests
           TestResultSet tests = testFinder.selectBySubmissionIdResultSet ( submission.getSubmissionId() );
           while ( tests.hasNext() ) {
             TestEntity test = tests.next();
             logger.debug ( "Examining test: " + test.getQualifiedName() );
-            if ( !matches ( test.getQualifiedName(), TestPatterns ) ) {
+            if ( !project.matches ( test.getQualifiedName(), TestPatterns ) ) {
               logger.debug ( "Test didn't match" );
               continue;
             }

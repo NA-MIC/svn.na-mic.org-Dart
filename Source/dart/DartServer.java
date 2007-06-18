@@ -21,7 +21,7 @@ import dart.server.Project;
    The DartServer is responsible for setting up the XML-RPC
    connection, the Scheduler, loading and starting all Projects.
    @author Daniel Blezek
-   @version $Revision: 1.30 $
+   @version $Revision$
 */ 
 public class DartServer extends Container
 {

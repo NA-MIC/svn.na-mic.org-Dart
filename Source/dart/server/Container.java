@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.StringTokenizer;
+import java.util.regex.*;
 
 import org.apache.log4j.Logger;
 import org.mortbay.http.HttpServer;
@@ -21,6 +22,14 @@ public class Container {
   static Logger logger = Logger.getLogger ( Container.class );   
 
   public static String UTCFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+  public static String[] DateTimeFormats =  {
+    Container.UTCFormat, // UTC format full
+    "yyyy-MM-dd'T'HH:mm:ssZ",
+    "yyyy-MM-dd'T'HH:mm:ss",
+    "yyyy-MM-dd'T'HH:mmZ",
+    "yyyy-MM-dd'T'HH:mm",
+    "MM/dd/yyyy HH:mm:ss", // Cruise control format, not TZ
+  };
 
   protected String title = "Default";
   protected Database database = null;
@@ -118,6 +127,22 @@ public class Container {
   }
 
   /**
+   * Test if the string matches any of the patterns in the list.
+   */
+  public boolean matches ( String s, Pattern[] patterns ) {
+    logger.debug ( "Matching string: " + s );
+    for ( int i = 0; i < patterns.length; i++ ) {
+      logger.debug ( "\tMatching pattern: " + patterns[i].pattern() );
+      if ( patterns[i].matcher ( s ).matches() ) {
+        logger.debug ( "\tMatched!" );
+        return true;
+      }
+    }
+    return false;
+  }
+  
+
+  /**
    * Replace any bad filename characters in the string and return
    * @param name Filename
    * @return Filename with any characters bad for filenames replaced with "_"
@@ -128,6 +153,21 @@ public class Container {
     // Windows doesn't like ":" which we have in our UTC timecode
     return n.replaceAll ( ":", "." );
   }
+
+
+  /**
+   * Generate a list of Patterns used for matching.
+   * @param regexp List of regular expression patterns
+   * @return Array of patterns
+   */
+  public Pattern[] generatePatterns ( String[] regexp ) {
+    Pattern[] patterns = new Pattern[regexp.length];
+    for ( int i = 0; i < regexp.length; i++ ) {
+      patterns[i] = Pattern.compile ( regexp[i] );
+    }
+    return patterns;
+  }
+
 
   /**
    * Get/Set the database for this Container
@@ -180,9 +220,12 @@ public class Container {
    * Open and execute this file
    */
   public void executeSQL ( File schema ) {
+    executeSQL ( schema, false );
+  }
+  public void executeSQL ( File schema, boolean continueOnError ) {
     try {
       Reader r = new BufferedReader ( new FileReader ( schema ) );
-      executeSQL ( r );
+      executeSQL ( r, continueOnError );
       r.close();
     } catch ( Exception e ) {
       logger.error ( getTitle() + ": Failed to execute schema from file " + schema, e );
@@ -198,6 +241,9 @@ public class Container {
    * @param schema File containing the SQL to be executed.
    */
   public void executeSQL ( Reader r ) throws Exception {
+    executeSQL ( r, false );
+  }
+  public void executeSQL ( Reader r, boolean continueOnError ) throws Exception {
     // Read and execute
     StringWriter writer = new StringWriter();
     PrintWriter w = new PrintWriter ( writer );
@@ -220,19 +266,22 @@ public class Container {
     // Execute each command
     Connection connection = getConnection();
     Statement statement = null;
+    String s = null;
     try {
       statement = connection.createStatement();
       StringTokenizer tokenizer = new StringTokenizer ( writer.toString(), ";" );
       while ( tokenizer.hasMoreTokens() ) {
-        String s = tokenizer.nextToken().replace ( '\n', ' ' ).trim();
+        s = tokenizer.nextToken().replace ( '\n', ' ' ).trim();
         if ( s.length() != 0 ) {
           logger.debug ( getTitle() + ": Found statement: " + s );
           statement.execute ( s );
         }
       }
     } catch ( Exception e ) {
-      logger.error ( getTitle() + ": Error initializing the database\n", e );
-      throw e;
+      logger.error ( getTitle() + ": Error executing statement\n" + s + "\n", e );
+      if ( !continueOnError ) {
+        throw e;
+      }
     } finally {
       try {
         logger.debug("Closing connection.");

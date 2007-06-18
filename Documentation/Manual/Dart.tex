@@ -381,6 +381,18 @@ If use the FireFox browser, the RSS icon will appear in the address bar, indicat
 
 \chapter{Dart Server and Project Administration Guide}
 
+\section{Database Administration}
+Though not generally recommended, there may arise the need to examine and modify the Dart database directly.  This section provides a short guide to using Derby, for other database systems, please consult your DB administration guide.  To connect to the Dart Derby database, be sure Dart is not currently running and start up the Derby interactive interface:
+
+\begin{verbatim}
+{practical:Dart}1021:java -classpath DartServer.jar org.apache.derby.tools.ij
+ij version 10.2
+ij> driver 'org.apache.derby.jdbc.EmbeddedDriver';
+ij> connect 'jdbc:derby:/local/Dart/TestProject/Database/TestProject';
+ij> -- Note: the connect string is from the Project.xml file, but does not include 'create=true' option
+ij> -- Can execute any SQL queries or commands required
+\end{verbatim}
+
 \section{Client Configuration}
 \label{Section:ClientConfiguration}
 
@@ -998,6 +1010,11 @@ Multiple Messengers of the same type can be configured.  For instance, a Project
       <Properties>
         <Property name="Messenger">SMTP</Property>
         <Property name="DefaultContactList">me@foo.com,you@bar.com</Property>
+        <!-- A submission must match all of these patterns.  If the
+             properties are missing, all submissions match -->
+        <Property name="TrackPattern">.*</Property>
+        <Property name="SitePattern">.*</Property>
+        <Property name="BuildNamePattern">.*</Property>
       </Properties>
     </Listener>
     <Listener>
@@ -1025,6 +1042,8 @@ to a web page summarizing the submission. The \texttt{DefaultContactList} proper
 of a SubmissionErrorsListener specifies a comma separated set of recipients that will be notified whenever 
 an error is found in a submission.  The entries in the \texttt{DefaultContactList} are not Dart userids.  Rather, the contacts are specified in a format specific to the Messenger. For instance, if a Listener is configured with a SMTPMessenger, the \texttt{DefaultContactList} will  be composed of email addresses.
 More information on Dart Users can be found in Section~\ref{Section:Users}.
+
+Several properties of the SubmissionErrorsListener limit the Submissions that the Listener applies to.  \texttt{TrackPattern}, \texttt{SitePattern}, and \texttt{BuildNamePattern} must match the Submission information for the Listener to check for errors.  If the properties are omitted, all submissions match.  The Patterns are treated as comma separated lists of regular expressions (see \S~\ref{Section:ArchiveTask}.
 
 The second Listener in the stock configuration determines whether any
 clients that are expected to submit on a particular track have yet to submit to the dashboard within the allotted time frame.  More details on configuring \emph{when} a submission is noted as being missing is in Section~\ref{Section:TaskConfiguration}.
@@ -1260,7 +1279,7 @@ does not have any parameters, and saves the statistics in a file named
 
 
 An extremely important Task is the ArchiveTask.  This Task is detailed
-in Section~\ref{Section:ArchiveTask}.
+in \S~\ref{Section:ArchiveTask}.
 
 \subsubsection{Task List}
 These are the currently available Tasks:
@@ -2222,6 +2241,27 @@ example snippit:
         print "ERROR", v
     except:
       print "Problem submitting XML-RPC for the file: %s" % xmlfile
+\end{verbatim}
+
+\section{Perl Submissions}
+Perl may also be used to submit Dart XML, as shown in the following
+snippit:
+
+\begin{verbatim}
+   use XMLRPC::Lite;
+   my $xml = slurp($dart_xml_file);
+   my $bindata = SOAP::Data->type(base64 => $xml);
+   my $url = "http://dartboard:8081/$project/Command/";
+   print "Sending results to $url...";
+   my $call = XMLRPC::Lite->proxy($url)->call('Submit.put',$bindata);
+   my $result = $call->result();
+   if ($call->fault()) {
+     print "\nERROR: ", $call->faultstring();
+   } elsif ($result ne '1') {
+     print "\nERROR: unexpected result \"$result\" (expected \"1\")\n";
+   } else {
+     print "ok\n";
+   }
 \end{verbatim}
 
 \section{DartClient.jar}

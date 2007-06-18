@@ -184,6 +184,11 @@
       <Type>dart.server.listener.SubmissionErrorsListener</Type>
       <Properties>
         <Property name="Messenger">SMTP</Property>
+        <!-- A submission must match all of these patterns.  If the
+             properties are missing, all submissions match -->
+        <Property name="TrackPattern">.*</Property>
+        <Property name="SitePattern">.*</Property>
+        <Property name="BuildNamePattern">.*</Property>
       </Properties>
     </Listener>
     <Listener>
@@ -211,6 +216,17 @@
       <Type>dart.server.task.ReindexTrackTask</Type>
       <Schedule>0 0 2 * * ?</Schedule>
       <Properties/>
+    </Task>
+
+    <Task>
+      <!-- Execute the SQL commands contained in a file, commonly used for database maintance -->
+      <!-- In the default installation, the Maintance.sql file does not exist -->
+      <Type>dart.server.task.SQLMaintenanceTask</Type>
+      <Schedule>0 0 3 * * ?</Schedule>
+      <Properties>
+        <Property name="Filename">Maintance.sql</Property>
+        <Property name="ContinueOnError">true</Property>
+      </Properties>
     </Task>
 
     <Task>

@@ -89,6 +89,7 @@ public class DartClient
         Vector aa = new Vector ();
         aa.addElement ( "Foo" );
         aa.addElement ( "bar" );
+        logger.info ( "Starting project shutdown, this may take some time" );
         admin.execute ( "Administration.shutdown", aa );
       } catch ( Exception e ) {
         logger.error ( "Failed to shutdown project", e );
@@ -98,6 +99,7 @@ public class DartClient
 
     if ( cmd.hasOption ( "r" ) ) {
       try {
+        logger.info ( "Starting project refresh" );
         client.execute ( "Submit.refresh", new Vector() );
         System.exit ( 0 );
       } catch ( Exception e ) {
@@ -112,6 +114,7 @@ public class DartClient
         config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
         XmlRpcClient admin = new XmlRpcClient ( );
         admin.setConfig ( config );
+        logger.info ( "Starting server refresh" );
         admin.execute ( "Administration.refresh", new Vector() );
         System.exit ( 0 );
       } catch ( Exception e ) {
@@ -160,6 +163,7 @@ public class DartClient
         config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
         XmlRpcClient admin = new XmlRpcClient ( );
         admin.setConfig ( config );
+        logger.info ( "Starting to get server status" );
         String o = (String)admin.execute ( "Administration.getStatus", new Vector() );
         // Vector params = new Vector();
         // String result = (String) client.execute ( "
@@ -177,6 +181,7 @@ public class DartClient
         config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
         XmlRpcClient admin = new XmlRpcClient ( );
         admin.setConfig ( config );
+        logger.info ( "Starting to get scheduler status" );
         String o = (String)admin.execute ( "Administration.getSchedulerStatus", new Vector() );
         // Vector params = new Vector();
         // String result = (String) client.execute ( "

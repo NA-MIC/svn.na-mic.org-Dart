@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.regex.*;
 
 
 import net.sourceforge.jaxor.JaxorContextImpl;
@@ -26,6 +27,7 @@ import dart.server.wrap.UserPropertyEntity;
 import dart.server.wrap.UserPropertyFinderBase;
 import dart.server.wrap.UserPropertyIterator;
 import dart.server.wrap.UserPropertyList;
+import dart.server.wrap.*;
 import dart.server.messenger.Messenger;
 
 public class SubmissionErrorsListener extends Listener {
@@ -62,6 +64,29 @@ public class SubmissionErrorsListener extends Listener {
       SubmissionEntity submission = submissionFinder.selectBySubmissionId( new Long(event.getSubmissionId()) );
 
       if (submission != null) {
+        
+        // Check to see if the submission matches the requested Track / Site / BuildName
+        Pattern[] trackPatterns = project.generatePatterns ( properties.getProperty( "TrackPattern", "" ).split ( "," ) );
+        Pattern[] sitePatterns = project.generatePatterns ( properties.getProperty( "SitePattern", "" ).split ( "," ) );
+        Pattern[] buildNamePatterns = project.generatePatterns ( properties.getProperty( "BuildNamePattern", "" ).split ( "," ) );
+
+        TrackEntity track = submission.getTrackEntity();
+        if ( track != null && !project.matches ( track.getName(), trackPatterns ) ) {
+          logger.debug ( "Didn't match Track" );
+          return;
+        }
+        ClientEntity client = submission.getClientEntity();
+        if ( client != null && !project.matches ( client.getSite(), sitePatterns ) ) {
+          logger.debug ( "Didn't match Site" );
+          return;
+        }
+        if ( !project.matches ( client.getBuildName(), buildNamePatterns ) ) {
+          logger.debug ( "Didn't match BuildName" );
+          return;
+        }
+
+
+
         // check if there were any build errors
         if (submission.getErrorCount().longValue() > 0) {
           // Identify users who could have cause the errors.  Use a set
