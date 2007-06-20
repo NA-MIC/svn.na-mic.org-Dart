@@ -531,28 +531,7 @@ public class Server extends Container
      @param out Where to write the schema text
   */
   static public void generateServerSchema ( String DBType, Writer out ) {
-    try {
-      // Generate and write schema into project directory
-      Configuration cfg = new Configuration();
-      cfg.setClassForTemplateLoading ( Server.class, "/" );
-      Template template = cfg.getTemplate ( "dart/Resources/Server/ServerSchema.sql" );
-      Map root = new HashMap();
-      root.put ( "Type", DBType.toLowerCase() );
-      if ( DBType.toLowerCase().equals ( "generic" ) || DBType.toLowerCase().equals ( "postgres" ) ) {
-        logger.debug ( "Found generic or Postgres" );
-        root.put ( "auto", "serial" );
-        root.put ( "now", "'now'" );
-      } else if ( DBType.toLowerCase().equals ( "derby" ) ) {
-        logger.debug ( "Configuring Dart server using derby" );
-        root.put ( "auto", "int generated always as identity" );
-        root.put ( "now", "CURRENT_TIMESTAMP" );
-      }
-      template.process ( root, out );
-      out.flush();
-    } catch ( Exception e ) {
-      logger.error ( "Faild to generate schema\n", e );
-      return;
-    }
+    generateSchema ( DBType, out, "dart/Resources/Server/ServerSchema.sql" );
   }
 
   /**
