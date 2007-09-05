@@ -49,7 +49,7 @@ public class ArchiveTask implements Task {
 
     // Setup the map of information that will be passed to the
     // template engine
-    logger.debug ( "Starting to archive submission: " + submission.getSubmissionId() );
+    logger.debug ( project.getTitle() + ": Starting to archive submission: " + submission.getSubmissionId() );
     HashMap root = new HashMap();
     root.put ( "fetchdata", new FetchData ( project ) );
     root.put ( "base64encode", new Base64Encode () );
@@ -105,20 +105,45 @@ public class ArchiveTask implements Task {
     }
     ArchiveSizeInK += l;
     File destination = new File ( Working, ArchiveFileName );
-    // logger.debug ( "TempFile: " + TempFile.getPath() );
-    // logger.debug ( "destination: " + destination.getPath() );
-    logger.debug ( "Finished archiving submission" );
+    // logger.debug ( project.getTitle() + ": TempFile: " + TempFile.getPath() );
+    // logger.debug ( project.getTitle() + ": destination: " + destination.getPath() );
+    logger.debug ( project.getTitle() + ": Finished archiving submission" );
     TempFile.renameTo ( destination );
   }
   
   
-  
+  private void level4DeleteSubmission ( SubmissionEntity submission ) {
+    ResultFinder finder = new ResultFinder ( submission.getJaxorContext() );
+    QueryParams q = new QueryParams();
+    q.add ( submission.getSubmissionId() );
+    ResultIterator results = finder.query ( "select Result.* from Result, Test where Test.TestId = Result.ResultId and Test.SubmissionId = ?", q );
+    while ( results.hasNext() ) {
+      ResultEntity result = results.next();
+      logger.debug ( project.getTitle() + ": Deleting Result: " + result.getName() );
+      if ( Project.isLargeDataType ( result.getType() ) ) {
+        // Queue the task
+        Properties prop;
+        prop = new Properties();
+        prop.setProperty ( "ResultValue", result.getValue() );
+        prop.setProperty ( "RecordCompletedTask", "false" );
+        project.queueTask ( "dart.server.task.DeleteDataTask", prop, 100 );
+      }
+    }
+    results.close();
+    // Now delete everything
+    Connection connection = submission.getJaxorContext().getConnection();
+    connection.createStetament().execute ( "delete from Result where TestId in ( select TestId from Test where SubmissionId = " + submission.getSubmissionId() + ")" );
+    connection.createStetament().execute ( "delete from Test where SubmissionId = " + submission.getSubmissionId() );
+    return;
+  }
+ 
+
   private void deleteTest ( TestEntity test, boolean deleteNonBulkData ) throws Exception {
     ResultIterator results = test.getResultList().iterator();
     // Delete the Result, if a blob, add a new task to delete
     while ( results.hasNext() ) {
       ResultEntity result = results.next();
-      logger.debug ( "Deleting Result: " + result.getName() );
+      logger.debug ( project.getTitle() + ": Deleting Result: " + result.getName() );
       if ( Project.isLargeDataType ( result.getType() ) ) {
         // Queue the task
         Properties prop;
@@ -128,7 +153,7 @@ public class ArchiveTask implements Task {
         project.queueTask ( "dart.server.task.DeleteDataTask", prop, 100 );
       }
       if ( deleteNonBulkData || Project.isLargeDataType ( result.getType() ) ) {
-        logger.debug ( "Doing delete" );
+        logger.debug ( project.getTitle() + ": Doing delete" );
         result.delete();
       }
     }
@@ -148,7 +173,7 @@ public class ArchiveTask implements Task {
     
     SimpleDateFormat format = new SimpleDateFormat ( Container.UTCFormat );
     String DirectoryName = format.format ( Calendar.getInstance().getTime() ).toString();
-    logger.debug ( "DirectoryName: " + DirectoryName );
+    logger.debug ( project.getTitle() + ": DirectoryName: " + DirectoryName );
     
     connection = project.getConnection();
     session = new JaxorContextImpl ( connection );
@@ -160,7 +185,7 @@ public class ArchiveTask implements Task {
       String[] Archivers = properties.getProperty( "ArchiverList", "" ).split ( "," );
       for ( int ArchiverIdx = 0; ArchiverIdx < Archivers.length; ArchiverIdx++ ) {
         String Archiver = Archivers[ArchiverIdx];
-        logger.debug ( "Starting Archiver: " + Archiver );
+        logger.debug ( project.getTitle() + ": Starting Archiver: " + Archiver );
 
         FileNamePattern = properties.getProperty ( "Archiver." + Archiver + ".FileNamePattern", "Archive-%P-%S-%B-%T-%D.xml.gz" );
         TemplateName = properties.getProperty ( "Archiver." + Archiver + ".Template", "ArchiveSubmission.xml" );
@@ -194,7 +219,7 @@ public class ArchiveTask implements Task {
         for ( int i = 0; i < children.length; i++ ) {
           ArchiveSizeInK += (int) ( children[i].length() / ( 1000.0 ) );
         }
-        logger.debug ( "Archive: " + Archiver + " ArchiveSizeInK: " + ArchiveSizeInK );
+        logger.debug ( project.getTitle() + ": Archive: " + Archiver + " ArchiveSizeInK: " + ArchiveSizeInK );
         String[] MatchTrack = properties.getProperty ( "Archiver." + Archiver + ".MatchTrack", ".*" ).split ( "," );
         String[] MatchTest = properties.getProperty ( "Archiver." + Archiver + ".MatchTest", ".*" ).split ( "," );
         String[] MatchSite = properties.getProperty ( "Archiver." + Archiver + ".MatchSite", ".*" ).split ( "," );
@@ -222,14 +247,14 @@ public class ArchiveTask implements Task {
         q.add ( new java.sql.Timestamp ( age.getTimeInMillis() ) );
         q.add ( ArchiveLevel );
 
-        logger.debug ( "Age Timestamp: " + new java.sql.Timestamp ( age.getTimeInMillis() ) );
+        logger.debug ( project.getTitle() + ": Age Timestamp: " + new java.sql.Timestamp ( age.getTimeInMillis() ) );
 
         SubmissionResultSet submissions;
         submissions = submissionFinder.findResultSet ( "where " + ArchiveBy + " < ? and ArchiveLevel < ?", q );
         while ( submissions.hasNext() ) {
           if ( SubmissionsToArchive != -1 ) {
             if ( SubmissionsArchived >= SubmissionsToArchive ) {
-              logger.debug ( "Completed archive of " + SubmissionsArchived + " Submissions, break" );
+              logger.debug ( project.getTitle() + ": Completed archive of " + SubmissionsArchived + " Submissions, break" );
               break;
             }
           }
@@ -237,23 +262,23 @@ public class ArchiveTask implements Task {
           SubmissionEntity submission = submissions.next();
           ClientEntity client = submission.getClientEntity();
           TrackEntity track = submission.getTrackEntity();
-          logger.debug ( "Found submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
-          logger.debug ( "CreatedTimeStamp: " + submission.getCreatedTimeStamp() );
+          logger.debug ( project.getTitle() + ": Found submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
+          logger.debug ( project.getTitle() + ": CreatedTimeStamp: " + submission.getCreatedTimeStamp() );
           
           // Can we delete it?
           // Check Track
           if ( track == null || !project.matches ( track.getName(), TrackPatterns ) ) {
-            logger.debug ( "Didn't match Track" );
+            logger.debug ( project.getTitle() + ": Didn't match Track" );
             continue;
           }
           // Check Sites
           if ( !project.matches ( client.getSite(), SitePatterns ) ) {
-            logger.debug ( "Didn't match Site" );
+            logger.debug ( project.getTitle() + ": Didn't match Site" );
             continue;
           }
           // Check BuildName
           if ( !project.matches ( client.getBuildName(), BuildNamePatterns ) ) {
-            logger.debug ( "Didn't match BuildName" );
+            logger.debug ( project.getTitle() + ": Didn't match BuildName" );
             continue;
           }
           
@@ -269,51 +294,56 @@ public class ArchiveTask implements Task {
           }
           SubmissionsArchived++;
           logger.info ( project.getTitle() + ": Archiving " + SubmissionsArchived + " of " + SubmissionsToArchive );
-          
-          // Find all the tests
-          TestResultSet tests = testFinder.selectBySubmissionIdResultSet ( submission.getSubmissionId() );
-          while ( tests.hasNext() ) {
-            TestEntity test = tests.next();
-            logger.debug ( "Examining test: " + test.getQualifiedName() );
-            if ( !project.matches ( test.getQualifiedName(), TestPatterns ) ) {
-              logger.debug ( "Test didn't match" );
-              continue;
-            }
-            /*
-              ArchiveLevel indicates how much data to remove
-              1 - remove least amount of data.  All bulk data (images, logs, etc...) are to be removed
-              2 - remove all leaf tests and data, leaving only intermediate levels in the Test hierarchy
-              3 - remove all non-root Tests, leaving rollup info at the root level of the Test hierarchy
-              4 - remove all data and the Submission itself
-            */
-            if ( ArchiveLevel == 4 ) {
-              deleteTest ( test, true );
-              logger.debug ( "Level 4 Deleting Test: " + test.getQualifiedName() );
-              test.delete();
-              session.commit();
-            } else if ( ArchiveLevel == 3 ) {
-              TestEntity Parent = test.selectParent();
-              if ( Parent != null && !Parent.getQualifiedName().equals ( "" ) ) {
-                deleteTest ( test, true );
-                logger.debug ( "Level 3 Deleting Test: " + test.getQualifiedName() );
-                test.delete();
-                session.commit();
-              }
-            } else if ( ArchiveLevel == 2 ) {
-              if ( !test.getStatus().equals ( "m" ) ) {
-                deleteTest ( test, true );
-                logger.debug ( "Level 2 Deleting Test: " + test.getQualifiedName() );
-                test.delete();
-                session.commit();
-              }
-            } else if ( ArchiveLevel == 1 ) {              
-              // Delete all large results, but not the test
-              deleteTest ( test, false );
-            }
-          }
-          tests.close();
+
+          // If we can archive and delete everything, be more efficient
           if ( ArchiveLevel == 4 ) {
-            logger.debug ( "Deleting submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
+            level4DeleteSubmission ( submission );
+          } else {
+            // Find all the tests
+            TestResultSet tests = testFinder.selectBySubmissionIdResultSet ( submission.getSubmissionId() );
+            while ( tests.hasNext() ) {
+              TestEntity test = tests.next();
+              logger.debug ( project.getTitle() + ": Examining test: " + test.getQualifiedName() );
+              if ( !project.matches ( test.getQualifiedName(), TestPatterns ) ) {
+                logger.debug ( project.getTitle() + ": Test didn't match" );
+                continue;
+              }
+              /*
+                ArchiveLevel indicates how much data to remove
+                1 - remove least amount of data.  All bulk data (images, logs, etc...) are to be removed
+                2 - remove all leaf tests and data, leaving only intermediate levels in the Test hierarchy
+                3 - remove all non-root Tests, leaving rollup info at the root level of the Test hierarchy
+                4 - remove all data and the Submission itself
+              */
+              if ( ArchiveLevel == 4 ) {
+                deleteTest ( test, true );
+                logger.debug ( project.getTitle() + ": Level 4 Deleting Test: " + test.getQualifiedName() );
+                test.delete();
+                session.commit();
+              } else if ( ArchiveLevel == 3 ) {
+                TestEntity Parent = test.selectParent();
+                if ( Parent != null && !Parent.getQualifiedName().equals ( "" ) ) {
+                  deleteTest ( test, true );
+                  logger.debug ( project.getTitle() + ": Level 3 Deleting Test: " + test.getQualifiedName() );
+                  test.delete();
+                  session.commit();
+                }
+              } else if ( ArchiveLevel == 2 ) {
+                if ( !test.getStatus().equals ( "m" ) ) {
+                  deleteTest ( test, true );
+                  logger.debug ( project.getTitle() + ": Level 2 Deleting Test: " + test.getQualifiedName() );
+                  test.delete();
+                  session.commit();
+                }
+              } else if ( ArchiveLevel == 1 ) {              
+                // Delete all large results, but not the test
+                deleteTest ( test, false );
+              }
+            }
+            tests.close();
+          }
+          if ( ArchiveLevel == 4 ) {
+            logger.debug ( project.getTitle() + ": Deleting submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
             submission.delete();
           } else {
             submission.setArchiveLevel ( new Integer ( ArchiveLevel ) );
@@ -334,11 +364,11 @@ public class ArchiveTask implements Task {
   
   public void execute ( Project project, Properties properties ) throws Exception {
     // Syncronize on the Project, i.e. only one ArchiveTask per project
-    logger.debug ( "Synchronizing on project" );
+    logger.debug ( project.getTitle() + ": Synchronizing on project" );
     synchronized ( project.getLockObject ( this.getClass().toString() ) ) {
-      logger.info ( "Lock acquiried, starting execute" );
+      logger.info ( project.getTitle() + ": Lock acquiried, starting execute" );
       synchronizedExecute ( project, properties );
-      logger.info ( "Finished execute, released lock" );
+      logger.info ( project.getTitle() + ": Finished execute, released lock" );
     }
   }
 }
