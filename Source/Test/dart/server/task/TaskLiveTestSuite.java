@@ -110,6 +110,7 @@ public class TaskLiveTestSuite extends TestCase {
     Properties properties = new Properties();
     properties.setProperty ( "ArchiverList", "Test" );
     properties.setProperty ( "ArchiverList.Test.ArchiveDirectory", f.getPath() + File.separator + "Foo" );
+    properties.setProperty ( "ArchiverList.Test.ArchiveLevel", "4" );
     task.execute ( project, properties );
     assertTrue ( "Archive created", new File ( f, "Working" ).exists() );
   }
