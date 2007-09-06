@@ -76,6 +76,7 @@ public class ProjectLiveTestSuite extends TestCase {
     tests.addTest ( new ProjectLiveTestSuite ( "testHTTP" ) );
     tests.addTest ( TaskLiveTestSuite.suite() );
     tests.addTest ( HttpTests.suite() );
+    tests.addTest ( ArchiveTaskTests.suite() );
     return tests;
   }
 }

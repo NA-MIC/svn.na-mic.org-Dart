@@ -31,7 +31,9 @@ import org.mortbay.http.handler.ResourceHandler;
 import org.mortbay.http.handler.SecurityHandler;
 import org.quartz.Scheduler;
 import org.quartz.*;
+import org.quartz.spi.*;
 import org.quartz.impl.DirectSchedulerFactory;
+import org.quartz.simpl.*;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -255,7 +257,11 @@ public class Server extends Container
     // Initialize the scheduler
     try {
       logger.info ( "Initializing Scheduler" );
-      DirectSchedulerFactory.getInstance().createVolatileScheduler ( schedulerThreadPoolSize );
+
+      SimpleThreadPool threadPool = new SimpleThreadPool ( schedulerThreadPoolSize, Thread.MIN_PRIORITY);
+      threadPool.initialize();
+      JobStore jobStore = new RAMJobStore(); 
+      DirectSchedulerFactory.getInstance().createScheduler ( threadPool, jobStore );
       scheduler = DirectSchedulerFactory.getInstance().getScheduler();
       logger.info ( "Scheduler initialized" );
     } catch ( Exception e ) {

@@ -112,11 +112,12 @@ public class ArchiveTask implements Task {
   }
   
   
-  private void level4DeleteSubmission ( SubmissionEntity submission ) {
-    ResultFinder finder = new ResultFinder ( submission.getJaxorContext() );
+  private void level4DeleteSubmission ( SubmissionEntity submission ) throws Exception {
+    ResultFinderBase finder = new ResultFinderBase ( submission.getJaxorContext() );
     QueryParams q = new QueryParams();
+    logger.debug ( project.getTitle() + ": Starting Level 4 deletion of " + submission.getSubmissionId() );
     q.add ( submission.getSubmissionId() );
-    ResultIterator results = finder.query ( "select Result.* from Result, Test where Test.TestId = Result.ResultId and Test.SubmissionId = ?", q );
+    ResultIterator results = finder.query ( "select Result.* from Result, Test where Test.TestId = Result.ResultId and Test.SubmissionId = ?", q ).iterator();
     while ( results.hasNext() ) {
       ResultEntity result = results.next();
       logger.debug ( project.getTitle() + ": Deleting Result: " + result.getName() );
@@ -129,11 +130,12 @@ public class ArchiveTask implements Task {
         project.queueTask ( "dart.server.task.DeleteDataTask", prop, 100 );
       }
     }
-    results.close();
     // Now delete everything
     Connection connection = submission.getJaxorContext().getConnection();
-    connection.createStetament().execute ( "delete from Result where TestId in ( select TestId from Test where SubmissionId = " + submission.getSubmissionId() + ")" );
-    connection.createStetament().execute ( "delete from Test where SubmissionId = " + submission.getSubmissionId() );
+    logger.debug ( "delete from Result where TestId in ( select TestId from Test where SubmissionId = " + submission.getSubmissionId() + ")" );
+    logger.debug ( "delete from Test where SubmissionId = " + submission.getSubmissionId() );
+    connection.createStatement().execute ( "delete from Result where TestId in ( select TestId from Test where SubmissionId = " + submission.getSubmissionId() + ")" );
+    connection.createStatement().execute ( "delete from Test where SubmissionId = " + submission.getSubmissionId() );
     return;
   }
  
@@ -179,12 +181,11 @@ public class ArchiveTask implements Task {
     session = new JaxorContextImpl ( connection );
     SubmissionFinderBase submissionFinder = new SubmissionFinderBase ( session );
     TestFinderBase testFinder = new TestFinderBase ( session );
-    
+    logger.debug ( "Properties: " + properties );
     try {
       // Figure out what we need to do
       String[] Archivers = properties.getProperty( "ArchiverList", "" ).split ( "," );
-      for ( int ArchiverIdx = 0; ArchiverIdx < Archivers.length; ArchiverIdx++ ) {
-        String Archiver = Archivers[ArchiverIdx];
+      for ( String Archiver : Archivers ) {
         logger.debug ( project.getTitle() + ": Starting Archiver: " + Archiver );
 
         FileNamePattern = properties.getProperty ( "Archiver." + Archiver + ".FileNamePattern", "Archive-%P-%S-%B-%T-%D.xml.gz" );
@@ -233,8 +234,9 @@ public class ArchiveTask implements Task {
         Pattern[] RemovePatterns = project.generatePatterns ( MatchRemove );
         
         float AgeInDays = Float.parseFloat ( properties.getProperty ( "Archiver." + Archiver + ".AgeInDays", "-1.0" ) );
+        logger.debug ( project.getTitle() + ": Age in days: " + AgeInDays );
         if ( AgeInDays < 0.0 ) { 
-          logger.debug ( project.getTitle() + ": Archiver: " + Archiver + " has no AgeInDays" );
+          logger.warn ( project.getTitle() + ": Archiver: " + Archiver + " has no AgeInDays" );
           continue;
         }
         ArchiveLevel = Integer.parseInt ( properties.getProperty ( "Archiver." + Archiver + ".ArchiveLevel", "0" ) );
@@ -262,7 +264,7 @@ public class ArchiveTask implements Task {
           SubmissionEntity submission = submissions.next();
           ClientEntity client = submission.getClientEntity();
           TrackEntity track = submission.getTrackEntity();
-          logger.debug ( project.getTitle() + ": Found submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
+          // logger.debug ( project.getTitle() + ": Found submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
           logger.debug ( project.getTitle() + ": CreatedTimeStamp: " + submission.getCreatedTimeStamp() );
           
           // Can we delete it?
@@ -366,9 +368,9 @@ public class ArchiveTask implements Task {
     // Syncronize on the Project, i.e. only one ArchiveTask per project
     logger.debug ( project.getTitle() + ": Synchronizing on project" );
     synchronized ( project.getLockObject ( this.getClass().toString() ) ) {
-      logger.info ( project.getTitle() + ": Lock acquiried, starting execute" );
+      logger.debug ( project.getTitle() + ": Lock acquiried, starting execute" );
       synchronizedExecute ( project, properties );
-      logger.info ( project.getTitle() + ": Finished execute, released lock" );
+      logger.debug ( project.getTitle() + ": Finished execute, released lock" );
     }
   }
 }

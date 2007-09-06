@@ -101,20 +101,6 @@ public class TaskLiveTestSuite extends TestCase {
     task.execute ( project, new Properties() );
   }
     
-  public void testArchiveTask() throws Exception {
-    // Get the live project
-    Task task = (Task)Class.forName ( "dart.server.task.ArchiveTask" ).newInstance();
-
-    File f = new File ( DartServerTest.getProjectDirectory(), "Archive" );
-    
-    Properties properties = new Properties();
-    properties.setProperty ( "ArchiverList", "Test" );
-    properties.setProperty ( "ArchiverList.Test.ArchiveDirectory", f.getPath() + File.separator + "Foo" );
-    properties.setProperty ( "ArchiverList.Test.ArchiveLevel", "4" );
-    task.execute ( project, properties );
-    assertTrue ( "Archive created", new File ( f, "Working" ).exists() );
-  }
-
   void testSubmissionTask ( String className ) throws Exception {
     // Get the live project
     Task task = (Task)Class.forName ( className ).newInstance();
@@ -138,7 +124,6 @@ public class TaskLiveTestSuite extends TestCase {
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLLongCorrect" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLWithZip" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testQueue" ) );
-    tests.addTest ( new TaskLiveTestSuite ( "testArchiveTask" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLBuild" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLConfigure" ) );
     tests.addTest ( new TaskLiveTestSuite ( "testProcessXMLCoverage" ) );

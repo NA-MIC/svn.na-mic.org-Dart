@@ -112,7 +112,7 @@
   
   <target name="compile" description="Compiles the Task" depends="wrap">
     <mkdir dir="${classes.dir}"/>
-    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" excludes="Test/**,qed/**" deprecation="true">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" excludes="Test/**,qed/**" deprecation="true" target="1.5">
       <compilerarg compiler="javac1.5" value="-Xlint:unchecked"/>
       <classpath refid="classpath"/>
     </javac>

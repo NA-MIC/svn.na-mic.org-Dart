@@ -59,11 +59,11 @@ ${projectProperties["Menu"]}
 <#macro displayTrackNav>
 <div class="tracknav">
 <#list trackorder as tn>
-[<a href="Dashboard?trackid=${currentTrackId?url}#${tn?url}">${tn?html}</a>]
+[<a href="#${tn?url}">${tn?html}</a>]
 </#list>
-[<a href="Dashboard?trackid=${currentTrackId?url}#Coverage">Coverage</a>]
-[<a href="Dashboard?trackid=${currentTrackId?url}#Style">Style</a>]
-[<a href="Dashboard?trackid=${currentTrackId?url}#DynamicAnalysis">DynamicAnalysis</a>]
+[<a href="#Coverage">Coverage</a>]
+[<a href="#Style">Style</a>]
+[<a href="#DynamicAnalysis">DynamicAnalysis</a>]
 </div>
 </#macro>
 
