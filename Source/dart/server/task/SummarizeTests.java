@@ -23,8 +23,8 @@ import java.text.*;
 public class SummarizeTests implements Task {
   static Logger logger = Logger.getLogger ( SummarizeTests.class );   
 
-  public HashMap getTestHashMap ( SubmissionEntity submission, boolean zero ) {
-    HashMap map = new HashMap();
+  public HashMap<String,TestEntity> getTestHashMap ( SubmissionEntity submission, boolean zero ) {
+    HashMap<String,TestEntity> map = new HashMap<String,TestEntity>();
     // Find all the tests, add to map
     TestList tests = submission.getTestList();
     TestIterator testIterator = tests.iterator();
@@ -63,11 +63,11 @@ public class SummarizeTests implements Task {
     SubmissionEntity submission = submissionFinder.selectBySubmissionId ( new Long ( SubmissionId ) );
 
     try {    
-      HashMap map;
+      HashMap<String,TestEntity> map;
       map = getTestHashMap ( submission, false );
       
       // Create any parent tests
-      HashMap newParents = new HashMap();
+      HashMap<String,TestEntity> newParents = new HashMap<String,TestEntity>();
       Iterator i;
       i = map.values().iterator();
       while ( i.hasNext() ) {
@@ -103,7 +103,7 @@ public class SummarizeTests implements Task {
       /* For some unknown reason, Jaxor holds on to the TestList fetched
          from the Submission object.  To work around, use the TestFinder
          directly. */
-      map = new HashMap();
+      map = new HashMap<String,TestEntity>();
       TestList tests = testFinder.selectBySubmissionIdList ( new Long ( SubmissionId ) );
       TestIterator testIterator = tests.iterator();
       while ( testIterator.hasNext() ) {

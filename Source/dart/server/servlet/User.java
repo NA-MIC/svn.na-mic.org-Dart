@@ -77,14 +77,14 @@ public class User extends HttpServlet {
     // since servlets cannot have ivars, use a local variable (map) to
     // store information to pass to other methods of the servlet
     //
-    HashMap map = new HashMap();
+    HashMap<String,Object> map = new HashMap<String,Object>();
     map.put ( "request", req );
     map.put ( "response", res );
 
     // Setup the map of information that will be passed to the
     // template engine
     //
-    HashMap root = new HashMap();
+    HashMap<String,Object> root = new HashMap<String,Object>();
     root.put( "referer", req.getHeader("Referer"));
 
     // get any parameters on the request 

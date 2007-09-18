@@ -104,7 +104,7 @@ public class Dashboard extends HttpServlet {
     // since servlets cannot have ivars, use a local variable (map) to
     // store information to pass to other methods of the servlet
     //
-    HashMap map = new HashMap();
+    HashMap<String, Object> map = new HashMap<String, Object>();
     map.put ( "request", req );
     map.put ( "response", res );
 
@@ -157,7 +157,7 @@ public class Dashboard extends HttpServlet {
     // Setup the map of information that will be passed to the
     // template engine
     //
-    HashMap root = new HashMap();
+    HashMap<String, Object> root = new HashMap<String, Object>();
     root.put ( "serverName", project.getServer().getTitle() );
     root.put ( "projectName", projectName );
     root.put ( "fetchdata", new FetchData ( project ) );
@@ -173,13 +173,13 @@ public class Dashboard extends HttpServlet {
     } catch (Exception e) {}
     
     // Put in the request parameters
-    Map parameters = req.getParameterMap();
+    Map<Object,Object> parameters = (Map<Object,Object>)req.getParameterMap();
     root.put ( "parameters", parameters );
 
     BeansWrapper wrapper = new BeansWrapper();
     wrapper.setExposureLevel ( BeansWrapper.EXPOSE_ALL );
     try {
-      root.put ( "writableParameters", wrapper.wrap ( new HashMap ( parameters ) ) );
+      root.put ( "writableParameters", wrapper.wrap ( new HashMap<Object,Object> ( parameters ) ) );
     } catch ( Exception e ) {
       logger.error ( project.getTitle() + ": Could not wrap map", e );
       error ( out, "Dart Dashboard", "Dart: Failed to wrap parameters", map );
@@ -319,7 +319,7 @@ public class Dashboard extends HttpServlet {
   }
 
   HashMap getTrackMap ( TrackList trackList ) {
-    HashMap trackMap = new HashMap();
+    HashMap<String, Object> trackMap = new HashMap<String, Object>();
     TrackEntity[] trackArray = trackList.toArray();
     for ( int i = 0; i < trackArray.length; i++ ) {
       trackMap.put ( trackArray[i].getName(), trackArray[i] );
@@ -332,7 +332,7 @@ public class Dashboard extends HttpServlet {
   // (this servlet cannot have ivars since multiple threads may be
   // making different requests).
   // 
-  void findTemplate ( HashMap map ) throws Exception {
+  void findTemplate ( HashMap<String,Object> map ) throws Exception {
     HttpServletRequest request = (HttpServletRequest) map.get ( "request" );
     Project project = (Project) map.get ( "project" );
 

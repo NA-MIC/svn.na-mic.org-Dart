@@ -59,7 +59,7 @@ import org.apache.log4j.Logger;
 public class Project extends Container {
 
   static final int DBMajorVersion = 1;
-  static final int DBMinorVersion = 2;
+  static final int DBMinorVersion = 3;
   static final String DBVersionString = "" + DBMajorVersion + "." + DBMinorVersion;
 
   static Logger logger = Logger.getLogger ( Project.class );
@@ -76,13 +76,13 @@ public class Project extends Container {
   File dataDirectory = null;
   File archiveDirectory = null;
   File resultDirectory = null;
-  ArrayList Tasks = new ArrayList();
+  ArrayList<Object[]> Tasks = new ArrayList<Object[]>();
   Properties stats = new Properties ( statsDefaults );
   Properties properties = new Properties();
   HttpServer httpServer = null;
   Scheduler scheduler = null;
-  ArrayList Rollups = new ArrayList();
-  HashMap lockMap = new HashMap();
+  ArrayList<Object[]> Rollups = new ArrayList<Object[]>();
+  HashMap<String,Object> lockMap = new HashMap<String,Object>();
 
   public Project() {
   }
@@ -208,12 +208,9 @@ public class Project extends Container {
       } catch ( Exception e ) {
         logger.error ( title + ": Failed to generate MD5 hash", e );
       }
-      // logger.debug ( title + ": Found hash: " + hash.toString() );
       String base = hash.substring ( 0, 2 ) + File.separator 
         + hash.substring ( 2, 4 ) + File.separator
-        + hash.substring ( 4, 6 ) + File.separator
         + hash.toString();
-      // logger.debug ( title + ": Found hash: " + hash.toString() + " Relative File: " + base );
       
       String filename;
       File file;
@@ -425,14 +422,14 @@ public class Project extends Container {
     if ( scheduler == null ) {
       throw new Exception ( title + ": Scheduler has not been defined, please edit Projects.xml and restart" );
     }
-    for ( int i = 0; i < Tasks.size(); i++ ) {
-      Object[] o = (Object[]) Tasks.get ( i );
+    int i = -1;
+    for ( Object[] o : Tasks ) {
+      i++;
       String Type = null;
       String Schedule = null;
       Properties properties = null;
       Class c = null;
       try { 
-        o = (Object[]) Tasks.get ( i );
         Type = (String) o[0];
         Schedule = (String) o[1];
         properties = (Properties) o[2];
@@ -487,10 +484,10 @@ public class Project extends Container {
             return name.endsWith(".jar");
           }
         } );
-      for (int i=0; i < jars.length; i++) {
-        if (jars[i].isFile()) {
-          logger.info( title + ": Adding " + jars[i].toString() + " to classpath");
-          httpContext.addClassPath( jars[i].toString() );
+      for ( File jar : jars ) {
+        if (jar.isFile()) {
+          logger.info( title + ": Adding " + jar.toString() + " to classpath");
+          httpContext.addClassPath( jar.toString() );
           }
       }    
 
@@ -855,7 +852,7 @@ public class Project extends Container {
         template = cfg.getTemplate ( f.getName() );
       }
       outTemplate = new BufferedWriter(new FileWriter(new File(dir, "Project.xml" )));
-      Map root = new HashMap();
+      Map<String,Object> root = new HashMap<String,Object>();
       root.put ( "ProjectName", name );
       root.put ( "ProjectDirectory", dir.toString() );
       if ( db != null ) {
@@ -937,7 +934,7 @@ public class Project extends Container {
         = new BufferedWriter(new FileWriter(new File(project.getBaseDirectory(),
                                                      "DefaultProject.xml")));
 
-      Map root = new HashMap();
+      HashMap<String,Object> root = new HashMap<String,Object>();
       root.put ( "ProjectName", project.getTitle() );
       root.put ( "ProjectDirectory", project.getBaseDirectory() );
       root.put ( "Type", "derby" );

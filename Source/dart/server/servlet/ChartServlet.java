@@ -109,7 +109,7 @@ public class ChartServlet extends HttpServlet {
   {
     // since servlets cannot have ivars, use a local variable (map) to
     // store information to pass to other methods of the servlet
-    HashMap map = new HashMap();
+    HashMap<String,Object> map = new HashMap<String,Object>();
     map.put ( "request", req );
     map.put ( "response", res );
 

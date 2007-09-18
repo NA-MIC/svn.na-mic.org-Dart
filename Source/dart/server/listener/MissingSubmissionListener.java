@@ -59,7 +59,7 @@ public class MissingSubmissionListener extends Listener {
 
     try {
       // Construct the list of people to notify
-      HashSet emailList = new HashSet();
+      HashSet<String> emailList = new HashSet<String>();
 
       Iterator uit = userIds.iterator();
       Long userId;
@@ -79,7 +79,7 @@ public class MissingSubmissionListener extends Listener {
       }
 
       // add any default email addresses
-      HashSet defaultContactList = new HashSet();
+      HashSet<String> defaultContactList = new HashSet<String>();
       if (properties.containsKey("DefaultContactList")) {
         String[] defaultList
           = properties.getProperty("DefaultContactList").split(",");

@@ -25,7 +25,7 @@ public class SummarizeDynamicAnalysis implements Task {
   JaxorContextImpl session;
 
   protected void rollup ( TestEntity test ) {
-    Map accumulatedResults = new HashMap();
+    Map<String,Number> accumulatedResults = new HashMap<String,Number>();
     
     // Walk the all the sub-tests
     TestIterator children = test.selectChildren().iterator();

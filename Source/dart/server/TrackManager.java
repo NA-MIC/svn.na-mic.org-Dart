@@ -11,11 +11,11 @@ import net.sourceforge.jaxor.*;
 public class TrackManager {
   static Logger logger = Logger.getLogger ( TrackManager.class );   
   Project project;
-  HashMap map = new HashMap();
+  HashMap<String,Track> map = new HashMap<String,Track>();
   String defaultTrack;
 
-  class CompareTrackPriority implements Comparator {
-    public int compare(Object o1, Object o2) {
+  class CompareTrackPriority implements Comparator<Track> {
+    public int compare(Track o1, Track o2) {
       long p1 = ((Track)o1).getPriority();
       long p2 = ((Track)o2).getPriority();      
 
@@ -61,13 +61,10 @@ public class TrackManager {
   public String[] getTrackOrder() {
 
     // copy the map to an array so we can sort
-    ArrayList trackObjectList = new ArrayList();
-    for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
-      trackObjectList.add( ((Map.Entry)it.next()).getValue() );
-    }
+    ArrayList<Track> trackObjectList = new ArrayList<Track> ( map.values());
 
     // sort the tracks on priority
-    Object[] trackObjectArray = trackObjectList.toArray();
+    Track[] trackObjectArray = trackObjectList.toArray(new Track[0]);
     Arrays.sort(trackObjectArray, new CompareTrackPriority());
 
     // build a list of strings

@@ -19,7 +19,7 @@ public class ListenerManager {
   static Logger logger = Logger.getLogger ( ListenerManager.class );   
 
   Project project = null;
-  ArrayList listeners = new ArrayList ();
+  ArrayList<Listener> listeners = new ArrayList<Listener> ();
 
   public void addListener ( String cl, Properties properties ) {
     Listener listener = null;

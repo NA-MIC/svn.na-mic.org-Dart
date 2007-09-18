@@ -19,7 +19,7 @@ public class MessengerManager {
   static Logger logger = Logger.getLogger ( MessengerManager.class );   
 
   Project project = null;
-  HashMap messengers = new HashMap ();
+  HashMap<String,Messenger> messengers = new HashMap<String,Messenger> ();
 
   public void addMessenger ( String name, String cl, Properties properties ) {
     Messenger messenger = null;

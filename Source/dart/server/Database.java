@@ -37,7 +37,7 @@ public class Database {
   Connection connection = null;
   GenericObjectPool connectionPool = null;
 
-  Map connectionInfo = Collections.synchronizedMap ( new HashMap () );
+  Map<Connection,Object> connectionInfo = Collections.synchronizedMap ( new HashMap<Connection,Object> () );
 
   /**
    * Constructor, does nothing

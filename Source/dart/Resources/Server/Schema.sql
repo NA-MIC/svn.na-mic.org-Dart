@@ -9,7 +9,7 @@ create table version (
 );
 
 delete from version;
-insert into version ( Major, Minor, Patch ) Values ( 1, 2, 0 );
+insert into version ( Major, Minor, Patch ) Values ( 1, 3, 0 );
 
 create table client (
     ClientId ${auto} primary key,
@@ -72,6 +72,7 @@ create table test (
 create index testidx1 on test ( SubmissionId, QualifiedName${indexsize} );
 create index testidx2 on test ( ParentTestId );
 create index testidx3 on test ( QualifiedName${indexsize}, SubmissionId );
+create index testidx4 on test ( SubmissionId );
 
 create table relatedtest (
   TestId bigint primary key not null,
@@ -94,6 +95,7 @@ create index resultidx1 on result ( TestId, Name );
 
 -- Used to report results
 create index resultidx2 on result ( Value${indexsize} );
+create index resultidx3 on result ( TestId );
 
 -- Track table
 create table track (

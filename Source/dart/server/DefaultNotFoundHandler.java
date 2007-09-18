@@ -59,7 +59,7 @@ public class DefaultNotFoundHandler extends NotFoundHandler
     PrintWriter out = new PrintWriter(res.getOutputStream());
 
     // Cache information for the template engine
-    HashMap root = new HashMap();
+    HashMap<String,Object> root = new HashMap<String,Object>();
     root.put( "date", Calendar.getInstance().getTime() );
     root.put( "projects", dartServer.projects );
     root.put( "request", req );

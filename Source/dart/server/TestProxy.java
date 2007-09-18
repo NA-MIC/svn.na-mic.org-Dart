@@ -10,10 +10,10 @@ public class TestProxy {
   String name = null;
   String qualifiedname = null;
   String path = null;
-  HashMap map = new HashMap();
-  HashMap repeated = new HashMap();
+  HashMap<String,Object> map = new HashMap<String,Object>();
+  HashMap<String,Integer> repeated = new HashMap<String,Integer>();
   boolean v1compatability = true;
-  ArrayList children = null;
+  ArrayList<TestProxy> children = null;
   boolean isrepeated = false;
   String testClass = ".Test";
   boolean allowDuplicates = false;
@@ -35,7 +35,7 @@ public class TestProxy {
   public void addChild ( TestProxy p ) {
     logger.debug ( "Adding child: " + p.getQualifiedName() );
     if ( children == null ) {
-      children = new ArrayList();
+      children = new ArrayList<TestProxy>();
     }
     children.add ( p );
   }

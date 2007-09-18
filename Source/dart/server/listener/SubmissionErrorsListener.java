@@ -92,7 +92,7 @@ public class SubmissionErrorsListener extends Listener {
           // Identify users who could have cause the errors.  Use a set
           // so that an author will be notified only once per submission.
           //
-          HashSet authorList = new HashSet();
+          HashSet<String> authorList = new HashSet<String>();
 
           TestEntity update = submission.selectTest(".Update.Update");
           if (update != null) {
@@ -113,7 +113,7 @@ public class SubmissionErrorsListener extends Listener {
           }
 
           // convert the author list to of Dart user account names
-          HashSet emailList = new HashSet();
+          HashSet<String> emailList = new HashSet<String>();
 
           UserEntity user = null;
           UserPropertyEntity up = null;
@@ -141,7 +141,7 @@ public class SubmissionErrorsListener extends Listener {
           }
 
           // add any default email addresses
-          HashSet defaultContactList = new HashSet();
+          HashSet<String> defaultContactList = new HashSet<String>();
           if (properties.containsKey("DefaultContactList")) {
             String[] defaultList
               = properties.getProperty("DefaultContactList").split(",");

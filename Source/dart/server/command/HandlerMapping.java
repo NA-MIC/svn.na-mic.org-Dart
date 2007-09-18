@@ -54,7 +54,7 @@ import org.apache.xmlrpc.*;
  * property keys and implementations as the values.
  */
 public class HandlerMapping implements XmlRpcHandlerMapping {
-  private final HashMap map = new HashMap();
+  private final HashMap<String,Object> map = new HashMap<String,Object>();
 
   public void addHandler ( String key, Object command ) throws IOException, XmlRpcException {
     final Object o;

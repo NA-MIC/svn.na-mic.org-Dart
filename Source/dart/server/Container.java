@@ -66,6 +66,7 @@ public class Container {
    */
   public void setTitle ( String t ) { title = t; logger.debug ( "title: " + title ); }
   public String getTitle () { return title; }
+  public String log ( String l ) { return this.title + ": " + l; }
 
   /** 
    * Set/Get the Administrator Username/Password for this Container

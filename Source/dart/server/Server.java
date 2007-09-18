@@ -51,10 +51,10 @@ public class Server extends Container
   static Logger logger = Logger.getLogger ( Server.class );   
   HttpServer httpServer = null;
   Scheduler scheduler = null;
-  static HashMap projects = new HashMap();
+  static HashMap<String,Container> projects = new HashMap<String,Container>();
   //  static HashMap qeds = new HashMap();
-  static HashMap servers = new HashMap();
-  HashMap projectNames = new HashMap();
+  static HashMap<String,Object> servers = new HashMap<String,Object>();
+  HashMap<String,String> projectNames = new HashMap<String,String>();
   String serverName = "";
   int httpPort = 8081;
   int schedulerThreadPoolSize = 10;
@@ -420,7 +420,7 @@ public class Server extends Container
       Configuration cfg = new Configuration();
       cfg.setClassForTemplateLoading ( Server.class, "/" );
       Template template = cfg.getTemplate ( SchemaPath );
-      Map root = new HashMap();
+      Map<String,Object> root = new HashMap<String,Object>();
       root.put ( "Type", DBType.toLowerCase() );
       if ( DBType.toLowerCase().equals ( "generic" ) || DBType.toLowerCase().equals ( "postgres" ) ) {
         logger.debug ( "Found generic or Postgres" );
@@ -471,7 +471,7 @@ public class Server extends Container
       Configuration cfg = new Configuration();
       cfg.setClassForTemplateLoading ( Server.class, "/" );
       
-      Map root = new HashMap();
+      HashMap<String,Object> root = new HashMap<String,Object>();
       root.put ( "ServerName", name );
       root.put ( "ServerDirectory", dir.toString() );
 
@@ -582,7 +582,7 @@ public class Server extends Container
 
     Writer outTemplate = null;
     try {
-      Map root = new HashMap();
+      Map<String,Object> root = new HashMap<String,Object>();
       root.put ( "ServerName", server.getTitle() );
       root.put ( "ServerDirectory", server.getBaseDirectory() );
 

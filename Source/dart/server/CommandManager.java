@@ -12,7 +12,7 @@ import org.apache.xmlrpc.webserver.*;
 public class CommandManager {
   static Logger logger = Logger.getLogger ( CommandManager.class );   
   Container project;
-  HashMap map = new HashMap();
+  HashMap<String,Object[]> map = new HashMap<String,Object[]>();
   String defaultTrack;
   XmlRpcServletServer xmlrpcServer = null;
 
@@ -32,7 +32,7 @@ public class CommandManager {
     while ( i.hasNext() ) {
       Command command;
       String name = (String)i.next();
-      Object[] aa = (Object[])map.get ( name );
+      Object[] aa = map.get ( name );
       String ClassName = (String)aa[0];
       Properties properties = (Properties)aa[1];
       Object[] args = new Object[] { project, properties };

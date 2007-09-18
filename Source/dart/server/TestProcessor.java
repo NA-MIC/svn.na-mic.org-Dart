@@ -45,11 +45,11 @@ public class TestProcessor {
   int testsProcessed = 0;
 
   boolean delayProcessing = false;
-  Vector pending = new Vector();
+  Vector<TestProxy> pending = new Vector<TestProxy>();
   Connection connection; // = project.getConnection();
   JaxorContextImpl session; // = new JaxorContextImpl ( connection );
 
-  HashSet domains = new HashSet();
+  HashSet<Object> domains = new HashSet<Object>();
 
   /**
      Constructor
@@ -235,9 +235,8 @@ public class TestProcessor {
      Process delayed TestProxies
   */
   public void processDelayed () {
-    Iterator i = pending.iterator();
-    while ( i.hasNext() ) {
-      processTestProxy ( (TestProxy) i.next() );
+    for ( TestProxy p : pending ) {
+      processTestProxy ( p );
     }
   }
     

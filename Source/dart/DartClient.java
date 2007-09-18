@@ -86,7 +86,7 @@ public class DartClient
         config.setServerURL ( new URL ( "http://" + cmd.getOptionValue ( "s", "localhost" ) + ":" + port + "/DartServer/Command/" ) );
         XmlRpcClient admin = new XmlRpcClient ( );
         admin.setConfig ( config );
-        Vector aa = new Vector ();
+        Vector<Object> aa = new Vector<Object> ();
         aa.addElement ( "Foo" );
         aa.addElement ( "bar" );
         logger.info ( "Starting project shutdown, this may take some time" );
@@ -125,7 +125,7 @@ public class DartClient
 
     if ( cmd.hasOption ( "l" ) ) {
       // Execute sql commands
-        Vector params = new Vector();
+        Vector<Object> params = new Vector<Object>();
         params.addElement ( cmd.getOptionValue ( "u", "" ) );
         params.addElement ( cmd.getOptionValue ( "w", "" ) );
         
@@ -229,10 +229,9 @@ public class DartClient
           logger.error ( "bytes is zero length" );
         }
 
-        Vector params = new Vector();
+        Vector<Object> params = new Vector<Object>();
         params.addElement ( bytes.toByteArray() );
         client.execute ( "Submit.put", params );
-        // client.invoke ( project + ".put", new Object[] { bytes.toByteArray() } );
         in.close();
       } catch ( Exception e ) {
         logger.error ( "Failed to call Dart with file: " + files[i], e );

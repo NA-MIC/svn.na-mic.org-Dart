@@ -30,8 +30,8 @@ public class MissingSubmissionTask implements Task {
 
   public void execute ( Project project, Properties properties ) throws Exception {
     boolean missing = false;
-    ArrayList clientIds = new ArrayList();
-    HashSet userIds = new HashSet();
+    ArrayList<Long> clientIds = new ArrayList<Long>();
+    HashSet<Long> userIds = new HashSet<Long>();
     
     // Determine the track to search
     java.util.Date date = new java.util.Date();

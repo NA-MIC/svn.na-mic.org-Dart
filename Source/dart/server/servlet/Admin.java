@@ -93,7 +93,7 @@ public class Admin extends HttpServlet {
     // since servlets cannot have ivars, use a local variable (map) to
     // store information to pass to other methods of the servlet
     //
-    HashMap map = new HashMap();
+    HashMap<String, Object> map = new HashMap<String, Object>();
     map.put ( "request", req );
     map.put ( "response", res );
 
@@ -143,7 +143,7 @@ public class Admin extends HttpServlet {
     // Setup the map of information that will be passed to the
     // template engine
     //
-    HashMap root = new HashMap();
+    HashMap<String, Object> root = new HashMap<String, Object>();
     root.put ( "serverName", project.getServer().getTitle() );
     root.put ( "projectName", projectName );
     root.put ( "projectProperties", project.getProperties() );
@@ -164,7 +164,7 @@ public class Admin extends HttpServlet {
     BeansWrapper wrapper = new BeansWrapper();
     wrapper.setExposureLevel ( BeansWrapper.EXPOSE_ALL );
     try {
-      root.put ( "writableParameters", wrapper.wrap ( new HashMap ( parameters ) ) );
+      root.put ( "writableParameters", wrapper.wrap ( new HashMap<Object,Object> ( parameters ) ) );
     } catch ( Exception e ) {
       logger.error ( project.getTitle() + ": Could not wrap map", e );
       error ( out, "Dart Administration", "Dart: Failed to wrap parameters", map );
@@ -517,7 +517,7 @@ public class Admin extends HttpServlet {
   // (this servlet cannot have ivars since multiple threads may be
   // making different requests).
   // 
-  void findTemplate ( HashMap map ) throws Exception {
+  void findTemplate ( HashMap<String, Object> map ) throws Exception {
     HttpServletRequest request = (HttpServletRequest) map.get ( "request" );
     Project project = (Project) map.get ( "project" );
 
