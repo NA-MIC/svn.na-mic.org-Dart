@@ -40,10 +40,10 @@ public class QueueManager implements Task {
       q.add ( minPriority );
       q.add ( maxPriority );
       while ( true ) {
-        logger.info ( project.getTitle() + ": Finding tasks" );
+        logger.debug ( project.getTitle() + ": Finding tasks" );
         if ( i != null ) { i.close(); }
         i = finder.findResultSet ( "where priority >= ? and priority <= ? order by priority, taskid", q );
-        logger.info ( project.getTitle() + ": Found tasks" );
+        logger.debug ( project.getTitle() + ": Found tasks" );
         if ( !i.hasNext() ) { break; }
         
         if ( tasks >= maxTasks && maxTasks != -1 ) {
@@ -69,7 +69,7 @@ public class QueueManager implements Task {
           record = Boolean.valueOf ( subTaskProperties.getProperty ( "RecordCompletedTask", "false" ) ).booleanValue();
           // Try to find the object
           Task subtask = (Task) Class.forName ( task.getType() ).newInstance();
-          logger.info ( project.getTitle() + ": Starting to execute task " + tasks + " " + task.getType() );
+          logger.debug ( project.getTitle() + ": Starting to execute task " + tasks + " " + task.getType() );
 
           // Delete and commit, so we don't hold a lock on the TaskQueue table
           task.delete();
@@ -78,7 +78,7 @@ public class QueueManager implements Task {
           try {
             subtask.execute ( project, subTaskProperties );
           } catch ( Exception taskException ) {
-            logger.info ( project.getTitle() + ": Failed to create or execute queued task", taskException );
+            logger.warn ( project.getTitle() + ": Failed to create or execute queued task", taskException );
           }
           logger.debug ( project.getTitle() + ": Task completed" );
         } catch ( Exception e ) {
@@ -101,12 +101,12 @@ public class QueueManager implements Task {
           */
           // task.delete();
           // session.commit();
-          logger.info ( project.getTitle() + ": Processed task " + tasks + " " + task.getType() + ": " + Status );
+          logger.debug ( project.log ( "Processed task " + tasks + " " + task.getType() + ": " + Status ) );
         }
       }
     }
     catch (Throwable e) {
-      logger.error ( project.getTitle() + ": Error in QueueManager", e );
+      logger.error ( project.log ( "Error in QueueManager" ), e );
     }
     finally {
       logger.debug("Closing connection.");
@@ -116,6 +116,6 @@ public class QueueManager implements Task {
         i.close();
       }
     }
-    logger.info ( project.getTitle() + ": Finished processing tasks" );
+    logger.info ( project.log ( "Finished processing tasks" ) );
   }
 }

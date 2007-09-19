@@ -9,7 +9,7 @@
   <property name="dist.dir" value="${java.io.tmpdir}/${user.name}/Dart"/>
   <property name="major" value="1"/>
   <property name="minor" value="0"/>
-  <property name="patch" value="10"/>
+  <property name="patch" value="11"/>
   <property name="version" value="${major}.${minor}.${patch}"/>
 
   <!-- Submission properties -->
@@ -147,7 +147,7 @@
 
   <target name="test" depends="pretest">
     <mkdir dir="${buildlog.dir}"/>
-    <junit haltonfailure="false" printsummary="true" fork="true">
+    <junit haltonfailure="false" printsummary="true" fork="true" maxmemory="256M">
       <formatter type="brief" usefile="false"/>
       <formatter type="xml"/>
       <classpath refid="testclasspath"/>

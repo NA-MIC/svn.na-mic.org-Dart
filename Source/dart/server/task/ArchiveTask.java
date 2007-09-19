@@ -348,6 +348,17 @@ public class ArchiveTask implements Task {
           tests.close();
           if ( ArchiveLevel == 4 ) {
             logger.debug ( project.getTitle() + ": Deleting submission: " + client.getSite() + " / " + client.getBuildName() + " @ " + submission.getTimeStamp() );
+
+            // Relink next and previous
+            SubmissionEntity nextSubmission, prevSubmission;
+            nextSubmission = submission.getNextSubmission();
+            prevSubmission = submission.getLastSubmission();
+            if ( nextSubmission != null ) {
+              nextSubmission.setLastSubmissionId ( submission.getLastSubmissionId() );
+            }
+            if ( prevSubmission != null ) {
+              prevSubmission.setLastSubmissionId ( submission.getNextSubmissionId() );
+            }
             submission.delete();
           } else {
             submission.setArchiveLevel ( new Integer ( ArchiveLevel ) );
