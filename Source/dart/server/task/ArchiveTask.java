@@ -351,12 +351,12 @@ public class ArchiveTask implements Task {
 
             // Relink next and previous
             SubmissionEntity nextSubmission, prevSubmission;
-            nextSubmission = submission.getNextSubmission();
-            prevSubmission = submission.getLastSubmission();
-            if ( nextSubmission != null ) {
+            if ( submission.getNextSubmissionId() != null ) {
+              nextSubmission = submission.getNextSubmission();
               nextSubmission.setLastSubmissionId ( submission.getLastSubmissionId() );
             }
-            if ( prevSubmission != null ) {
+            if ( submission.getLastSubmissionId() != null ) {
+              prevSubmission = submission.getLastSubmission();
               prevSubmission.setLastSubmissionId ( submission.getNextSubmissionId() );
             }
             submission.delete();
