@@ -199,12 +199,6 @@ public class DartClient
         File inputfile = new File ( files[i] );
         logger.info ( inputfile + " Length: " + inputfile.length() );
         if ( inputfile.length() <= 4  ) { logger.info ( inputfile.toString() + " short file, skipping" ); continue; }
-        // Reject anything more than 20 m
-        if ( inputfile.length() > 1024 * 1024 * 10 ) {
-          long l = (long) ( inputfile.length() / (1024.*1024.) );
-          logger.warn ( "Skipping " + inputfile.toString() + " Length: " + l + "M" );
-          continue;
-        }
         InputStream in = new BufferedInputStream ( new FileInputStream ( inputfile ) );
         ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
         OutputStream out = null;
