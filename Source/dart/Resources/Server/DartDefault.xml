@@ -185,7 +185,7 @@
       <Properties>
         <Property name="Messenger">SMTP</Property>
         <!-- A submission must match all of these patterns.  If the
-             properties are missing, all submissions match -->
+             properties are missing, no submissions match -->
         <Property name="TrackPattern">.*</Property>
         <Property name="SitePattern">.*</Property>
         <Property name="BuildNamePattern">.*</Property>
@@ -386,14 +386,18 @@
       <DefaultOrder>descending</DefaultOrder>
     </TemporalTrack>
 
-    <TemporalTrack>
-      <Name>Weekly</Name>
-      <Start>Jan 16, 2005 9:00 PM</Start>
-      <!-- Duration is in floating point hours -->
-      <Duration>168</Duration>
-      <DefaultSortBy>buildName</DefaultSortBy>
-      <DefaultOrder>ascending</DefaultOrder>
-    </TemporalTrack>
+    <!-- 
+         This is the Weekly track, it's best to specify a
+         particular day to begin such as Sunday.
+         Duration is in floating point hours, 168 == 1 week.
+         <TemporalTrack>
+           <Name>Weekly</Name>
+           <Start>Jan 16, 2005 9:00 PM</Start>
+           <Duration>168</Duration>
+           <DefaultSortBy>buildName</DefaultSortBy>
+           <DefaultOrder>ascending</DefaultOrder>
+         </TemporalTrack>
+         -->
   </TrackManager>
 
   <RollupManager>
