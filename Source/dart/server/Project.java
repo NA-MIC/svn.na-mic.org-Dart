@@ -59,7 +59,7 @@ import org.apache.log4j.Logger;
 public class Project extends Container {
 
   static final int DBMajorVersion = 1;
-  static final int DBMinorVersion = 2;
+  static final int DBMinorVersion = 3;
   static final String DBVersionString = "" + DBMajorVersion + "." + DBMinorVersion;
 
   static Logger logger = Logger.getLogger ( Project.class );
