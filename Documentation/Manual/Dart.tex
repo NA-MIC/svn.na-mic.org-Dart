@@ -243,7 +243,15 @@ java -jar DartServer.jar TestServer TestProject
 \end{enumerate}
 The project \texttt{TestProject} is now up and running accepting
 XML-RPC submissions and serving HTML pages on
-port \texttt{8081}.  The ports and other configurations are covered in
+port \texttt{8081}.  
+
+You can also start Dart with multiple projects (that you previously created with the --create flag) by appending them to the command line:
+    \begin{verbatim}
+java -jar DartServer.jar TestServer TestProject1 TestProject2 TestProject3
+    \end{verbatim}
+Point your browser to \texttt{http://localhost:8081/} to view the project index.
+
+The ports and other configurations are covered in
 Section~\ref{Section:ServerSetup}.
 
 \section{Web configuration}
@@ -278,6 +286,7 @@ Once you are logged into the Dart web application, you can modify the default pa
 	\label{fig:AdminUserPage}
 \end{figure}
 
+* Please note that the weekly section seen in the figure \ref{fig:FirstDartPage} has been removed from the main page due to date issues. The commented code still remain in the XML default template (DefaultProject.xml) if you still need it. Please refer to Sun's Java \texttt{Date} class format for input.
 
 \section{Submission}
 Dart ships with a utility called DartClient to submit results to the
