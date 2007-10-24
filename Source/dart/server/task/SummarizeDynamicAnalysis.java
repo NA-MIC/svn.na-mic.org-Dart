@@ -139,7 +139,7 @@ public class SummarizeDynamicAnalysis implements Task {
 
   public void execute ( Project project, Properties properties ) throws Exception {
     // Check to see if the submission packet had dynamic analysis information 
-    if (! properties.getProperty( "Domains" ).matches( "DynamicAnalysis" )) {
+    if (! properties.getProperty( "Domains" ).matches( ".*DynamicAnalysis.*" )) {
       return;
     }
 

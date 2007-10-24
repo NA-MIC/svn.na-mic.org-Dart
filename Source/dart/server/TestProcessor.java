@@ -267,6 +267,11 @@ public class TestProcessor {
 
     QueryParams q = null;
 
+    if ( proxy.getQualifiedName() == null ) {
+      // Don't bother with this one
+      return;
+    }
+
     logger.debug ( "Processing test: " + proxy.getQualifiedName() );
 
     // add the domain of this test to the list of domains for this

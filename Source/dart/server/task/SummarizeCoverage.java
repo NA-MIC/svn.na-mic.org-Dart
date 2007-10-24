@@ -79,7 +79,7 @@ public class SummarizeCoverage implements Task {
 
   public void execute ( Project project, Properties properties ) throws Exception {
     // Check to see if the submission packet had coverage information 
-    if (! properties.getProperty( "Domains" ).matches( "Coverage" )) {
+    if (! properties.getProperty( "Domains" ).matches( ".*Coverage.*" )) {
       return;
     }
 

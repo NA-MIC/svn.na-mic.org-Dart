@@ -45,6 +45,7 @@ public class TestProxy {
   }
   
   public void setRepeated ( String r ) { isrepeated = Boolean.valueOf ( r ).booleanValue(); }
+  public void setRepeated ( boolean r ) { isrepeated = r; }
   public boolean isRepeated () { return isrepeated; }
 
   public void setV1 ( boolean v ) { v1compatability = v; }
@@ -106,6 +107,19 @@ public class TestProxy {
     }    
     setNamedResult ( Name, "numeric/integer", Value );
   }      
+
+  public void setCruiseControlStatus ( String BaseTestName, String priority, String Value ) {
+    logger.debug ( "Calling setCruiseControlStatus " + BaseTestName + " " + priority + " " + Value );
+    if ( priority.equals ( "debug" ) ) { return; }
+    setRepeated ( true );
+    if ( priority.equals ( "warn" ) ) {
+      setQualifiedNameNoReplace ( BaseTestName + ".Warning" );
+    }
+    if ( priority.equals ( "error" ) ) {
+      setQualifiedNameNoReplace ( BaseTestName + ".Error" );
+    }
+    setNamedResult ( "Text", "text/string", Value );
+  }
 
   public void appendCruiseControlMessage ( String Name, String priority, String Value ) {
     logger.debug ( "appendCruiseControlMessage " + Name + ": " + Value );

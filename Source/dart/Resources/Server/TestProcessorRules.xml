@@ -37,10 +37,10 @@
 
       <object-create-rule classname="dart.server.TestProxy"/>
       <set-next-rule methodname="addChild"/>
-      <call-method-rule methodname="setStatus" paramcount="1"/>
-      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
       <call-method-rule methodname="setQualifiedNameNoReplace" paramcount="1"/>
       <object-param-rule paramnumber="0" type="java.lang.String" value=".Build.Stage1"/>
+      <call-method-rule methodname="setStatus" paramcount="1"/>
+      <object-param-rule paramnumber="0" type="java.lang.String" value="passed"/>
       <call-method-rule methodname="setNamedResult" paramcount="3"/>
       <object-param-rule type="java.lang.String" value="StageName" paramnumber="0"/>
       <object-param-rule type="java.lang.String" value="text/string" paramnumber="1"/>
@@ -52,6 +52,21 @@
         <object-param-rule type="java.lang.String" value="error" paramnumber="1"/>
         <call-param-rule paramnumber="2"/>
       </pattern>
+
+      <pattern value="target">
+        <pattern value="task">
+          <pattern value="message">
+            <object-create-rule classname="dart.server.TestProxy"/>
+            <set-next-rule methodname="addChild"/>
+            <call-method-rule methodname="setCruiseControlStatus" paramcount="3"/>
+            <object-param-rule type="java.lang.String" value=".Build.Stage1" paramnumber="0"/>
+            <call-param-rule paramnumber='1' attrname='priority'/>
+            <call-param-rule paramnumber='2'/>
+          </pattern>
+        </pattern>
+      </pattern>
+            
+            
     </pattern>
 
     <pattern value="CheckStyle">

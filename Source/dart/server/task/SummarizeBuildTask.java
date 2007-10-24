@@ -24,7 +24,10 @@ public class SummarizeBuildTask implements Task {
   static Logger logger = Logger.getLogger ( SummarizeBuildTask.class );   
   public void execute ( Project project, Properties properties ) throws Exception {
     // Check to see if the submission packet had build information 
-    if (! properties.getProperty( "Domains" ).matches( "Build" )) {
+
+    logger.debug ( "Starting SummarizeBuildTask" );
+    if (! properties.getProperty( "Domains" ).matches( ".*Build.*" )) {
+      logger.debug ( "Domains did not match Build" );
       return;
     }
     
